@@ -4,8 +4,8 @@ interface Props {
   name: string;
 }
 
-function Login({ name }: Props) {
-  return <div>Login {name}</div>;
+function Login() {
+  return <div>Login </div>;
 }
 
 export default Login;
