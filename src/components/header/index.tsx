@@ -8,7 +8,12 @@ function Header() {
     <div>
       <div>Header</div>
       <div>{t("home")}</div>
-      <button onClick={() => i18next.changeLanguage("ar")}>change lang</button>
+      <button onClick={() => i18next.changeLanguage("ar")}>
+        change lang ar
+      </button>
+      <button onClick={() => i18next.changeLanguage("en")}>
+        change lang en
+      </button>
     </div>
   );
 }
