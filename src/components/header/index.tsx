@@ -90,7 +90,7 @@ function Header() {
               >
                 {authElements.map(({ href, label }, idx: number) => (
                   <>
-                    <NavDropdown.Item onClick={handleLinkClick}>
+                    <NavDropdown.Item onClick={handleLinkClick} key={label}>
                       <Link to={href || "/"}> {label}</Link>
                     </NavDropdown.Item>
                     {idx !== authElements.length - 1 && <NavDropdown.Divider />}
