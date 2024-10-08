@@ -14,5 +14,7 @@
   "phone": "Phone Number",
   "already-have-account": "Already have an Account ",
   "enter": "Enter",
-  "do-not-have-account": "Do Not Have an Account"
+  "do-not-have-account": "Do Not Have an Account ",
+  "login-now": "Login To Your Account Now",
+  "signup-now": "Create Your Account Now"
 }

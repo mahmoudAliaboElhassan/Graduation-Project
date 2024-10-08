@@ -49,7 +49,7 @@ function Login() {
               className="text-center mb-4"
               style={{ textShadow: "0px 2px 9px rgb(151 26 26 / 50%)" }}
             >
-              Login To Your Account Now
+              {t("login-now")}
             </h2>{" "}
             <Form>
               <TextFieldWrapper name="username" label={t("username")} />

@@ -14,5 +14,7 @@
   "phone": "رقم الهاتف",
   "already-have-account": "بالفعل لدي حساب  ",
   "enter": "أدخل",
-  "do-not-have-account": "ليس لدي حساب "
+  "do-not-have-account": "ليس لدي حساب ",
+  "login-now": "سجل دخول لحسابك الآن",
+  "signup-now": "أنشئ حسابك الآن"
 }

@@ -38,6 +38,7 @@ import UseHeaderElements from "../../hooks/use-header-elements";
 // import userImage from "../../assets/user.png";
 // import userImage from "../../assets/profile-user.png";
 import userImage from "../../assets/user (1).png";
+import UseMediaQuery from "../../hooks/use-media-query";
 
 function Header() {
   const [expanded, setExpanded] = useState<boolean>(false); // State to manage Navbar toggle
@@ -49,6 +50,9 @@ function Header() {
   const { notUserAuth, userAuth } = UseHeaderElements();
   const token = false;
   const authElements = token ? userAuth : notUserAuth;
+
+  const isMd = UseMediaQuery({ query: "(min-width: 768px)" });
+
   return (
     <>
       <Navbar
@@ -61,7 +65,10 @@ function Header() {
           <Navbar.Brand>
             <Link
               to="/"
-              style={{ fontFamily: '"Montez","cursive"', fontSize: "1.8rem" }}
+              style={{
+                fontFamily: '"Montez","cursive"',
+                fontSize: isMd ? "1.8rem" : "1.5rem",
+              }}
               onClick={handleLinkClick} // Toggle function
             >
               {t("education-platform")}
