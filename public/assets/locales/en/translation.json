@@ -1,4 +1,9 @@
 {
   "home": "Home",
-  "go-back": "Go Back"
+  "go-back": "Go Back",
+  "signup": "SignUp",
+  "login": "Login",
+  "change-password": "Change Password",
+  "logout": "LogOut",
+  "education-platform": "Education Platform"
 }

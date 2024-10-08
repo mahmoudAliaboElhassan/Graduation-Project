@@ -7,9 +7,9 @@ import Footer from "../../components/footer";
 
 function RootLayout() {
   return (
-    <div>
+    <div style={{ minHeight: "100vh" }}>
       <Header />
-      <div>{<Outlet />}</div>
+      {<Outlet />}
       <Footer />
     </div>
   );

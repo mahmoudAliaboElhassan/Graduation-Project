@@ -1,7 +1,17 @@
-/* From Uiverse.io by andrew-demchenk0 */
+.loader-container {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 64px);
+}
+.page-loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 .glitch {
   position: relative;
-  font-size: 25px;
+  font-size: 45px;
   font-weight: 700;
   line-height: 1.2;
   color: #fff;
