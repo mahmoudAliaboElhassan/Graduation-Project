@@ -10,14 +10,23 @@ import PhoneForm from "../../components/formUI/phoneNumber";
 import UseInitialValues from "../../hooks/use-initial-values";
 import UseFormValidation from "../../hooks/use-form-validation";
 import { useTranslation } from "react-i18next";
+import UseMediaQuery from "../../hooks/use-media-query";
 
 function SignUp() {
   const { INITIAL_FORM_STATE_SIGNUP } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_SIGNUP } = UseFormValidation();
   const { t } = useTranslation();
+  const isSm = UseMediaQuery({ query: "(max-width: 300px)" });
+
   return (
     <>
-      <div style={{ position: "relative", minHeight: "100vh" }}>
+      <div
+        style={{
+          position: "relative",
+          minHeight: "100vh",
+          marginTop: isSm ? "100px" : "",
+        }}
+      >
         <Formik
           initialValues={{
             ...INITIAL_FORM_STATE_SIGNUP,

@@ -5,7 +5,7 @@ function Footer() {
     <div
       style={{
         background: "red",
-        marginTop: "1rem",
+        marginTop: "3rem",
       }}
     >
       Footer
