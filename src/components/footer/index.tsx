@@ -2,7 +2,12 @@ import React from "react";
 
 function Footer() {
   return (
-    <div style={{ position: "absolute", top: "100%", width: "100%" }}>
+    <div
+      style={{
+        background: "red",
+        marginTop: "1rem",
+      }}
+    >
       Footer
     </div>
   );

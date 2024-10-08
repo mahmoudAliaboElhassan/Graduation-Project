@@ -30,13 +30,16 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { t } from "i18next";
 
 import "./header.css";
 import { Link } from "react-router-dom";
 import UseHeaderElements from "../../hooks/use-header-elements";
-import { t } from "i18next";
+// import userImage from "../../assets/user.png";
+// import userImage from "../../assets/profile-user.png";
+import userImage from "../../assets/user (1).png";
 
-function BasicExample() {
+function Header() {
   const [expanded, setExpanded] = useState<boolean>(false); // State to manage Navbar toggle
 
   const handleLinkClick = () => {
@@ -44,7 +47,7 @@ function BasicExample() {
     console.log("clicked");
   };
   const { notUserAuth, userAuth } = UseHeaderElements();
-  const token = true;
+  const token = false;
   const authElements = token ? userAuth : notUserAuth;
   return (
     <>
@@ -72,18 +75,19 @@ function BasicExample() {
                   to="/"
                   onClick={handleLinkClick} // Toggle function
                 >
-                  Home
+                  {t("home")}{" "}
                 </Link>
               </Nav.Link>
-              <Nav.Link>
-                <Link
-                  to="/signup"
-                  onClick={handleLinkClick} // Toggle function
-                >
-                  Link
-                </Link>
-              </Nav.Link>
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown" align="end">
+              <NavDropdown
+                title={
+                  <img
+                    src={userImage}
+                    style={{ height: "30px", width: "30px" }}
+                  />
+                }
+                id="basic-nav-dropdown"
+                align="end"
+              >
                 {authElements.map(({ href, label }, idx: number) => (
                   <>
                     <NavDropdown.Item onClick={handleLinkClick}>
@@ -106,4 +110,4 @@ function BasicExample() {
   );
 }
 
-export default BasicExample;
+export default Header;
