@@ -52,7 +52,7 @@ function Login() {
               {t("login-now")}
             </h2>{" "}
             <Form>
-              <TextFieldWrapper name="username" label={t("username")} />
+              <TextFieldWrapper name="email" label={t("email")} />
               {/* <TextFieldWrapper name="email" label="Email" /> */}
               <TextFieldWrapper name="password" label={t("password")} />
               <ButtonWrapper>{t("login")}</ButtonWrapper>

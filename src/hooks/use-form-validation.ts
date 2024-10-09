@@ -4,9 +4,13 @@ import parsePhoneNumberFromString from "libphonenumber-js";
 
 function UseFormValidation() {
   const FORM_VALIDATION_SCHEMA_LOGIN = Yup.object().shape({
-    username: Yup.string()
-      .required("Username is required")
-      .min(2, "Minimum number of characters is 2"),
+    email: Yup.string()
+      .email("Enter a Valid Email")
+      .required("Email Field is Required")
+      .matches(
+        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, // At least 2 characters after the last dot
+        "Email should have at least two characters after the last dot"
+      ),
 
     password: Yup.string()
       .required("Password Field is required")
@@ -24,9 +28,13 @@ function UseFormValidation() {
     lastname: Yup.string()
       .required("Last Name is required")
       .min(2, "Minimum number of characters is 2"),
-    username: Yup.string()
-      .required("Username is required")
-      .min(2, "Minimum number of characters is 2"),
+    email: Yup.string()
+      .email("Enter a Valid Email")
+      .required("Email Field is Required")
+      .matches(
+        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, // At least 2 characters after the last dot
+        "Email should have at least two characters after the last dot"
+      ),
 
     password: Yup.string()
       .required("Password Field is required")

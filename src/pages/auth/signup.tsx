@@ -70,7 +70,7 @@ function SignUp() {
                   <TextFieldWrapper name="lastname" label={t("lastname")} />
                 </Col>
               </Row>
-              <TextFieldWrapper name="username" label={t("username")} />
+              <TextFieldWrapper name="email" label={t("email")} />
               {/* <TextFieldWrapper name="email" label="Email" /> */}
               <TextFieldWrapper name="password" label={t("password")} />
               <TextFieldWrapper

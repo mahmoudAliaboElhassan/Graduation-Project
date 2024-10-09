@@ -4,7 +4,7 @@ function UseInitialValues() {
   const INITIAL_FORM_STATE_SIGNUP = {
     firstname: "",
     lastname: "",
-    username: "",
+    email: "",
     password: "",
     confirmPassword: "",
     phone: "",

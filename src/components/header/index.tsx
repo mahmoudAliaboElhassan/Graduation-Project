@@ -39,6 +39,7 @@ import UseHeaderElements from "../../hooks/use-header-elements";
 // import userImage from "../../assets/profile-user.png";
 import userImage from "../../assets/user (1).png";
 import UseMediaQuery from "../../hooks/use-media-query";
+import Mode from "../mode";
 
 function Header() {
   const [expanded, setExpanded] = useState<boolean>(false); // State to manage Navbar toggle
@@ -85,6 +86,7 @@ function Header() {
                   {t("home")}{" "}
                 </Link>
               </Nav.Link>
+              <Mode />
               <NavDropdown
                 title={
                   <img
