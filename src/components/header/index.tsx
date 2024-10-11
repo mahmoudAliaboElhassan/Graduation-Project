@@ -40,6 +40,8 @@ import UseHeaderElements from "../../hooks/use-header-elements";
 import userImage from "../../assets/user (1).png";
 import UseMediaQuery from "../../hooks/use-media-query";
 import Mode from "../mode";
+import LanguageSelection from "../lngs";
+import UseDirection from "../../hooks/use-direction";
 
 function Header() {
   const [expanded, setExpanded] = useState<boolean>(false); // State to manage Navbar toggle
@@ -51,7 +53,7 @@ function Header() {
   const { notUserAuth, userAuth } = UseHeaderElements();
   const token = false;
   const authElements = token ? userAuth : notUserAuth;
-
+  const { Direction } = UseDirection();
   const isMd = UseMediaQuery({ query: "(min-width: 768px)" });
 
   return (
@@ -77,7 +79,7 @@ function Header() {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
+            <Nav style={{ [Direction.marginLeft]: "auto" }}>
               <Nav.Link>
                 <Link
                   to="/"
@@ -87,11 +89,12 @@ function Header() {
                 </Link>
               </Nav.Link>
               <Mode />
+              <LanguageSelection />
               <NavDropdown
                 title={
                   <img
                     src={userImage}
-                    style={{ height: "30px", width: "30px" }}
+                    style={{ height: "25px", width: "25px" }}
                   />
                 }
                 id="basic-nav-dropdown"

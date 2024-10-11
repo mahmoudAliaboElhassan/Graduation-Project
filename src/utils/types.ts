@@ -13,3 +13,9 @@ export interface DirectionType {
   borderTopRightRadius: string;
   borderRight: string;
 }
+export interface lang {
+  code: string;
+  name: string;
+  country_code: string;
+  dir?: string;
+}
