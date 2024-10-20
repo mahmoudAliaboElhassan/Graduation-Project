@@ -1,10 +1,9 @@
 import React from "react";
-
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
-import { Button } from "react-bootstrap";
-
 import LoaderBtn from "./loaderBtn";
+import { Button } from "@mui/material";
+import { useAppSelector } from "../../../hooks/redux";
 
 interface Props {
   children: React.ReactNode;
@@ -13,23 +12,26 @@ interface Props {
 const ButtonWrapper = ({ children }: Props) => {
   const { submitForm } = useFormikContext();
   const { t } = useTranslation();
+
   // Change the event type to React.MouseEvent<HTMLButtonElement>
-  const handleSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     submitForm();
   };
-
-  // Change the type to React.ButtonHTMLAttributes<HTMLButtonElement>
-  const configButton: React.ButtonHTMLAttributes<HTMLButtonElement> = {
+  const { mymode } = useAppSelector((state) => state.mode);
+  // Keep the configButton type as React.ButtonHTMLAttributes<HTMLButtonElement>
+  const configButton: any = {
     type: "submit",
-    // disabled: loading,
     onClick: handleSubmit,
     style: { margin: "auto", display: "flex" },
+    color: mymode === "dark" ? "secondary" : "primary",
+    variant: "outlined",
   };
 
   return (
     <Button {...configButton}>
-      {/* {loading ? <LoaderBtn /> : */}
+      {/* Uncomment when loading is implemented */}
+      {/* {loading ? <LoaderBtn /> :  */}
       {children}
       {/* } */}
     </Button>

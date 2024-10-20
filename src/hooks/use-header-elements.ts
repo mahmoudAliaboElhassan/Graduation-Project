@@ -1,11 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { Auth } from "../utils/types";
+import { Header } from "../utils/types";
 
 function UseHeaderElements() {
   const { t } = useTranslation();
-  const notUserAuth: Auth[] = [
+  const notUserAuth: Header[] = [
     {
       href: "/signup",
       label: t("signup"),
@@ -15,7 +15,7 @@ function UseHeaderElements() {
       label: t("login"),
     },
   ];
-  const userAuth: Auth[] = [
+  const userAuth: Header[] = [
     {
       href: "/change-password",
       label: t("change-password"),
@@ -24,7 +24,22 @@ function UseHeaderElements() {
       label: t("logout"),
     },
   ];
-  return { userAuth, notUserAuth };
+
+  const headerElements: Header[] = [
+    {
+      label: t("home"),
+      href: "/",
+    },
+    {
+      label: t("about"),
+      href: "/about",
+    },
+    {
+      label: t("contact"),
+      href: "/contact",
+    },
+  ];
+  return { userAuth, notUserAuth, headerElements };
 }
 
 export default UseHeaderElements;

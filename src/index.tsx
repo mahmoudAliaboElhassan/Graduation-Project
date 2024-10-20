@@ -6,7 +6,6 @@ import AppRouter from "./routes/AppRouter";
 
 import "./translation/i18next.ts";
 
-import "bootstrap/dist/css/bootstrap.min.css";
 import { store } from "./state/store";
 import { Provider } from "react-redux";
 // import { PersistGate } from "redux-persist/integration/react";

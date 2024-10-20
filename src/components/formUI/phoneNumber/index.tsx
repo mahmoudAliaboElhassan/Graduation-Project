@@ -13,7 +13,9 @@ const PhoneForm = ({ name }: { name: string }) => {
 
   return (
     <div style={{ marginBottom: "8px" }}>
-      <label htmlFor="phone">{t("phone")}:</label>
+      <label htmlFor="phone" style={{ color: "gray" }}>
+        {t("phone")}:
+      </label>
       <PhoneInput
         country={"us"}
         value={field.value} // Ensure this is linked to Formik's value
@@ -26,6 +28,9 @@ const PhoneForm = ({ name }: { name: string }) => {
         inputStyle={{
           width: "100%",
           fontSize: "16px",
+          paddingTop: " 25px",
+          paddingBottom: "25px",
+          background: "transparent",
         }}
         buttonStyle={{
           backgroundColor: "#f0f0f0",

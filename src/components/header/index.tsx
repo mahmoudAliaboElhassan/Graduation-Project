@@ -1,125 +1,207 @@
-// import React from "react";
-
-// import i18next from "i18next";
-// import { useTranslation } from "react-i18next";
-
-// import "./header.css";
-
-// function Header() {
-//   const { t } = useTranslation();
-//   return (
-//     <div>
-//       <div>Header</div>
-//       <div>{t("home")}</div>
-//       <button onClick={() => i18next.changeLanguage("ar")}>
-//         change lang ar
-//       </button>
-//       <button onClick={() => i18next.changeLanguage("en")}>
-//         change lang en
-//       </button>
-//       <div style={{ height: "60px" }}></div>
-//     </div>
-//   );
-// }
-
-// export default Header;
-
 import { useState } from "react";
 
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import { t } from "i18next";
-
-import "./header.css";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 import UseHeaderElements from "../../hooks/use-header-elements";
-// import userImage from "../../assets/user.png";
-// import userImage from "../../assets/profile-user.png";
-import userImage from "../../assets/user (1).png";
-import UseMediaQuery from "../../hooks/use-media-query";
+import logoImg from "../../assets/logo.jpg";
+import Languages from "../lngs";
 import Mode from "../mode";
-import LanguageSelection from "../lngs";
-import UseDirection from "../../hooks/use-direction";
 
 function Header() {
-  const [expanded, setExpanded] = useState<boolean>(false); // State to manage Navbar toggle
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const handleLinkClick = () => {
-    setExpanded(false);
-    console.log("clicked");
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
   };
-  const { notUserAuth, userAuth } = UseHeaderElements();
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+  const { t } = useTranslation();
+  const { userAuth, notUserAuth, headerElements } = UseHeaderElements();
   const token = false;
   const authElements = token ? userAuth : notUserAuth;
-  const { Direction } = UseDirection();
-  const isMd = UseMediaQuery({ query: "(min-width: 768px)" });
-
   return (
-    <>
-      <Navbar
-        expand="lg"
-        className="bg-body-tertiary header-wrapper"
-        expanded={expanded} // Control expansion
-        onToggle={() => setExpanded(!expanded)} // Toggle function
-      >
-        <Container>
-          <Navbar.Brand>
-            <Link
-              to="/"
-              style={{
-                fontFamily: '"Montez","cursive"',
-                fontSize: isMd ? "1.8rem" : "1.5rem",
-              }}
-              onClick={handleLinkClick} // Toggle function
+    <AppBar position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
+
+          {/* <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            LOGO
+          </Typography> */}
+          <Typography
+            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+            component={Link}
+            to="/"
+          >
+            <img
+              src={logoImg}
+              style={{ borderRadius: "50%", width: "50px", height: "50px" }}
+            />
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
             >
-              {t("education-platform")}
-            </Link>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav style={{ [Direction.marginLeft]: "auto" }}>
-              <Nav.Link>
-                <Link
-                  to="/"
-                  onClick={handleLinkClick} // Toggle function
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{ display: { xs: "block", md: "none" } }}
+            >
+              {headerElements.map((page) => (
+                <MenuItem
+                  key={page.label}
+                  onClick={handleCloseNavMenu}
+                  component={Link as any}
+                  to={page.href}
                 >
-                  {t("home")}{" "}
-                </Link>
-              </Nav.Link>
-              <Mode />
-              <LanguageSelection />
-              <NavDropdown
-                title={
-                  <img
-                    src={userImage}
-                    style={{ height: "25px", width: "25px" }}
-                  />
-                }
-                id="basic-nav-dropdown"
-                align="end"
+                  <Typography sx={{ textAlign: "center" }}>
+                    {page.label}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
+          <Typography
+            sx={{ display: { xs: "flex", md: "none" }, mr: 1, flexGrow: 1 }}
+            component={Link}
+            to="/"
+          >
+            {" "}
+            <img
+              src={logoImg}
+              style={{ borderRadius: "50%", width: "50px", height: "50px" }}
+            />
+          </Typography>
+          {/* <Typography
+            variant="h5"
+            noWrap
+            component={Link}
+            to="/"
+            sx={{
+              mr: 2,
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            LOGO
+          </Typography> */}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {headerElements.map((page) => (
+              <Button
+                key={page.label}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: "white", display: "block" }}
+                component={Link as any}
+                to={page.href}
               >
-                {authElements.map(({ href, label }, idx: number) => (
-                  <>
-                    <NavDropdown.Item onClick={handleLinkClick} key={label}>
-                      <Link to={href || "/"}> {label}</Link>
-                    </NavDropdown.Item>
-                    {idx !== authElements.length - 1 && <NavDropdown.Divider />}
-                  </>
-                ))}
-              </NavDropdown>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-      <div
-        style={{
-          height: "90px",
-        }}
-      ></div>
-    </>
+                {page.label}
+              </Button>
+            ))}
+          </Box>
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title={t("user-menu")}>
+              <IconButton color="inherit" onClick={handleOpenUserMenu}>
+                <AccountCircleIcon />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {authElements.map((setting) => (
+                <MenuItem
+                  key={setting.label}
+                  onClick={handleCloseUserMenu}
+                  component={Link as any}
+                  to={setting.href}
+                >
+                  <Typography sx={{ textAlign: "center" }}>
+                    {setting.label}
+                  </Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+            <Mode />
+            <Languages />
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 }
-
 export default Header;

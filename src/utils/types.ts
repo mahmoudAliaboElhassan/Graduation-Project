@@ -1,9 +1,9 @@
-export interface Auth {
+export interface Header {
   href?: string;
   label: string;
 }
 export interface DirectionType {
-  direction: string;
+  direction: "ltr"|"rtl";
   left: string;
   right: string;
   marginLeft: string;

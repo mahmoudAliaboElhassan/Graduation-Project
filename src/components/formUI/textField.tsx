@@ -1,43 +1,41 @@
 import React from "react";
-import { Form } from "react-bootstrap";
-import { useField, useFormikContext } from "formik";
-import { useTranslation } from "react-i18next";
+import { TextField } from "@mui/material";
+import { useField } from "formik";
 
 interface Props {
   name: string;
-  type?: string;
   label: string;
+  type?: string;
 }
 
-const TextFieldWrapper = ({ name, type = "text", label }: Props) => {
-  const [field, meta] = useField(name);
-  const { t } = useTranslation();
-  // Configuring the input field
+const TextFieldWrapper = ({ name, type, label }: Props) => {
+  const [field, mata] = useField(name);
+
   const configTextField: any = {
-    type,
+    fullWidth: true,
+    label,
+    type: type || "text",
+    variant: "outlined",
+    sx: { mb: 1.5 },
+    InputProps: {
+      style: { color: "white" }, // Apply the color to the input text
+    },
+    InputLabelProps: {
+      style: { color: "gray" }, // Style for the label
+    },
     ...field,
-    placeholder: `${t("enter")} ${label}`,
-    style:
-      meta && meta.touched && meta.error ? { border: "2px solid red" } : {},
+    // ...otherProps,
   };
 
-  if (meta && meta.touched && meta.error) {
-    configTextField["aria-invalid"] = "true";
-    configTextField["aria-describedby"] = "error-message";
+  if (mata && mata.touched && mata.error) {
+    configTextField.error = true;
+    configTextField.helperText = mata.error;
   }
 
   return (
-    <>
-      <Form.Group className="mb-3" controlId={label}>
-        <Form.Label>{label}</Form.Label>
-        <Form.Control {...configTextField} />
-        {meta && meta.touched && meta.error ? (
-          <span id="error-message" style={{ color: "red" }}>
-            {meta.error}
-          </span>
-        ) : null}
-      </Form.Group>
-    </>
+    <div>
+      <TextField {...configTextField} />
+    </div>
   );
 };
 

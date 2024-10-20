@@ -17,5 +17,11 @@
   "enter": "أدخل",
   "do-not-have-account": "ليس لدي حساب ",
   "login-now": "سجل دخول لحسابك الآن",
-  "signup-now": "أنشئ حسابك الآن"
+  "signup-now": "أنشئ حسابك الآن",
+  "user-menu": "قائمة المستخدم",
+  "change-dark": "غير للوضع النهاري",
+  "change-light": "غير للوضع الليلي",
+  "languages": "اللغات",
+  "about": "من نحن",
+  "contact": "تواصل معنا"
 }

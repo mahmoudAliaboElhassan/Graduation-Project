@@ -3,9 +3,8 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 60% !important;
   border-radius: 17px;
   border: 1px solid white;
   padding: 20px 15px;
-  box-shadow: -3px -5px 7px 4px rgb(95 108 91 / 20%); /* Add your box-shadow here */
+  /* box-shadow: -3px -5px 7px 4px rgb(95 108 91 / 20%); */
 }

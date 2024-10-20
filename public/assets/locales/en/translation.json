@@ -17,5 +17,11 @@
   "enter": "Enter",
   "do-not-have-account": "Do Not Have an Account ",
   "login-now": "Login To Your Account Now",
-  "signup-now": "Create Your Account Now"
+  "signup-now": "Create Your Account Now",
+  "user-menu": "User Menu",
+  "change-dark": "Change to Light Mode",
+  "change-light": "Change to Dark Mode",
+  "languages": "Languages",
+  "about":"About",
+  "contact":"Contact"
 }
