@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 
+import { Box, Card, CardContent, Typography } from "@mui/material";
+import IntroductorySection from "../../components/introductory";
+
 function HomePage() {
   const hints = ["One", "Two", "Three"];
   const [number, setNumber] = useState<number>(0);
@@ -9,12 +12,18 @@ function HomePage() {
     }, 1000);
   }, [number]);
   return (
-    <div>
-      <div> Home Page</div>
-      {number}
-      {hints.map((hint, idx) => (
-        <div>{idx * 30 <= number ? hint : "hint myfriend"}</div>
-      ))}
+    <div style={{ position: "relative", height: "calc(100vh - 69px)" }}>
+      <Box
+        sx={{
+          minWidth: 275,
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%,-50%)",
+        }}
+      >
+        <IntroductorySection />
+      </Box>
     </div>
   );
 }

@@ -59,15 +59,13 @@ function Login() {
                     <TextFieldWrapper name="password" label={t("password")} />
                   </Grid>
                 </Grid>
-                <ButtonWrapper>{t("login")}</ButtonWrapper>
-
+                <ButtonWrapper>{t("login")}</ButtonWrapper>{" "}
                 <div className="text-center text-lg-start mt-1 mt-lg-0">
                   {t("do-not-have-account")}
                   <Link
                     to="/signup"
                     title="Create Account"
                     style={{
-                      borderBottom: "1px solid white",
                       marginTop: "8px",
                     }}
                   >

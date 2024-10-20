@@ -74,11 +74,17 @@ function Languages() {
             onClick={() => changeLang(lang.code)}
             disabled={currLanguageCode === lang.code}
           >
-            <Typography sx={{ textAlign: "center" }}>
+            <Typography
+              sx={{
+                textAlign: "center",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               <i
-                className={`flag flag-${lang.country_code} larger-icon mx-1`}
+                className={`flag flag-${lang.country_code} larger-icon mx-2`}
               ></i>{" "}
-              {lang.name}
+              <span> {lang.name}</span>
             </Typography>
           </MenuItem>
         ))}

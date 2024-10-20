@@ -177,19 +177,18 @@ function SignUp() {
                   </Grid>
                 </Grid>
                 <ButtonWrapper>{t("signup")}</ButtonWrapper>
-                {/* <div className="text-center text-lg-start mt-1 mt-lg-0">
-                  {t("do-not-have-account")}
+                <div className="text-center text-lg-start mt-1 mt-lg-0">
+                  {t("already-have-account")}
                   <Link
-                    to="/signup"
-                    title="Create Account"
+                    to="/login"
+                    title="Login to your Account"
                     style={{
-                      borderBottom: "1px solid white",
                       marginTop: "8px",
                     }}
                   >
-                    {t("signup")}{" "}
+                    {t("login")}{" "}
                   </Link>
-                </div> */}
+                </div>
               </Form>
             </div>
           </Formik>

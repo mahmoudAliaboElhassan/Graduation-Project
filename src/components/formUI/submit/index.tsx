@@ -2,7 +2,7 @@ import React from "react";
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import LoaderBtn from "./loaderBtn";
-import { Button } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import { useAppSelector } from "../../../hooks/redux";
 
 interface Props {
@@ -23,18 +23,21 @@ const ButtonWrapper = ({ children }: Props) => {
   const configButton: any = {
     type: "submit",
     onClick: handleSubmit,
+    // fullWidth: true,
     style: { margin: "auto", display: "flex" },
     color: mymode === "dark" ? "secondary" : "primary",
     variant: "outlined",
   };
 
   return (
-    <Button {...configButton}>
-      {/* Uncomment when loading is implemented */}
-      {/* {loading ? <LoaderBtn /> :  */}
-      {children}
-      {/* } */}
-    </Button>
+    <Container maxWidth="xs">
+      <Button {...configButton}>
+        {/* Uncomment when loading is implemented */}
+        {/* {loading ? <LoaderBtn /> :  */}
+        {children}
+        {/* } */}
+      </Button>
+    </Container>
   );
 };
 
