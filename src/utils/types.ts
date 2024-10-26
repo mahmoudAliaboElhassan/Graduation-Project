@@ -3,7 +3,7 @@ export interface Header {
   label: string;
 }
 export interface DirectionType {
-  direction: "ltr"|"rtl";
+  direction: "ltr" | "rtl";
   left: string;
   right: string;
   marginLeft: string;
@@ -18,4 +18,13 @@ export interface lang {
   name: string;
   country_code: string;
   dir?: string;
+}
+export interface UserData {
+  FirstName: string;
+  LastName: string;
+  password: string;
+  email: string;
+  type: number;
+  grade: string;
+  se: string;
 }

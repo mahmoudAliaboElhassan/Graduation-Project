@@ -1,4 +1,3 @@
-// utils/axiosInstance.ts
 import axios, {
   AxiosInstance,
   AxiosRequestConfig,
@@ -9,7 +8,7 @@ import axios, {
 
 // Define your Axios instance
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: process.env.BASE_URL, // Set your API base URL here
+  baseURL: process.env.REACT_APP_API_URL, // Set your API base URL here
   //   headers: {
   //     "Content-Type": "application/json",
   //   },
@@ -37,6 +36,7 @@ const handleRequestError = (error: AxiosError): Promise<AxiosError> => {
 
 // Define a function to handle response interception
 const handleResponse = (response: AxiosResponse): AxiosResponse => {
+  console.log("response is", response);
   return response;
 };
 

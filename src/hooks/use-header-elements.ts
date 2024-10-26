@@ -36,7 +36,7 @@ function UseHeaderElements() {
     },
     {
       label: t("contact"),
-      href: "/contact",
+      href: "/contacts",
     },
   ];
   return { userAuth, notUserAuth, headerElements };

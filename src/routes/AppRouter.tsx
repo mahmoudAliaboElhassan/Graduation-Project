@@ -6,8 +6,14 @@ import RootLayout from "../pages/rootLayout";
 import ErrorPage from "../pages/error";
 import HomePage from "../pages/home";
 import Loader from "../components/loader";
-import Login from "../pages/auth/login";
-import Signup from "../pages/auth/signup";
+const Login = React.lazy(() => import("../pages/auth/login"));
+const Signup = React.lazy(() => import("../pages/auth/signup"));
+const ChangePassword = React.lazy(
+  () => import("../pages/auth/change-password")
+);
+const Contacts = React.lazy(() => import("../pages/contacts"));
+const About = React.lazy(() => import("../pages/about"));
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,6 +41,30 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <Signup />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/about",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <About />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/contacts",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Contacts />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/change-password",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ChangePassword />{" "}
           </Suspense>
         ),
       },

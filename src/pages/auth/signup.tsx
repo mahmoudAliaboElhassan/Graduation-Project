@@ -112,11 +112,14 @@ import UseInitialValues from "../../hooks/use-initial-values";
 import UseFormValidation from "../../hooks/use-form-validation";
 import { useTranslation } from "react-i18next";
 import { HeadingElement } from "../../styles/heading";
+import { useAppDispatch } from "../../hooks/redux";
+import { signUp } from "../../state/act/actAuth";
 
 function SignUp() {
   const { INITIAL_FORM_STATE_SIGNUP } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_SIGNUP } = UseFormValidation();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   return (
     <>
       <div style={{ position: "relative", minHeight: "100vh" }}>
@@ -125,26 +128,23 @@ function SignUp() {
             initialValues={{
               ...INITIAL_FORM_STATE_SIGNUP,
             }}
-            validationSchema={FORM_VALIDATION_SCHEMA_SIGNUP}
+            // validationSchema={FORM_VALIDATION_SCHEMA_SIGNUP}
             onSubmit={async (values) => {
               console.log(values);
-              // setLoading(true);
-              // const { confirmPassword, ...other } = values;
-              // try {
-              //   const user = await axiosInstance.post("/api/users/signup", other);
-              //   toast.success("You Have Created Account Successfully!");
-              //   console.log(user.data);
-              //   router.push("/login");
-              //   setLoading(false);
-              // } catch (error: any) {
-              //   setLoading(false);
-              //   Swal.fire({
-              //     title: "Error in Logging",
-              //     text: error.response.data.message,
-              //     icon: "error",
-              //     confirmButtonText: "ok",
-              //   });
-              // }
+              const { confirmPassword, ...other } = values;
+              try {
+                dispatch(
+                  signUp({
+                    FirstName: "Lae",
+                    LastName: "saer",
+                    password: "dw",
+                    email: "maae@gma.com",
+                    type: 0,
+                    grade: "da",
+                    se: "kd",
+                  })
+                );
+              } catch (error: any) {}
             }}
           >
             <div>

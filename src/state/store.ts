@@ -2,10 +2,12 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import modeSlice from "./slices/mode"; // Assuming you're exporting modeSlice.reducer as default
+import authSlice from "./slices/auth"; // Assuming you're exporting modeSlice.reducer as default
 
 export const store = configureStore({
   reducer: {
-    mode: modeSlice, // This should point to modeSlice.reducer, so ensure it's exported correctly
+    mode: modeSlice, 
+    auth:authSlice// This should point to modeSlice.reducer, so ensure it's exported correctly
   },
 });
 // Infer the `RootState` and `AppDispatch` types from the store itself
