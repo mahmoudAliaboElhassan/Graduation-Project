@@ -1,5 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "../../components/header";
 import { useAppSelector } from "../../hooks/redux";
@@ -21,7 +23,6 @@ function RootLayout() {
       mode: mymode,
     },
   });
-
   return (
     <ThemeProvider theme={thema}>
       <div
@@ -36,6 +37,18 @@ function RootLayout() {
         }}
       >
         <Header />
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme={mymode}
+        />
         <div style={{ height: "32px" }}></div>
         <Outlet />
       </div>

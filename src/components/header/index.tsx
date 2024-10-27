@@ -42,7 +42,7 @@ function Header() {
   };
   const { t } = useTranslation();
   const { userAuth, notUserAuth, headerElements } = UseHeaderElements();
-  const token = true;
+  const token = false;
   const authElements = token ? userAuth : notUserAuth;
   return (
     <AppBar position="static">

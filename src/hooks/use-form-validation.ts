@@ -12,13 +12,13 @@ function UseFormValidation() {
         "Email should have at least two characters after the last dot"
       ),
 
-    password: Yup.string()
-      .required("Password Field is required")
-      .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
-        "Password must contain at least one letter and one number"
-      )
-      .min(6, "Minimum Number of Chars is 6"),
+    // password: Yup.string()
+    //   .required("Password Field is required")
+    //   .matches(
+    //     /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
+    //     "Password must contain at least one letter and one number"
+    //   )
+    //   .min(6, "Minimum Number of Chars is 6"),
   });
 
   const FORM_VALIDATION_SCHEMA_SIGNUP = Yup.object().shape({

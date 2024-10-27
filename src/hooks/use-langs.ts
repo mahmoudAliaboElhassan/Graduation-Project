@@ -1,4 +1,4 @@
-import { lang } from "../utils/types";
+import { lang } from "../utils/types/general";
 
 function UseLanguages() {
   const Languages: lang[] = [

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import UseInitialStates from "../../hooks/use-initial-state";
 import {
   signUp,
- 
+  logIn
 } from "../act/actAuth";
 const { initialStateAuth } = UseInitialStates();
 
@@ -34,6 +34,14 @@ export const authSlice = createSlice({
       })
       .addCase(signUp.rejected, (state, action) => {
        
+      }).addCase(logIn.pending, (state, action) => {
+      
+      })
+      .addCase(logIn.fulfilled, (state, action) => {
+        
+      })
+      .addCase(logIn.rejected, (state, action) => {
+       
       })
   },
 });
@@ -41,6 +49,6 @@ export const authSlice = createSlice({
 export default authSlice.reducer;
 export {
   signUp,
- 
+  logIn
 };
  

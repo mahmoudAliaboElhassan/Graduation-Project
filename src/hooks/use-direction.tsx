@@ -1,7 +1,7 @@
-import { DirectionType } from "../utils/types";
+import { DirectionType } from "../utils/types/general";
 
 function UseDirection() {
-  const dir = (document.documentElement.dir ||"ltr") as "ltr"|"rtl";
+  const dir = (document.documentElement.dir || "ltr") as "ltr" | "rtl";
   const left = dir === "ltr" ? "left" : "right";
   const right = dir === "ltr" ? "right" : "left";
 

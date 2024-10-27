@@ -1,7 +1,11 @@
 import React from "react";
+import {
+  InitialValuesLogin,
+  InitialValuesSignUp,
+} from "../utils/types/initialValues";
 
 function UseInitialValues() {
-  const INITIAL_FORM_STATE_SIGNUP = {
+  const INITIAL_FORM_STATE_SIGNUP: InitialValuesSignUp = {
     firstname: "",
     lastname: "",
     email: "",
@@ -9,8 +13,8 @@ function UseInitialValues() {
     confirmPassword: "",
     phone: "",
   };
-  const INITIAL_FORM_STATE_LOGIN = {
-    username: "",
+  const INITIAL_FORM_STATE_LOGIN: InitialValuesLogin = {
+    email: "",
     password: "",
   };
   return { INITIAL_FORM_STATE_SIGNUP, INITIAL_FORM_STATE_LOGIN };
