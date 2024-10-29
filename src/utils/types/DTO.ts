@@ -3,9 +3,9 @@ export interface UserDataSignUp {
   LastName: string;
   password: string;
   email: string;
-  type: number;
+  type: string;
   grade: string;
-  se: string;
+  subject: string;
 }
 export interface UserDataLogin {
   email: string;

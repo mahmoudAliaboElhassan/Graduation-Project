@@ -1,27 +1,25 @@
 import * as Yup from "yup";
-import { ref } from "yup";
 import parsePhoneNumberFromString from "libphonenumber-js";
 
 function UseFormValidation() {
-  const FORM_VALIDATION_SCHEMA_LOGIN = Yup.object().shape({
+  const FORM_VALIDATION_SCHEMA_LOGIN = Yup.object({
     email: Yup.string()
       .email("Enter a Valid Email")
       .required("Email Field is Required")
       .matches(
-        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, // At least 2 characters after the last dot
+        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
         "Email should have at least two characters after the last dot"
       ),
-
-    // password: Yup.string()
-    //   .required("Password Field is required")
-    //   .matches(
-    //     /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
-    //     "Password must contain at least one letter and one number"
-    //   )
-    //   .min(6, "Minimum Number of Chars is 6"),
+    password: Yup.string()
+      .required("Password Field is required")
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
+        "Password must contain at least one letter and one number"
+      )
+      .min(6, "Minimum Number of Chars is 6"),
   });
 
-  const FORM_VALIDATION_SCHEMA_SIGNUP = Yup.object().shape({
+  const FORM_VALIDATION_SCHEMA_SIGNUP = Yup.object({
     firstname: Yup.string()
       .required("First Name is required")
       .min(2, "Minimum number of characters is 2"),
@@ -32,10 +30,9 @@ function UseFormValidation() {
       .email("Enter a Valid Email")
       .required("Email Field is Required")
       .matches(
-        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, // At least 2 characters after the last dot
+        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
         "Email should have at least two characters after the last dot"
       ),
-
     password: Yup.string()
       .required("Password Field is required")
       .matches(
@@ -46,18 +43,25 @@ function UseFormValidation() {
     confirmPassword: Yup.string()
       .required("Confirm Password Field is required")
       .oneOf([Yup.ref("password")], "Passwords do not match"),
-    phone: Yup.string()
-      .required("Phone number is required")
-      .test("is-valid", "Phone number is not valid", (value) => {
-        if (!value) return false;
-        const phoneNumber = parsePhoneNumberFromString(`+${value}`);
-        return phoneNumber ? phoneNumber.isValid() : false;
-      }),
+    type: Yup.string().required("User Role is Required"),
+
+    grade: Yup.string().when("type", {
+      is: (value: unknown) => value == 0,
+      then: (schema) => schema.required("Grade is required for students"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+
+    subject: Yup.string().when("type", {
+      is: (value: unknown) => value == 1,
+      then: (schema) => schema.required("Subject is required for teachers"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
   });
 
   return {
-    FORM_VALIDATION_SCHEMA_LOGIN, // This is for login
-    FORM_VALIDATION_SCHEMA_SIGNUP, // This is for signup, make sure the name is consistent
+    FORM_VALIDATION_SCHEMA_LOGIN,
+    FORM_VALIDATION_SCHEMA_SIGNUP,
   };
 }
+
 export default UseFormValidation;

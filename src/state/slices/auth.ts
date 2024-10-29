@@ -1,10 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import UseInitialStates from "../../hooks/use-initial-state";
-import {
-  signUp,
-  logIn
-} from "../act/actAuth";
+import { signUp, logIn } from "../act/actAuth";
 const { initialStateAuth } = UseInitialStates();
 
 export const authSlice = createSlice({
@@ -21,34 +18,31 @@ export const authSlice = createSlice({
     //   state.token = "";
     //   state.expireToken = "";
     //   state.role = "";
-    //   state.Uid = "";  
+    //   state.Uid = "";
     // },
   },
   extraReducers: (builder) => {
     builder
       .addCase(signUp.pending, (state, action) => {
-      
+        state.loadingAuth = true;
       })
       .addCase(signUp.fulfilled, (state, action) => {
-        
+        state.loadingAuth = false;
       })
       .addCase(signUp.rejected, (state, action) => {
-       
-      }).addCase(logIn.pending, (state, action) => {
-      
+        state.loadingAuth = false;
+      })
+      .addCase(logIn.pending, (state, action) => {
+        state.loadingAuth = true;
       })
       .addCase(logIn.fulfilled, (state, action) => {
-        
+        state.loadingAuth = false;
       })
       .addCase(logIn.rejected, (state, action) => {
-       
-      })
+        state.loadingAuth = false;
+      });
   },
 });
 
 export default authSlice.reducer;
-export {
-  signUp,
-  logIn
-};
- 
+export { signUp, logIn };

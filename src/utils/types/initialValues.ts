@@ -4,7 +4,9 @@ export interface InitialValuesSignUp {
   email: string;
   password: string;
   confirmPassword: string;
-  phone: string;
+  type: string;
+  grade: string;
+  subject: string;
 }
 export interface InitialValuesLogin {
   email: string;
