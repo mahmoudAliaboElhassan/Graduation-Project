@@ -28,5 +28,11 @@
   "login-success": "You Have Logged in Successfully !",
   "error-login": "Login error",
   "error-login-text": "Error with email, password, or both",
-  "ok": "OK"
+  "ok": "OK",
+  "student": "Student",
+  "teacher": "Teacher",
+  "other": "Other",
+  "select-role":"Select Account type",
+  "select-grade":"Select Grade",
+  "select-subject":"Select Subject"
 }

@@ -72,7 +72,10 @@ function SelectComponent({ name, label, options }: Props) {
           </MenuItem>
         ))}
       </Select>
-      <Typography component="div" sx={{ color: Colors.labelError }}>
+      <Typography
+        component="div"
+        sx={{ color: Colors.labelError, fontSize: "0.75rem" }}
+      >
         {configSelect.helperText}
       </Typography>
     </FormControl>

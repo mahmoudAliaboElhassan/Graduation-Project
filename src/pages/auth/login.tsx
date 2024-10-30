@@ -13,6 +13,7 @@ import UseInitialValues from "../../hooks/use-initial-values";
 import UseFormValidation from "../../hooks/use-form-validation";
 import { useTranslation } from "react-i18next";
 import { HeadingElement } from "../../styles/heading";
+import { FormWrapper ,ContainerFormWrapper} from "../../styles/forms";
 import { useAppDispatch } from "../../hooks/redux";
 import { logIn } from "../../state/act/actAuth";
 import UseThemMode from "../../hooks/use-theme-mode";
@@ -27,8 +28,8 @@ function Login() {
   return (
     <>
       <div style={{ position: "relative", minHeight: "100vh" }}>
-        <Container maxWidth="sm" className={styles.formWrapper}>
-          <Formik
+      <ContainerFormWrapper maxWidth="sm"  >
+      <Formik
             initialValues={{
               ...INITIAL_FORM_STATE_LOGIN,
             }}
@@ -81,9 +82,10 @@ function Login() {
             }}
           >
             <div>
+              <FormWrapper>
               <HeadingElement>{t("login-now")}</HeadingElement>
-              <Form>
-                <Grid container>
+
+                                <Grid container>
                   <Grid size={{ xs: 12 }}>
                     <TextFieldWrapper name="email" label={t("email")} />
                   </Grid>
@@ -105,10 +107,10 @@ function Login() {
                     {t("signup")}{" "}
                   </Link>
                 </div>
-              </Form>
+              </FormWrapper>
             </div>
           </Formik>
-        </Container>
+        </ContainerFormWrapper>
       </div>
       <Footer />
     </>
