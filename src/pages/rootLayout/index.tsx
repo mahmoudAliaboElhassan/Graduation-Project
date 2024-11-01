@@ -49,7 +49,7 @@ function RootLayout() {
           pauseOnHover
           theme={mymode}
         />
-        <div style={{ height: "32px" }}></div>
+        <div style={{ height: "64px" }}></div>
         <Outlet />
       </div>
     </ThemeProvider>

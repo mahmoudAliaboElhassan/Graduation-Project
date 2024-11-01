@@ -57,10 +57,27 @@ function UseFormValidation() {
       otherwise: (schema) => schema.notRequired(),
     }),
   });
-
+  const FORM_VALIDATION_SCHEMA_CHANGE_PASSWORD = Yup.object({
+ 
+    currentPassword: Yup.string()
+      .required("Current Password Field is required")
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
+        "Password must contain at least one letter and one number"
+      )
+      .min(6, "Minimum Number of Chars is 6"),
+    newPassword: Yup.string()
+      .required("New Password Field is required")
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
+        "Password must contain at least one letter and one number"
+      )
+      .min(6, "Minimum Number of Chars is 6"),
+  });
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
     FORM_VALIDATION_SCHEMA_SIGNUP,
+    FORM_VALIDATION_SCHEMA_CHANGE_PASSWORD
   };
 }
 

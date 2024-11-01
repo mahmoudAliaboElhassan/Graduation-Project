@@ -3,7 +3,6 @@
   "go-back": "Go Back",
   "signup": "SignUp",
   "login": "Login",
-  "change-password": "Change Password",
   "logout": "LogOut",
   "education-platform": "Education Platform",
   "email": "Email",
@@ -32,7 +31,11 @@
   "student": "Student",
   "teacher": "Teacher",
   "other": "Other",
-  "select-role":"Select Account type",
-  "select-grade":"Select Grade",
-  "select-subject":"Select Subject"
+  "select-role": "Select Account type",
+  "select-grade": "Select Grade",
+  "select-subject": "Select Subject",
+  "change-password-now": "Change Password Now",
+  "change-password": "Change Password",
+  "current-password": "Current Password",
+  "new-password": "New Password"
 }

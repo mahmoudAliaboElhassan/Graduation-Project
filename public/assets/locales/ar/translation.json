@@ -3,7 +3,6 @@
   "go-back": "الرجوع للرئيسيه",
   "signup": "إنشاء حساب",
   "login": "تسجيل دخول",
-  "change-password": "تغيير كلمة المرور",
   "logout": "تسجيل خروج",
   "education-platform": "منصة التعليم",
   "email": "البريد الإلكتروني",
@@ -32,7 +31,11 @@
   "student": "طالب",
   "teacher": "مدرس",
   "other": "غير ذلك",
-  "select-role":"إختر نوع الحساب",
-  "select-grade":"إختر الفرقه الدراسيه",
-  "select-subject":"إختر الماده"
+  "select-role": "إختر نوع الحساب",
+  "select-grade": "إختر الفرقه الدراسيه",
+  "select-subject": "إختر الماده",
+  "change-password-now": " تغيير كلمة المرور الآن",
+  "change-password": " تغيير كلمة المرور",
+  "current-password": "كلمة المرور الحاليه",
+  "new-password": "كلمة المرور الجديده"
 }

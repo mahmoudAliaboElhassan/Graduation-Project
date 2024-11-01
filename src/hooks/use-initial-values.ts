@@ -2,6 +2,7 @@ import React from "react";
 import {
   InitialValuesLogin,
   InitialValuesSignUp,
+  InitialValuesChangePassword
 } from "../utils/types/initialValues";
 
 function UseInitialValues() {
@@ -19,7 +20,11 @@ function UseInitialValues() {
     email: "",
     password: "",
   };
-  return { INITIAL_FORM_STATE_SIGNUP, INITIAL_FORM_STATE_LOGIN };
+  const INITIAL_FORM_STATE_CHANGE_PASSWORD: InitialValuesChangePassword = {
+    currentPassword: "",
+    newPassword: "",
+  };
+  return { INITIAL_FORM_STATE_SIGNUP, INITIAL_FORM_STATE_LOGIN ,INITIAL_FORM_STATE_CHANGE_PASSWORD};
 }
 
 export default UseInitialValues;
