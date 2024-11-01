@@ -37,5 +37,6 @@
   "change-password-now": "Change Password Now",
   "change-password": "Change Password",
   "current-password": "Current Password",
-  "new-password": "New Password"
+  "new-password": "New Password",
+  "loading": "Loading ..."
 }

@@ -37,5 +37,6 @@
   "change-password-now": " تغيير كلمة المرور الآن",
   "change-password": " تغيير كلمة المرور",
   "current-password": "كلمة المرور الحاليه",
-  "new-password": "كلمة المرور الجديده"
+  "new-password": "كلمة المرور الجديده",
+  "loading": "تحميل ..."
 }
