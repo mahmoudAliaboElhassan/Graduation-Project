@@ -4,3 +4,5 @@ export interface InitialStateMode {
 export interface InitialStateAuth {
   loadingAuth: boolean;
 }
+export interface InitialStateGame {
+ }

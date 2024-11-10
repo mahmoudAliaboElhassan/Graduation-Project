@@ -1,6 +1,7 @@
 import {
   InitialStateAuth,
   InitialStateMode,
+  InitialStateGame
 } from "../utils/types/initialState";
 
 function UseInitialStates() {
@@ -11,8 +12,10 @@ function UseInitialStates() {
   const initialStateAuth: InitialStateAuth = {
     loadingAuth: false,
   };
+  const initialStateGame: InitialStateGame = {
+   };
 
-  return { initialStateMode, initialStateAuth };
+  return { initialStateMode, initialStateAuth,initialStateGame };
 }
 
 export default UseInitialStates;
