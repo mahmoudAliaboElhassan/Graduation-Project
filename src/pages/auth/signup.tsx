@@ -12,14 +12,17 @@ import UseInitialValues from "../../hooks/use-initial-values";
 import UseFormValidation from "../../hooks/use-form-validation";
 import { useTranslation } from "react-i18next";
 import { HeadingElement } from "../../styles/heading";
-import { FormWrapper ,ContainerFormWrapper} from "../../styles/forms";
-import { useAppDispatch } from "../../hooks/redux";
+import { FormWrapper, ContainerFormWrapper } from "../../styles/forms";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { signUp } from "../../state/act/actAuth";
 import UseRoles from "../../hooks/use-roles";
 import SelectComponent from "../../components/formUI/select";
+import signupPage from "../../assets/signUpImage.jpeg.jpg";
+import { isToastActive } from "react-toastify/dist/core/store";
+import { toast } from "react-toastify";
 
 const FormFields = () => {
-  const { values } = useFormikContext() as any; // Access Formik context to get `values`
+  const { values } = useFormikContext() as any;
   const { Roles } = UseRoles();
   const { t } = useTranslation();
   return (
@@ -81,10 +84,20 @@ function SignUp() {
   const { FORM_VALIDATION_SCHEMA_SIGNUP } = UseFormValidation();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-   return (
+  const { mymode } = useAppSelector((state) => state.mode);
+
+  return (
     <>
-      <div style={{ position: "relative", minHeight: "100vh" }}>
-        <ContainerFormWrapper maxWidth="sm"  >
+      <div
+        style={{
+          position: "relative",
+          minHeight: "100vh",
+        }}
+      >
+        <ContainerFormWrapper
+          maxWidth="sm"
+          // backgroundImage={signupPage}
+        >
           <Formik
             initialValues={{
               ...INITIAL_FORM_STATE_SIGNUP,
@@ -93,27 +106,34 @@ function SignUp() {
             onSubmit={async (values) => {
               console.log(values);
               const { confirmPassword, ...other } = values;
-              try {
-                dispatch(
-                  signUp({
-                    FirstName: values.firstname,
-                    LastName: values.lastname,
-                    password: values.password,
-                    email: values.email,
-                    type: values.type,
-                    grade: "values.grade",
-                    subject: "values.subject",
-                  })
-                );
-              } catch (error) {
-                console.error("Error:", error);
-              }
+              dispatch(
+                signUp({
+                  FirstName: values.firstname,
+                  LastName: values.lastname,
+                  password: values.password,
+                  email: values.email,
+                  type: values.type,
+                  grade: `${values.grade}`,
+                  subject: `${values.subject}`,
+                })
+              )
+                .unwrap()
+                .then(() => {
+                  toast.success(t("user-created"), {
+                    theme: mymode,
+                  });
+                })
+                .catch((err) => {
+                  console.log("error is",err)
+                  toast.error(err.response.data, { theme: mymode });
+                });
             }}
           >
             <div>
               <FormWrapper>
-              <HeadingElement>{t("signup-now")}</HeadingElement>
-                <FormFields /> <ButtonWrapper>{t("signup")}</ButtonWrapper>
+                <HeadingElement>{t("signup-now")}</HeadingElement>
+                <FormFields />
+                <ButtonWrapper>{t("signup")}</ButtonWrapper>
                 <div className="text-center text-lg-start mt-1 mt-lg-0">
                   {t("already-have-account")}
                   <Link

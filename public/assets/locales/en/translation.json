@@ -38,5 +38,7 @@
   "change-password": "Change Password",
   "current-password": "Current Password",
   "new-password": "New Password",
-  "loading": "Loading ..."
+  "loading": "Loading ...",
+  "website-title": "Education Platform",
+  "user-created":"User created successfully !"
 }

@@ -71,7 +71,7 @@ function Header() {
             sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
             component={Link}
             to="/"
-          >
+          >   
             <img
               src={logoImg}
               style={{ borderRadius: "50%", width: "50px", height: "50px" }}

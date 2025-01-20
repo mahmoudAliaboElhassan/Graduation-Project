@@ -25,7 +25,7 @@ function GetQuestion() {
           dispatch(
             answerQuestion({
               answer: "سعد زغلول",
-              hintsused: 1,
+              hintsused: 1
             })
           );
         }}

@@ -15,7 +15,7 @@ function UseRoles() {
     },
     {
       text: t("other"),
-      value: 2,
+      value: "",
     },
   ];
   return { Roles };

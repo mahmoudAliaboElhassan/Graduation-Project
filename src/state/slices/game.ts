@@ -28,6 +28,8 @@ export const gameSlice = createSlice({
       })
       .addCase(getQuestion.fulfilled, (state, action) => {
         // state.loadingAuth = false;
+        state.questionData = action.payload as any;
+        console.log(state.questionData);
       })
       .addCase(getQuestion.rejected, (state, action) => {
         // state.loadingAuth = false;

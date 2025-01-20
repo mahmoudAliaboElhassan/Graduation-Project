@@ -38,5 +38,7 @@
   "change-password": " تغيير كلمة المرور",
   "current-password": "كلمة المرور الحاليه",
   "new-password": "كلمة المرور الجديده",
-  "loading": "تحميل ..."
+  "loading": "تحميل ...",
+  "website-title": "منصة التعليم",
+  "user-created":"تم إنشاء الحساب بنجاح !"
 }

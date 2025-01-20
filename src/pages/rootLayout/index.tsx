@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTranslation } from "react-i18next";
 
 import Header from "../../components/header";
 import { useAppSelector } from "../../hooks/redux";
@@ -10,6 +12,10 @@ import UseDirection from "../../hooks/use-direction";
 function RootLayout() {
   const { mymode } = useAppSelector((state) => state.mode);
   const { direction } = UseDirection();
+  const { t } = useTranslation();
+  useEffect(() => {
+    document.title = t("website-title");
+  });
 
   const thema = createTheme({
     direction: direction.direction,

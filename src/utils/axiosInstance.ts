@@ -36,8 +36,8 @@ const handleRequestError = (error: AxiosError): Promise<AxiosError> => {
 
 // Define a function to handle response interception
 const handleResponse = (response: AxiosResponse): AxiosResponse => {
-  console.log("response is", response);
-  return response;
+  console.log("response is", response.data);
+  return response.data;
 };
 
 // Define a function to handle response errors
