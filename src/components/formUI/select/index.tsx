@@ -12,7 +12,7 @@ import UseThemMode from "../../../hooks/use-theme-mode";
 
 type Options = {
   text: string;
-  value: number;
+  value: number | "";
 };
 interface Props {
   name: string;

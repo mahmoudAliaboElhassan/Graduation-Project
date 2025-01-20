@@ -61,11 +61,7 @@ function IntroductorySection() {
           style={{ marginRight: "5px" }}
           key={index}
         >
-          <Typography
-            gutterBottom
-            sx={{ color: "text.secondary", fontSize: 23 }}
-          >
-            {" "}
+          <Typography gutterBottom sx={{ color: "white", fontSize: 23 }}>
             {word}
           </Typography>
         </motion.span>

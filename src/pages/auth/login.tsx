@@ -90,7 +90,11 @@ function Login() {
                   </Grid>
                   <Grid size={{ xs: 12 }}>
                     {" "}
-                    <TextFieldWrapper name="password" label={t("password")} />
+                    <TextFieldWrapper
+                      name="password"
+                      label={t("password")}
+                      type="password"
+                    />
                   </Grid>
                 </Grid>
                 <ButtonWrapper>{t("login")}</ButtonWrapper>{" "}

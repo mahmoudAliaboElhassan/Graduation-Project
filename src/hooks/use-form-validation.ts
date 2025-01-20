@@ -58,7 +58,6 @@ function UseFormValidation() {
     }),
   });
   const FORM_VALIDATION_SCHEMA_CHANGE_PASSWORD = Yup.object({
- 
     currentPassword: Yup.string()
       .required("Current Password Field is required")
       .matches(
@@ -77,7 +76,7 @@ function UseFormValidation() {
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
     FORM_VALIDATION_SCHEMA_SIGNUP,
-    FORM_VALIDATION_SCHEMA_CHANGE_PASSWORD
+    FORM_VALIDATION_SCHEMA_CHANGE_PASSWORD,
   };
 }
 

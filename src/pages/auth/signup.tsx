@@ -20,6 +20,7 @@ import SelectComponent from "../../components/formUI/select";
 import signupPage from "../../assets/signUpImage.jpeg.jpg";
 import { isToastActive } from "react-toastify/dist/core/store";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const FormFields = () => {
   const { values } = useFormikContext() as any;
@@ -38,12 +39,17 @@ const FormFields = () => {
           <TextFieldWrapper name="email" label={t("email")} />
         </Grid>
         <Grid size={{ xs: 12 }}>
-          <TextFieldWrapper name="password" label={t("password")} />
+          <TextFieldWrapper
+            name="password"
+            label={t("password")}
+            type="password"
+          />
         </Grid>
         <Grid size={{ xs: 12 }}>
           <TextFieldWrapper
             name="confirmPassword"
             label={t("confirm-password")}
+            type="password"
           />
         </Grid>
         {/* <Grid size={{ xs: 12 }}>
@@ -124,8 +130,12 @@ function SignUp() {
                   });
                 })
                 .catch((err) => {
-                  console.log("error is",err)
-                  toast.error(err.response.data, { theme: mymode });
+                  Swal.fire({
+                    title: "Error in creating Account",
+                    text: err.response.data,
+                    icon: "error",
+                    confirmButtonText: "ok",
+                  });
                 });
             }}
           >

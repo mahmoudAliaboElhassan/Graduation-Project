@@ -8,10 +8,12 @@ import { useTranslation } from "react-i18next";
 import Header from "../../components/header";
 import { useAppSelector } from "../../hooks/redux";
 import UseDirection from "../../hooks/use-direction";
+import UseMediaQuery from "../../hooks/use-media-query";
 
 function RootLayout() {
   const { mymode } = useAppSelector((state) => state.mode);
   const { direction } = UseDirection();
+  const isSmallScreen = UseMediaQuery({ query: "(max-width: 360px)" });
   const { t } = useTranslation();
   useEffect(() => {
     document.title = t("website-title");
@@ -55,7 +57,7 @@ function RootLayout() {
           pauseOnHover
           theme={mymode}
         />
-        <div style={{ height: "64px" }}></div>
+        <div style={{ height: isSmallScreen ? "100px" : "64px" }}></div>
         <Outlet />
       </div>
     </ThemeProvider>

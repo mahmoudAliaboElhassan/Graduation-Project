@@ -21,5 +21,5 @@ export interface lang {
 }
 export interface RolesType {
   text: string;
-  value: number | "";
+  value: number;
 }
