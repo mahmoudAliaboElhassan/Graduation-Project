@@ -13,7 +13,7 @@ const ChangePassword = React.lazy(
 );
 const Contacts = React.lazy(() => import("../pages/contacts"));
 const About = React.lazy(() => import("../pages/about"));
-const GetQuestion = React.lazy(() => import("../pages/getQuestion"));
+const FiveHints = React.lazy(() => import("../pages/fiveHints"));
 
 const router = createBrowserRouter([
   {
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
         path: "/get-question",
         element: (
           <Suspense fallback={<Loader />}>
-            <GetQuestion />{" "}
+            <FiveHints />{" "}
           </Suspense>
         ),
       },

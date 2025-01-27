@@ -73,10 +73,14 @@ function UseFormValidation() {
       )
       .min(6, "Minimum Number of Chars is 6"),
   });
+  const FORM_VALIDATION_SCHEMA_ANSWER_QUESTION = Yup.object({
+    answer: Yup.string().required("Question Answer Field is required"),
+  });
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
     FORM_VALIDATION_SCHEMA_SIGNUP,
     FORM_VALIDATION_SCHEMA_CHANGE_PASSWORD,
+    FORM_VALIDATION_SCHEMA_ANSWER_QUESTION,
   };
 }
 

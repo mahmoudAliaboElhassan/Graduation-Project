@@ -97,7 +97,7 @@ function SignUp() {
       <div
         style={{
           position: "relative",
-          minHeight: "100vh",
+          minHeight: "120vh",
         }}
       >
         <ContainerFormWrapper

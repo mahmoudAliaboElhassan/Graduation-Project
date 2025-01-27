@@ -12,7 +12,10 @@ export interface InitialValuesLogin {
   email: string;
   password: string;
 }
-export interface InitialValuesChangePassword{
-  currentPassword:string;
-  newPassword:string;
+export interface InitialValuesChangePassword {
+  currentPassword: string;
+  newPassword: string;
+}
+export interface InitialValuesAnswerQuestion {
+  answer: string;
 }

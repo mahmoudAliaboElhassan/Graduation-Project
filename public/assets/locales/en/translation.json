@@ -40,5 +40,7 @@
   "new-password": "New Password",
   "loading": "Loading ...",
   "website-title": "Education Platform",
-  "user-created":"User created successfully !"
+  "user-created": "User created successfully !",
+  "answer-question": "Answer Question",
+  "question-answer": "Question Answer"
 }

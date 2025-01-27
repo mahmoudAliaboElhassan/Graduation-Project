@@ -40,5 +40,7 @@
   "new-password": "كلمة المرور الجديده",
   "loading": "تحميل ...",
   "website-title": "منصة التعليم",
-  "user-created":"تم إنشاء الحساب بنجاح !"
+  "user-created": "تم إنشاء الحساب بنجاح !",
+  "answer-question": "أجب السؤال",
+  "question-answer": "إجابه السؤل"
 }
