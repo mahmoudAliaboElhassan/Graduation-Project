@@ -1,5 +1,5 @@
 import { Form, Formik, useFormikContext } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Typography, Container } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
@@ -86,12 +86,12 @@ const FormFields = () => {
 };
 
 function SignUp() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const { INITIAL_FORM_STATE_SIGNUP } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_SIGNUP } = UseFormValidation();
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const { mymode } = useAppSelector((state) => state.mode);
-
   return (
     <>
       <div
@@ -128,6 +128,7 @@ function SignUp() {
                   toast.success(t("user-created"), {
                     theme: mymode,
                   });
+                  navigate("/login");
                 })
                 .catch((err) => {
                   Swal.fire({

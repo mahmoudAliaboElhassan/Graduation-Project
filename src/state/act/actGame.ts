@@ -32,7 +32,9 @@ export const answerQuestion = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const res = await axiosInstance.post("/api/HintGame/ans", userData);
+      const res = await axiosInstance.post("/api/HintGame/ans", userData, {
+        withCredentials: true, // ✅ Ensures cookies are sent
+      });
       console.log("from slice res is");
       console.log(res);
       return res;

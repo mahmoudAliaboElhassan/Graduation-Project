@@ -6,6 +6,8 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 
+axios.defaults.withCredentials = true; // Enables cookies globally
+
 // Define your Axios instance
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_URL, // Set your API base URL here
@@ -35,7 +37,9 @@ const handleRequestError = (error: AxiosError): Promise<AxiosError> => {
 };
 
 // Define a function to handle response interception
-const handleResponse = (response: AxiosResponse): AxiosResponse => {
+const handleResponse = (response: AxiosResponse): any => {
+  // any instead of  AxiosResponse as it returns only the data
+  // not the full AxiosResponse object
   console.log("response is", response.data);
   return response.data;
 };

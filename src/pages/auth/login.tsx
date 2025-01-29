@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Typography, Container } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { toast } from "react-toastify";
@@ -20,10 +20,11 @@ import UseThemMode from "../../hooks/use-theme-mode";
 import Swal from "sweetalert2";
 
 function Login() {
-  const { INITIAL_FORM_STATE_LOGIN } = UseInitialValues();
-  const { FORM_VALIDATION_SCHEMA_LOGIN } = UseFormValidation();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { INITIAL_FORM_STATE_LOGIN } = UseInitialValues();
+  const { FORM_VALIDATION_SCHEMA_LOGIN } = UseFormValidation();
   const { themeMode } = UseThemMode();
   return (
     <>
@@ -52,6 +53,7 @@ function Login() {
                       progress: undefined,
                     });
                   }
+                  navigate("/");
                 })
                 .catch((error) => {
                   if (error.response.status === 401) {

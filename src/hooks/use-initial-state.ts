@@ -7,13 +7,16 @@ import {
 function UseInitialStates() {
   const initialStateMode: InitialStateMode = {
     // Check if the localStorage value is either "dark" or "light", else default to "dark"
-    mymode: (localStorage.getItem("mymode")as "dark" | "light") || "dark",
+    mymode: (localStorage.getItem("mymode") as "dark" | "light") || "dark",
   };
   const initialStateAuth: InitialStateAuth = {
     loadingAuth: false,
   };
   const initialStateGame: InitialStateGame = {
-    questionData: null,
+    questionData: {
+      answer: "",
+      hints: [],
+    },
   };
 
   return { initialStateMode, initialStateAuth, initialStateGame };

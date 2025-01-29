@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import { motion } from "framer-motion";
 import { Container, TextField } from "@mui/material";
-import { useAppDispatch } from "../../hooks/redux";
+
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { answerQuestion, getQuestion } from "../../state/slices/game";
 import { Hint, Timer } from "../../styles/games/five-hints";
 import QuestionAnswer from "../../components/formUI/formAnswer";
 
 function FiveHints() {
   const dispatch = useAppDispatch();
+  const { questionData } = useAppSelector((state) => state.game);
   const [second, setSecond] = useState<number>(0);
   const HINTTIME = 5;
+  console.log(questionData.answer);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,9 +29,19 @@ function FiveHints() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    dispatch(
+      getQuestion({
+        grade: "one",
+        subject: "science",
+        chapter: "one",
+      })
+    );
+  }, []);
+
   return (
     <>
-      {/* <div>
+      <div>
         <button
           onClick={() => {
             dispatch(
@@ -46,7 +59,7 @@ function FiveHints() {
           onClick={() => {
             dispatch(
               answerQuestion({
-                answer: "سعد زغلول",
+                answer: "الزعيم سعد زغلول",
                 hintsused: 1,
               })
             );
@@ -54,7 +67,7 @@ function FiveHints() {
         >
           Answer
         </button>
-      </div> */}
+      </div>
       <Container>
         <Timer timeExceeded={second > 26}>{second}</Timer>
         <Grid container spacing={2} sx={{ mb: 2 }}>
@@ -91,7 +104,7 @@ function FiveHints() {
                       color: isFlipping ? "white" : "black",
                     }}
                   >
-                    {isFlipping ? "Saad Zaglol" : "Hint"}
+                    {isFlipping ? questionData.hints[index] : "Hint"}
                   </span>
                 </motion.div>
               </Hint>
