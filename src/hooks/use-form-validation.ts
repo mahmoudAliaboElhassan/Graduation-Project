@@ -46,13 +46,13 @@ function UseFormValidation() {
     type: Yup.string().required("User Role is Required"),
 
     grade: Yup.string().when("type", {
-      is: (value: unknown) => value == 0,
+      is: (value: unknown) => value == "0",
       then: (schema) => schema.required("Grade is required for students"),
       otherwise: (schema) => schema.notRequired(),
     }),
 
     subject: Yup.string().when("type", {
-      is: (value: unknown) => value == 1,
+      is: (value: unknown) => value == "1",
       then: (schema) => schema.required("Subject is required for teachers"),
       otherwise: (schema) => schema.notRequired(),
     }),

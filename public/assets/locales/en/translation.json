@@ -42,5 +42,29 @@
   "website-title": "Education Platform",
   "user-created": "User created successfully !",
   "answer-question": "Answer Question",
-  "question-answer": "Question Answer"
+  "question-answer": "Question Answer",
+  "footer-text": "© 2025 EduPlay. All rights reserved.",
+  "footer-team": "Developed by [Your Team Name] - Faculty of Computer and Information Science.",
+
+  "grades": {
+    "primary": "Primary School - Grade {{grade}}",
+    "preparator": "Preparatory School - Grade {{grade}}",
+    "secondary": "Secondary School - Grade {{grade}}"
+  },
+  "subject": {
+    "arabic": "Arabic",
+    "mathematics": "Mathematics",
+    "english": "English",
+    "physics": "Physics",
+    "chemistry": "Chemistry",
+    "biology": "Biology",
+    "history": "History",
+    "geography": "Geography",
+    "science": "Science",
+    "physicalEducation": "Physical Education",
+    "art": "Art",
+    "music": "Music",
+    "socialStudies": "Social Studies",
+    "economics": "Economics"
+  }
 }

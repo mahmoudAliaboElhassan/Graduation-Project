@@ -6,7 +6,11 @@ function Loader() {
   return (
     <div className="loader-container">
       <div className="page-loader">
-        <div data-glitch={t("loading")} className="glitch">
+        <div
+          data-glitch={t("loading")}
+          className="glitch"
+          style={{ whiteSpace: "nowrap" }}
+        >
           {t("loading")}
         </div>
       </div>

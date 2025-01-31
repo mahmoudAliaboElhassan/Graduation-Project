@@ -3,7 +3,7 @@ export interface UserDataSignUp {
   LastName: string;
   password: string;
   email: string;
-  type: string;
+  type: number;
   grade: string;
   subject: string;
 }

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Typography, Container } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 import styles from "./form.module.css";
 import TextFieldWrapper from "../../components/formUI/textField";
@@ -18,6 +19,7 @@ import { useAppDispatch } from "../../hooks/redux";
 import { logIn } from "../../state/act/actAuth";
 import UseThemMode from "../../hooks/use-theme-mode";
 import Swal from "sweetalert2";
+import { AxiosError } from "axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -55,8 +57,8 @@ function Login() {
                   }
                   navigate("/");
                 })
-                .catch((error) => {
-                  if (error.response.status === 401) {
+                .catch((error: AxiosError) => {
+                  if (error?.response?.status === 401) {
                     Swal.fire({
                       title: t("error-login"),
                       text: t("error-login-text"),
@@ -83,7 +85,11 @@ function Login() {
               // }
             }}
           >
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.5 }}
+            >
               <FormWrapper>
                 <HeadingElement>{t("login-now")}</HeadingElement>
                 <Grid container>
@@ -113,7 +119,7 @@ function Login() {
                   </Link>
                 </div>
               </FormWrapper>
-            </div>
+            </motion.div>
           </Formik>
         </ContainerFormWrapper>
       </div>

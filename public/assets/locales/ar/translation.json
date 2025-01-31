@@ -42,5 +42,30 @@
   "website-title": "منصة التعليم",
   "user-created": "تم إنشاء الحساب بنجاح !",
   "answer-question": "أجب السؤال",
-  "question-answer": "إجابه السؤل"
+  "question-answer": "إجابه السؤل",
+  "footer-text": "© 2025 EduPlay. جميع الحقوق محفوظة.  ",
+  "footer-team": "تم التطوير بواسطة [اسم الفريق] - كلية الحاسبات والمعلومات.",
+
+  "grades": {
+    "primary": "المرحلة الابتدائية - الصف {{grade}}",
+    "preparator": "المرحلة الإعدادية - الصف {{grade}}",
+    "secondary": "المرحلة الثانوية - الصف {{grade}}"
+  },
+
+  "subject": {
+    "arabic": "العربية",
+    "mathematics": "الرياضيات",
+    "english": "الإنجليزية",
+    "physics": "الفيزياء",
+    "chemistry": "الكيمياء",
+    "biology": "علم الأحياء",
+    "history": "التاريخ",
+    "geography": "الجغرافيا",
+    "science": "العلوم",
+    "physicalEducation": "التربية البدنية",
+    "art": "الفن",
+    "music": "الموسيقى",
+    "socialStudies": "الدراسات الاجتماعية",
+    "economics": "الاقتصاد"
+  }
 }

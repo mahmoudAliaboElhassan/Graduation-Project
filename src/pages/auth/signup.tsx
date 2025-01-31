@@ -2,6 +2,10 @@ import { Form, Formik, useFormikContext } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { Typography, Container } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import { AxiosError } from "axios";
+import { motion } from "framer-motion";
 
 import styles from "./form.module.css";
 import TextFieldWrapper from "../../components/formUI/textField";
@@ -19,12 +23,14 @@ import UseRoles from "../../hooks/use-roles";
 import SelectComponent from "../../components/formUI/select";
 import signupPage from "../../assets/signUpImage.jpeg.jpg";
 import { isToastActive } from "react-toastify/dist/core/store";
-import { toast } from "react-toastify";
-import Swal from "sweetalert2";
+import UseGrades from "../../hooks/use-grades";
+import UseSubjects from "../../hooks/use-subjects";
 
 const FormFields = () => {
   const { values } = useFormikContext() as any;
   const { Roles } = UseRoles();
+  const { grades } = UseGrades();
+  const { subjects } = UseSubjects();
   const { t } = useTranslation();
   return (
     <>
@@ -64,17 +70,17 @@ const FormFields = () => {
         </Grid>
 
         <Grid size={{ xs: 12 }}>
-          {values.type === 0 ? (
+          {values.type === "0" ? (
             <SelectComponent
               name="grade"
-              options={Roles}
+              options={grades}
               label={t("select-grade")}
             />
           ) : (
-            values.type === 1 && (
+            values.type === "1" && (
               <SelectComponent
                 name="subject"
-                options={Roles}
+                options={subjects}
                 label={t("select-subject")}
               />
             )
@@ -118,7 +124,7 @@ function SignUp() {
                   LastName: values.lastname,
                   password: values.password,
                   email: values.email,
-                  type: values.type,
+                  type: +values.type,
                   grade: `${values.grade}`,
                   subject: `${values.subject}`,
                 })
@@ -130,17 +136,24 @@ function SignUp() {
                   });
                   navigate("/login");
                 })
-                .catch((err) => {
+                .catch((err: AxiosError) => {
                   Swal.fire({
                     title: "Error in creating Account",
-                    text: err.response.data,
+                    text:
+                      typeof err?.response?.data === "string"
+                        ? err.response.data
+                        : JSON.stringify(err?.response?.data),
                     icon: "error",
                     confirmButtonText: "ok",
                   });
                 });
             }}
           >
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.5 }}
+            >
               <FormWrapper>
                 <HeadingElement>{t("signup-now")}</HeadingElement>
                 <FormFields />
@@ -156,7 +169,7 @@ function SignUp() {
                   </Link>
                 </div>
               </FormWrapper>
-            </div>
+            </motion.div>
           </Formik>
         </ContainerFormWrapper>
       </div>

@@ -7,15 +7,15 @@ function UseRoles() {
   const Roles: RolesType[] = [
     {
       text: t("student"),
-      value: 0,
+      value: "0",
     },
     {
       text: t("teacher"),
-      value: 1,
+      value: "1",
     },
     {
       text: t("other"),
-      value: 2,
+      value: "2",
     },
   ];
   return { Roles };

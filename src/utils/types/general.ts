@@ -21,5 +21,14 @@ export interface lang {
 }
 export interface RolesType {
   text: string;
-  value: number;
+  value: number | string;
+}
+export interface GradesType {
+  text?: string;
+  group?: string;
+  value?: number;
+}
+export interface SubjectType {
+  text: string;
+  value: string;
 }

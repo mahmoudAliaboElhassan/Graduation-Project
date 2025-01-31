@@ -40,7 +40,11 @@ function FiveHints() {
   }, []);
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: 0.5 }}
+    >
       <div>
         <button
           onClick={() => {
@@ -113,7 +117,7 @@ function FiveHints() {
         </Grid>
         <QuestionAnswer />
       </Container>
-    </>
+    </motion.div>
   );
 }
 
