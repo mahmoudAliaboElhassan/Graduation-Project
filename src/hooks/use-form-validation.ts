@@ -76,11 +76,16 @@ function UseFormValidation() {
   const FORM_VALIDATION_SCHEMA_ANSWER_QUESTION = Yup.object({
     answer: Yup.string().required("Question Answer Field is required"),
   });
+  const FORM_VALIDATION_SCHEMA_GET_QUESTIONS = Yup.object({
+    subject: Yup.string().required("Subject Field is required"),
+    chapter: Yup.string().required("chapter Field is required"),
+  });
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
     FORM_VALIDATION_SCHEMA_SIGNUP,
     FORM_VALIDATION_SCHEMA_CHANGE_PASSWORD,
     FORM_VALIDATION_SCHEMA_ANSWER_QUESTION,
+    FORM_VALIDATION_SCHEMA_GET_QUESTIONS,
   };
 }
 

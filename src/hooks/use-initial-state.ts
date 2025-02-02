@@ -17,6 +17,7 @@ function UseInitialStates() {
       answer: "",
       hints: [],
     },
+    loadingGetQuestions: false,
   };
 
   return { initialStateMode, initialStateAuth, initialStateGame };

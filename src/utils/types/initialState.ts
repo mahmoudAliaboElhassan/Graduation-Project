@@ -11,4 +11,5 @@ export interface InitialStateAuth {
 }
 export interface InitialStateGame {
   questionData: QuestionData;
+  loadingGetQuestions: boolean;
 }

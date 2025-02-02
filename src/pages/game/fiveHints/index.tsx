@@ -3,10 +3,10 @@ import Grid from "@mui/material/Grid2";
 import { motion } from "framer-motion";
 import { Container, TextField } from "@mui/material";
 
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { answerQuestion, getQuestion } from "../../state/slices/game";
-import { Hint, Timer } from "../../styles/games/five-hints";
-import QuestionAnswer from "../../components/formUI/formAnswer";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { answerQuestion, getQuestion } from "../../../state/slices/game";
+import { Hint, Timer } from "../../../styles/games/five-hints";
+import QuestionAnswer from "../../../components/formUI/formAnswer";
 
 function FiveHints() {
   const dispatch = useAppDispatch();
@@ -33,8 +33,8 @@ function FiveHints() {
     dispatch(
       getQuestion({
         grade: "one",
-        subject: "science",
-        chapter: "one",
+        subject: localStorage.getItem("subject") || "",
+        chapter: localStorage.getItem("chapter") || "",
       })
     );
   }, []);

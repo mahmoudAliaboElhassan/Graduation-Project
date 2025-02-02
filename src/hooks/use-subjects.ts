@@ -14,7 +14,7 @@ function UseSubjects() {
     { text: t("subject.biology"), value: "Biology" },
     { text: t("subject.history"), value: "History" },
     { text: t("subject.geography"), value: "Geography" },
-    { text: t("subject.science"), value: "Science" },
+    { text: t("subject.science"), value: "science" },
     { text: t("subject.physicalEducation"), value: "Physical Education" },
     { text: t("subject.art"), value: "Art" },
     { text: t("subject.music"), value: "Music" },

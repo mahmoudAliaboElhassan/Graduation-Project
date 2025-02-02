@@ -19,3 +19,7 @@ export interface InitialValuesChangePassword {
 export interface InitialValuesAnswerQuestion {
   answer: string;
 }
+export interface InitialValeuesGetQuestion {
+  chapter: string;
+  subject:string
+}

@@ -66,5 +66,19 @@
     "music": "Music",
     "socialStudies": "Social Studies",
     "economics": "Economics"
-  }
+  },
+  "play-now": "Start Playing Now",
+  "select-chapter": "Select Chapter",
+  "next": "Next",
+  "back": "Back",
+  "get-questions": "Get Questions",
+
+  "one": "First",
+  "two": "Second",
+  "three": "Third",
+  "four": "Fourth",
+  "five": "Fifth",
+  "six": "Sixth",
+  "seven": "Seventh",
+  "eight": "Eighth"
 }

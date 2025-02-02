@@ -32,3 +32,7 @@ export interface SubjectType {
   text: string;
   value: string;
 }
+export interface chapterType {
+  text: string;
+  value: string;
+}

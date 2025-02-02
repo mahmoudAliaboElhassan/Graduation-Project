@@ -25,10 +25,10 @@ export const gameSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getQuestion.pending, (state, action) => {
-        // state.loadingAuth = true;
+        state.loadingGetQuestions = true;
       })
       .addCase(getQuestion.fulfilled, (state, action) => {
-        // state.loadingAuth = false;
+        state.loadingGetQuestions = false;
         state.questionData = action.payload as {} as QuestionData;
         // Conversion of type 'AxiosResponse<any, any>' to type 'QuestionData' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional,
         // convert the expression to 'unknown' or {} first.
@@ -37,7 +37,7 @@ export const gameSlice = createSlice({
         console.log(state.questionData);
       })
       .addCase(getQuestion.rejected, (state, action) => {
-        // state.loadingAuth = false;
+        state.loadingGetQuestions = false;
       })
       .addCase(answerQuestion.pending, (state, action) => {
         // state.loadingAuth = true;
