@@ -5,11 +5,17 @@ import UseInitialValues from "../../../hooks/use-initial-values";
 import UseFormValidation from "../../../hooks/use-form-validation";
 import TextFieldWrapper from "../textField";
 import ButtonWrapper from "../submit";
+import { answerQuestion } from "../../../state/act/actGame";
+import { useAppDispatch } from "../../../hooks/redux";
 
-function QuestionAnswer() {
+interface Props {
+  hints: number;
+}
+function QuestionAnswer({ hints }: Props) {
   const { INITIAL_FORM_STATE_ANSWER_QUESTION } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_ANSWER_QUESTION } = UseFormValidation();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   return (
     <Formik
@@ -19,6 +25,13 @@ function QuestionAnswer() {
       validationSchema={FORM_VALIDATION_SCHEMA_ANSWER_QUESTION}
       onSubmit={async (values) => {
         console.log(values);
+        console.log("hints", hints);
+        dispatch(
+          answerQuestion({
+            answer: values.answer,
+            hintsused: hints,
+          })
+        );
       }}
     >
       {() => (

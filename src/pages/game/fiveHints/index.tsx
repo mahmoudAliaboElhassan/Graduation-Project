@@ -10,24 +10,13 @@ import QuestionAnswer from "../../../components/formUI/formAnswer";
 
 function FiveHints() {
   const dispatch = useAppDispatch();
-  const { questionData } = useAppSelector((state) => state.game);
+  const { questionData, loadingGetQuestions } = useAppSelector(
+    (state) => state.game
+  );
   const [second, setSecond] = useState<number>(0);
   const HINTTIME = 5;
+  const [noOfHints, setNoOfHints] = useState<number>(0);
   console.log(questionData.answer);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSecond((prevSecond) => {
-        if (prevSecond >= 5 * HINTTIME + 1) {
-          clearInterval(interval);
-          return prevSecond;
-        }
-        return prevSecond + 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     dispatch(
@@ -38,6 +27,24 @@ function FiveHints() {
       })
     );
   }, []);
+
+  useEffect(() => {
+    if (!loadingGetQuestions) {
+      const interval = setInterval(() => {
+        setSecond((prevSecond) => {
+          if (prevSecond >= 5 * HINTTIME + 1) {
+            clearInterval(interval);
+            return prevSecond;
+          }
+          setNoOfHints(Math.ceil(second / HINTTIME));
+          console.log("no.hints", noOfHints);
+          return prevSecond + 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [second, loadingGetQuestions]);
 
   return (
     <motion.div
@@ -77,7 +84,6 @@ function FiveHints() {
         <Grid container spacing={2} sx={{ mb: 2 }}>
           {Array.from({ length: 6 }, (_, index) => {
             const isFlipping = second / HINTTIME > index;
-
             return (
               <Hint size={{ xs: 6 }} key={index}>
                 <motion.div
@@ -108,14 +114,16 @@ function FiveHints() {
                       color: isFlipping ? "white" : "black",
                     }}
                   >
-                    {isFlipping ? questionData.hints[index] : "Hint"}
+                    {isFlipping && !loadingGetQuestions
+                      ? questionData.hints[index]
+                      : "Hint"}
                   </span>
                 </motion.div>
               </Hint>
             );
           })}
         </Grid>
-        <QuestionAnswer />
+        <QuestionAnswer hints={noOfHints} />
       </Container>
     </motion.div>
   );

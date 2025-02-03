@@ -40,13 +40,13 @@ export const gameSlice = createSlice({
         state.loadingGetQuestions = false;
       })
       .addCase(answerQuestion.pending, (state, action) => {
-        // state.loadingAuth = true;
+        state.loadingAnswerQuestion = true;
       })
       .addCase(answerQuestion.fulfilled, (state, action) => {
-        // state.loadingAuth = false;
+        state.loadingAnswerQuestion = false;
       })
       .addCase(answerQuestion.rejected, (state, action) => {
-        // state.loadingAuth = false;
+        state.loadingAnswerQuestion = false;
       });
   },
 });
