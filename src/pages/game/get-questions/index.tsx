@@ -88,7 +88,7 @@ const MultiStepModal = () => {
         }}
       >
         <Typography variant="h6" align="center" mb={2}>
-          Multi-Step Form
+          {t("get-question-heading")}
         </Typography>
 
         <Stepper activeStep={activeStep} alternativeLabel>

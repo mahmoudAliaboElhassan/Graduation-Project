@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import UseInitialValues from "../../../hooks/use-initial-values";
 import UseFormValidation from "../../../hooks/use-form-validation";
 import TextFieldWrapper from "../textField";
-import ButtonWrapper from "../submit";
 import { answerQuestion } from "../../../state/act/actGame";
 import { useAppDispatch } from "../../../hooks/redux";
+import ButtonWrapper from "../submit";
 
 interface Props {
   hints: number;
