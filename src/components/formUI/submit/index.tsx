@@ -3,6 +3,8 @@ import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import LoaderBtn from "./loaderBtn";
 import { Button, Container } from "@mui/material";
+
+import {MouseEvent} from "../../../utils/types/events"
 import { useAppSelector } from "../../../hooks/redux";
 import UseLoadingStatus from "../../../hooks/use-loading-status";
 
@@ -15,7 +17,7 @@ const ButtonWrapper = ({ children }: Props) => {
   const { t } = useTranslation();
 
   // Change the event type to React.MouseEvent<HTMLButtonElement>
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (e:MouseEvent) => {
     e.preventDefault();
     submitForm();
   };
