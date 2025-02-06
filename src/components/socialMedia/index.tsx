@@ -9,7 +9,7 @@ function SocialMedia() {
   const { socialLinks } = useSocialMedia();
 
   return (
-    <Grid container spacing={4} justifyContent="center">
+    <Grid container spacing={4} style={{ justifyContent: "space-evenly" }}>
       {socialLinks.map(({ icon, url, title }, index) => (
         <Grid item key={index} xs={1} md={12}>
           <motion.div whileHover={{ scale: 1.2 }}>
