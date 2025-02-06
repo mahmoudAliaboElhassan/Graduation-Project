@@ -7,6 +7,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 
+import Test from "../../components/test";
 import IntroductorySection from "../../components/introductory";
 import UseMediaQuery from "../../hooks/use-media-query";
 import UseDirection from "../../hooks/use-direction";
@@ -35,6 +36,7 @@ function HomePage() {
         marginTop: "3rem",
       }}
     >
+      {/* <Test/> */}
       <Box
         sx={{
           minWidth: 275,

@@ -5,13 +5,13 @@ function UseFormValidation() {
   const FORM_VALIDATION_SCHEMA_LOGIN = Yup.object({
     email: Yup.string()
       .email("Enter a Valid Email")
-      .required("Email Field is Required")
+      .required("Email is Required")
       .matches(
         /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
         "Email should have at least two characters after the last dot"
       ),
     password: Yup.string()
-      .required("Password Field is required")
+      .required("Password is required")
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
         "Password must contain at least one letter and one number"
@@ -28,20 +28,20 @@ function UseFormValidation() {
       .min(2, "Minimum number of characters is 2"),
     email: Yup.string()
       .email("Enter a Valid Email")
-      .required("Email Field is Required")
+      .required("Email is Required")
       .matches(
         /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
         "Email should have at least two characters after the last dot"
       ),
     password: Yup.string()
-      .required("Password Field is required")
+      .required("Password is required")
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
         "Password must contain at least one letter and one number"
       )
       .min(6, "Minimum number of characters is 6"),
     confirmPassword: Yup.string()
-      .required("Confirm Password Field is required")
+      .required("Confirm Password is required")
       .oneOf([Yup.ref("password")], "Passwords do not match"),
     type: Yup.string().required("User Role is Required"),
 
@@ -59,14 +59,14 @@ function UseFormValidation() {
   });
   const FORM_VALIDATION_SCHEMA_CHANGE_PASSWORD = Yup.object({
     currentPassword: Yup.string()
-      .required("Current Password Field is required")
+      .required("Current Password is required")
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
         "Password must contain at least one letter and one number"
       )
       .min(6, "Minimum Number of Chars is 6"),
     newPassword: Yup.string()
-      .required("New Password Field is required")
+      .required("New Password is required")
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
         "Password must contain at least one letter and one number"
@@ -74,11 +74,23 @@ function UseFormValidation() {
       .min(6, "Minimum Number of Chars is 6"),
   });
   const FORM_VALIDATION_SCHEMA_ANSWER_QUESTION = Yup.object({
-    answer: Yup.string().required("Question Answer Field is required"),
+    answer: Yup.string().required("Question Answer is required"),
   });
   const FORM_VALIDATION_SCHEMA_GET_QUESTIONS = Yup.object({
-    subject: Yup.string().required("Subject Field is required"),
-    chapter: Yup.string().required("chapter Field is required"),
+    subject: Yup.string().required("Subject is required"),
+    chapter: Yup.string().required("chapter is required"),
+  });
+  const FORM_VALIDATION_SCHEMA_CONTACTS = Yup.object({
+    email: Yup.string()
+      .email("Enter a Valid Email")
+      .required("Email is Required")
+      .matches(
+        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+        "Email should have at least two characters after the last dot"
+      ),
+    title: Yup.string().required("title is required"),
+    name: Yup.string().required("name is required"),
+    message: Yup.string().required("title is required"),
   });
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
@@ -86,6 +98,7 @@ function UseFormValidation() {
     FORM_VALIDATION_SCHEMA_CHANGE_PASSWORD,
     FORM_VALIDATION_SCHEMA_ANSWER_QUESTION,
     FORM_VALIDATION_SCHEMA_GET_QUESTIONS,
+    FORM_VALIDATION_SCHEMA_CONTACTS,
   };
 }
 

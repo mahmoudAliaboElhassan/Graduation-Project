@@ -21,5 +21,11 @@ export interface InitialValuesAnswerQuestion {
 }
 export interface InitialValeuesGetQuestion {
   chapter: string;
-  subject:string
+  subject: string;
+}
+export interface InitialValuesContacts {
+  email: string;
+  title: string;
+  name: string;
+  message: string;
 }

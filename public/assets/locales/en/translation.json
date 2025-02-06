@@ -81,5 +81,16 @@
   "six": "Sixth",
   "seven": "Seventh",
   "eight": "Eighth",
-  "get-question-heading": "Start Getting Questions"
+  "get-question-heading": "Start Getting Questions",
+  "contact-heading": "Get in touch with us! Feel free to send us a message, and we'll get back to you as soon as possible.",
+  "msg-title": "Title",
+  "message": "Message",
+  "sent-success": "Email is sent successfully !",
+  "error-sending-message": "Error sending Message try later !",
+
+  "name": "Name",
+  "facebook": "Facebook",
+  "portfolio": "Portfolio Website",
+  "github": "Github",
+  "linkedin": "Linkedin"
 }

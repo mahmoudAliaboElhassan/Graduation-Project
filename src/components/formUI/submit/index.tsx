@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import LoaderBtn from "./loaderBtn";
 import { Button, Container } from "@mui/material";
 
-import {MouseEvent} from "../../../utils/types/events"
+import { MouseEvent } from "../../../utils/types/events";
 import { useAppSelector } from "../../../hooks/redux";
 import UseLoadingStatus from "../../../hooks/use-loading-status";
 
@@ -14,15 +14,16 @@ interface Props {
 
 const ButtonWrapper = ({ children }: Props) => {
   const { submitForm } = useFormikContext();
-  const { t } = useTranslation();
 
   // Change the event type to React.MouseEvent<HTMLButtonElement>
-  const handleSubmit = (e:MouseEvent) => {
+  const handleSubmit = (e: MouseEvent) => {
     e.preventDefault();
     submitForm();
   };
   const loadingStatus = UseLoadingStatus();
-  const { mymode } = useAppSelector((state) => state.mode);
+  const { mymode } = useAppSelector(
+    (state: { mode: { mymode: string } }) => state.mode
+  );
   // Keep the configButton type as React.ButtonHTMLAttributes<HTMLButtonElement>
   const configButton: any = {
     type: "submit",
@@ -32,6 +33,7 @@ const ButtonWrapper = ({ children }: Props) => {
     color: mymode === "dark" ? "secondary" : "primary",
     variant: "outlined",
     disabled: loadingStatus,
+    fullWidth: true,
   };
 
   return (

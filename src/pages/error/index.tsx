@@ -24,6 +24,7 @@ function ErrorPage() {
         style={{
           width: "80%",
           height: "80vh",
+
           margin: "auto",
           display: "flex",
         }}

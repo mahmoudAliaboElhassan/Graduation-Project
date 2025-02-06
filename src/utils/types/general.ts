@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface Header {
   href?: string;
   label: string;
@@ -35,4 +37,9 @@ export interface SubjectType {
 export interface chapterType {
   text: string;
   value: string;
+}
+export interface SocialMediaTypes {
+  url: string;
+  icon: React.ReactNode;
+  title:string
 }
