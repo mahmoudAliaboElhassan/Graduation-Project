@@ -50,9 +50,9 @@ function HomePage() {
         <LinkPlay to="get-questions" dir={direction.direction}>
           {t("play-now")}
           {direction.direction === "ltr" ? (
-            <ArrowForwardIcon />
+            <ArrowForwardIcon fontSize="large" />
           ) : (
-            <ArrowBackIcon />
+            <ArrowBackIcon fontSize="large" />
           )}
         </LinkPlay>
       </Box>
