@@ -16,7 +16,7 @@ function FiveHints() {
   const [second, setSecond] = useState<number>(0);
   const HINTTIME = 5;
   const [noOfHints, setNoOfHints] = useState<number>(0);
-  console.log(questionData.answer);
+  console.log(questionData.correctAnswer);
 
   useEffect(() => {
     dispatch(
@@ -52,7 +52,7 @@ function FiveHints() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.5 }}
     >
-      <div>
+      {/* <div>
         <button
           onClick={() => {
             dispatch(
@@ -72,13 +72,14 @@ function FiveHints() {
               answerQuestion({
                 answer: "الزعيم سعد زغلول",
                 hintsused: 1,
+                correctanswer: questionData.correctAnswer,
               })
             );
           }}
         >
           Answer
         </button>
-      </div>
+      </div> */}
       <Container>
         <Timer timeExceeded={second > 26}>{second}</Timer>
         <Grid container spacing={2} sx={{ mb: 2 }}>

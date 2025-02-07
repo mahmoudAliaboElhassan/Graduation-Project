@@ -20,11 +20,8 @@ function UseFormValidation() {
   });
 
   const FORM_VALIDATION_SCHEMA_SIGNUP = Yup.object({
-    firstname: Yup.string()
-      .required("First Name is required")
-      .min(2, "Minimum number of characters is 2"),
-    lastname: Yup.string()
-      .required("Last Name is required")
+    name: Yup.string()
+      .required("Full Name is required")
       .min(2, "Minimum number of characters is 2"),
     email: Yup.string()
       .email("Enter a Valid Email")

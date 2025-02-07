@@ -34,7 +34,14 @@ export const gameSlice = createSlice({
         // convert the expression to 'unknown' or {} first.
         console.log("action.payload");
         console.log(action.payload);
+        console.log("state.questionData");
         console.log(state.questionData);
+        if (state.questionData.correctAnswer !== null) {
+          localStorage.setItem(
+            "correctAnswer",
+            state.questionData.correctAnswer
+          );
+        }
       })
       .addCase(getQuestion.rejected, (state, action) => {
         state.loadingGetQuestions = false;

@@ -3,7 +3,7 @@ export interface InitialStateMode {
 }
 
 export type QuestionData = {
-  answer: string;
+  correctAnswer: string | null;
   hints: string[];
 };
 export interface InitialStateAuth {

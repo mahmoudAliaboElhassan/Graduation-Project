@@ -92,5 +92,7 @@
   "facebook": "Facebook",
   "portfolio": "Portfolio Website",
   "github": "Github",
-  "linkedin": "Linkedin"
+  "linkedin": "Linkedin",
+  "answer-submitted": "Answer is Submitted Successfully",
+  "error-submitting-answer": "Error Sending Message"
 }

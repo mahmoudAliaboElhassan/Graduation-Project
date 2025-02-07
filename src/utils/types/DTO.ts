@@ -1,6 +1,5 @@
 export interface UserDataSignUp {
-  FirstName: string;
-  LastName: string;
+  name: string;
   password: string;
   email: string;
   type: number;
@@ -19,4 +18,5 @@ export interface UserDataHintGameGetQuestion {
 export interface UserDataHintGameAnswerQuestion {
   answer: string;
   hintsused: number;
+  correctanswer: string | null;
 }

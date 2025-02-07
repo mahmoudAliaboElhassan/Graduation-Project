@@ -10,8 +10,7 @@ import {
 
 function UseInitialValues() {
   const INITIAL_FORM_STATE_SIGNUP: InitialValuesSignUp = {
-    firstname: "",
-    lastname: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",

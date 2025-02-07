@@ -14,7 +14,7 @@ function UseInitialStates() {
   };
   const initialStateGame: InitialStateGame = {
     questionData: {
-      answer: "",
+      correctAnswer: localStorage.getItem("correctAnswer") || null,
       hints: [],
     },
     loadingGetQuestions: false,

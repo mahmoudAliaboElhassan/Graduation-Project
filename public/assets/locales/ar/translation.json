@@ -93,5 +93,7 @@
   "facebook": "الفيسبوك",
   "portfolio": "الموقع الشخصي",
   "github": "غيت هاب",
-  "linkedin": "لينكدان"
+  "linkedin": "لينكدان",
+  "answer-submitted": "تمت الإجابه بنجاح",
+  "error-submitting-answer": "خطأ بإرسال الرساله"
 }

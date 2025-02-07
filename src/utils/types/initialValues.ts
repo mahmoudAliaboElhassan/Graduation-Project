@@ -1,6 +1,5 @@
 export interface InitialValuesSignUp {
-  firstname: string;
-  lastname: string;
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;

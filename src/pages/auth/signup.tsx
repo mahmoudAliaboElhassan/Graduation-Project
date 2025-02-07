@@ -36,11 +36,9 @@ const FormFields = () => {
     <>
       <Grid container>
         <Grid size={{ xs: 12 }}>
-          <TextFieldWrapper name="firstname" label={t("firstname")} />
+          <TextFieldWrapper name="name" label={t("full-name")} />
         </Grid>
-        <Grid size={{ xs: 12 }}>
-          <TextFieldWrapper name="lastname" label={t("lastname")} />
-        </Grid>
+
         <Grid size={{ xs: 12 }}>
           <TextFieldWrapper name="email" label={t("email")} />
         </Grid>
@@ -120,8 +118,7 @@ function SignUp() {
               const { confirmPassword, ...other } = values;
               dispatch(
                 signUp({
-                  FirstName: values.firstname,
-                  LastName: values.lastname,
+                  name: values.name,
                   password: values.password,
                   email: values.email,
                   type: +values.type,
