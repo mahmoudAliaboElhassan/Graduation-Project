@@ -41,6 +41,7 @@ function QuestionAnswer({ hints }: Props) {
             .unwrap()
             .then(() => {
               {
+               if(rank){
                 toast.success(t("answer-submitted",{rank}), {
                   position: "top-right",
                    hideProgressBar: false,
@@ -49,6 +50,7 @@ function QuestionAnswer({ hints }: Props) {
                   draggable: true,
                   progress: undefined,
                 });
+               }
               }
             })
             .catch((error: AxiosError) => {

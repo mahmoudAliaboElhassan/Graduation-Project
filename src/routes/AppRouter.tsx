@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         index: true,
         element: (
           <Suspense fallback={<Loader />}>
-            <HomePage />{" "}
+            <HomePage />
           </Suspense>
         ),
       },

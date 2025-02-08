@@ -15,7 +15,7 @@ function FiveHints() {
     (state) => state.game
   );
   const [second, setSecond] = useState<number>(0);
-  const HINTTIME = 5;
+  const HINTTIME = 10;
   const [noOfHints, setNoOfHints] = useState<number>(0);
   const { t } = useTranslation();
   const { name } = useAppSelector((state) => state.auth);

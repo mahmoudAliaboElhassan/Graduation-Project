@@ -22,7 +22,7 @@ function UseInitialStates() {
     },
     loadingGetQuestions: false,
     loadingAnswerQuestion: false,
-    rank: 0,
+    rank: null,
   };
 
   return { initialStateMode, initialStateAuth, initialStateGame };
