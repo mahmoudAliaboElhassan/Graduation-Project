@@ -22,7 +22,7 @@ function UseInitialStates() {
     },
     loadingGetQuestions: false,
     loadingAnswerQuestion: false,
-    rank: null,
+    rank: localStorage.getItem("rank") || null,
   };
 
   return { initialStateMode, initialStateAuth, initialStateGame };
