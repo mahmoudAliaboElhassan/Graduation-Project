@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import { motion } from "framer-motion";
-import { Container, TextField } from "@mui/material";
+import { Container, TextField, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { answerQuestion, getQuestion } from "../../../state/slices/game";
@@ -16,7 +17,8 @@ function FiveHints() {
   const [second, setSecond] = useState<number>(0);
   const HINTTIME = 5;
   const [noOfHints, setNoOfHints] = useState<number>(0);
-  console.log(questionData.correctAnswer);
+  const { t } = useTranslation();
+  const { name } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(
@@ -32,7 +34,7 @@ function FiveHints() {
     if (!loadingGetQuestions) {
       const interval = setInterval(() => {
         setSecond((prevSecond) => {
-          if (prevSecond >= 5 * HINTTIME + 1) {
+          if (prevSecond >= 4 * HINTTIME + 1) {
             clearInterval(interval);
             return prevSecond;
           }
@@ -81,12 +83,13 @@ function FiveHints() {
         </button>
       </div> */}
       <Container>
-        <Timer timeExceeded={second > 26}>{second}</Timer>
+        <Typography>{name}</Typography>
+        <Timer timeExceeded={second > 4 * HINTTIME}>{second}</Timer>
         <Grid container spacing={2} sx={{ mb: 2 }}>
-          {Array.from({ length: 6 }, (_, index) => {
+          {Array.from({ length: 5 }, (_, index) => {
             const isFlipping = second / HINTTIME > index;
             return (
-              <Hint size={{ xs: 6 }} key={index}>
+              <Hint size={{ xs: index === 4 ? 12 : 6 }} key={index}>
                 <motion.div
                   style={{
                     width: "100%",
@@ -115,9 +118,9 @@ function FiveHints() {
                       color: isFlipping ? "white" : "black",
                     }}
                   >
-                    {isFlipping && !loadingGetQuestions
+                    {isFlipping && !loadingGetQuestions && questionData
                       ? questionData.hints[index]
-                      : "Hint"}
+                      : t("hint")}
                   </span>
                 </motion.div>
               </Hint>

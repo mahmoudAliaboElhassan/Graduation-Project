@@ -22,8 +22,8 @@
   "change-light": "Change to Dark Mode",
   "languages": "Languages",
   "about": "About",
-  "contact": "Contact",
-  "welcome-sentence": "Welcome to EduPlay, where education meets fun! We believe that learning should be an exciting adventure. Our platform blends education with play, making it enjoyable for learners of all ages. Dive into interactive lessons, engaging activities, and games designed to spark curiosity and foster a love for learning. Let's make education a joyful experience together!s",
+  "contact": "Contacts",
+  "welcome-sentence": "Welcome {{name}} to EduPlay, where education meets fun! We believe that learning should be an exciting adventure. Our platform blends education with play, making it enjoyable for learners of all ages. Dive into interactive lessons, engaging activities, and games designed to spark curiosity and foster a love for learning. Let's make education a joyful experience together!s",
   "login-success": "You Have Logged in Successfully !",
   "error-login": "Login error",
   "error-login-text": "Error with email, password, or both",
@@ -44,7 +44,7 @@
   "answer-question": "Answer Question",
   "question-answer": "Question Answer",
   "footer-text": "© 2025 EduPlay. All rights reserved.",
-  "footer-team": "Developed by [Your Team Name] - Faculty of Computer and Information Science.",
+  "footer-team": "Developed by Binary Brains - Faculty of Computer and Information Science.",
 
   "grades": {
     "primary": "Primary School - Grade {{grade}}",
@@ -94,5 +94,6 @@
   "github": "Github",
   "linkedin": "Linkedin",
   "answer-submitted": "Answer is Submitted Successfully",
-  "error-submitting-answer": "Error Sending Message"
+  "error-submitting-answer": "Error Sending Message",
+  "hint": "Hint"
 }

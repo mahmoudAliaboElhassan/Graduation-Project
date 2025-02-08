@@ -48,11 +48,11 @@ const handleRequestError = (error: AxiosError): Promise<AxiosError> => {
 };
 
 // Define a function to handle response interception
-const handleResponse = (response: AxiosResponse): any => {
+const handleResponse = (response: AxiosResponse): AxiosResponse => {
   // any instead of  AxiosResponse as it returns only the data
   // not the full AxiosResponse object
-  console.log("response is", response.data);
-  return response.data;
+  console.log("response is", response);
+  return response;
 };
 
 // Define a function to handle response errors

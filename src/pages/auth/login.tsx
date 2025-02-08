@@ -106,13 +106,13 @@ function Login() {
                   </Grid>
                 </Grid>
                 <ButtonWrapper>{t("login")}</ButtonWrapper>{" "}
-                <div className="text-center text-lg-start mt-1 mt-lg-0">
+                <div className="text-center  mt-2">
                   {t("do-not-have-account")}
                   <Link
                     to="/signup"
                     title="Create Account"
                     style={{
-                      marginTop: "8px",
+                      fontWeight: "700",
                     }}
                   >
                     {t("signup")}{" "}
@@ -123,7 +123,6 @@ function Login() {
           </Formik>
         </ContainerFormWrapper>
       </div>
-      <Footer />
     </>
   );
 }

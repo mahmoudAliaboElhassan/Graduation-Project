@@ -34,9 +34,20 @@ export const authSlice = createSlice({
       })
       .addCase(logIn.pending, (state, action) => {
         state.loadingAuth = true;
+        // if (action.payload) {
+        //   state.email = action.payload.email;
+        // }
       })
       .addCase(logIn.fulfilled, (state, action) => {
         state.loadingAuth = false;
+        state.email = action.payload.email;
+        localStorage.setItem("email", action.payload.email);
+        state.name = action.payload.name;
+        localStorage.setItem("name", action.payload.name);
+        state.token = action.payload.token;
+        localStorage.setItem("token", action.payload.token);
+        state.grade = action.payload.grade;
+        localStorage.setItem("grade", action.payload.grade);
       })
       .addCase(logIn.rejected, (state, action) => {
         state.loadingAuth = false;

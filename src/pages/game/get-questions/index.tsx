@@ -26,6 +26,7 @@ import UseSubjects from "../../../hooks/use-subjects";
 import { useTranslation } from "react-i18next";
 import ButtonWrapper from "../../../components/formUI/submit";
 import UseChapter from "../../../hooks/use-chapter";
+import { useAppSelector } from "../../../hooks/redux";
 
 const { FORM_VALIDATION_SCHEMA_GET_QUESTIONS } = UseFormValidation();
 
@@ -70,92 +71,94 @@ const MultiStepModal = () => {
   };
   const navigate = useNavigate();
   return (
-    <Modal
-      open={true}
-      // onClose={onClose}
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 400,
-          bgcolor: "background.paper",
-          boxShadow: 24,
-          p: 4,
-          borderRadius: 2,
-        }}
+    <div style={{ position: "relative", minHeight: "100vh" }}>
+      <Modal
+        open={true}
+        // onClose={onClose}
       >
-        <Typography variant="h6" align="center" mb={2}>
-          {t("get-question-heading")}
-        </Typography>
-
-        <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map((label, index) => (
-            <Step key={index}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-
-        <Formik
-          initialValues={INITIAL_FORM_STATE_GET_QUESTIONS}
-          validationSchema={FORM_VALIDATION_SCHEMA_GET_QUESTIONS}
-          onSubmit={(values) => {
-            console.log("Form Submitted", values);
-            localStorage.setItem("subject", values.subject);
-            localStorage.setItem("chapter", values.chapter);
-            navigate("/answer-question");
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
           }}
         >
-          {({ values, setTouched, setErrors }) => (
-            <Form>
-              {activeStep === 0 && (
-                <Box mt={2}>
-                  <SelectComponent
-                    name="subject"
-                    options={subjects}
-                    label={t("select-subject")}
-                  />
-                </Box>
-              )}
+          <Typography variant="h6" align="center" mb={2}>
+            {t("get-question-heading")}
+          </Typography>
 
-              {activeStep === 1 && (
-                <Box mt={2}>
-                  <SelectComponent
-                    name="chapter"
-                    options={Chapters}
-                    label={t("select-chapter")}
-                  />
-                </Box>
-              )}
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label, index) => (
+              <Step key={index}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
 
-              <Box mt={3} display="flex" justifyContent="space-between">
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  variant="outlined"
-                >
-                  {t("back")}
-                </Button>
-
-                {activeStep === steps.length - 1 ? (
-                  <ButtonWrapper>{t("get-questions")}</ButtonWrapper>
-                ) : (
-                  <Button
-                    variant="contained"
-                    onClick={() => handleNext(values, setTouched, setErrors)}
-                  >
-                    {t("next")}
-                  </Button>
+          <Formik
+            initialValues={INITIAL_FORM_STATE_GET_QUESTIONS}
+            validationSchema={FORM_VALIDATION_SCHEMA_GET_QUESTIONS}
+            onSubmit={(values) => {
+              console.log("Form Submitted", values);
+              localStorage.setItem("subject", values.subject);
+              localStorage.setItem("chapter", values.chapter);
+              navigate("/answer-question");
+            }}
+          >
+            {({ values, setTouched, setErrors }) => (
+              <Form>
+                {activeStep === 0 && (
+                  <Box mt={2}>
+                    <SelectComponent
+                      name="subject"
+                      options={subjects}
+                      label={t("select-subject")}
+                    />
+                  </Box>
                 )}
-              </Box>
-            </Form>
-          )}
-        </Formik>
-      </Box>
-    </Modal>
+
+                {activeStep === 1 && (
+                  <Box mt={2}>
+                    <SelectComponent
+                      name="chapter"
+                      options={Chapters}
+                      label={t("select-chapter")}
+                    />
+                  </Box>
+                )}
+
+                <Box mt={3} display="flex" justifyContent="space-between">
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    variant="outlined"
+                  >
+                    {t("back")}
+                  </Button>
+
+                  {activeStep === steps.length - 1 ? (
+                    <ButtonWrapper>{t("get-questions")}</ButtonWrapper>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      onClick={() => handleNext(values, setTouched, setErrors)}
+                    >
+                      {t("next")}
+                    </Button>
+                  )}
+                </Box>
+              </Form>
+            )}
+          </Formik>
+        </Box>
+      </Modal>
+    </div>
   );
 };
 

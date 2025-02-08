@@ -4,10 +4,12 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useAppSelector } from "../../hooks/redux";
 
 function IntroductorySection() {
   const { t } = useTranslation();
-  const words = t("welcome-sentence").split(" ");
+  const { name } = useAppSelector((state) => state.auth);
+  const words = t("welcome-sentence", { name }).split(" ");
   // Use useInView hook
   const { ref: textRef, inView: textInView } = useInView({
     triggerOnce: false,

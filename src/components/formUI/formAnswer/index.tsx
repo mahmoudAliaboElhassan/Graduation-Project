@@ -22,51 +22,53 @@ function QuestionAnswer({ hints }: Props) {
   const dispatch = useAppDispatch();
 
   return (
-    <Formik
-      initialValues={{
-        ...INITIAL_FORM_STATE_ANSWER_QUESTION,
-      }}
-      validationSchema={FORM_VALIDATION_SCHEMA_ANSWER_QUESTION}
-      onSubmit={async (values) => {
-        console.log(values);
-        console.log("hints", hints);
-        dispatch(
-          answerQuestion({
-            answer: values.answer,
-            hintsused: hints,
-            correctanswer: questionData.correctAnswer,
-          })
-        )
-          .unwrap()
-          .then(() => {
-            {
-              toast.success(t("answer-submitted"), {
-                position: "top-right",
-                autoClose: 1000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
+    <div style={{ paddingBottom: "1rem" }}>
+      <Formik
+        initialValues={{
+          ...INITIAL_FORM_STATE_ANSWER_QUESTION,
+        }}
+        validationSchema={FORM_VALIDATION_SCHEMA_ANSWER_QUESTION}
+        onSubmit={async (values) => {
+          console.log(values);
+          console.log("hints", hints);
+          dispatch(
+            answerQuestion({
+              answer: values.answer,
+              hintsused: hints,
+              correctanswer: questionData.correctAnswer,
+            })
+          )
+            .unwrap()
+            .then(() => {
+              {
+                toast.success(t("answer-submitted"), {
+                  position: "top-right",
+                  autoClose: 1000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                });
+              }
+            })
+            .catch((error: AxiosError) => {
+              Swal.fire({
+                title: t("error-submitting-answer"),
+                icon: "error",
+                confirmButtonText: t("ok"),
               });
-            }
-          })
-          .catch((error: AxiosError) => {
-            Swal.fire({
-              title: t("error-submitting-answer"),
-              icon: "error",
-              confirmButtonText: t("ok"),
-            });
-          }); // setLoading(true);
-      }}
-    >
-      {() => (
-        <Form>
-          <TextFieldWrapper name="answer" label={t("question-answer")} />
-          <ButtonWrapper>{t("answer-question")}</ButtonWrapper>
-        </Form>
-      )}
-    </Formik>
+            }); // setLoading(true);
+        }}
+      >
+        {() => (
+          <Form>
+            <TextFieldWrapper name="answer" label={t("question-answer")} />
+            <ButtonWrapper>{t("answer-question")}</ButtonWrapper>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 }
 

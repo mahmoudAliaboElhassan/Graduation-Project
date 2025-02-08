@@ -14,7 +14,7 @@ export const getQuestion = createAsyncThunk(
       const res = await axiosInstance.post("/api/HintGame/question", userData);
       console.log("from slice res is");
       console.log(res);
-      return res;
+      return res.data;
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
@@ -37,7 +37,7 @@ export const answerQuestion = createAsyncThunk(
       });
       console.log("from slice res is");
       console.log(res);
-      return res;
+      return res.data;
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here

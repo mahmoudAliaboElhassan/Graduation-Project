@@ -12,11 +12,14 @@ import IntroductorySection from "../../components/introductory";
 import UseMediaQuery from "../../hooks/use-media-query";
 import UseDirection from "../../hooks/use-direction";
 import { LinkPlay } from "../../styles/games/five-hints";
+import { useAppSelector } from "../../hooks/redux";
 
 function HomePage() {
   const [number, setNumber] = useState<number>(0);
   const isBigScreen = UseMediaQuery({ query: "(min-width: 700px)" });
   const { t } = useTranslation();
+  const { token } = useAppSelector((state) => state.auth);
+
   const { direction } = UseDirection();
 
   useEffect(() => {
@@ -25,38 +28,42 @@ function HomePage() {
     }, 1000);
   }, [number]);
   return (
-    <motion.div
-      initial={{ opacity: 1, x: 0 }} // Initial state (page fully visible)
-      animate={{ opacity: 1, x: 0 }} // No change while on the page
-      exit={{ opacity: 0, x: -50 }} // Fades and moves left when leaving
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      style={{
-        position: "relative",
-        minHeight: isBigScreen ? "calc(100vh - 166px)" : "100vh",
-        marginTop: "3rem",
-      }}
-    >
-      {/* <Test/> */}
-      <Box
-        sx={{
-          minWidth: 275,
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          transform: "translate(-50%,-50%)",
+    <>
+      <motion.div
+        initial={{ opacity: 1, x: 0 }} // Initial state (page fully visible)
+        animate={{ opacity: 1, x: 0 }} // No change while on the page
+        exit={{ opacity: 0, x: -50 }} // Fades and moves left when leaving
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        style={{
+          position: "relative",
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          // marginTop: "3rem",
         }}
       >
-        <IntroductorySection />
-        <LinkPlay to="get-questions" dir={direction.direction}>
-          {t("play-now")}
-          {direction.direction === "ltr" ? (
-            <ArrowForwardIcon fontSize="large" />
-          ) : (
-            <ArrowBackIcon fontSize="large" />
+        {/* <Test/> */}
+
+        <Box
+          sx={{
+             maxWidth: isBigScreen?"700px":"600px",
+          }}
+        >
+          <IntroductorySection />
+          {token && (
+            <LinkPlay to="get-questions" dir={direction.direction}>
+              {t("play-now")}
+              {direction.direction === "ltr" ? (
+                <ArrowForwardIcon fontSize="large" />
+              ) : (
+                <ArrowBackIcon fontSize="large" />
+              )}
+            </LinkPlay>
           )}
-        </LinkPlay>
-      </Box>
-    </motion.div>
+        </Box>
+      </motion.div>
+    </>
   );
 }
 

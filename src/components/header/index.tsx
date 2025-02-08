@@ -14,13 +14,14 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import UseHeaderElements from "../../hooks/use-header-elements";
 import logoImg from "../../assets/logo.jpg";
 import Languages from "../lngs";
 import Mode from "../mode";
+import { useAppSelector } from "../../hooks/redux";
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -44,6 +45,9 @@ function Header() {
   const { userAuth, notUserAuth, headerElements } = UseHeaderElements();
   const token = false;
   const authElements = token ? userAuth : notUserAuth;
+  const { mymode } = useAppSelector((state) => state.mode);
+  const location = useLocation();
+
   return (
     <AppBar position="fixed">
       <Container maxWidth="xl">
@@ -71,7 +75,7 @@ function Header() {
             sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
             component={Link}
             to="/"
-          >   
+          >
             <img
               src={logoImg}
               style={{ borderRadius: "50%", width: "50px", height: "50px" }}
@@ -153,7 +157,12 @@ function Header() {
               <Button
                 key={page.label}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  fontWight: page.href == location.pathname ? "bold" : "normal",
+                }}
                 component={Link as any}
                 to={page.href}
               >
@@ -190,7 +199,12 @@ function Header() {
                   component={Link as any}
                   to={setting.href}
                 >
-                  <Typography sx={{ textAlign: "center" }}>
+                  <Typography
+                    sx={{
+                      textAlign: "center",
+                      color: mymode === "light" ? "black" : "white",
+                    }}
+                  >
                     {setting.label}
                   </Typography>
                 </MenuItem>

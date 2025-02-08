@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import axiosInstance from "../../utils/axiosInstance";
 import { UserDataLogin, UserDataSignUp } from "../../utils/types/DTO";
+import { LoginResponse } from "../../utils/dataResponse";
 export const signUp = createAsyncThunk(
   "authSlice/signUp",
   async (userData: UserDataSignUp, thunkAPI) => {
@@ -28,10 +29,13 @@ export const logIn = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const res = await axiosInstance.post("/api/Accounts/login", userData);
+      const res = await axiosInstance.post<LoginResponse>(
+        "/api/Accounts/login",
+        userData
+      );
       console.log("from slice res is");
       console.log(res);
-      return res;
+      return res.data;
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here

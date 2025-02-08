@@ -155,12 +155,15 @@ function SignUp() {
                 <HeadingElement>{t("signup-now")}</HeadingElement>
                 <FormFields />
                 <ButtonWrapper>{t("signup")}</ButtonWrapper>
-                <div className="text-center text-lg-start mt-1 mt-lg-0">
+                <div className="text-center  mt-2">
                   {t("already-have-account")}
                   <Link
                     to="/login"
                     title="Login to your Account"
-                    style={{ marginTop: "8px" }}
+                    style={{
+                      // marginTop: "8px",
+                      fontWeight: "700",
+                    }}
                   >
                     {t("login")}
                   </Link>
@@ -170,7 +173,6 @@ function SignUp() {
           </Formik>
         </ContainerFormWrapper>
       </div>
-      <Footer />
     </>
   );
 }
