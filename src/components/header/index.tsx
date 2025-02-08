@@ -161,8 +161,11 @@ function Header() {
                   my: 2,
                   color: "white",
                   display: "block",
-                  fontWight: page.href == location.pathname ? "bold" : "normal",
+                  fontWeight:
+                    page.href == location.pathname ? "bold" : "normal",
                 }}
+                // style={{
+                // }}
                 component={Link as any}
                 to={page.href}
               >

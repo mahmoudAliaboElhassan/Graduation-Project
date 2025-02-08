@@ -19,4 +19,5 @@ export interface InitialStateGame {
   questionData: QuestionData;
   loadingGetQuestions: boolean;
   loadingAnswerQuestion: boolean;
+  rank:number;
 }

@@ -93,7 +93,7 @@
   "portfolio": "Portfolio Website",
   "github": "Github",
   "linkedin": "Linkedin",
-  "answer-submitted": "Answer is Submitted Successfully",
+  "answer-submitted": "Answer is Submitted Successfully you got {{rank}}",
   "error-submitting-answer": "Error Sending Message",
   "hint": "Hint"
 }

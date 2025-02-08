@@ -51,6 +51,7 @@ export const gameSlice = createSlice({
       })
       .addCase(answerQuestion.fulfilled, (state, action) => {
         state.loadingAnswerQuestion = false;
+        state.rank=action.payload;
       })
       .addCase(answerQuestion.rejected, (state, action) => {
         state.loadingAnswerQuestion = false;

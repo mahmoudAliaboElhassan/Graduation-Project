@@ -94,7 +94,7 @@
   "portfolio": "الموقع الشخصي",
   "github": "غيت هاب",
   "linkedin": "لينكدان",
-  "answer-submitted": "تمت الإجابه بنجاح",
+  "answer-submitted": "تمت الإجابه بنجاح حصلت على {{rank}} ",
   "error-submitting-answer": "خطأ بإرسال الرساله",
   "hint": "مساعده"
 }

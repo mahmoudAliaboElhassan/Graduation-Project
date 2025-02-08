@@ -17,7 +17,7 @@ interface Props {
 function QuestionAnswer({ hints }: Props) {
   const { INITIAL_FORM_STATE_ANSWER_QUESTION } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_ANSWER_QUESTION } = UseFormValidation();
-  const { questionData } = useAppSelector((state) => state.game);
+  const { questionData,rank } = useAppSelector((state) => state.game);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -41,10 +41,9 @@ function QuestionAnswer({ hints }: Props) {
             .unwrap()
             .then(() => {
               {
-                toast.success(t("answer-submitted"), {
+                toast.success(t("answer-submitted",{rank}), {
                   position: "top-right",
-                  autoClose: 1000,
-                  hideProgressBar: false,
+                   hideProgressBar: false,
                   closeOnClick: true,
                   pauseOnHover: true,
                   draggable: true,
