@@ -7,3 +7,7 @@ export interface LoginResponse {
   grade: string;
   message: string;
 }
+export interface getHintsResponse {
+  correctAnswer:string;
+  hints:string[];
+}

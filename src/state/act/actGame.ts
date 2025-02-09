@@ -5,23 +5,25 @@ import {
   UserDataHintGameGetQuestion,
   UserDataHintGameAnswerQuestion,
 } from "../../utils/types/DTO";
+import { getHintsResponse } from "../../utils/dataResponse";
+
 export const getQuestion = createAsyncThunk(
   "gameSlice/getQuestion",
   async (userData: UserDataHintGameGetQuestion, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const res = await axiosInstance.post("/api/HintGame/question", userData);
-      console.log("from slice res is");
-      console.log(res);
+      const res = await axiosInstance.post<getHintsResponse>(
+        "/api/HintGame/question",
+        userData
+      );
+      console.log("from slice res is", res);
       return res.data;
     } catch (error: any) {
-      if (error.response && error.response.status === 400) {
-        // Handle 403 error here
-        // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+      if (error.response?.status === 400) {
+        console.log("400 Bad Request - Invalid input from slice");
       }
-      return rejectWithValue(error);
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );

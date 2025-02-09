@@ -96,5 +96,6 @@
   "linkedin": "لينكدان",
   "answer-submitted": "تمت الإجابه بنجاح حصلت على {{rank}} ",
   "error-submitting-answer": "خطأ بإرسال الرساله",
-  "hint": "مساعده"
+  "hint": "مساعده",
+  "full-name": "الإسم بالكامل"
 }

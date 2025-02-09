@@ -11,4 +11,5 @@ export const FooterContainer = styled("div")<{ mode: string }>(({ mode }) => ({
     mode === "dark"
       ? "linear-gradient(0deg, #101021, #32000a)"
       : "linear-gradient(0deg, #b81c1a, #002a52)",
+  color: "white",
 }));

@@ -41,10 +41,11 @@ function QuestionAnswer({ hints }: Props) {
             })
           )
             .unwrap()
-            .then(() => {
+            .then((data) => {
+              console.log("data", data);
               if (rank) {
                 setTimeout(() => {
-                  toast.success(t("answer-submitted", { rank }), {
+                  toast.success(t("answer-submitted", { rank: data }), {
                     position: "top-right",
                     hideProgressBar: false,
                     closeOnClick: true,

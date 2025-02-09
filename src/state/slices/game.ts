@@ -30,8 +30,6 @@ export const gameSlice = createSlice({
       .addCase(getQuestion.fulfilled, (state, action) => {
         state.loadingGetQuestions = false;
         state.questionData = action.payload as {} as QuestionData;
-        // Conversion of type 'AxiosResponse<any, any>' to type 'QuestionData' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional,
-        // convert the expression to 'unknown' or {} first.
         console.log("action.payload");
         console.log(action.payload);
         console.log("state.questionData");
@@ -51,8 +49,8 @@ export const gameSlice = createSlice({
       })
       .addCase(answerQuestion.fulfilled, (state, action) => {
         state.loadingAnswerQuestion = false;
-        state.rank=action.payload;
-        localStorage.setItem("rank",action.payload)
+        state.rank = action.payload;
+        localStorage.setItem("rank", action.payload);
       })
       .addCase(answerQuestion.rejected, (state, action) => {
         state.loadingAnswerQuestion = false;

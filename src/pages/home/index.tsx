@@ -18,7 +18,7 @@ function HomePage() {
   const [number, setNumber] = useState<number>(0);
   const isBigScreen = UseMediaQuery({ query: "(min-width: 700px)" });
   const { t } = useTranslation();
-  const { token } = useAppSelector((state) => state.auth);
+  const { token, grade } = useAppSelector((state) => state.auth);
 
   const { direction } = UseDirection();
 
@@ -47,11 +47,11 @@ function HomePage() {
 
         <Box
           sx={{
-             maxWidth: isBigScreen?"700px":"600px",
+            maxWidth: isBigScreen ? "700px" : "600px",
           }}
         >
           <IntroductorySection />
-          {token && (
+          {token && grade && (
             <LinkPlay to="get-questions" dir={direction.direction}>
               {t("play-now")}
               {direction.direction === "ltr" ? (

@@ -95,5 +95,6 @@
   "linkedin": "Linkedin",
   "answer-submitted": "Answer is Submitted Successfully you got {{rank}}",
   "error-submitting-answer": "Error Sending Message",
-  "hint": "Hint"
+  "hint": "Hint",
+  "full-name": "Full Name"
 }
