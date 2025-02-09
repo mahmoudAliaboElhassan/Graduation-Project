@@ -15,7 +15,7 @@ function FiveHints() {
     (state) => state.game
   );
   const [second, setSecond] = useState<number>(0);
-  const HINTTIME = 10;
+  const HINTTIME = 30;
   const [noOfHints, setNoOfHints] = useState<number>(0);
   const { t } = useTranslation();
   const { name } = useAppSelector((state) => state.auth);
@@ -83,7 +83,7 @@ function FiveHints() {
         </button>
       </div> */}
       <Container>
-         <Timer timeExceeded={second > 4 * HINTTIME}>{second}</Timer>
+        <Timer timeExceeded={second > 4 * HINTTIME}>{second}</Timer>
         <Grid container spacing={2} sx={{ mb: 2 }}>
           {Array.from({ length: 5 }, (_, index) => {
             const isFlipping = second / HINTTIME > index;
