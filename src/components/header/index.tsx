@@ -72,7 +72,11 @@ function Header() {
             LOGO
           </Typography> */}
           <Typography
-            sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+            sx={{
+              display: { xs: "none", md: "flex" },
+              mr: 1,
+              // flexGrow: 1,
+            }}
             component={Link}
             to="/"
           >
@@ -81,7 +85,12 @@ function Header() {
               style={{ borderRadius: "50%", width: "50px", height: "50px" }}
             />
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box
+            sx={{
+              display: { xs: "flex", md: "none" },
+              width: "fit-content",
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -124,7 +133,14 @@ function Header() {
           </Box>
           {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
           <Typography
-            sx={{ display: { xs: "flex", md: "none" }, mr: 1, flexGrow: 1 }}
+            sx={{
+              display: { xs: "flex", md: "none" },
+              // mr: 1,
+              flexGrow: 1,
+              justifyContent: "center",
+              width: "fit-content",
+              margin: "auto",
+            }}
             component={Link}
             to="/"
           >
