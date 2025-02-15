@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import { TextField } from "@mui/material";
 import { useField } from "formik";
 
@@ -11,7 +11,7 @@ interface Props {
 const TextFieldWrapper = ({ name, type, label }: Props) => {
   const [field, mata] = useField(name);
 
-  const configTextField: any = {
+  const configTextField: ComponentProps<typeof TextField> = {
     fullWidth: true,
     label,
     type: type || "text",

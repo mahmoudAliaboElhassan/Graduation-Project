@@ -19,14 +19,14 @@ import {
 } from "formik";
 import { useNavigate } from "react-router-dom";
 
-import UseInitialValues from "../../../hooks/use-initial-values";
-import UseFormValidation from "../../../hooks/use-form-validation";
-import SelectComponent from "../../../components/formUI/select";
-import UseSubjects from "../../../hooks/use-subjects";
+import UseInitialValues from "../../../../hooks/use-initial-values";
+import UseFormValidation from "../../../../hooks/use-form-validation";
+import SelectComponent from "../../../../components/formUI/select";
+import UseSubjects from "../../../../hooks/use-subjects";
 import { useTranslation } from "react-i18next";
-import ButtonWrapper from "../../../components/formUI/submit";
-import UseChapter from "../../../hooks/use-chapter";
-import { useAppSelector } from "../../../hooks/redux";
+import ButtonWrapper from "../../../../components/formUI/submit";
+import UseChapter from "../../../../hooks/use-chapter";
+import { useAppSelector } from "../../../../hooks/redux";
 
 const { FORM_VALIDATION_SCHEMA_GET_QUESTIONS } = UseFormValidation();
 
@@ -108,7 +108,7 @@ const MultiStepModal = () => {
               console.log("Form Submitted", values);
               localStorage.setItem("subject", values.subject);
               localStorage.setItem("chapter", values.chapter);
-              navigate("/answer-question");
+              navigate("/five-hints");
             }}
           >
             {({ values, setTouched, setErrors }) => (

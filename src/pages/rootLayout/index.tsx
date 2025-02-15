@@ -11,6 +11,7 @@ import Footer from "../../components/footer";
 import { useAppSelector } from "../../hooks/redux";
 import UseDirection from "../../hooks/use-direction";
 import UseMediaQuery from "../../hooks/use-media-query";
+import Scroll from "../../components/scroll";
 
 function RootLayout() {
   const { mymode } = useAppSelector((state) => state.mode);
@@ -18,9 +19,17 @@ function RootLayout() {
   const isSmallScreen = UseMediaQuery({ query: "(max-width: 360px)" });
   const { t } = useTranslation();
   const location = useLocation(); // Track route changes
-console.log("location.pathname",location.pathname)
+  console.log("location.pathname", location.pathname);
   useEffect(() => {
     document.title = t("website-title");
+    const htmlElement = document.documentElement;
+    if (htmlElement.classList.contains("light-mode")) {
+      htmlElement.classList.remove("light-mode");
+      htmlElement.classList.add("dark-mode");
+    } else {
+      htmlElement.classList.add("light-mode");
+      htmlElement.classList.remove("dark-mode");
+    }
   }, [t]);
 
   const thema = createTheme({
@@ -33,6 +42,7 @@ console.log("location.pathname",location.pathname)
   return (
     <ThemeProvider theme={thema}>
       <div
+        className={mymode === "light" ? "light-mode" : "dark-mode"}
         style={{
           // minHeight: "100vh",
           color: "white",
@@ -55,7 +65,7 @@ console.log("location.pathname",location.pathname)
           pauseOnHover
           theme={mymode}
         />
-        <div style={{ height:"56px" }}></div>
+        <div style={{ height: "56px" }}></div>
 
         {/* AnimatePresence with unique key for page transitions */}
         {location.pathname !== "/" ? (
@@ -73,6 +83,7 @@ console.log("location.pathname",location.pathname)
         ) : (
           <Outlet />
         )}
+        <Scroll />
       </div>
 
       <Footer />

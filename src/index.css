@@ -15,3 +15,47 @@ a {
   text-decoration: none !important  ;
   color: white !important;
 }
+
+/* Start Scrollbar */
+/* Start Scrollbar Styles */
+
+/* Light Mode Scrollbar */
+.light-mode::-webkit-scrollbar {
+  width: 15px;
+}
+
+.light-mode::-webkit-scrollbar-track {
+  background: linear-gradient(0deg, #e52220, #013c74);
+}
+
+.light-mode::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50px;
+  border: 2px solid #013c74;
+}
+
+/* Dark Mode Scrollbar */
+.dark-mode::-webkit-scrollbar {
+  width: 15px;
+}
+
+.dark-mode::-webkit-scrollbar-track {
+  background: linear-gradient(0deg, #1a1a2e, #4b000f);
+}
+
+.dark-mode::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50px;
+  border: 2px solid #4b000f;
+}
+
+/* Firefox Compatibility */
+.light-mode {
+  scrollbar-color: rgba(255, 255, 255, 0.7) #013c74;
+}
+
+.dark-mode {
+  scrollbar-color: rgba(255, 255, 255, 0.5) #4b000f;
+}
+
+/* End Scrollbar Styles */

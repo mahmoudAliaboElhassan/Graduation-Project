@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import { useFormikContext } from "formik";
 import { useTranslation } from "react-i18next";
 import LoaderBtn from "./loaderBtn";
@@ -16,16 +16,18 @@ const ButtonWrapper = ({ children }: Props) => {
   const { submitForm } = useFormikContext();
 
   // Change the event type to React.MouseEvent<HTMLButtonElement>
-  const handleSubmit = (e: MouseEvent) => {
+  const handleSubmit = (e: MouseEvent): void => {
     e.preventDefault();
     submitForm();
   };
+
   const loadingStatus = UseLoadingStatus();
   const { mymode } = useAppSelector(
     (state: { mode: { mymode: string } }) => state.mode
   );
-  // Keep the configButton type as React.ButtonHTMLAttributes<HTMLButtonElement>
-  const configButton: any = {
+  // Use ComponentProps<typeof Button> since MUI Button is not a regular <button>
+
+  const configButton: ComponentProps<typeof Button> = {
     type: "submit",
     onClick: handleSubmit,
     // fullWidth: true,

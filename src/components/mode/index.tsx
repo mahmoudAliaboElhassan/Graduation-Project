@@ -9,7 +9,17 @@ import { changeMode } from "../../state/slices/mode";
 function Mode() {
   const { mymode } = useAppSelector((state) => state.mode);
   const dispatch = useAppDispatch();
-  const change: any = () => dispatch(changeMode());
+  const change: any = () => {
+    const htmlElement = document.documentElement;
+    dispatch(changeMode());
+    if (htmlElement.classList.contains("light-mode")) {
+      htmlElement.classList.remove("light-mode");
+      htmlElement.classList.add("dark-mode");
+    } else {
+      htmlElement.classList.add("light-mode");
+      htmlElement.classList.remove("dark-mode");
+    }
+  };
   const { t } = useTranslation();
   return (
     <>

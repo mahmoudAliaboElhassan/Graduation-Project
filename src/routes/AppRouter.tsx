@@ -14,7 +14,10 @@ const ChangePassword = React.lazy(
 const Contacts = React.lazy(() => import("../pages/contacts"));
 const About = React.lazy(() => import("../pages/about"));
 const FiveHints = React.lazy(() => import("../pages/game/fiveHints"));
-const GetQuestions = React.lazy(() => import("../pages/game/get-questions"));
+const Offside = React.lazy(() => import("../pages/game/offside"));
+const GetQuestions = React.lazy(
+  () => import("../pages/game/fiveHints/get-questions")
+);
 
 const router = createBrowserRouter([
   {
@@ -71,10 +74,18 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/answer-question",
+        path: "/five-hints",
         element: (
           <Suspense fallback={<Loader />}>
             <FiveHints />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/offside",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Offside />{" "}
           </Suspense>
         ),
       },
