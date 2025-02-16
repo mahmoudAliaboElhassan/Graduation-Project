@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
-import IconButton from "@mui/material/IconButton";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 
 import { ScrollButton } from "../../styles/scroll";
 import UseDirection from "../../hooks/use-direction";
+import { useAppSelector } from "../../hooks/redux";
 
 function Scroll() {
   const { direction } = UseDirection();
   const [show, setShow] = useState(false);
+  const { mymode } = useAppSelector((state) => state.mode);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,13 +30,19 @@ function Scroll() {
           transition={{ duration: 0.5 }}
           style={{
             position: "sticky",
-            [direction.right]: "10px",
-            bottom: "10%",
+           right : "35px",
+            bottom: "25%",
             cursor: "pointer",
           }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
-          <ScrollButton> Scroll to Top</ScrollButton>
+          <ScrollButton mode={mymode}>
+            {" "}
+            <KeyboardDoubleArrowUpIcon
+              fontSize="large"
+              sx={{ color: "white" }}
+            />
+          </ScrollButton>
         </motion.div>
       )}
     </div>

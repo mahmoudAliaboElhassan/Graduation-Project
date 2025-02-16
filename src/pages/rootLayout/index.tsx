@@ -17,18 +17,19 @@ function RootLayout() {
   const { mymode } = useAppSelector((state) => state.mode);
   const { direction } = UseDirection();
   const isSmallScreen = UseMediaQuery({ query: "(max-width: 360px)" });
+
   const { t } = useTranslation();
   const location = useLocation(); // Track route changes
   console.log("location.pathname", location.pathname);
   useEffect(() => {
     document.title = t("website-title");
     const htmlElement = document.documentElement;
-    if (htmlElement.classList.contains("light-mode")) {
+    if (mymode && mymode === "light") {
+      htmlElement.classList.remove("dark-mode");
+      htmlElement.classList.add("light-mode");
+    } else {
       htmlElement.classList.remove("light-mode");
       htmlElement.classList.add("dark-mode");
-    } else {
-      htmlElement.classList.add("light-mode");
-      htmlElement.classList.remove("dark-mode");
     }
   }, [t]);
 

@@ -18,10 +18,10 @@ import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import UseHeaderElements from "../../hooks/use-header-elements";
+import { useAppSelector } from "../../hooks/redux";
 import logoImg from "../../assets/logo.jpg";
 import Languages from "../lngs";
 import Mode from "../mode";
-import { useAppSelector } from "../../hooks/redux";
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -117,15 +117,20 @@ function Header() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: "block", md: "none" } }}
             >
-              {headerElements.map((page) => (
+              {headerElements.map(({ href, label }) => (
                 <MenuItem
-                  key={page.label}
+                  key={label}
                   onClick={handleCloseNavMenu}
                   component={Link as any}
-                  to={page.href}
+                  to={href}
                 >
-                  <Typography sx={{ textAlign: "center" }}>
-                    {page.label}
+                  <Typography
+                    sx={{
+                      textAlign: "center",
+                      color: mymode === "light" ? "black" : "white",
+                    }}
+                  >
+                    {label}
                   </Typography>
                 </MenuItem>
               ))}
@@ -211,12 +216,12 @@ function Header() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {authElements.map((setting) => (
+              {authElements.map(({href,label}) => (
                 <MenuItem
-                  key={setting.label}
+                  key={label}
                   onClick={handleCloseUserMenu}
                   component={Link as any}
-                  to={setting.href}
+                  to={href}
                 >
                   <Typography
                     sx={{
@@ -224,7 +229,7 @@ function Header() {
                       color: mymode === "light" ? "black" : "white",
                     }}
                   >
-                    {setting.label}
+                    {label}
                   </Typography>
                 </MenuItem>
               ))}

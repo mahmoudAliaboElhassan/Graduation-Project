@@ -58,11 +58,7 @@ function SelectComponent({ name, label, options }: Props) {
       <InputLabel
         style={{
           color:
-            meta.error && meta.touched
-              ? Colors.labelError
-              : themeMode == "dark"
-              ? Colors.labelDark
-              : Colors.labelLight,
+            meta.error && meta.touched ? Colors.labelError : Colors.labelDark,
           marginTop: "5px",
         }}
       >
