@@ -29,10 +29,10 @@ function UseHeaderElements() {
       label: t("home"),
       href: "/",
     },
-    // {
-    //   label: t("about"),
-    //   href: "/about",
-    // },
+    {
+      label: t("about"),
+      href: "/about",
+    },
     {
       label: t("contact"),
       href: "/contacts",

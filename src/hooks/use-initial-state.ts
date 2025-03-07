@@ -14,6 +14,7 @@ function UseInitialStates() {
     name: localStorage.getItem("name"),
     grade: localStorage.getItem("grade"),
     token: localStorage.getItem("token"),
+    error:""
   };
   const initialStateGame: InitialStateGame = {
     questionData: {

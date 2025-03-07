@@ -14,6 +14,7 @@ export interface InitialStateAuth {
   email: forLocalStorage;
   grade: forLocalStorage;
   token: forLocalStorage;
+  error:string
 }
 export interface InitialStateGame {
   questionData: QuestionData;

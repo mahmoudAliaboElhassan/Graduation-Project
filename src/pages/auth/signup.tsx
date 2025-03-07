@@ -96,6 +96,7 @@ function SignUp() {
   const { INITIAL_FORM_STATE_SIGNUP } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_SIGNUP } = UseFormValidation();
   const { mymode } = useAppSelector((state) => state.mode);
+  const { error } = useAppSelector((state) => state.auth);
   return (
     <>
       <div
@@ -136,10 +137,7 @@ function SignUp() {
                 .catch((err: AxiosError) => {
                   Swal.fire({
                     title: "Error in creating Account",
-                    text:
-                      typeof err?.response?.data === "string"
-                        ? err.response.data
-                        : JSON.stringify(err?.response?.data),
+                    text: error,
                     icon: "error",
                     confirmButtonText: "ok",
                   });

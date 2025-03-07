@@ -31,6 +31,8 @@ export const authSlice = createSlice({
       })
       .addCase(signUp.rejected, (state, action) => {
         state.loadingAuth = false;
+        state.error = action.payload as string;
+        console.log(action);
       })
       .addCase(logIn.pending, (state, action) => {
         state.loadingAuth = true;

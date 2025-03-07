@@ -30,7 +30,7 @@ function Scroll() {
           transition={{ duration: 0.5 }}
           style={{
             position: "sticky",
-           right : "35px",
+             right : "35px",
             bottom: "25%",
             cursor: "pointer",
           }}

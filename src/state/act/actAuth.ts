@@ -27,7 +27,7 @@ export const signUp = createAsyncThunk(
         // Example: setConfirmed(true);
         console.log("400 Forbidden - User not authorized from slice");
       }
-      return rejectWithValue(error);
+      return rejectWithValue(error.response.data);
     }
   }
 );
