@@ -8,6 +8,10 @@ export interface LoginResponse {
   message: string;
 }
 export interface getHintsResponse {
-  correctAnswer:string;
-  hints:string[];
+  correctAnswer: string;
+  hints: string[];
+}
+export interface getOffsideHints {
+  correctAnswer: number[];
+  information: string[];
 }

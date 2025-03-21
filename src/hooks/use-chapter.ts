@@ -7,40 +7,40 @@ function UseChapter() {
   const Chapters: chapterType[] = [
     {
       text: t("one"),
-      value: "one",
+      value: "1",
     },
     {
       text: t("two"),
-      value: "two",
+      value: "2",
     },
     {
       text: t("three"),
-      value: "three",
+      value: "3",
     },
     {
       text: t("three"),
-      value: "three",
+      value: "4",
     },
 
     {
       text: t("four"),
-      value: "four",
+      value: "5",
     },
     {
       text: t("five"),
-      value: "five",
+      value: "6",
     },
     {
       text: t("six"),
-      value: "six",
+      value: "7",
     },
     {
       text: t("seven"),
-      value: "seven",
+      value: "8",
     },
     {
       text: t("eight"),
-      value: "eight",
+      value: "9",
     },
   ];
   return { Chapters };

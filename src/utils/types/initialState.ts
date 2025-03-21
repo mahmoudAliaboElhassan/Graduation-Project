@@ -1,7 +1,7 @@
 export interface InitialStateMode {
   mymode: "dark" | "light";
 }
-type forLocalStorage = string | null;
+export type forLocalStorage = string | null;
 
 export type QuestionData = {
   correctAnswer: forLocalStorage;
@@ -14,11 +14,13 @@ export interface InitialStateAuth {
   email: forLocalStorage;
   grade: forLocalStorage;
   token: forLocalStorage;
-  error:string
+  error: string;
 }
 export interface InitialStateGame {
   questionData: QuestionData;
   loadingGetQuestions: boolean;
   loadingAnswerQuestion: boolean;
-  rank:forLocalStorage;
+  offsideInformation: string[];
+  offsideCorrectAnswer: number[];
+  rank: forLocalStorage;
 }

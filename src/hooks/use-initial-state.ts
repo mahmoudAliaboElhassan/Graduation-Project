@@ -14,7 +14,7 @@ function UseInitialStates() {
     name: localStorage.getItem("name"),
     grade: localStorage.getItem("grade"),
     token: localStorage.getItem("token"),
-    error:""
+    error: "",
   };
   const initialStateGame: InitialStateGame = {
     questionData: {
@@ -24,6 +24,8 @@ function UseInitialStates() {
     loadingGetQuestions: false,
     loadingAnswerQuestion: false,
     rank: localStorage.getItem("rank") || null,
+    offsideInformation: [],
+    offsideCorrectAnswer: [],
   };
 
   return { initialStateMode, initialStateAuth, initialStateGame };

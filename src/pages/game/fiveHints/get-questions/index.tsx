@@ -17,7 +17,7 @@ import {
   FormikErrors,
   FormikTouched,
 } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import UseInitialValues from "../../../../hooks/use-initial-values";
 import UseFormValidation from "../../../../hooks/use-form-validation";
@@ -70,6 +70,8 @@ const MultiStepModal = () => {
     setActiveStep((prevStep) => prevStep - 1);
   };
   const navigate = useNavigate();
+  const params = useParams();
+  console.log("params", params);
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
       <Modal

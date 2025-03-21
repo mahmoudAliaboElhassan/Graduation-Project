@@ -5,7 +5,7 @@ import { Container, TextField, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { answerQuestion, getQuestion } from "../../../state/slices/game";
+import { getHintsQuestions } from "../../../state/slices/game";
 import { Hint, Timer } from "../../../styles/games/five-hints";
 import QuestionAnswer from "../../../components/formUI/formAnswer";
 
@@ -18,12 +18,12 @@ function FiveHints() {
   const HINTTIME = 30;
   const [noOfHints, setNoOfHints] = useState<number>(0);
   const { t } = useTranslation();
-  const { name } = useAppSelector((state) => state.auth);
+  const { grade } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(
-      getQuestion({
-        grade: "one",
+      getHintsQuestions({
+        grade,
         subject: localStorage.getItem("subject") || "",
         chapter: localStorage.getItem("chapter") || "",
       })

@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import UseInitialStates from "../../hooks/use-initial-state";
-import { getQuestion, answerQuestion } from "../act/actGame";
+import {
+  getHintsQuestions,
+  answerQuestion,
+  getOffSideQuestions,
+} from "../act/actGame";
 import { QuestionData } from "../../utils/types/initialState";
 const { initialStateGame } = UseInitialStates();
 
@@ -24,10 +28,10 @@ export const gameSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getQuestion.pending, (state, action) => {
+      .addCase(getHintsQuestions.pending, (state, action) => {
         state.loadingGetQuestions = true;
       })
-      .addCase(getQuestion.fulfilled, (state, action) => {
+      .addCase(getHintsQuestions.fulfilled, (state, action) => {
         state.loadingGetQuestions = false;
         state.questionData = action.payload as {} as QuestionData;
         console.log("action.payload");
@@ -41,9 +45,22 @@ export const gameSlice = createSlice({
           );
         }
       })
-      .addCase(getQuestion.rejected, (state, action) => {
+      .addCase(getHintsQuestions.rejected, (state, action) => {
         state.loadingGetQuestions = false;
       })
+
+      .addCase(getOffSideQuestions.pending, (state, action) => {
+        state.loadingGetQuestions = true;
+      })
+      .addCase(getOffSideQuestions.fulfilled, (state, action) => {
+        state.loadingGetQuestions = false;
+        state.offsideInformation = action.payload.information;
+        state.offsideCorrectAnswer = action.payload.correctAnswer;
+      })
+      .addCase(getOffSideQuestions.rejected, (state, action) => {
+        state.loadingGetQuestions = false;
+      })
+
       .addCase(answerQuestion.pending, (state, action) => {
         state.loadingAnswerQuestion = true;
       })
@@ -59,4 +76,4 @@ export const gameSlice = createSlice({
 });
 
 export default gameSlice.reducer;
-export { getQuestion, answerQuestion };
+export { getHintsQuestions, answerQuestion };
