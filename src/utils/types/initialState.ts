@@ -10,11 +10,13 @@ export type QuestionData = {
 
 export interface InitialStateAuth {
   loadingAuth: boolean;
+  loadingGetSubjects: boolean;
   name: forLocalStorage;
   email: forLocalStorage;
   grade: forLocalStorage;
   token: forLocalStorage;
   error: string;
+  subjects: string[];
 }
 export interface InitialStateGame {
   questionData: QuestionData;

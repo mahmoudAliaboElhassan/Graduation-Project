@@ -10,11 +10,13 @@ function UseInitialStates() {
   };
   const initialStateAuth: InitialStateAuth = {
     loadingAuth: false,
+    loadingGetSubjects: false,
     email: localStorage.getItem("email"),
     name: localStorage.getItem("name"),
     grade: localStorage.getItem("grade"),
     token: localStorage.getItem("token"),
     error: "",
+    subjects: [],
   };
   const initialStateGame: InitialStateGame = {
     questionData: {

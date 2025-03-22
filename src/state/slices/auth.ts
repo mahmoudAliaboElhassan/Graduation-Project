@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import UseInitialStates from "../../hooks/use-initial-state";
-import { signUp, logIn } from "../act/actAuth";
+import { signUp, logIn, getSubjects,getChapters } from "../act/actAuth";
 const { initialStateAuth } = UseInitialStates();
 
 export const authSlice = createSlice({
@@ -53,9 +53,22 @@ export const authSlice = createSlice({
       })
       .addCase(logIn.rejected, (state, action) => {
         state.loadingAuth = false;
+      })
+      .addCase(getSubjects.pending, (state, action) => {
+        state.loadingGetSubjects = true;
+        // if (action.payload) {
+        //   state.email = action.payload.email;
+        // }
+      })
+      .addCase(getSubjects.fulfilled, (state, action) => {
+        state.loadingGetSubjects = false;
+        state.subjects = action.payload.subjects;
+      })
+      .addCase(getSubjects.rejected, (state, action) => {
+        state.loadingGetSubjects = false;
       });
   },
 });
 
 export default authSlice.reducer;
-export { signUp, logIn };
+export { signUp, logIn, getSubjects,getChapters };

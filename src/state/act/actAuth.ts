@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import axiosInstance from "../../utils/axiosInstance";
-import { UserDataLogin, UserDataSignUp } from "../../utils/types/DTO";
-import { LoginResponse } from "../../utils/dataResponse";
+import { UserDataLogin, UserDataSignUp, Grade } from "../../utils/types/DTO";
+import { LoginResponse, ResponseSubject ,ResponseChapters} from "../../utils/dataResponse";
 
 interface ResponseCreate {
   message: string;
@@ -57,12 +57,59 @@ export const logIn = createAsyncThunk(
       console.log(res);
       return res.data;
     } catch (error: any) {
+      console.log("error", error);
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
         console.log("400 Forbidden - User not authorized from slice");
       }
       return rejectWithValue(error);
+    }
+  }
+);
+export const getSubjects = createAsyncThunk(
+  "authSlice/getSubjects",
+  async (grade: Grade, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.post<ResponseSubject>(
+        "/api/Accounts/subjects",
+        grade
+      );
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const getChapters = createAsyncThunk(
+  "authSlice/getChapters",
+  async ({grade,subject}: {grade:number,subject:string}, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.post<ResponseChapters>(
+        "/api/Accounts/chapters",
+        {grade,subject}
+      );
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error.response.data);
     }
   }
 );

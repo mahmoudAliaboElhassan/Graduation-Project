@@ -22,3 +22,6 @@ export interface UserDataHintGameAnswerQuestion {
   hintsused: number;
   correctanswer: forLocalStorage;
 }
+export interface Grade {
+  grade: number;
+}

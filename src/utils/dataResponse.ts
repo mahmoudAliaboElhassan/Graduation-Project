@@ -15,3 +15,9 @@ export interface getOffsideHints {
   correctAnswer: number[];
   information: string[];
 }
+export interface ResponseSubject {
+  subjects: string[];
+}
+export interface ResponseChapters {
+  chapters: {chapter:string,value:number}[];
+}

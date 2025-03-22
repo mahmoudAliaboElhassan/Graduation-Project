@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   Box,
@@ -26,7 +26,8 @@ import UseSubjects from "../../../../hooks/use-subjects";
 import { useTranslation } from "react-i18next";
 import ButtonWrapper from "../../../../components/formUI/submit";
 import UseChapter from "../../../../hooks/use-chapter";
-import { useAppSelector } from "../../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
+import { getSubjects, getChapters } from "../../../../state/slices/auth";
 
 const { FORM_VALIDATION_SCHEMA_GET_QUESTIONS } = UseFormValidation();
 
@@ -36,8 +37,14 @@ const MultiStepModal = () => {
   const [activeStep, setActiveStep] = useState(0);
   const { INITIAL_FORM_STATE_GET_QUESTIONS } = UseInitialValues();
   const { Chapters } = UseChapter();
-  const { subjects } = UseSubjects();
+  // const { subjects } = UseSubjects();
   const { t } = useTranslation();
+  const { grade, subjects } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getSubjects({ grade: grade ? +grade : 1 }));
+  }, [dispatch]);
 
   const handleNext = (
     values: { subject: any; chapter: string },
@@ -57,6 +64,8 @@ const MultiStepModal = () => {
       setTouched({ subject: true });
       setErrors({ subject: "Subject Field is required" });
       return;
+    } else if (activeStep === 0 && values.subject) {
+      dispatch(getChapters({ grade: grade ? +grade : 1, subject: values.subject }));
     }
     if (activeStep === 1 && !values.chapter) {
       setTouched({ chapter: true });
@@ -119,7 +128,7 @@ const MultiStepModal = () => {
                   <Box mt={2}>
                     <SelectComponent
                       name="subject"
-                      options={subjects}
+                      options={subjects as any}
                       label={t("select-subject")}
                     />
                   </Box>
