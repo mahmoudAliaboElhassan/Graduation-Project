@@ -36,10 +36,10 @@ const steps = ["Select Subject", "Select Chapter"];
 const MultiStepModal = () => {
   const [activeStep, setActiveStep] = useState(0);
   const { INITIAL_FORM_STATE_GET_QUESTIONS } = UseInitialValues();
-  const { Chapters } = UseChapter();
+  // const { Chapters } = UseChapter();
   // const { subjects } = UseSubjects();
   const { t } = useTranslation();
-  const { grade, subjects } = useAppSelector((state) => state.auth);
+  const { grade, subjects, chapters } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -140,7 +140,7 @@ const MultiStepModal = () => {
                   <Box mt={2}>
                     <SelectComponent
                       name="chapter"
-                      options={Chapters}
+                      options={chapters as any}
                       label={t("select-chapter")}
                     />
                   </Box>

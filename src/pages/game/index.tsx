@@ -29,10 +29,10 @@ function Games() {
         <Grid size={{ xs: 12 }}>
           <HeadingElement>{t("select-game")}</HeadingElement>
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
           <CardGame to="five-hints" data={gamesData[0]} />
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
           <CardGame to="offside" data={gamesData[1]} />
         </Grid>
       </Grid>

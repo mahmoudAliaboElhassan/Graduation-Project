@@ -45,5 +45,6 @@ export interface SocialMediaTypes {
 }
 export interface GameData {
   title: string;
-  description: React.ReactNode;
+  description: string;
+  image: string;
 }

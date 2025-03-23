@@ -16,6 +16,8 @@ type Options = {
   text?: string;
   value?: number | string;
   group?: string;
+  name?: string;
+  number?: number;
 };
 
 interface Props {
@@ -87,9 +89,15 @@ function SelectComponent({ name, label, options }: Props) {
               </MenuItem>
             ))
           : name == "subject"
-          ? options?.map((chapter) => (
-              <MenuItem key={chapter as string} value={chapter as string}>
-                {chapter as string}
+          ? options?.map((subject) => (
+              <MenuItem key={subject as string} value={subject as string}>
+                {subject as string}
+              </MenuItem>
+            ))
+          : name == "chapter"
+          ? options?.map(({ name, number }) => (
+              <MenuItem key={number} value={number}>
+                {name}
               </MenuItem>
             ))
           : options?.map(({ text, value }) => (

@@ -17,6 +17,7 @@ export interface InitialStateAuth {
   token: forLocalStorage;
   error: string;
   subjects: string[];
+  chapters: { name: string; number: number }[];
 }
 export interface InitialStateGame {
   questionData: QuestionData;

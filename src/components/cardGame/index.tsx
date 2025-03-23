@@ -1,8 +1,8 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
@@ -17,29 +17,43 @@ interface Props {
 
 function CardGame({ to, data }: Props) {
   const { t } = useTranslation();
-  const isSmallScreen = UseMediaQuery({ query: "(max-width: 898px)" });
+  const isSmallScreen = UseMediaQuery({ query: "(max-width: 600px)" });
 
   return (
-    <Card sx={{ minWidth: 275, minHeight: 350, position: "relative" }}>
+    <Card sx={{ minWidth: 275, minHeight: 650, position: "relative" }}>
+      <CardMedia
+        component="img"
+        height={300}
+        image={data.image}
+        title={data.title}
+        sx={{
+          objectFit: "cover",
+          width: "100%",
+          height: "300px",
+        }}
+      />
       <CardContent>
-        <Typography variant="h4" component="div">
+        <Typography variant={isSmallScreen ? "h5" : "h4"} component="div">
           {data.title}
         </Typography>
-        <Typography variant="h6">{data.description}</Typography>
+        <Typography variant={"h6"} sx={{ mb: 5 }}>
+          {data.description}
+        </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions
+        sx={{
+          display: "flex",
+          position: "absolute",
+          bottom: "8px",
+          left: isSmallScreen ? "50%" : "inherit",
+          transform: isSmallScreen ? "translateX(-50%)" : "inherit",
+        }}
+      >
         <Button
           size="small"
           variant="contained"
           component={Link}
           to={`/get-questions/${to}`}
-          style={{
-            display: "flex",
-            position: "absolute",
-            bottom: "8px",
-            left: isSmallScreen ? "50%" : "inherit",
-            transform: isSmallScreen ? "translateX(-50%)" : "inherit",
-          }}
         >
           {t("start-playing")}
         </Button>

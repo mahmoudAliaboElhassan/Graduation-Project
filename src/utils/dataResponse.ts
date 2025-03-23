@@ -19,5 +19,5 @@ export interface ResponseSubject {
   subjects: string[];
 }
 export interface ResponseChapters {
-  chapters: {chapter:string,value:number}[];
+  chapters: { name: string; number: number }[];
 }
