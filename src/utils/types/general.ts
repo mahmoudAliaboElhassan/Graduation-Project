@@ -41,5 +41,9 @@ export interface chapterType {
 export interface SocialMediaTypes {
   url: string;
   icon: React.ReactNode;
-  title:string
+  title: string;
+}
+export interface GameData {
+  title: string;
+  description: React.ReactNode;
 }

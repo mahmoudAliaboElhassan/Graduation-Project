@@ -65,7 +65,9 @@ const MultiStepModal = () => {
       setErrors({ subject: "Subject Field is required" });
       return;
     } else if (activeStep === 0 && values.subject) {
-      dispatch(getChapters({ grade: grade ? +grade : 1, subject: values.subject }));
+      dispatch(
+        getChapters({ grade: grade ? +grade : 1, subject: values.subject })
+      );
     }
     if (activeStep === 1 && !values.chapter) {
       setTouched({ chapter: true });
@@ -119,7 +121,7 @@ const MultiStepModal = () => {
               console.log("Form Submitted", values);
               localStorage.setItem("subject", values.subject);
               localStorage.setItem("chapter", values.chapter);
-              navigate("/five-hints");
+              navigate(`/${params.gameType}`);
             }}
           >
             {({ values, setTouched, setErrors }) => (

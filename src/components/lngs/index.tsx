@@ -84,7 +84,7 @@ function Languages() {
               <i
                 className={`flag flag-${lang.country_code} larger-icon mx-2`}
               ></i>{" "}
-              <span> {lang.name}</span>
+              <span style={{ marginTop: "-5px" }}> {lang.name}</span>
             </Typography>
           </MenuItem>
         ))}

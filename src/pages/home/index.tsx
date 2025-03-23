@@ -52,7 +52,7 @@ function HomePage() {
         >
           <IntroductorySection />
           {token && grade && (
-            <LinkPlay to="get-questions" dir={direction.direction}>
+            <LinkPlay to="games" dir={direction.direction}>
               {t("play-now")}
               {direction.direction === "ltr" ? (
                 <ArrowForwardIcon fontSize="large" />
