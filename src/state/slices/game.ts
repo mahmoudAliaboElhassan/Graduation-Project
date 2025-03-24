@@ -76,4 +76,4 @@ export const gameSlice = createSlice({
 });
 
 export default gameSlice.reducer;
-export { getHintsQuestions, answerQuestion };
+export { getHintsQuestions, getOffSideQuestions, answerQuestion };

@@ -89,6 +89,14 @@ function UseFormValidation() {
     name: Yup.string().required("name is required"),
     message: Yup.string().required("title is required"),
   });
+  const FORM_VALIDATION_OFFSIDE_GAME = Yup.object({
+    question1: Yup.string().required("Required"),
+    question2: Yup.string().required("Required"),
+    question3: Yup.string().required("Required"),
+    question4: Yup.string().required("Required"),
+    question5: Yup.string().required("Required"),
+    question6: Yup.string().required("Required"),
+  });
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
     FORM_VALIDATION_SCHEMA_SIGNUP,
@@ -96,6 +104,7 @@ function UseFormValidation() {
     FORM_VALIDATION_SCHEMA_ANSWER_QUESTION,
     FORM_VALIDATION_SCHEMA_GET_QUESTIONS,
     FORM_VALIDATION_SCHEMA_CONTACTS,
+    FORM_VALIDATION_OFFSIDE_GAME,
   };
 }
 

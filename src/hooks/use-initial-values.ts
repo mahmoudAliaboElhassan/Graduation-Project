@@ -6,6 +6,7 @@ import {
   InitialValuesAnswerQuestion,
   InitialValeuesGetQuestion,
   InitialValuesContacts,
+  InitialValuesOffsideGame,
 } from "../utils/types/initialValues";
 
 function UseInitialValues() {
@@ -39,6 +40,14 @@ function UseInitialValues() {
     title: "",
     message: "",
   };
+  const INITIAL_FORM_STATE_OFFSIDE_GAME: InitialValuesOffsideGame = {
+    question1: "",
+    question2: "",
+    question3: "",
+    question4: "",
+    question5: "",
+    question6: "",
+  };
   return {
     INITIAL_FORM_STATE_SIGNUP,
     INITIAL_FORM_STATE_LOGIN,
@@ -46,6 +55,7 @@ function UseInitialValues() {
     INITIAL_FORM_STATE_ANSWER_QUESTION,
     INITIAL_FORM_STATE_GET_QUESTIONS,
     INITIAL_FORM_STATE_CONTACT,
+    INITIAL_FORM_STATE_OFFSIDE_GAME,
   };
 }
 

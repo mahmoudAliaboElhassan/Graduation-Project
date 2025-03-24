@@ -102,5 +102,7 @@
   "five-hints-title": "Five Hints",
   "five-hints-description": "Five Hints is a thrilling guessing game where you test your knowledge by uncovering the correct answer with minimal hints! You start with no clues, and every 30 seconds, a new hint is revealed. The faster you guess, the higher your rank! If you crack the mystery on the first try, you’ll achieve the top rank. But beware—every additional hint lowers your score. Can you solve the puzzle before all hints are revealed? Challenge yourself and climb the leaderboard!",
   "offside-title": "Offside",
-  "offside-description": "Offside is a fast-paced logic game that tests your ability to distinguish between truth and deception! You start with 120 points and are presented with six statements—some are true, and some are false. Your goal is to identify the correct ones while avoiding the false ones. But be careful! Every wrong choice deducts points from your score. Can you keep your score high and make the right calls? Challenge yourself and prove your sharp judgment!"
+  "offside-description": "Offside is a fast-paced logic game that tests your ability to distinguish between truth and deception! You start with 120 points and are presented with six statements—some are true, and some are false. Your goal is to identify the correct ones while avoiding the false ones. But be careful! Every wrong choice deducts points from your score. Can you keep your score high and make the right calls? Challenge yourself and prove your sharp judgment!",
+  "correct-info": "Correct Info",
+  "false-info": "False Info"
 }
