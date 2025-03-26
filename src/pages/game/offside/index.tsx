@@ -20,6 +20,7 @@ import UseInitialValues from "../../../hooks/use-initial-values";
 function Offside() {
   const dispatch = useAppDispatch();
   const { grade } = useAppSelector((state) => state.auth);
+  const{offsideInformation,offsideCorrectAnswer}=useAppSelector((state)=>state.game)
   const data = ["first", "second", "third", "fourth", "fifth", "sixth"];
 
   useEffect(() => {
@@ -58,7 +59,7 @@ function Offside() {
               <Timer timeExceeded={true}>{"second"}</Timer>
 
               <Grid container spacing={2} sx={{ mb: 2 }}>
-                {data.map((info, index) => {
+                {offsideInformation.map((info, index) => {
                   const fieldName = `question${index + 1}`;
                   return (
                     <Hint size={{ xs: 6 }} key={index}>
