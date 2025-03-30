@@ -43,7 +43,7 @@ function Header() {
   };
   const { t } = useTranslation();
   const { userAuth, notUserAuth, headerElements } = UseHeaderElements();
-  const token = false;
+  const { token } = useAppSelector((state) => state.auth);
   const authElements = token ? userAuth : notUserAuth;
   const { mymode } = useAppSelector((state) => state.mode);
   const location = useLocation();
@@ -216,7 +216,7 @@ function Header() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {authElements.map(({href,label}) => (
+              {authElements.map(({ href, label }) => (
                 <MenuItem
                   key={label}
                   onClick={handleCloseUserMenu}

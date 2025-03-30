@@ -21,12 +21,12 @@ import UseThemMode from "../../hooks/use-theme-mode";
 import Swal from "sweetalert2";
 import { AxiosError } from "axios";
 
-function Login() {
+function ResetPassword() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { INITIAL_FORM_STATE_LOGIN } = UseInitialValues();
-  const { FORM_VALIDATION_SCHEMA_LOGIN } = UseFormValidation();
+  const { INITIAL_FORM_STATE_RESET_PASSWORD } = UseInitialValues();
+  const { FORM_VALIDATION_SCHEMA_RESET_PASSWORD } = UseFormValidation();
   const { themeMode } = UseThemMode();
   return (
     <>
@@ -34,39 +34,40 @@ function Login() {
         <ContainerFormWrapper maxWidth="sm">
           <Formik
             initialValues={{
-              ...INITIAL_FORM_STATE_LOGIN,
+              ...INITIAL_FORM_STATE_RESET_PASSWORD,
             }}
-            validationSchema={FORM_VALIDATION_SCHEMA_LOGIN}
+            validationSchema={FORM_VALIDATION_SCHEMA_RESET_PASSWORD}
             onSubmit={async (values) => {
               console.log(values);
-              dispatch(
-                logIn({ email: values.email, password: values.password })
-              )
-                .unwrap()
-                .then(() => {
-                  {
-                    toast.success(t("login-success"), {
-                      position: "top-right",
-                      autoClose: 1000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                    });
-                  }
-                  navigate("/");
-                })
-                .catch((error: AxiosError) => {
-                  if (error?.response?.status === 401) {
-                    Swal.fire({
-                      title: t("error-login"),
-                      text: t("error-login-text"),
-                      icon: "error",
-                      confirmButtonText: t("ok"),
-                    });
-                  }
-                }); // setLoading(true);
+              //   dispatch(
+              //     logIn({ email: values.email, password: values.password })
+              //   )
+              //     .unwrap()
+              //     .then(() => {
+              //       {
+              //         toast.success(t("login-success"), {
+              //           position: "top-right",
+              //           autoClose: 1000,
+              //           hideProgressBar: false,
+              //           closeOnClick: true,
+              //           pauseOnHover: true,
+              //           draggable: true,
+              //           progress: undefined,
+              //         });
+              //       }
+              //       navigate("/");
+              //     })
+              //     .catch((error: AxiosError) => {
+              //       if (error?.response?.status === 401) {
+              //         Swal.fire({
+              //           title: t("error-login"),
+              //           text: t("error-login-text"),
+              //           icon: "error",
+              //           confirmButtonText: t("ok"),
+              //         });
+              //       }
+              //     });
+              // setLoading(true);
               // const { confirmPassword, ...other } = values;
               // try {
               //   const user = await axiosInstance.post("/api/users/signup", other);
@@ -91,45 +92,13 @@ function Login() {
               transition={{ duration: 0.3, delay: 0.5 }}
             >
               <FormWrapper>
-                <HeadingElement>{t("login-now")}</HeadingElement>
+                <HeadingElement>{t("reset-password")}</HeadingElement>
                 <Grid container>
                   <Grid size={{ xs: 12 }}>
-                    <TextFieldWrapper name="email" label={t("email")} />
-                  </Grid>
-                  <Grid size={{ xs: 12 }}>
-                    {" "}
-                    <TextFieldWrapper
-                      name="password"
-                      label={t("password")}
-                      type="password"
-                    />
+                    <TextFieldWrapper name="password" label={t("password")} type="password" />
                   </Grid>
                 </Grid>
-                <ButtonWrapper>{t("login")}</ButtonWrapper>{" "}
-                <div className="text-center  mt-2">
-                  {t("do-not-have-account")}
-                  <Link
-                    to="/signup"
-                    title="Create Account"
-                    style={{
-                      fontWeight: "700",
-                    }}
-                  >
-                    {t("signup")}{" "}
-                  </Link>
-                </div>
-                <div className="text-center  mt-2">
-                  {t("forget-password")}
-                  <Link
-                    to="/password-forget"
-                    title="Forget Password"
-                    style={{
-                      fontWeight: "700",
-                    }}
-                  >
-                    {t("reset-it")}{" "}
-                  </Link>
-                </div>
+                <ButtonWrapper>{t("reset-password")}</ButtonWrapper>{" "}
               </FormWrapper>
             </motion.div>
           </Formik>
@@ -139,4 +108,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ResetPassword;

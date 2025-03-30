@@ -8,6 +8,10 @@ import HomePage from "../pages/home";
 import Loader from "../components/loader";
 const Login = React.lazy(() => import("../pages/auth/login"));
 const Signup = React.lazy(() => import("../pages/auth/signup"));
+const ResetPassword = React.lazy(() => import("../pages/auth/reset-password"));
+const ForgetPassword = React.lazy(
+  () => import("../pages/auth/forget-password")
+);
 const ChangePassword = React.lazy(
   () => import("../pages/auth/change-password")
 );
@@ -71,6 +75,22 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <ChangePassword />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/password-forget",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ForgetPassword />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/password-reset/:token",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ResetPassword />{" "}
           </Suspense>
         ),
       },

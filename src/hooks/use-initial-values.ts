@@ -7,6 +7,8 @@ import {
   InitialValeuesGetQuestion,
   InitialValuesContacts,
   InitialValuesOffsideGame,
+  InitialValuesForgetPassword,
+  InitialValuesResetPassword
 } from "../utils/types/initialValues";
 
 function UseInitialValues() {
@@ -48,6 +50,12 @@ function UseInitialValues() {
     question5: "",
     question6: "",
   };
+  const INITIAL_FORM_STATE_FORGET_PASSWORD: InitialValuesForgetPassword = {
+    email: "",
+  };
+  const INITIAL_FORM_STATE_RESET_PASSWORD: InitialValuesResetPassword = {
+    password: "",
+  };
   return {
     INITIAL_FORM_STATE_SIGNUP,
     INITIAL_FORM_STATE_LOGIN,
@@ -56,6 +64,8 @@ function UseInitialValues() {
     INITIAL_FORM_STATE_GET_QUESTIONS,
     INITIAL_FORM_STATE_CONTACT,
     INITIAL_FORM_STATE_OFFSIDE_GAME,
+    INITIAL_FORM_STATE_FORGET_PASSWORD,
+    INITIAL_FORM_STATE_RESET_PASSWORD
   };
 }
 

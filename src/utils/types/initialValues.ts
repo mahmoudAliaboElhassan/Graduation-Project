@@ -36,3 +36,9 @@ export interface InitialValuesOffsideGame {
   question5: string;
   question6: string;
 }
+export interface InitialValuesForgetPassword {
+  email: string;
+}
+export interface InitialValuesResetPassword {
+  password: string;
+}

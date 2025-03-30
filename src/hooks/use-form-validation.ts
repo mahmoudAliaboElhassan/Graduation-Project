@@ -115,6 +115,33 @@ function UseFormValidation() {
     question5: Yup.string().required("Required"),
     question6: Yup.string().required("Required"),
   });
+  const FORM_VALIDATION_SCHEMA_FORGET_PASSWORD = Yup.object({
+    email: Yup.string()
+      .email("Enter a Valid Email")
+      .required("Email is Required")
+      .matches(
+        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+        "Email should have at least two characters after the last dot"
+      ),
+  });
+  const FORM_VALIDATION_SCHEMA_RESET_PASSWORD = Yup.object({
+    password: Yup.string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters long")
+    .matches(
+      /[A-Z]/,
+      "Password must contain at least one uppercase letter (A-Z)"
+    )
+    .matches(
+      /[a-z]/,
+      "Password must contain at least one lowercase letter (a-z)"
+    )
+    .matches(/[0-9]/, "Password must contain at least one number (0-9)")
+    .matches(
+      /[\W_]/,
+      "Password must contain at least one special character (!@#$%^&*, etc.)"
+    ),
+  });
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
     FORM_VALIDATION_SCHEMA_SIGNUP,
@@ -123,6 +150,8 @@ function UseFormValidation() {
     FORM_VALIDATION_SCHEMA_GET_QUESTIONS,
     FORM_VALIDATION_SCHEMA_CONTACTS,
     FORM_VALIDATION_OFFSIDE_GAME,
+    FORM_VALIDATION_SCHEMA_FORGET_PASSWORD,
+    FORM_VALIDATION_SCHEMA_RESET_PASSWORD
   };
 }
 

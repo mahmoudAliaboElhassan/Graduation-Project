@@ -104,5 +104,9 @@
   "offside-title": "Offside",
   "offside-description": "Offside is a fast-paced logic game that tests your ability to distinguish between truth and deception! You start with 120 points and are presented with six statements—some are true, and some are false. Your goal is to identify the correct ones while avoiding the false ones. But be careful! Every wrong choice deducts points from your score. Can you keep your score high and make the right calls? Challenge yourself and prove your sharp judgment!",
   "correct-info": "Correct Info",
-  "false-info": "False Info"
+  "false-info": "False Info",
+  "get-reset": "Get Reset Link",
+  "forget-password": "Forgot Password? ",
+  "reset-it": "Reset It",
+  "reset-password":"Reset Password"
 }
