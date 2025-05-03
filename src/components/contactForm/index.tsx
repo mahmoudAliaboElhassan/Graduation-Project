@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
-import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
+ import Swal from "sweetalert2";
 import emailjs from "emailjs-com";
 
 import TextFieldWrapper from "../../components/formUI/textField";
@@ -11,16 +12,16 @@ import ButtonWrapper from "../../components/formUI/submit";
 
 import UseInitialValues from "../../hooks/use-initial-values";
 import UseFormValidation from "../../hooks/use-form-validation";
-import { useTranslation } from "react-i18next";
+import UseThemMode from "../../hooks/use-theme-mode";
+
 import { HeadingElement } from "../../styles/heading";
 import { FormWrapper } from "../../styles/forms";
 import { useAppDispatch } from "../../hooks/redux";
-import UseThemMode from "../../hooks/use-theme-mode";
 import { InitialValuesContacts } from "../../utils/types/initialValues";
 
 function ContactForm() {
   const { t } = useTranslation();
-  const { INITIAL_FORM_STATE_CONTACT } = UseInitialValues();
+   const { INITIAL_FORM_STATE_CONTACT } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_CONTACTS } = UseFormValidation();
   const { themeMode } = UseThemMode();
 
@@ -90,7 +91,7 @@ function ContactForm() {
             transition={{ duration: 0.3, delay: 0.5 }}
           >
             <FormWrapper style={{ border: "none" }}>
-              <HeadingElement>{t("contact-heading")}</HeadingElement>
+              <HeadingElement mode={themeMode}>{t("contact-heading")}</HeadingElement>
               <Grid container spacing={1}>
                 <Grid size={{ xs: 6 }}>
                   <TextFieldWrapper name="email" label={t("email")} />

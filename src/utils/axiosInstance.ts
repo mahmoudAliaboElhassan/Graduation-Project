@@ -10,8 +10,8 @@ import axios, {
 
 // Define your Axios instance
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL, // Set your API base URL here
-  withCredentials: true, // Important: Sends cookies with requests
+  baseURL: process.env.REACT_APP_API_URL,
+  withCredentials: true,
 
   // withCredentials: true: This is a crucial setting for cookies. When set to true, Axios will send cookies along with each request. Cookies are often used for authentication (e.g., JWT tokens stored in cookies). This setting ensures that cookies set by your server are sent along with every request to that server.
 

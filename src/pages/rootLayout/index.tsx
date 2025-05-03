@@ -19,7 +19,7 @@ function RootLayout() {
   const isSmallScreen = UseMediaQuery({ query: "(max-width: 360px)" });
 
   const { t } = useTranslation();
-  const location = useLocation(); // Track route changes
+  const location = useLocation();
   console.log("location.pathname", location.pathname);
   useEffect(() => {
     document.title = t("website-title");
@@ -49,7 +49,7 @@ function RootLayout() {
           color: "white",
           backgroundImage:
             mymode === "light"
-              ? "linear-gradient(0deg, #E52220, #013c74)"
+              ? "linear-gradient(to top, #c31432, #240b36)"
               : "linear-gradient(0deg, #1a1a2e, #4b000f)",
         }}
       >

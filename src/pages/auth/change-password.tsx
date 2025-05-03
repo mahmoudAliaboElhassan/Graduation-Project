@@ -83,7 +83,7 @@ function ChangePassword() {
           >
             <div>
               <FormWrapper>
-                <HeadingElement>{t("change-password-now")}</HeadingElement>
+                <HeadingElement mode={themeMode}>{t("change-password-now")}</HeadingElement>
                 <Grid container>
                   <Grid size={{ xs: 12 }}>
                     <TextFieldWrapper

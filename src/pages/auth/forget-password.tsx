@@ -92,7 +92,7 @@ function ForgetPassword() {
               transition={{ duration: 0.3, delay: 0.5 }}
             >
               <FormWrapper>
-                <HeadingElement>{t("forget-password")}</HeadingElement>
+                <HeadingElement mode={themeMode}>{t("forget-password")}</HeadingElement>
                 <Grid container>
                   <Grid size={{ xs: 12 }}>
                     <TextFieldWrapper name="email" label={t("email")} />

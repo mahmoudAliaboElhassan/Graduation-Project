@@ -13,6 +13,8 @@ import UseMediaQuery from "../../hooks/use-media-query";
 import UseDirection from "../../hooks/use-direction";
 import { LinkPlay } from "../../styles/games/five-hints";
 import { useAppSelector } from "../../hooks/redux";
+import WithoutDelegation from "../../components/nodeletation";
+import WithDelegation from "../../components/delegation";
 
 function HomePage() {
   const [number, setNumber] = useState<number>(0);
@@ -44,6 +46,7 @@ function HomePage() {
         }}
       >
         {/* <Test/> */}
+        {/* <WithDelegation /> */}
 
         <Box
           sx={{

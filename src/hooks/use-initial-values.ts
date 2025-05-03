@@ -8,7 +8,7 @@ import {
   InitialValuesContacts,
   InitialValuesOffsideGame,
   InitialValuesForgetPassword,
-  InitialValuesResetPassword
+  InitialValuesResetPassword,
 } from "../utils/types/initialValues";
 
 function UseInitialValues() {
@@ -65,7 +65,7 @@ function UseInitialValues() {
     INITIAL_FORM_STATE_CONTACT,
     INITIAL_FORM_STATE_OFFSIDE_GAME,
     INITIAL_FORM_STATE_FORGET_PASSWORD,
-    INITIAL_FORM_STATE_RESET_PASSWORD
+    INITIAL_FORM_STATE_RESET_PASSWORD,
   };
 }
 

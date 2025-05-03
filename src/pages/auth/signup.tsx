@@ -150,7 +150,7 @@ function SignUp() {
               transition={{ duration: 0.3, delay: 0.5 }}
             >
               <FormWrapper>
-                <HeadingElement>{t("signup-now")}</HeadingElement>
+                <HeadingElement mode={mymode}>{t("signup-now")}</HeadingElement>
                 <FormFields />
                 <ButtonWrapper>{t("signup")}</ButtonWrapper>
                 <div className="text-center  mt-2">
