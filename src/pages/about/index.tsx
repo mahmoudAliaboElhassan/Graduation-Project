@@ -1,12 +1,5 @@
-import CategoryEntertainment from "../categoryGames/entertainment";
-
 function About() {
-  return (
-    <div>
-      {" "}
-      <CategoryEntertainment />
-    </div>
-  );
+  return <div> about page</div>;
 }
 
 export default About;
