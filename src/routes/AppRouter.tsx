@@ -121,7 +121,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/games/:categoryGame/:gameType/play-hints",
+        path: "/games/:categoryGame/:gameType/play-five-hints",
         element: (
           <Suspense fallback={<Loader />}>
             <FiveHints />{" "}

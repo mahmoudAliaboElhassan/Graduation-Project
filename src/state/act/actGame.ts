@@ -47,8 +47,8 @@ export const getOffSideQuestions = createAsyncThunk(
     }
   }
 );
-export const getOffSideQuestionsEntertainment = createAsyncThunk(
-  "gameSlice/getOffSideQuestionsEntertainment",
+export const getHintsEntertainment = createAsyncThunk(
+  "gameSlice/getHintsEntertainment",
   async (
     { entertainmentSection }: { entertainmentSection: Number },
     thunkAPI
@@ -56,7 +56,7 @@ export const getOffSideQuestionsEntertainment = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const res = await axiosInstance.get(
+      const res = await axiosInstance.get<getHintsResponse>(
         `/api/Entertainment/${entertainmentSection}`
       );
       console.log("from slice res is", res);

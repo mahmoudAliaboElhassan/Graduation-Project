@@ -61,7 +61,7 @@ const CategoryEntertainmentCard: React.FC<{
     >
       <CardActionArea
         component={Link}
-        to="/games/entertainment"
+        to="/games/entertainment/"
         onClick={() => localStorage.setItem("entertainmentGameId", id)}
         sx={{
           display: "flex",

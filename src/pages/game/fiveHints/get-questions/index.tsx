@@ -100,7 +100,7 @@ const MultiStepModal = () => {
     localStorage.setItem("chapter", values.chapter);
 
     params.gameType === "five-hints"
-      ? navigate("play-hints")
+      ? navigate("play-five-hints")
       : navigate("play-offside");
   };
 

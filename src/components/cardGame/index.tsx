@@ -7,7 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import type { GameData } from "../../utils/types/general";
 import UseMediaQuery from "../../hooks/use-media-query";
@@ -27,7 +27,7 @@ function CardGame({ to, data }: Props) {
   const { direction } = UseDirection();
   const isSmallScreen = UseMediaQuery({ query: "(max-width: 600px)" });
   const [isHovered, setIsHovered] = React.useState(false);
-
+  const { categoryGame } = useParams();
   // Map icon names to components
   const iconMap = {
     EmojiObjects: <EmojiObjectsIcon />,
@@ -58,7 +58,11 @@ function CardGame({ to, data }: Props) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       component={Link}
-      to={to}
+      to={
+        categoryGame === "education"
+          ? to
+          : `/games/entertainment/${to}/play-${to}`
+      }
     >
       <Box
         sx={{

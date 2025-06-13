@@ -3,9 +3,13 @@ import Grid from "@mui/material/Grid2";
 import { motion } from "framer-motion";
 import { Container, TextField, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { getHintsQuestions } from "../../../state/slices/game";
+import {
+  getHintsQuestions,
+  getHintsEntertainment,
+} from "../../../state/slices/game";
 import { Hint, Timer } from "../../../styles/games/five-hints";
 import QuestionAnswer from "../../../components/formUI/formAnswer";
 
@@ -20,15 +24,24 @@ function FiveHints() {
   const { t } = useTranslation();
   const { grade } = useAppSelector((state) => state.auth);
 
+  const { categoryGame } = useParams();
+
   useEffect(() => {
-    dispatch(
-      getHintsQuestions({
-        grade,
-        subject: localStorage.getItem("subject") || "",
-        chapter: localStorage.getItem("chapter") || "",
-        userID: localStorage.getItem("id") || "",
-      })
-    );
+    categoryGame == "education"
+      ? dispatch(
+          getHintsQuestions({
+            grade,
+            subject: localStorage.getItem("subject") || "",
+            chapter: localStorage.getItem("chapter") || "",
+            userID: localStorage.getItem("id") || "",
+          })
+        )
+      : dispatch(
+          getHintsEntertainment({
+            entertainmentSection:
+              Number(localStorage.getItem("entertainmentGameId")) || 0,
+          })
+        );
   }, []);
 
   useEffect(() => {

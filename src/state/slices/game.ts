@@ -5,6 +5,7 @@ import {
   getHintsQuestions,
   answerQuestion,
   getOffSideQuestions,
+  getHintsEntertainment
 } from "../act/actGame";
 import { QuestionData } from "../../utils/types/initialState";
 const { initialStateGame } = UseInitialStates();
@@ -48,6 +49,26 @@ export const gameSlice = createSlice({
       .addCase(getHintsQuestions.rejected, (state, action) => {
         state.loadingGetQuestions = false;
       })
+      .addCase(getHintsEntertainment.pending, (state, action) => {
+        state.loadingGetQuestions = true;
+      })
+      .addCase(getHintsEntertainment.fulfilled, (state, action) => {
+        state.loadingGetQuestions = false;
+        state.questionData = action.payload as {} as QuestionData;
+        console.log("action.payload");
+        console.log(action.payload);
+        console.log("state.questionData");
+        console.log(state.questionData);
+        if (state.questionData.correctAnswer !== null) {
+          localStorage.setItem(
+            "correctAnswer",
+            state.questionData.correctAnswer
+          );
+        }
+      })
+      .addCase(getHintsEntertainment.rejected, (state, action) => {
+        state.loadingGetQuestions = false;
+      })
 
       .addCase(getOffSideQuestions.pending, (state, action) => {
         state.loadingGetQuestions = true;
@@ -76,4 +97,4 @@ export const gameSlice = createSlice({
 });
 
 export default gameSlice.reducer;
-export { getHintsQuestions, getOffSideQuestions, answerQuestion };
+export { getHintsQuestions,getHintsEntertainment, getOffSideQuestions, answerQuestion };
