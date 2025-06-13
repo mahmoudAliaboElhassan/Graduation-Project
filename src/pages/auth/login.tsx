@@ -20,6 +20,7 @@ import { logIn } from "../../state/act/actAuth";
 import UseThemMode from "../../hooks/use-theme-mode";
 import Swal from "sweetalert2";
 import { AxiosError } from "axios";
+import PasswordField from "../../components/formUI/password";
 
 function Login() {
   const navigate = useNavigate();
@@ -91,18 +92,16 @@ function Login() {
               transition={{ duration: 0.3, delay: 0.5 }}
             >
               <FormWrapper>
-                <HeadingElement mode={themeMode}>{t("login-now")}</HeadingElement>
+                <HeadingElement mode={themeMode}>
+                  {t("login-now")}
+                </HeadingElement>
                 <Grid container>
                   <Grid size={{ xs: 12 }}>
                     <TextFieldWrapper name="email" label={t("email")} />
                   </Grid>
                   <Grid size={{ xs: 12 }}>
                     {" "}
-                    <TextFieldWrapper
-                      name="password"
-                      label={t("password")}
-                      type="password"
-                    />
+                    <PasswordField name="password" label={t("password")} />
                   </Grid>
                 </Grid>
                 <ButtonWrapper>{t("login")}</ButtonWrapper>{" "}

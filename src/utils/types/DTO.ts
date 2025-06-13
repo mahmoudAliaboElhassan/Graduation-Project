@@ -16,6 +16,7 @@ export interface UserDataGameGetQuestion {
   grade: forLocalStorage;
   subject: string;
   chapter: string;
+  userID: string;
 }
 export interface UserDataHintGameAnswerQuestion {
   answer: string;

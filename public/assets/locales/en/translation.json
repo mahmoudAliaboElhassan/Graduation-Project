@@ -108,5 +108,61 @@
   "get-reset": "Get Reset Link",
   "forget-password": "Forgot Password? ",
   "reset-it": "Reset It",
-  "reset-password":"Reset Password"
+  "reset-password": "Reset Password",
+
+  "entertainment-categories": {
+    "pageTitle": "Explore Categories",
+    "musicSongs": {
+      "title": "Music & Songs",
+      "description": "Explore a diverse collection of music genres, songs, artists, and musical instruments"
+    },
+    "moviesTv": {
+      "title": "Movies & TV Shows",
+      "description": "Discover popular movies, TV series, documentaries, and entertainment content"
+    },
+    "artPaintings": {
+      "title": "Art & Paintings",
+      "description": "Browse through famous artworks, paintings, sculptures, and various art styles"
+    },
+    "generalKnowledge": {
+      "title": "General Knowledge",
+      "description": "Expand your knowledge with interesting facts, history, science, and general information"
+    },
+    "sportsGames": {
+      "title": "Sports & Games",
+      "description": "Learn about different sports, games, competitions, and recreational activities"
+    }
+  },
+
+  "categories": {
+    "pageTitle": "Explore Categories",
+    "musicSongs": {
+      "title": "Music & Songs",
+      "description": "Explore a diverse collection of music genres, songs, artists, and musical instruments"
+    },
+    "moviesTv": {
+      "title": "Movies & TV Shows",
+      "description": "Discover popular movies, TV series, documentaries, and entertainment content"
+    },
+    "artPaintings": {
+      "title": "Art & Paintings",
+      "description": "Browse through famous artworks, paintings, sculptures, and various art styles"
+    },
+    "generalKnowledge": {
+      "title": "General Knowledge",
+      "description": "Expand your knowledge with interesting facts, history, science, and general information"
+    },
+    "sportsGames": {
+      "title": "Sports & Games",
+      "description": "Learn about different sports, games, competitions, and recreational activities"
+    },
+    "entertainment": {
+      "title": "Entertainment",
+      "description": "Explore diverse entertainment content including movies, music, games and more"
+    },
+    "education": {
+      "title": "Education",
+      "description": "Discover valuable educational resources, courses, and materials for learning and development"
+    }
+  }
 }

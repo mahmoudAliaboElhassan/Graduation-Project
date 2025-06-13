@@ -15,6 +15,7 @@ import { LinkPlay } from "../../styles/games/five-hints";
 import { useAppSelector } from "../../hooks/redux";
 import WithoutDelegation from "../../components/nodeletation";
 import WithDelegation from "../../components/delegation";
+import CategoriesPage from "../categoryGames";
 
 function HomePage() {
   const [number, setNumber] = useState<number>(0);
@@ -47,7 +48,6 @@ function HomePage() {
       >
         {/* <Test/> */}
         {/* <WithDelegation /> */}
-
         <Box
           sx={{
             maxWidth: isBigScreen ? "700px" : "600px",

@@ -47,6 +47,28 @@ export const getOffSideQuestions = createAsyncThunk(
     }
   }
 );
+export const getOffSideQuestionsEntertainment = createAsyncThunk(
+  "gameSlice/getOffSideQuestionsEntertainment",
+  async (
+    { entertainmentSection }: { entertainmentSection: Number },
+    thunkAPI
+  ) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.get(
+        `/api/Entertainment/${entertainmentSection}`
+      );
+      console.log("from slice res is", res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        console.log("400 Bad Request - Invalid input from slice");
+      }
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
 
 export const answerQuestion = createAsyncThunk(
   "gameSlice/answerQuestion",

@@ -15,6 +15,7 @@ function UseInitialStates() {
     name: localStorage.getItem("name"),
     grade: localStorage.getItem("grade"),
     token: localStorage.getItem("token"),
+    Uid: localStorage.getItem("id"),
     error: "",
     subjects: [],
     chapters: [],

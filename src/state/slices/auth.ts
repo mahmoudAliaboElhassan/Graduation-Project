@@ -50,6 +50,8 @@ export const authSlice = createSlice({
         localStorage.setItem("token", action.payload.token);
         state.grade = action.payload.grade;
         localStorage.setItem("grade", action.payload.grade);
+        state.Uid = action.payload.id;
+        localStorage.setItem("id", action.payload.id);
       })
       .addCase(logIn.rejected, (state, action) => {
         state.loadingAuth = false;

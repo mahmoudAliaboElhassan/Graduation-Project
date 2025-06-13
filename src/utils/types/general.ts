@@ -46,5 +46,22 @@ export interface SocialMediaTypes {
 export interface GameData {
   title: string;
   description: string;
-  image: string;
+  icon: string;
+  color: string;
+  category?: string;
+}
+export interface CtegoryGames {
+  title: string;
+  description: string;
+  icon: string;
+  route: string;
+  color: string;
+}
+export interface CategoryEntertainmentGame {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  color: string;
+  route: string;
 }

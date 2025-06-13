@@ -7,6 +7,7 @@ import {
   Select,
   ListSubheader,
   SelectChangeEvent,
+  Box,
 } from "@mui/material";
 import { useField, useFormikContext } from "formik";
 import { Colors } from "../../../styles/theme";
@@ -18,6 +19,8 @@ type Options = {
   group?: string;
   name?: string;
   number?: number;
+  subjectName?: string;
+  subjectImage?: string;
 };
 
 interface Props {
@@ -49,7 +52,7 @@ function SelectComponent({ name, label, options }: Props) {
     configSelect.error = true;
     configSelect.helperText = meta.error;
   }
-
+  console.log("options", options);
   return (
     <FormControl
       fullWidth
@@ -90,8 +93,25 @@ function SelectComponent({ name, label, options }: Props) {
             ))
           : name == "subject"
           ? options?.map((subject) => (
-              <MenuItem key={subject as string} value={subject as string}>
-                {subject as string}
+              <MenuItem
+                key={subject.subjectName as string}
+                value={subject.subjectName as string}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  {subject.subjectImage && (
+                    <img
+                      src={subject.subjectImage}
+                      alt={subject.subjectName}
+                      style={{
+                        width: "24px",
+                        height: "24px",
+                        borderRadius: "4px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  )}
+                  <span>{subject.subjectName as string}</span>
+                </Box>
               </MenuItem>
             ))
           : name == "chapter"

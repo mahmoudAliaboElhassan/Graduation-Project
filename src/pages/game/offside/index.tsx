@@ -20,7 +20,9 @@ import UseInitialValues from "../../../hooks/use-initial-values";
 function Offside() {
   const dispatch = useAppDispatch();
   const { grade } = useAppSelector((state) => state.auth);
-  const{offsideInformation,offsideCorrectAnswer}=useAppSelector((state)=>state.game)
+  const { offsideInformation, offsideCorrectAnswer } = useAppSelector(
+    (state) => state.game
+  );
   const data = ["first", "second", "third", "fourth", "fifth", "sixth"];
 
   useEffect(() => {
@@ -29,6 +31,7 @@ function Offside() {
         grade,
         subject: localStorage.getItem("subject") || "",
         chapter: localStorage.getItem("chapter") || "",
+        userID: localStorage.getItem("id") || "",
       })
     );
   }, [dispatch, grade]);

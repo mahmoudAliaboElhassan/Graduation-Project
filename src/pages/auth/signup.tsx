@@ -25,6 +25,7 @@ import signupPage from "../../assets/signUpImage.jpeg.jpg";
 import { isToastActive } from "react-toastify/dist/core/store";
 import UseGrades from "../../hooks/use-grades";
 import UseSubjects from "../../hooks/use-subjects";
+import PasswordField from "../../components/formUI/password";
 
 const FormFields = () => {
   const { values } = useFormikContext() as any;
@@ -43,18 +44,10 @@ const FormFields = () => {
           <TextFieldWrapper name="email" label={t("email")} />
         </Grid>
         <Grid size={{ xs: 12 }}>
-          <TextFieldWrapper
-            name="password"
-            label={t("password")}
-            type="password"
-          />
+          <PasswordField name="password" label={t("password")} />
         </Grid>
         <Grid size={{ xs: 12 }}>
-          <TextFieldWrapper
-            name="confirmPassword"
-            label={t("confirm-password")}
-            type="password"
-          />
+          <PasswordField name="confirmPassword" label={t("confirm-password")} />
         </Grid>
         {/* <Grid size={{ xs: 12 }}>
           <PhoneForm name="phone" />

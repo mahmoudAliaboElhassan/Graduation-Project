@@ -2,7 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import axiosInstance from "../../utils/axiosInstance";
 import { UserDataLogin, UserDataSignUp, Grade } from "../../utils/types/DTO";
-import { LoginResponse, ResponseSubject ,ResponseChapters} from "../../utils/dataResponse";
+import {
+  LoginResponse,
+  ResponseSubject,
+  ResponseChapters,
+} from "../../utils/dataResponse";
 
 interface ResponseCreate {
   message: string;
@@ -69,13 +73,12 @@ export const logIn = createAsyncThunk(
 );
 export const getSubjects = createAsyncThunk(
   "authSlice/getSubjects",
-  async (grade: Grade, thunkAPI) => {
+  async ({ grade }: { grade: Number }, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const res = await axiosInstance.post<ResponseSubject>(
-        "/api/Accounts/subjects",
-        grade
+      const res = await axiosInstance.get<ResponseSubject>(
+        `/api/Accounts/subjects/${grade}`
       );
       console.log("from slice res is");
       console.log(res);
@@ -92,13 +95,13 @@ export const getSubjects = createAsyncThunk(
 );
 export const getChapters = createAsyncThunk(
   "authSlice/getChapters",
-  async ({grade,subject}: {grade:number,subject:string}, thunkAPI) => {
+  async ({ grade, subject }: { grade: number; subject: string }, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
 
     try {
       const res = await axiosInstance.post<ResponseChapters>(
         "/api/Accounts/chapters",
-        {grade,subject}
+        { grade, subject }
       );
       console.log("from slice res is");
       console.log(res);

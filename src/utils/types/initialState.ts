@@ -15,9 +15,11 @@ export interface InitialStateAuth {
   email: forLocalStorage;
   grade: forLocalStorage;
   token: forLocalStorage;
+  Uid: forLocalStorage;
   error: string;
   subjects: string[];
   chapters: { name: string; number: number }[];
+   
 }
 export interface InitialStateGame {
   questionData: QuestionData;

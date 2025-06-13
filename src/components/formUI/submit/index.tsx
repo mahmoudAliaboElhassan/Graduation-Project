@@ -10,9 +10,10 @@ import UseLoadingStatus from "../../../hooks/use-loading-status";
 
 interface Props {
   children: React.ReactNode;
+  fullWidth?: boolean;
 }
 
-const ButtonWrapper = ({ children }: Props) => {
+const ButtonWrapper = ({ children, fullWidth }: Props) => {
   const { submitForm } = useFormikContext();
 
   // Change the event type to React.MouseEvent<HTMLButtonElement>
@@ -35,7 +36,7 @@ const ButtonWrapper = ({ children }: Props) => {
     color: mymode === "dark" ? "secondary" : "primary",
     variant: "outlined",
     disabled: loadingStatus,
-    fullWidth: true,
+    fullWidth,
   };
 
   return (

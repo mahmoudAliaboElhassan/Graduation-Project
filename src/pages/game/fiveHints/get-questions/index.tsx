@@ -1,112 +1,164 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import {
   Modal,
   Box,
   Button,
   Typography,
-  TextField,
   Stepper,
   Step,
   StepLabel,
+  IconButton,
+  useTheme,
+  useMediaQuery,
+  Paper,
 } from "@mui/material";
-import {
-  Formik,
-  Form,
-  Field,
-  ErrorMessage,
-  FormikErrors,
-  FormikTouched,
-} from "formik";
+import { Formik, Form, type FormikTouched, type FormikErrors } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
+import { useTranslation } from "react-i18next";
 
 import UseInitialValues from "../../../../hooks/use-initial-values";
 import UseFormValidation from "../../../../hooks/use-form-validation";
 import SelectComponent from "../../../../components/formUI/select";
-import UseSubjects from "../../../../hooks/use-subjects";
-import { useTranslation } from "react-i18next";
 import ButtonWrapper from "../../../../components/formUI/submit";
-import UseChapter from "../../../../hooks/use-chapter";
 import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
 import { getSubjects, getChapters } from "../../../../state/slices/auth";
+import UseDirection from "../../../../hooks/use-direction";
 
-const { FORM_VALIDATION_SCHEMA_GET_QUESTIONS } = UseFormValidation();
-
-const steps = ["Select Subject", "Select Chapter"];
+interface FormValues {
+  subject: string;
+  chapter: string;
+}
 
 const MultiStepModal = () => {
   const [activeStep, setActiveStep] = useState(0);
   const { INITIAL_FORM_STATE_GET_QUESTIONS } = UseInitialValues();
-  // const { Chapters } = UseChapter();
-  // const { subjects } = UseSubjects();
+  const { FORM_VALIDATION_SCHEMA_GET_QUESTIONS } = UseFormValidation();
   const { t } = useTranslation();
+  const { direction } = UseDirection();
+  const navigate = useNavigate();
+  const params = useParams();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
+
+  // Redux state and dispatch
   const { grade, subjects, chapters } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
+  // Steps for the stepper
+  const steps = [t("select-subject"), t("select-chapter")];
+
+  // Fetch subjects when component mounts
   useEffect(() => {
     dispatch(getSubjects({ grade: grade ? +grade : 1 }));
-  }, [dispatch]);
+  }, [dispatch, grade]);
 
+  // Handle closing the modal
+  const handleClose = () => {
+    navigate(-1); // Go back to previous page
+  };
+
+  // Handle next step in the form
   const handleNext = (
-    values: { subject: any; chapter: string },
-    setTouched: {
-      (
-        touched: FormikTouched<{ subject: string; chapter: string }>,
-        shouldValidate?: boolean
-      ): Promise<void | FormikErrors<{ subject: string; chapter: string }>>;
-      (arg0: { subject?: boolean; chapter?: boolean }): void;
-    },
-    setErrors: {
-      (errors: FormikErrors<{ subject: string; chapter: string }>): void;
-      (arg0: { subject?: string; chapter?: string }): void;
-    }
+    values: FormValues,
+    setTouched: (
+      touched: Partial<FormikTouched<FormValues>>,
+      shouldValidate?: boolean
+    ) => void,
+    setErrors: (errors: Partial<FormikErrors<FormValues>>) => void
   ) => {
     if (activeStep === 0 && !values.subject) {
       setTouched({ subject: true });
-      setErrors({ subject: "Subject Field is required" });
+      setErrors({ subject: t("subject-required") });
       return;
     } else if (activeStep === 0 && values.subject) {
       dispatch(
         getChapters({ grade: grade ? +grade : 1, subject: values.subject })
       );
     }
+
     if (activeStep === 1 && !values.chapter) {
       setTouched({ chapter: true });
-      setErrors({ chapter: "Chapter Field is required" });
+      setErrors({ chapter: t("chapter-required") });
       return;
     }
+
     setActiveStep((prevStep) => prevStep + 1);
   };
 
+  // Handle going back a step
   const handleBack = () => {
     setActiveStep((prevStep) => prevStep - 1);
   };
-  const navigate = useNavigate();
-  const params = useParams();
-  console.log("params", params);
+
+  // Handle form submission
+  const handleSubmit = (values: FormValues) => {
+    localStorage.setItem("subject", values.subject);
+    localStorage.setItem("chapter", values.chapter);
+
+    params.gameType === "five-hints"
+      ? navigate("play-hints")
+      : navigate("play-offside");
+  };
+
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
-      <Modal
-        open={true}
-        // onClose={onClose}
-      >
-        <Box
+      <Modal open={true} onClose={handleClose}>
+        <Paper
+          elevation={6}
           sx={{
             position: "absolute",
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 400,
+            width: { xs: "90%", sm: "450px", md: "500px" },
+            maxWidth: "95vw",
+            maxHeight: "90vh",
+            overflow: "auto",
             bgcolor: "background.paper",
             boxShadow: 24,
-            p: 4,
+            p: { xs: 2, sm: 3, md: 4 },
             borderRadius: 2,
+            direction: direction.direction,
           }}
         >
-          <Typography variant="h6" align="center" mb={2}>
-            {t("get-question-heading")}
-          </Typography>
+          {/* Header with close button */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 2,
+            }}
+          >
+            <Typography variant="h6" component="h2">
+              {t("get-question-heading")}
+            </Typography>
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
 
-          <Stepper activeStep={activeStep} alternativeLabel>
+          {/* Stepper */}
+          <Stepper
+            activeStep={activeStep}
+            alternativeLabel
+            sx={{
+              mb: 3,
+              "& .MuiStepLabel-label": {
+                fontSize: { xs: "0.75rem", sm: "0.875rem" },
+              },
+            }}
+          >
             {steps.map((label, index) => (
               <Step key={index}>
                 <StepLabel>{label}</StepLabel>
@@ -114,15 +166,11 @@ const MultiStepModal = () => {
             ))}
           </Stepper>
 
+          {/* Form */}
           <Formik
             initialValues={INITIAL_FORM_STATE_GET_QUESTIONS}
             validationSchema={FORM_VALIDATION_SCHEMA_GET_QUESTIONS}
-            onSubmit={(values) => {
-              console.log("Form Submitted", values);
-              localStorage.setItem("subject", values.subject);
-              localStorage.setItem("chapter", values.chapter);
-              navigate(`/${params.gameType}`);
-            }}
+            onSubmit={handleSubmit}
           >
             {({ values, setTouched, setErrors }) => (
               <Form>
@@ -140,27 +188,43 @@ const MultiStepModal = () => {
                   <Box mt={2}>
                     <SelectComponent
                       name="chapter"
-                      options={chapters as any}
+                      options={chapters || []}
                       label={t("select-chapter")}
                     />
                   </Box>
                 )}
 
-                <Box mt={3} display="flex" justifyContent="space-between">
+                {/* Navigation buttons */}
+                <Box
+                  mt={3}
+                  display="flex"
+                  justifyContent="space-between"
+                  flexDirection={isMobile ? "column" : "row"}
+                  gap={isMobile ? 2 : 0}
+                >
                   <Button
                     disabled={activeStep === 0}
                     onClick={handleBack}
                     variant="outlined"
+                    fullWidth={isMobile}
+                    sx={{ order: isMobile ? 2 : 1 }}
                   >
                     {t("back")}
                   </Button>
 
                   {activeStep === steps.length - 1 ? (
-                    <ButtonWrapper>{t("get-questions")}</ButtonWrapper>
+                    <ButtonWrapper
+                      fullWidth={isMobile}
+                      // sx={{ order: isMobile ? 1 : 2 }}
+                    >
+                      {t("get-questions")}
+                    </ButtonWrapper>
                   ) : (
                     <Button
                       variant="contained"
                       onClick={() => handleNext(values, setTouched, setErrors)}
+                      fullWidth={isMobile}
+                      // sx={{ order: isMobile ? 1 : 2 }}
                     >
                       {t("next")}
                     </Button>
@@ -169,7 +233,7 @@ const MultiStepModal = () => {
               </Form>
             )}
           </Formik>
-        </Box>
+        </Paper>
       </Modal>
     </div>
   );

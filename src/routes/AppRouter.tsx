@@ -6,6 +6,8 @@ import RootLayout from "../pages/rootLayout";
 import ErrorPage from "../pages/error";
 import HomePage from "../pages/home";
 import Loader from "../components/loader";
+import CategoriesPage from "../pages/categoryGames";
+import CategoryEntertainment from "../pages/categoryGames/entertainment";
 const Login = React.lazy(() => import("../pages/auth/login"));
 const Signup = React.lazy(() => import("../pages/auth/signup"));
 const ResetPassword = React.lazy(() => import("../pages/auth/reset-password"));
@@ -95,15 +97,31 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/games",
+        path: "/games/",
         element: (
           <Suspense fallback={<Loader />}>
-            <Games />{" "}
+            <CategoriesPage />{" "}
           </Suspense>
         ),
       },
       {
-        path: "/five-hints",
+        path: "games/:categoryGame",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Games />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/games/:categoryGame/:gameType",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <GetQuestions />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/games/:categoryGame/:gameType/play-hints",
         element: (
           <Suspense fallback={<Loader />}>
             <FiveHints />{" "}
@@ -111,7 +129,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/offside",
+        path: "/games/:categoryGame/:gameType/play-offside",
         element: (
           <Suspense fallback={<Loader />}>
             <Offside />{" "}
@@ -119,10 +137,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/get-questions/:gameType",
+        path: "/entertainment-sections",
         element: (
           <Suspense fallback={<Loader />}>
-            <GetQuestions />{" "}
+            <CategoryEntertainment />{" "}
           </Suspense>
         ),
       },

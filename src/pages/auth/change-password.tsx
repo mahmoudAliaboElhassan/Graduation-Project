@@ -18,6 +18,7 @@ import { FormWrapper, ContainerFormWrapper } from "../../styles/forms";
 import { useAppDispatch } from "../../hooks/redux";
 import { logIn } from "../../state/act/actAuth";
 import UseThemMode from "../../hooks/use-theme-mode";
+import PasswordField from "../../components/formUI/password";
 
 function ChangePassword() {
   const { INITIAL_FORM_STATE_CHANGE_PASSWORD } = UseInitialValues();
@@ -83,17 +84,19 @@ function ChangePassword() {
           >
             <div>
               <FormWrapper>
-                <HeadingElement mode={themeMode}>{t("change-password-now")}</HeadingElement>
+                <HeadingElement mode={themeMode}>
+                  {t("change-password-now")}
+                </HeadingElement>
                 <Grid container>
                   <Grid size={{ xs: 12 }}>
-                    <TextFieldWrapper
+                    <PasswordField
                       name="currentPassword"
                       label={t("current-password")}
                     />
                   </Grid>
                   <Grid size={{ xs: 12 }}>
                     {" "}
-                    <TextFieldWrapper
+                    <PasswordField
                       name="newPassword"
                       label={t("new-password")}
                     />

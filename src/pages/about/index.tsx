@@ -1,7 +1,12 @@
-import React from "react";
+import CategoryEntertainment from "../categoryGames/entertainment";
 
 function About() {
-  return <div>About</div>;
+  return (
+    <div>
+      {" "}
+      <CategoryEntertainment />
+    </div>
+  );
 }
 
 export default About;

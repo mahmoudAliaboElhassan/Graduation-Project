@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import { motion } from "framer-motion";
 import { Container, TextField, Typography } from "@mui/material";
@@ -26,6 +26,7 @@ function FiveHints() {
         grade,
         subject: localStorage.getItem("subject") || "",
         chapter: localStorage.getItem("chapter") || "",
+        userID: localStorage.getItem("id") || "",
       })
     );
   }, []);
