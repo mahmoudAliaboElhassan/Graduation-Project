@@ -16,7 +16,7 @@ export const signUp = createAsyncThunk(
   "authSlice/signUp",
   async (userData: UserDataSignUp, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
-
+    console.log("userData from slice is", userData);
     try {
       const res = await axiosInstance.post<ResponseCreate>(
         "/api/Accounts/register",

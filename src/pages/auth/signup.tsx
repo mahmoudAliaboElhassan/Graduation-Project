@@ -116,7 +116,7 @@ function SignUp() {
                   password: values.password,
                   email: values.email,
                   type: +values.type,
-                  grade: `${values.grade}`,
+                  grade: `${values.grade}` || "1",
                   subject: `${values.subject}`,
                 })
               )

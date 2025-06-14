@@ -6,6 +6,8 @@ export interface LoginResponse {
   expiration: string;
   grade: string;
   message: string;
+  role: string;
+  subject: string;
 }
 export interface getHintsResponse {
   correctAnswer: string;

@@ -97,7 +97,6 @@
   "error-submitting-answer": "Error Sending Message",
   "hint": "Hint",
   "full-name": "Full Name",
-  "select-game": "Select Game you want to Study With ?",
   "start-playing": "Start Playing",
   "five-hints-title": "Five Hints",
   "five-hints-description": "Five Hints is a thrilling guessing game where you test your knowledge by uncovering the correct answer with minimal hints! You start with no clues, and every 30 seconds, a new hint is revealed. The faster you guess, the higher your rank! If you crack the mystery on the first try, you’ll achieve the top rank. But beware—every additional hint lowers your score. Can you solve the puzzle before all hints are revealed? Challenge yourself and climb the leaderboard!",
@@ -163,6 +162,70 @@
     "education": {
       "title": "Education",
       "description": "Discover valuable educational resources, courses, and materials for learning and development"
+    }
+  },
+  "questionCategories": {
+    "academic": {
+      "title": "Academic Questions",
+      "description": "Create educational questions for students and learners"
+    },
+    "entertainment": {
+      "title": "Entertainment Questions",
+      "description": "Create fun questions about movies, music, celebrities, and pop culture"
+    }
+  },
+  "select-game-create": "Select a Category to Create Questions",
+  "select-game-play": "Select a Category to Play with",
+
+  "questionCreation": {
+    "title": "Create New Question",
+    "pageTitle": "Five Hints Question Creator",
+    "pageDescription": "Create educational questions with hints for students to guess the answer",
+    "steps": {
+      "selectGrade": "Select Grade",
+      "selectChapter": "Select Chapter",
+      "enterHints": "Enter Hints",
+      "correctAnswer": "Correct Answer",
+      "summary": "Summary"
+    },
+    "labels": {
+      "grade": "Grade Level",
+      "chapter": "Chapter",
+      "hint": "Hint",
+      "correctAnswer": "Correct Answer",
+      "summary": "Summary"
+    },
+    "placeholders": {
+      "selectGrade": "Choose a grade level",
+      "selectChapter": "Choose a chapter",
+      "hint": "Enter hint",
+      "correctAnswer": "Enter the correct answer",
+      "summary": "Enter a summary or description"
+    },
+    "descriptions": {
+      "grade": "Select the grade level for which you want to create this question.",
+      "chapter": "Select the specific chapter or topic within the subject.",
+      "hints": "Enter up to 5 hints to help students guess the answer. You can leave some hints empty if needed.",
+      "correctAnswer": "Provide the correct answer that students should guess based on the hints.",
+      "summary": "Write a brief summary or description that provides context for this question."
+    },
+    "buttons": {
+      "back": "Back",
+      "next": "Next",
+      "create": "Create Question",
+      "creating": "Creating...",
+      "openModal": "Create New Question"
+    },
+    "errors": {
+      "gradeRequired": "Please select a grade level",
+      "chapterRequired": "Please select a chapter",
+      "hintsRequired": "Please enter at least one hint",
+      "correctAnswerRequired": "Please enter the correct answer",
+      "summaryRequired": "Please enter a summary"
+    },
+    "toast": {
+      "success": "🎉 Question created successfully!",
+      "error": "❌ Failed to create question. Please try again."
     }
   }
 }

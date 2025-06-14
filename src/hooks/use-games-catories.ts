@@ -9,14 +9,14 @@ function UseGamesCategories() {
       title: t("categories.entertainment.title"),
       description: t("categories.entertainment.description"),
       icon: "Theaters",
-      color: "#EC4899", // Pink
+      color: "#06B6D4", // Cyan
       route: "/entertainment-sections",
     },
     {
       title: t("categories.education.title"),
       description: t("categories.education.description"),
       icon: "School",
-      color: "#10B981", // Emerald
+      color: "#3B82F6", // Blue
       route: "education",
     },
   ];

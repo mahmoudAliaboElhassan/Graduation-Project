@@ -21,7 +21,7 @@ function HomePage() {
   const [number, setNumber] = useState<number>(0);
   const isBigScreen = UseMediaQuery({ query: "(min-width: 700px)" });
   const { t } = useTranslation();
-  const { token, grade } = useAppSelector((state) => state.auth);
+  const { token, role } = useAppSelector((state) => state.auth);
 
   const { direction } = UseDirection();
 
@@ -54,9 +54,9 @@ function HomePage() {
           }}
         >
           <IntroductorySection />
-          {token && grade && (
+          {token && (
             <LinkPlay to="games" dir={direction.direction}>
-              {t("play-now")}
+              {role === "Teacher" ? t("make-questions") : t("play-now")}
               {direction.direction === "ltr" ? (
                 <ArrowForwardIcon fontSize="large" />
               ) : (

@@ -6,11 +6,12 @@ import { useParams } from "react-router-dom"; // 👈 import this
 import CardGame from "../../components/cardGame";
 import { HeadingElement } from "../../styles/heading";
 import UseGamesData from "../../hooks/use-game-data";
+import { useAppSelector } from "../../hooks/redux";
 
 function Games() {
   const { t } = useTranslation();
   const { gamesData } = UseGamesData();
-
+  const { role } = useAppSelector((state) => state.auth);
   return (
     <Container
       maxWidth="md"
@@ -25,14 +26,24 @@ function Games() {
     >
       <Grid spacing={4} container>
         <Grid size={{ xs: 12 }}>
-          <HeadingElement>{t("select-game")}</HeadingElement>
+          <HeadingElement>
+            {role == "Teacher"
+              ? t("select-game-create")
+              : t("select-game-play")}
+          </HeadingElement>
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
-          <CardGame to={`five-hints`} data={gamesData[0]} />
+          <CardGame
+            to={role === "Teacher" ? "/make-hints" : "five-hints"}
+            data={gamesData[0]}
+          />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
-          <CardGame to={`offside`} data={gamesData[1]} />
+          <CardGame
+            to={role === "Teacher" ? "/make-offside" : "offside"}
+            data={gamesData[1]}
+          />
         </Grid>
       </Grid>
     </Container>

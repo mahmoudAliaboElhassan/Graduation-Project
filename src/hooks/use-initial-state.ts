@@ -19,6 +19,8 @@ function UseInitialStates() {
     error: "",
     subjects: [],
     chapters: [],
+    role: localStorage.getItem("role"),
+    subjectTeaching: localStorage.getItem("subjectTeaching"),
   };
   const initialStateGame: InitialStateGame = {
     questionData: {

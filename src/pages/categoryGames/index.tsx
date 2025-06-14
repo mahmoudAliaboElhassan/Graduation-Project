@@ -17,6 +17,8 @@ import SchoolIcon from "@mui/icons-material/School";
 import UseDirection from "../../hooks/use-direction";
 import UseGamesCategories from "../../hooks/use-games-catories";
 import { HeadingElement } from "../../styles/heading";
+import UseQuestionCategories from "../../hooks/use-game-categories-make";
+import { useAppSelector } from "../../hooks/redux";
 
 interface CategoryCardProps {
   title: string;
@@ -26,7 +28,7 @@ interface CategoryCardProps {
   route: string;
 }
 
-const CategoryCard = ({
+export const CategoryCard = ({
   title,
   description,
   icon,
@@ -115,6 +117,9 @@ const CategoriesPage = () => {
   const { direction } = UseDirection();
   const { t } = useTranslation();
   const { categories } = UseGamesCategories();
+  const { categoryQuestionMaking } = UseQuestionCategories();
+  const { role } = useAppSelector((state) => state.auth);
+  const categoryRole = role === "Teacher" ? categoryQuestionMaking : categories;
 
   return (
     <Box
@@ -124,10 +129,10 @@ const CategoriesPage = () => {
         direction: direction.direction,
       }}
     >
-      <HeadingElement>{t("categories.pageTitle")}</HeadingElement>
+      <HeadingElement> {t("categories.pageTitle")}</HeadingElement>
 
       <Grid container spacing={4} justifyContent="center" alignItems="center">
-        {categories.map(({ title, description, icon, color, route }) => (
+        {categoryRole.map(({ title, description, icon, color, route }) => (
           <Grid item xs={12} sm={5} key={route}>
             <CategoryCard
               title={title}

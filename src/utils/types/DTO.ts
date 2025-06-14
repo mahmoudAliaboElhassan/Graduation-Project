@@ -26,3 +26,11 @@ export interface UserDataHintGameAnswerQuestion {
 export interface Grade {
   grade: number;
 }
+export interface UserDataHintGameMakeQuestion {
+  grade: number;
+  userId: string;
+  chapter: string;
+  answer: string;
+  summary: string;
+  hints: string[];
+}

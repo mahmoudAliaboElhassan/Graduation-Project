@@ -4,6 +4,7 @@ import axiosInstance from "../../utils/axiosInstance";
 import {
   UserDataGameGetQuestion,
   UserDataHintGameAnswerQuestion,
+  UserDataHintGameMakeQuestion,
 } from "../../utils/types/DTO";
 import { getHintsResponse, getOffsideHints } from "../../utils/dataResponse";
 
@@ -79,6 +80,32 @@ export const answerQuestion = createAsyncThunk(
       const res = await axiosInstance.post("/api/HintGame/ans", userData, {
         withCredentials: true, // ✅ Ensures cookies are sent
       });
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error);
+    }
+  }
+);
+export const makeFiveHintsQuestion = createAsyncThunk(
+  "gameSlice/makeFiveHintsQuestion",
+  async (userData: UserDataHintGameMakeQuestion, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.post(
+        "/api/education/HintGame/makequestion",
+        userData,
+        {
+          withCredentials: true, // ✅ Ensures cookies are sent
+        }
+      );
       console.log("from slice res is");
       console.log(res);
       return res.data;

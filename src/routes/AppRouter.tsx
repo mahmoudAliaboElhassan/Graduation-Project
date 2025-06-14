@@ -8,6 +8,7 @@ import HomePage from "../pages/home";
 import Loader from "../components/loader";
 import CategoriesPage from "../pages/categoryGames";
 import CategoryEntertainment from "../pages/categoryGames/entertainment";
+import MakeHintsQuestion from "../pages/game/fiveHints/make";
 const Login = React.lazy(() => import("../pages/auth/login"));
 const Signup = React.lazy(() => import("../pages/auth/signup"));
 const ResetPassword = React.lazy(() => import("../pages/auth/reset-password"));
@@ -22,9 +23,7 @@ const About = React.lazy(() => import("../pages/about"));
 const FiveHints = React.lazy(() => import("../pages/game/fiveHints"));
 const Games = React.lazy(() => import("../pages/game"));
 const Offside = React.lazy(() => import("../pages/game/offside"));
-const GetQuestions = React.lazy(
-  () => import("../pages/game/fiveHints/get-questions")
-);
+const GetQuestions = React.lazy(() => import("../pages/game/get-questions"));
 
 const router = createBrowserRouter([
   {
@@ -141,6 +140,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <CategoryEntertainment />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/make-hints",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <MakeHintsQuestion />{" "}
           </Suspense>
         ),
       },
