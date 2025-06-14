@@ -263,5 +263,7 @@
     "all": "All",
     "clearFilters": "Clear Filters",
     "totalQuestions": "Total: {{count}} questions"
-  }
+  },
+  "loadingChapters": "Loading chapters...",
+  "loading-subjects": "Loading subjects..."
 }

@@ -246,5 +246,7 @@
     "all": "الكل",
     "clearFilters": "مسح المرشحات",
     "totalQuestions": "المجموع: {{count}} سؤال"
-  }
+  },
+  "loadingChapters": "جارٍ تحميل الفصول...",
+  "loading-subjects": "جارٍ تحميل المواد...",
 }

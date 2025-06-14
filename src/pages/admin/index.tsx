@@ -35,6 +35,7 @@ import {
   MenuItem,
   Toolbar,
   Tooltip,
+  useTheme,
 } from "@mui/material";
 import {
   CheckCircle as ApproveIcon,
@@ -66,11 +67,13 @@ interface Question {
 const AdminDashboard = () => {
   const { t } = useTranslation("translation");
   const dispatch = useAppDispatch();
+  const theme = useTheme();
 
   // Redux state
   const { questions, loadinGetQuestions, error } = useAppSelector(
     (state) => state.admin
   );
+  const { mymode } = useAppSelector((state) => state.mode);
 
   // Local state
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(
@@ -194,6 +197,37 @@ const AdminDashboard = () => {
     setPage(0);
   };
 
+  // Theme-based styling
+  const paperStyle = {
+    backgroundColor:
+      mymode === "light"
+        ? "rgba(255, 255, 255, 0.95)"
+        : "rgba(26, 26, 46, 0.95)",
+    backdropFilter: "blur(10px)",
+    border:
+      mymode === "light"
+        ? "1px solid rgba(255, 255, 255, 0.2)"
+        : "1px solid rgba(75, 0, 15, 0.3)",
+    boxShadow:
+      mymode === "light"
+        ? "0 8px 32px rgba(195, 20, 50, 0.1)"
+        : "0 8px 32px rgba(26, 26, 46, 0.3)",
+  };
+
+  const dialogStyle = {
+    "& .MuiDialog-paper": {
+      backgroundColor:
+        mymode === "light"
+          ? "rgba(255, 255, 255, 0.98)"
+          : "rgba(26, 26, 46, 0.98)",
+      backdropFilter: "blur(20px)",
+      border:
+        mymode === "light"
+          ? "1px solid rgba(195, 20, 50, 0.2)"
+          : "1px solid rgba(75, 0, 15, 0.3)",
+    },
+  };
+
   if (loadinGetQuestions && !questions?.length) {
     return (
       <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -203,7 +237,12 @@ const AdminDashboard = () => {
           alignItems="center"
           minHeight="400px"
         >
-          <CircularProgress size={60} />
+          <CircularProgress
+            size={60}
+            sx={{
+              color: mymode === "light" ? "#c31432" : "#ff6b9d",
+            }}
+          />
         </Box>
       </Container>
     );
@@ -213,23 +252,57 @@ const AdminDashboard = () => {
     <Container maxWidth="xl" sx={{ py: 4 }}>
       {/* Header */}
       <Box mb={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography
+          variant="h4"
+          component="h1"
+          gutterBottom
+          sx={{
+            color: mymode === "light" ? "#ffffff" : "#ffffff",
+            fontWeight: "bold",
+            textShadow:
+              mymode === "light"
+                ? "2px 2px 4px rgba(0,0,0,0.3)"
+                : "2px 2px 4px rgba(0,0,0,0.5)",
+          }}
+        >
           {t("admin.dashboard.title")}
         </Typography>
-        <Typography variant="body1" color="text.secondary">
+        <Typography
+          variant="body1"
+          sx={{
+            color:
+              mymode === "light"
+                ? "rgba(255, 255, 255, 0.9)"
+                : "rgba(255, 255, 255, 0.8)",
+            textShadow: "1px 1px 2px rgba(0,0,0,0.3)",
+          }}
+        >
           {t("admin.dashboard.description")}
         </Typography>
       </Box>
 
       {/* Error Alert */}
       {error && (
-        <Alert severity="error" sx={{ mb: 3 }}>
+        <Alert
+          severity="error"
+          sx={{
+            mb: 3,
+            backgroundColor:
+              mymode === "light"
+                ? "rgba(211, 47, 47, 0.9)"
+                : "rgba(183, 28, 28, 0.9)",
+            color: "#ffffff",
+            "& .MuiAlert-icon": {
+              color: "#ffffff",
+            },
+          }}
+        >
           {t("admin.errorLoadingQuestions")}
         </Alert>
       )}
 
       {/* Filters and Search */}
-      <Paper sx={{ mb: 3 }}>
+      <Paper sx={{ mb: 3, ...paperStyle }}>
         <Toolbar sx={{ flexWrap: "wrap", gap: 2, py: 2 }}>
           <TextField
             size="small"
@@ -239,19 +312,55 @@ const AdminDashboard = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon />
+                  <SearchIcon
+                    sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
+                  />
                 </InputAdornment>
               ),
             }}
-            sx={{ minWidth: 250 }}
+            sx={{
+              minWidth: 250,
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor:
+                    mymode === "light"
+                      ? "rgba(195, 20, 50, 0.3)"
+                      : "rgba(255, 107, 157, 0.3)",
+                },
+                "&:hover fieldset": {
+                  borderColor: mymode === "light" ? "#c31432" : "#ff6b9d",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: mymode === "light" ? "#c31432" : "#ff6b9d",
+                },
+              },
+            }}
           />
 
           <FormControl size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>{t("admin.grade")}</InputLabel>
+            <InputLabel
+              sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
+            >
+              {t("admin.grade")}
+            </InputLabel>
             <Select
               value={gradeFilter}
               label={t("admin.grade")}
               onChange={(e) => setGradeFilter(e.target.value)}
+              sx={{
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor:
+                    mymode === "light"
+                      ? "rgba(195, 20, 50, 0.3)"
+                      : "rgba(255, 107, 157, 0.3)",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: mymode === "light" ? "#c31432" : "#ff6b9d",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: mymode === "light" ? "#c31432" : "#ff6b9d",
+                },
+              }}
             >
               <MenuItem value="">{t("admin.all")}</MenuItem>
               {uniqueGrades.map((grade) => (
@@ -263,11 +372,29 @@ const AdminDashboard = () => {
           </FormControl>
 
           <FormControl size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>{t("admin.subject")}</InputLabel>
+            <InputLabel
+              sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
+            >
+              {t("admin.subject")}
+            </InputLabel>
             <Select
               value={subjectFilter}
               label={t("admin.subject")}
               onChange={(e) => setSubjectFilter(e.target.value)}
+              sx={{
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor:
+                    mymode === "light"
+                      ? "rgba(195, 20, 50, 0.3)"
+                      : "rgba(255, 107, 157, 0.3)",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: mymode === "light" ? "#c31432" : "#ff6b9d",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: mymode === "light" ? "#c31432" : "#ff6b9d",
+                },
+              }}
             >
               <MenuItem value="">{t("admin.all")}</MenuItem>
               {uniqueSubjects.map((subject) => (
@@ -279,11 +406,29 @@ const AdminDashboard = () => {
           </FormControl>
 
           <FormControl size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>{t("admin.gameType")}</InputLabel>
+            <InputLabel
+              sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
+            >
+              {t("admin.gameType")}
+            </InputLabel>
             <Select
               value={gameFilter}
               label={t("admin.gameType")}
               onChange={(e) => setGameFilter(e.target.value)}
+              sx={{
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor:
+                    mymode === "light"
+                      ? "rgba(195, 20, 50, 0.3)"
+                      : "rgba(255, 107, 157, 0.3)",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: mymode === "light" ? "#c31432" : "#ff6b9d",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: mymode === "light" ? "#c31432" : "#ff6b9d",
+                },
+              }}
             >
               <MenuItem value="">{t("admin.all")}</MenuItem>
               {uniqueGames.map((game) => (
@@ -298,38 +443,139 @@ const AdminDashboard = () => {
             variant="outlined"
             onClick={handleClearFilters}
             startIcon={<FilterIcon />}
+            sx={{
+              borderColor: mymode === "light" ? "#c31432" : "#ff6b9d",
+              color: mymode === "light" ? "#c31432" : "#ff6b9d",
+              "&:hover": {
+                borderColor: mymode === "light" ? "#a01729" : "#ff4081",
+                backgroundColor:
+                  mymode === "light"
+                    ? "rgba(195, 20, 50, 0.1)"
+                    : "rgba(255, 107, 157, 0.1)",
+              },
+            }}
           >
             {t("admin.clearFilters")}
           </Button>
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            sx={{
+              color:
+                mymode === "light"
+                  ? "rgba(0, 0, 0, 0.7)"
+                  : "rgba(255, 255, 255, 0.7)",
+            }}
+          >
             {t("admin.totalQuestions", { count: filteredQuestions.length })}
           </Typography>
         </Toolbar>
       </Paper>
 
       {/* Questions Table */}
-      <Paper>
+      <Paper sx={paperStyle}>
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>{t("admin.questionId")}</TableCell>
-                <TableCell>{t("admin.chapter")}</TableCell>
-                <TableCell>{t("admin.grade")}</TableCell>
-                <TableCell>{t("admin.subject")}</TableCell>
-                <TableCell>{t("admin.gameType")}</TableCell>
-                <TableCell>{t("admin.answer")}</TableCell>
-                <TableCell align="center">{t("admin.actions")}</TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: "bold",
+                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                    borderBottom: `2px solid ${
+                      mymode === "light" ? "#c31432" : "#ff6b9d"
+                    }`,
+                  }}
+                >
+                  {t("admin.questionId")}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: "bold",
+                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                    borderBottom: `2px solid ${
+                      mymode === "light" ? "#c31432" : "#ff6b9d"
+                    }`,
+                  }}
+                >
+                  {t("admin.chapter")}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: "bold",
+                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                    borderBottom: `2px solid ${
+                      mymode === "light" ? "#c31432" : "#ff6b9d"
+                    }`,
+                  }}
+                >
+                  {t("admin.grade")}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: "bold",
+                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                    borderBottom: `2px solid ${
+                      mymode === "light" ? "#c31432" : "#ff6b9d"
+                    }`,
+                  }}
+                >
+                  {t("admin.subject")}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: "bold",
+                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                    borderBottom: `2px solid ${
+                      mymode === "light" ? "#c31432" : "#ff6b9d"
+                    }`,
+                  }}
+                >
+                  {t("admin.gameType")}
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontWeight: "bold",
+                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                    borderBottom: `2px solid ${
+                      mymode === "light" ? "#c31432" : "#ff6b9d"
+                    }`,
+                  }}
+                >
+                  {t("admin.answer")}
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{
+                    fontWeight: "bold",
+                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                    borderBottom: `2px solid ${
+                      mymode === "light" ? "#c31432" : "#ff6b9d"
+                    }`,
+                  }}
+                >
+                  {t("admin.actions")}
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {filteredQuestions
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((question: Question) => (
-                  <TableRow key={question.questionID} hover>
+                  <TableRow
+                    key={question.questionID}
+                    hover
+                    sx={{
+                      "&:hover": {
+                        backgroundColor:
+                          mymode === "light"
+                            ? "rgba(195, 20, 50, 0.05)"
+                            : "rgba(255, 107, 157, 0.05)",
+                      },
+                    }}
+                  >
                     <TableCell>
                       <Typography variant="body2" fontWeight="medium">
                         #{question.questionID}
@@ -344,24 +590,48 @@ const AdminDashboard = () => {
                       <Chip
                         label={question.gradeName}
                         size="small"
-                        color="primary"
-                        variant="outlined"
+                        sx={{
+                          backgroundColor:
+                            mymode === "light"
+                              ? "rgba(195, 20, 50, 0.1)"
+                              : "rgba(255, 107, 157, 0.1)",
+                          color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                          border: `1px solid ${
+                            mymode === "light" ? "#c31432" : "#ff6b9d"
+                          }`,
+                        }}
                       />
                     </TableCell>
                     <TableCell>
                       <Chip
                         label={question.subjectName}
                         size="small"
-                        color="secondary"
-                        variant="outlined"
+                        sx={{
+                          backgroundColor:
+                            mymode === "light"
+                              ? "rgba(36, 11, 54, 0.1)"
+                              : "rgba(26, 26, 46, 0.3)",
+                          color: mymode === "light" ? "#240b36" : "#ffffff",
+                          border: `1px solid ${
+                            mymode === "light" ? "#240b36" : "#ffffff"
+                          }`,
+                        }}
                       />
                     </TableCell>
                     <TableCell>
                       <Chip
                         label={question.game}
                         size="small"
-                        color="info"
-                        variant="outlined"
+                        sx={{
+                          backgroundColor:
+                            mymode === "light"
+                              ? "rgba(75, 0, 15, 0.1)"
+                              : "rgba(75, 0, 15, 0.3)",
+                          color: mymode === "light" ? "#4b000f" : "#ff9999",
+                          border: `1px solid ${
+                            mymode === "light" ? "#4b000f" : "#ff9999"
+                          }`,
+                        }}
                       />
                     </TableCell>
                     <TableCell>
@@ -389,6 +659,15 @@ const AdminDashboard = () => {
                           <IconButton
                             size="small"
                             onClick={() => handleViewQuestion(question)}
+                            sx={{
+                              color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                              "&:hover": {
+                                backgroundColor:
+                                  mymode === "light"
+                                    ? "rgba(195, 20, 50, 0.1)"
+                                    : "rgba(255, 107, 157, 0.1)",
+                              },
+                            }}
                           >
                             <ViewIcon />
                           </IconButton>
@@ -397,14 +676,22 @@ const AdminDashboard = () => {
                         <Tooltip title={t("admin.approve")}>
                           <IconButton
                             size="small"
-                            color="success"
                             onClick={() =>
                               handleActionClick(question, "approve")
                             }
                             disabled={actionLoading === question.questionID}
+                            sx={{
+                              color: "#4caf50",
+                              "&:hover": {
+                                backgroundColor: "rgba(76, 175, 80, 0.1)",
+                              },
+                            }}
                           >
                             {actionLoading === question.questionID ? (
-                              <CircularProgress size={20} />
+                              <CircularProgress
+                                size={20}
+                                sx={{ color: "#4caf50" }}
+                              />
                             ) : (
                               <ApproveIcon />
                             )}
@@ -414,14 +701,22 @@ const AdminDashboard = () => {
                         <Tooltip title={t("admin.reject")}>
                           <IconButton
                             size="small"
-                            color="error"
                             onClick={() =>
                               handleActionClick(question, "reject")
                             }
                             disabled={actionLoading === question.questionID}
+                            sx={{
+                              color: "#f44336",
+                              "&:hover": {
+                                backgroundColor: "rgba(244, 67, 54, 0.1)",
+                              },
+                            }}
                           >
                             {actionLoading === question.questionID ? (
-                              <CircularProgress size={20} />
+                              <CircularProgress
+                                size={20}
+                                sx={{ color: "#f44336" }}
+                              />
                             ) : (
                               <RejectIcon />
                             )}
@@ -443,6 +738,20 @@ const AdminDashboard = () => {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            borderTop: `1px solid ${
+              mymode === "light"
+                ? "rgba(195, 20, 50, 0.2)"
+                : "rgba(255, 107, 157, 0.2)"
+            }`,
+            "& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows":
+              {
+                color:
+                  mymode === "light"
+                    ? "rgba(0, 0, 0, 0.7)"
+                    : "rgba(255, 255, 255, 0.7)",
+              },
+          }}
         />
       </Paper>
 
@@ -452,14 +761,28 @@ const AdminDashboard = () => {
         onClose={() => setViewDialogOpen(false)}
         maxWidth="md"
         fullWidth
+        sx={dialogStyle}
       >
-        <DialogTitle>
+        <DialogTitle
+          sx={{
+            color: mymode === "light" ? "#c31432" : "#ff6b9d",
+            borderBottom: `1px solid ${
+              mymode === "light"
+                ? "rgba(195, 20, 50, 0.2)"
+                : "rgba(255, 107, 157, 0.2)"
+            }`,
+          }}
+        >
           {t("admin.questionDetails")} #{selectedQuestion?.questionID}
         </DialogTitle>
         <DialogContent>
           {selectedQuestion && (
             <Box sx={{ pt: 1 }}>
-              <Typography variant="h6" gutterBottom>
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
+              >
                 {t("admin.basicInfo")}
               </Typography>
               <Box
@@ -471,7 +794,15 @@ const AdminDashboard = () => {
                 }}
               >
                 <Box>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color:
+                        mymode === "light"
+                          ? "rgba(0, 0, 0, 0.6)"
+                          : "rgba(255, 255, 255, 0.6)",
+                    }}
+                  >
                     {t("admin.chapter")}
                   </Typography>
                   <Typography variant="body1">
@@ -479,7 +810,15 @@ const AdminDashboard = () => {
                   </Typography>
                 </Box>
                 <Box>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color:
+                        mymode === "light"
+                          ? "rgba(0, 0, 0, 0.6)"
+                          : "rgba(255, 255, 255, 0.6)",
+                    }}
+                  >
                     {t("admin.grade")}
                   </Typography>
                   <Typography variant="body1">
@@ -487,7 +826,15 @@ const AdminDashboard = () => {
                   </Typography>
                 </Box>
                 <Box>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color:
+                        mymode === "light"
+                          ? "rgba(0, 0, 0, 0.6)"
+                          : "rgba(255, 255, 255, 0.6)",
+                    }}
+                  >
                     {t("admin.subject")}
                   </Typography>
                   <Typography variant="body1">
@@ -495,7 +842,15 @@ const AdminDashboard = () => {
                   </Typography>
                 </Box>
                 <Box>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color:
+                        mymode === "light"
+                          ? "rgba(0, 0, 0, 0.6)"
+                          : "rgba(255, 255, 255, 0.6)",
+                    }}
+                  >
                     {t("admin.gameType")}
                   </Typography>
                   <Typography variant="body1">
@@ -504,37 +859,105 @@ const AdminDashboard = () => {
                 </Box>
               </Box>
 
-              <Typography variant="h6" gutterBottom>
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
+              >
                 {t("admin.questionContent")}
               </Typography>
               <Box sx={{ mb: 3 }}>
-                <Typography variant="body2" color="text.secondary" gutterBottom>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  sx={{
+                    color:
+                      mymode === "light"
+                        ? "rgba(0, 0, 0, 0.6)"
+                        : "rgba(255, 255, 255, 0.6)",
+                  }}
+                >
                   {t("admin.answer")}
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ mb: 2, p: 2, bgcolor: "grey.100", borderRadius: 1 }}
+                  sx={{
+                    mb: 2,
+                    p: 2,
+                    backgroundColor:
+                      mymode === "light"
+                        ? "rgba(195, 20, 50, 0.1)"
+                        : "rgba(26, 26, 46, 0.5)",
+                    borderRadius: 1,
+                    border: `1px solid ${
+                      mymode === "light"
+                        ? "rgba(195, 20, 50, 0.2)"
+                        : "rgba(255, 107, 157, 0.2)"
+                    }`,
+                  }}
                 >
                   {selectedQuestion.answer}
                 </Typography>
 
-                <Typography variant="body2" color="text.secondary" gutterBottom>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  sx={{
+                    color:
+                      mymode === "light"
+                        ? "rgba(0, 0, 0, 0.6)"
+                        : "rgba(255, 255, 255, 0.6)",
+                  }}
+                >
                   {t("admin.summary")}
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ mb: 2, p: 2, bgcolor: "grey.100", borderRadius: 1 }}
+                  sx={{
+                    mb: 2,
+                    p: 2,
+                    backgroundColor:
+                      mymode === "light"
+                        ? "rgba(195, 20, 50, 0.1)"
+                        : "rgba(26, 26, 46, 0.5)",
+                    borderRadius: 1,
+                    border: `1px solid ${
+                      mymode === "light"
+                        ? "rgba(195, 20, 50, 0.2)"
+                        : "rgba(255, 107, 157, 0.2)"
+                    }`,
+                  }}
                 >
                   {selectedQuestion.summary}
                 </Typography>
               </Box>
 
-              <Typography variant="h6" gutterBottom>
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
+              >
                 {t("admin.hints")}
               </Typography>
               <List dense>
                 {selectedQuestion.hints.map((hint, index) => (
-                  <ListItem key={index} sx={{ py: 0.5 }}>
+                  <ListItem
+                    key={index}
+                    sx={{
+                      py: 0.5,
+                      backgroundColor:
+                        mymode === "light"
+                          ? "rgba(195, 20, 50, 0.05)"
+                          : "rgba(255, 107, 157, 0.05)",
+                      mb: 1,
+                      borderRadius: 1,
+                      border: `1px solid ${
+                        mymode === "light"
+                          ? "rgba(195, 20, 50, 0.1)"
+                          : "rgba(255, 107, 157, 0.1)"
+                      }`,
+                    }}
+                  >
                     <ListItemText
                       primary={`${t("admin.hint")} ${index + 1}: ${hint}`}
                     />
@@ -544,8 +967,27 @@ const AdminDashboard = () => {
             </Box>
           )}
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setViewDialogOpen(false)}>
+        <DialogActions
+          sx={{
+            borderTop: `1px solid ${
+              mymode === "light"
+                ? "rgba(195, 20, 50, 0.2)"
+                : "rgba(255, 107, 157, 0.2)"
+            }`,
+          }}
+        >
+          <Button
+            onClick={() => setViewDialogOpen(false)}
+            sx={{
+              color: mymode === "light" ? "#c31432" : "#ff6b9d",
+              "&:hover": {
+                backgroundColor:
+                  mymode === "light"
+                    ? "rgba(195, 20, 50, 0.1)"
+                    : "rgba(255, 107, 157, 0.1)",
+              },
+            }}
+          >
             {t("admin.close")}
           </Button>
         </DialogActions>
@@ -555,8 +997,18 @@ const AdminDashboard = () => {
       <Dialog
         open={confirmDialogOpen}
         onClose={() => setConfirmDialogOpen(false)}
+        sx={dialogStyle}
       >
-        <DialogTitle>
+        <DialogTitle
+          sx={{
+            color: mymode === "light" ? "#c31432" : "#ff6b9d",
+            borderBottom: `1px solid ${
+              mymode === "light"
+                ? "rgba(195, 20, 50, 0.2)"
+                : "rgba(255, 107, 157, 0.2)"
+            }`,
+          }}
+        >
           {actionType === "approve"
             ? t("admin.confirmApprove")
             : t("admin.confirmReject")}
@@ -568,14 +1020,42 @@ const AdminDashboard = () => {
               : t("admin.rejectMessage", { id: selectedQuestion?.questionID })}
           </Typography>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setConfirmDialogOpen(false)}>
+        <DialogActions
+          sx={{
+            borderTop: `1px solid ${
+              mymode === "light"
+                ? "rgba(195, 20, 50, 0.2)"
+                : "rgba(255, 107, 157, 0.2)"
+            }`,
+          }}
+        >
+          <Button
+            onClick={() => setConfirmDialogOpen(false)}
+            sx={{
+              color:
+                mymode === "light"
+                  ? "rgba(0, 0, 0, 0.6)"
+                  : "rgba(255, 255, 255, 0.6)",
+              "&:hover": {
+                backgroundColor:
+                  mymode === "light"
+                    ? "rgba(0, 0, 0, 0.05)"
+                    : "rgba(255, 255, 255, 0.05)",
+              },
+            }}
+          >
             {t("admin.cancel")}
           </Button>
           <Button
             onClick={handleConfirmAction}
-            color={actionType === "approve" ? "success" : "error"}
             variant="contained"
+            sx={{
+              backgroundColor: actionType === "approve" ? "#4caf50" : "#f44336",
+              "&:hover": {
+                backgroundColor:
+                  actionType === "approve" ? "#45a049" : "#da190b",
+              },
+            }}
           >
             {actionType === "approve" ? t("admin.approve") : t("admin.reject")}
           </Button>
