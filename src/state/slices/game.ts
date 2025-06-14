@@ -5,7 +5,7 @@ import {
   getHintsQuestions,
   answerQuestion,
   getOffSideQuestions,
-  getHintsEntertainment
+  getHintsEntertainment,
 } from "../act/actGame";
 import { QuestionData } from "../../utils/types/initialState";
 const { initialStateGame } = UseInitialStates();
@@ -97,4 +97,9 @@ export const gameSlice = createSlice({
 });
 
 export default gameSlice.reducer;
-export { getHintsQuestions,getHintsEntertainment, getOffSideQuestions, answerQuestion };
+export {
+  getHintsQuestions,
+  getHintsEntertainment,
+  getOffSideQuestions,
+  answerQuestion,
+};

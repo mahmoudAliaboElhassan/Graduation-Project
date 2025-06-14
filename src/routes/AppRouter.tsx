@@ -9,6 +9,7 @@ import Loader from "../components/loader";
 import CategoriesPage from "../pages/categoryGames";
 import CategoryEntertainment from "../pages/categoryGames/entertainment";
 import MakeHintsQuestion from "../pages/game/fiveHints/make";
+import AdminDashboard from "../pages/admin";
 const Login = React.lazy(() => import("../pages/auth/login"));
 const Signup = React.lazy(() => import("../pages/auth/signup"));
 const ResetPassword = React.lazy(() => import("../pages/auth/reset-password"));
@@ -148,6 +149,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <MakeHintsQuestion />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/admin-dashboard",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <AdminDashboard />{" "}
           </Suspense>
         ),
       },

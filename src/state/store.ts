@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import modeSlice from "./slices/mode";
 import authSlice from "./slices/auth";
 import gameSlice from "./slices/game";
+import adminSlice from "./slices/admin";
 
 export const store = configureStore({
   reducer: {
     mode: modeSlice,
     auth: authSlice,
     game: gameSlice,
+    admin: adminSlice,
   },
 });
 // Infer the `RootState` and `AppDispatch` types from the store itself

@@ -227,5 +227,41 @@
       "success": "🎉 Question created successfully!",
       "error": "❌ Failed to create question. Please try again."
     }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "description": "Review and manage educational questions submitted by teachers"
+    },
+    "questionId": "Question ID",
+    "chapter": "Chapter",
+    "grade": "Grade",
+    "subject": "Subject",
+    "gameType": "Game Type",
+    "answer": "Answer",
+    "summary": "Summary",
+    "hints": "Hints",
+    "hint": "Hint",
+    "actions": "Actions",
+    "approve": "Approve",
+    "reject": "Reject",
+    "viewDetails": "View Details",
+    "questionDetails": "Question Details",
+    "basicInfo": "Basic Information",
+    "questionContent": "Question Content",
+    "close": "Close",
+    "confirmApprove": "Confirm Approval",
+    "confirmReject": "Confirm Rejection",
+    "approveMessage": "Are you sure you want to approve question #{{id}}?",
+    "rejectMessage": "Are you sure you want to reject question #{{id}}?",
+    "cancel": "Cancel",
+    "questionApproved": "Question approved successfully!",
+    "questionRejected": "Question rejected successfully!",
+    "actionFailed": "Action failed. Please try again.",
+    "errorLoadingQuestions": "Failed to load questions. Please refresh the page.",
+    "searchPlaceholder": "Search by answer, summary, or chapter...",
+    "all": "All",
+    "clearFilters": "Clear Filters",
+    "totalQuestions": "Total: {{count}} questions"
   }
 }

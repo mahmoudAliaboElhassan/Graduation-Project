@@ -210,5 +210,41 @@
       "error": "❌ فشل في إنشاء السؤال. يرجى المحاولة مرة أخرى."
     }
   },
-  "create-question-now": "أنشئ السؤال الآن"
+  "create-question-now": "أنشئ السؤال الآن",
+  "admin": {
+    "dashboard": {
+      "title": "لوحة تحكم الإدارة",
+      "description": "مراجعة وإدارة الأسئلة التعليمية المقدمة من المعلمين"
+    },
+    "questionId": "رقم السؤال",
+    "chapter": "الفصل",
+    "grade": "الصف",
+    "subject": "المادة",
+    "gameType": "نوع اللعبة",
+    "answer": "الإجابة",
+    "summary": "الملخص",
+    "hints": "التلميحات",
+    "hint": "تلميح",
+    "actions": "الإجراءات",
+    "approve": "موافقة",
+    "reject": "رفض",
+    "viewDetails": "عرض التفاصيل",
+    "questionDetails": "تفاصيل السؤال",
+    "basicInfo": "المعلومات الأساسية",
+    "questionContent": "محتوى السؤال",
+    "close": "إغلاق",
+    "confirmApprove": "تأكيد الموافقة",
+    "confirmReject": "تأكيد الرفض",
+    "approveMessage": "هل أنت متأكد من الموافقة على السؤال رقم {{id}}؟",
+    "rejectMessage": "هل أنت متأكد من رفض السؤال رقم {{id}}؟",
+    "cancel": "إلغاء",
+    "questionApproved": "تمت الموافقة على السؤال بنجاح!",
+    "questionRejected": "تم رفض السؤال بنجاح!",
+    "actionFailed": "فشل الإجراء. يرجى المحاولة مرة أخرى.",
+    "errorLoadingQuestions": "فشل في تحميل الأسئلة. يرجى تحديث الصفحة.",
+    "searchPlaceholder": "البحث بالإجابة أو الملخص أو الفصل...",
+    "all": "الكل",
+    "clearFilters": "مسح المرشحات",
+    "totalQuestions": "المجموع: {{count}} سؤال"
+  }
 }

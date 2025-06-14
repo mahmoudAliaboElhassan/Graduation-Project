@@ -15,7 +15,7 @@ export const getHintsQuestions = createAsyncThunk(
 
     try {
       const res = await axiosInstance.post<getHintsResponse>(
-        "/api/HintGame/question",
+        "/api/education/HintGame/question",
         userData
       );
       console.log("from slice res is", res);
@@ -35,7 +35,7 @@ export const getOffSideQuestions = createAsyncThunk(
 
     try {
       const res = await axiosInstance.post<getOffsideHints>(
-        "/api/OffsideGame/question",
+        "/api/education/OffsideGame/question",
         userData
       );
       console.log("from slice res is", res);

@@ -23,7 +23,6 @@ function Offside() {
   const { offsideInformation, offsideCorrectAnswer } = useAppSelector(
     (state) => state.game
   );
-  const data = ["first", "second", "third", "fourth", "fifth", "sixth"];
 
   useEffect(() => {
     dispatch(
