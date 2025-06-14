@@ -20,7 +20,7 @@ export interface InitialValuesAnswerQuestion {
 }
 export interface InitialValeuesGetQuestion {
   chapter: string;
-  subject: string;
+  subjectQetQuestions: string;
 }
 export interface InitialValuesContacts {
   email: string;

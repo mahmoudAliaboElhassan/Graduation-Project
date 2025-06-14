@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import {
   Modal,
@@ -28,7 +26,7 @@ import { getSubjects, getChapters } from "../../../state/slices/auth";
 import UseDirection from "../../../hooks/use-direction";
 
 interface FormValues {
-  subject: string;
+  subjectQetQuestions: string;
   chapter: string;
 }
 
@@ -70,13 +68,17 @@ const MultiStepModal = () => {
     ) => void,
     setErrors: (errors: Partial<FormikErrors<FormValues>>) => void
   ) => {
-    if (activeStep === 0 && !values.subject) {
-      setTouched({ subject: true });
-      setErrors({ subject: t("subject-required") });
+    console.log("values", values);
+    if (activeStep === 0 && !values.subjectQetQuestions) {
+      setTouched({ subjectQetQuestions: true });
+      setErrors({ subjectQetQuestions: t("subject-required") });
       return;
-    } else if (activeStep === 0 && values.subject) {
+    } else if (activeStep === 0 && values.subjectQetQuestions) {
       dispatch(
-        getChapters({ grade: grade ? +grade : 1, subject: values.subject })
+        getChapters({
+          grade: grade ? +grade : 1,
+          subject: values.subjectQetQuestions,
+        })
       );
     }
 
@@ -96,7 +98,8 @@ const MultiStepModal = () => {
 
   // Handle form submission
   const handleSubmit = (values: FormValues) => {
-    localStorage.setItem("subject", values.subject);
+    console.log("Final values", values);
+    localStorage.setItem("subject", values.subjectQetQuestions);
     localStorage.setItem("chapter", values.chapter);
 
     params.gameType === "five-hints"
@@ -177,7 +180,7 @@ const MultiStepModal = () => {
                 {activeStep === 0 && (
                   <Box mt={2}>
                     <SelectComponent
-                      name="subject-teacher"
+                      name="subjectQetQuestions"
                       options={subjects as any}
                       label={t("select-subject")}
                     />

@@ -56,7 +56,7 @@ function HomePage() {
           <IntroductorySection />
           {token && (
             <LinkPlay to="games" dir={direction.direction}>
-              {role === "Teacher" ? t("make-questions") : t("play-now")}
+              {role === "Teacher" ? t("questionCreation.title") : t("play-now")}
               {direction.direction === "ltr" ? (
                 <ArrowForwardIcon fontSize="large" />
               ) : (

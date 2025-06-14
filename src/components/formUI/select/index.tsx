@@ -91,7 +91,7 @@ function SelectComponent({ name, label, options }: Props) {
                 )}
               </MenuItem>
             ))
-          : name == "subject-teacher"
+          : name == "subjectQetQuestions"
           ? options?.map((subject) => (
               <MenuItem
                 key={subject.subjectName as string}

@@ -92,7 +92,7 @@ function UseFormValidation() {
     answer: Yup.string().required("Question Answer is required"),
   });
   const FORM_VALIDATION_SCHEMA_GET_QUESTIONS = Yup.object({
-    subject: Yup.string().required("Subject is required"),
+    subjectQetQuestions: Yup.string().required("Subject is required"),
     chapter: Yup.string().required("chapter is required"),
   });
   const FORM_VALIDATION_SCHEMA_CONTACTS = Yup.object({
@@ -126,21 +126,21 @@ function UseFormValidation() {
   });
   const FORM_VALIDATION_SCHEMA_RESET_PASSWORD = Yup.object({
     password: Yup.string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters long")
-    .matches(
-      /[A-Z]/,
-      "Password must contain at least one uppercase letter (A-Z)"
-    )
-    .matches(
-      /[a-z]/,
-      "Password must contain at least one lowercase letter (a-z)"
-    )
-    .matches(/[0-9]/, "Password must contain at least one number (0-9)")
-    .matches(
-      /[\W_]/,
-      "Password must contain at least one special character (!@#$%^&*, etc.)"
-    ),
+      .required("Password is required")
+      .min(8, "Password must be at least 8 characters long")
+      .matches(
+        /[A-Z]/,
+        "Password must contain at least one uppercase letter (A-Z)"
+      )
+      .matches(
+        /[a-z]/,
+        "Password must contain at least one lowercase letter (a-z)"
+      )
+      .matches(/[0-9]/, "Password must contain at least one number (0-9)")
+      .matches(
+        /[\W_]/,
+        "Password must contain at least one special character (!@#$%^&*, etc.)"
+      ),
   });
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
@@ -151,7 +151,7 @@ function UseFormValidation() {
     FORM_VALIDATION_SCHEMA_CONTACTS,
     FORM_VALIDATION_OFFSIDE_GAME,
     FORM_VALIDATION_SCHEMA_FORGET_PASSWORD,
-    FORM_VALIDATION_SCHEMA_RESET_PASSWORD
+    FORM_VALIDATION_SCHEMA_RESET_PASSWORD,
   };
 }
 

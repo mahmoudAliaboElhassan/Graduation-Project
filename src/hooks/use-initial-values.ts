@@ -33,7 +33,7 @@ function UseInitialValues() {
     answer: "",
   };
   const INITIAL_FORM_STATE_GET_QUESTIONS: InitialValeuesGetQuestion = {
-    subject: "",
+    subjectQetQuestions: "",
     chapter: "",
   };
   const INITIAL_FORM_STATE_CONTACT: InitialValuesContacts = {

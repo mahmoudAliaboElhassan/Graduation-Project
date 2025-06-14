@@ -16,6 +16,7 @@ import UseDirection from "../../hooks/use-direction";
 // Import the icons we need
 import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
 import SportsFootballIcon from "@mui/icons-material/SportsFootball";
+import { useAppSelector } from "../../hooks/redux";
 
 interface Props {
   to: string;
@@ -37,7 +38,7 @@ function CardGame({ to, data }: Props) {
   const iconComponent = iconMap[data.icon as keyof typeof iconMap] || (
     <EmojiObjectsIcon />
   );
-
+  const { role } = useAppSelector((state) => state.auth);
   return (
     <Card
       sx={{
@@ -163,7 +164,7 @@ function CardGame({ to, data }: Props) {
             },
           }}
         >
-          {t("start-playing")}
+          {role === "Teacher" ? t("create-question-now") : t("start-playing")}
         </Button>
       </CardActions>
     </Card>
