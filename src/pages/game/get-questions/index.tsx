@@ -29,6 +29,7 @@ import ButtonWrapper from "../../../components/formUI/submit";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { getSubjects, getChapters } from "../../../state/slices/auth";
 import UseDirection from "../../../hooks/use-direction";
+import withGuard from "../../../utils/withGuard";
 
 interface FormValues {
   subjectQetQuestions: string;
@@ -583,4 +584,4 @@ const MultiStepModal = () => {
   );
 };
 
-export default MultiStepModal;
+export default withGuard(MultiStepModal);

@@ -16,10 +16,11 @@ import { useTranslation } from "react-i18next";
 import { HeadingElement } from "../../styles/heading";
 import { FormWrapper, ContainerFormWrapper } from "../../styles/forms";
 import { useAppDispatch } from "../../hooks/redux";
-import { logIn } from "../../state/act/actAuth";
+import { forgetPassword, logIn } from "../../state/act/actAuth";
 import UseThemMode from "../../hooks/use-theme-mode";
 import Swal from "sweetalert2";
 import { AxiosError } from "axios";
+import withGuard from "../../utils/withGuard";
 
 function ForgetPassword() {
   const navigate = useNavigate();
@@ -39,51 +40,31 @@ function ForgetPassword() {
             validationSchema={FORM_VALIDATION_SCHEMA_FORGET_PASSWORD}
             onSubmit={async (values) => {
               console.log(values);
-              //   dispatch(
-              //     logIn({ email: values.email, password: values.password })
-              //   )
-              //     .unwrap()
-              //     .then(() => {
-              //       {
-              //         toast.success(t("login-success"), {
-              //           position: "top-right",
-              //           autoClose: 1000,
-              //           hideProgressBar: false,
-              //           closeOnClick: true,
-              //           pauseOnHover: true,
-              //           draggable: true,
-              //           progress: undefined,
-              //         });
-              //       }
-              //       navigate("/");
-              //     })
-              //     .catch((error: AxiosError) => {
-              //       if (error?.response?.status === 401) {
-              //         Swal.fire({
-              //           title: t("error-login"),
-              //           text: t("error-login-text"),
-              //           icon: "error",
-              //           confirmButtonText: t("ok"),
-              //         });
-              //       }
-              //     });
-              // setLoading(true);
-              // const { confirmPassword, ...other } = values;
-              // try {
-              //   const user = await axiosInstance.post("/api/users/signup", other);
-              //   toast.success("You Have Created Account Successfully!");
-              //   console.log(user.data);
-              //   router.push("/login");
-              //   setLoading(false);
-              // } catch (error: any) {
-              //   setLoading(false);
-              //   Swal.fire({
-              //     title: "Error in Logging",
-              //     text: error.response.data.message,
-              //     icon: "error",
-              //     confirmButtonText: "ok",
-              //   });
-              // }
+              dispatch(forgetPassword({ email: values.email }))
+                .unwrap()
+                .then(() => {
+                  localStorage.setItem("email-resetted", values.email);
+                  {
+                    toast.success(t("email-sent"), {
+                      position: "top-right",
+                      autoClose: 1000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                    });
+                  }
+                  navigate("/");
+                })
+                .catch((error: AxiosError) => {
+                  Swal.fire({
+                    title: t("error-email-sent"),
+                    text: t("error-email-sent-text"),
+                    icon: "error",
+                    confirmButtonText: t("ok"),
+                  });
+                });
             }}
           >
             <motion.div
@@ -92,7 +73,9 @@ function ForgetPassword() {
               transition={{ duration: 0.3, delay: 0.5 }}
             >
               <FormWrapper>
-                <HeadingElement mode={themeMode}>{t("forget-password")}</HeadingElement>
+                <HeadingElement mode={themeMode}>
+                  {t("forget-password")}
+                </HeadingElement>
                 <Grid container>
                   <Grid size={{ xs: 12 }}>
                     <TextFieldWrapper name="email" label={t("email")} />
@@ -108,4 +91,4 @@ function ForgetPassword() {
   );
 }
 
-export default ForgetPassword;
+export default withGuard(ForgetPassword);

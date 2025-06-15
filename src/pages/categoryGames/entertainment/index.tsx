@@ -20,6 +20,7 @@ import UseDirection from "../../../hooks/use-direction";
 import UseCategoryEntertainment from "../../../hooks/use-category-entertainment";
 import { HeadingElement } from "../../../styles/heading";
 import { Link } from "react-router-dom";
+import withGuard from "../../../utils/withGuard";
 
 const CategoryEntertainmentCard: React.FC<{
   id: string;
@@ -169,4 +170,4 @@ const CategoryEntertainment: React.FC = () => {
   );
 };
 
-export default CategoryEntertainment;
+export default withGuard(CategoryEntertainment);

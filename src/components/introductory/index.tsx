@@ -8,8 +8,10 @@ import { useAppSelector } from "../../hooks/redux";
 
 function IntroductorySection() {
   const { t } = useTranslation();
-  const { name } = useAppSelector((state) => state.auth);
-  const words = t("welcome-sentence", { name }).split(" ");
+  const { name, token } = useAppSelector((state) => state.auth);
+  const words = token
+    ? t("welcome-sentence", { name }).split(" ")
+    : t("welcome-sentence-not-user").split(" ");
   // Use useInView hook
   const { ref: textRef, inView: textInView } = useInView({
     triggerOnce: false,

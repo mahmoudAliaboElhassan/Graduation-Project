@@ -19,6 +19,7 @@ import { useAppDispatch } from "../../hooks/redux";
 import { logIn } from "../../state/act/actAuth";
 import UseThemMode from "../../hooks/use-theme-mode";
 import PasswordField from "../../components/formUI/password";
+import withGuard from "../../utils/withGuard";
 
 function ChangePassword() {
   const { INITIAL_FORM_STATE_CHANGE_PASSWORD } = UseInitialValues();
@@ -113,4 +114,4 @@ function ChangePassword() {
   );
 }
 
-export default ChangePassword;
+export default withGuard(ChangePassword);

@@ -16,6 +16,7 @@ import { Hint, Timer } from "../../../styles/games/five-hints";
 import RadioInput from "../../../components/formUI/offsideInput";
 import UseFormValidation from "../../../hooks/use-form-validation";
 import UseInitialValues from "../../../hooks/use-initial-values";
+import withGuard from "../../../utils/withGuard";
 
 function Offside() {
   const dispatch = useAppDispatch();
@@ -111,7 +112,7 @@ function Offside() {
   );
 }
 
-export default Offside;
+export default withGuard(Offside);
 // 1. !!disabledFields[fieldName] (Double Bang !!)
 // This is a common JavaScript trick to convert a value into a boolean.
 

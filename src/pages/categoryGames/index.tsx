@@ -19,6 +19,7 @@ import UseGamesCategories from "../../hooks/use-games-catories";
 import { HeadingElement } from "../../styles/heading";
 import UseQuestionCategories from "../../hooks/use-game-categories-make";
 import { useAppSelector } from "../../hooks/redux";
+import withGuard from "../../utils/withGuard";
 
 interface CategoryCardProps {
   title: string;
@@ -149,4 +150,4 @@ const CategoriesPage = () => {
   );
 };
 
-export default CategoriesPage;
+export default withGuard(CategoriesPage);

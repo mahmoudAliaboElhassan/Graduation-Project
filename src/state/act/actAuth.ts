@@ -116,3 +116,56 @@ export const getChapters = createAsyncThunk(
     }
   }
 );
+export const forgetPassword = createAsyncThunk(
+  "authSlice/forgetPassword",
+  async ({ email }: { email: string }, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.post("/api/Accounts/ForgetPassword", {
+        email,
+      });
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const resetPassword = createAsyncThunk(
+  "authSlice/resetPassword",
+  async (
+    {
+      token,
+      email,
+      password,
+    }: { token: string; email: string; password: string },
+    thunkAPI
+  ) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.post("/api/Accounts/ResetPassword", {
+        token,
+        email,
+        password,
+      });
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

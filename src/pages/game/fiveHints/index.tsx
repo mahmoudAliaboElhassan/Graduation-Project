@@ -12,6 +12,7 @@ import {
 } from "../../../state/slices/game";
 import { Hint, Timer } from "../../../styles/games/five-hints";
 import QuestionAnswer from "../../../components/formUI/formAnswer";
+import withGuard from "../../../utils/withGuard";
 
 function FiveHints() {
   const dispatch = useAppDispatch();
@@ -146,4 +147,4 @@ function FiveHints() {
   );
 }
 
-export default FiveHints;
+export default withGuard(FiveHints);

@@ -21,6 +21,7 @@ export interface InitialStateAuth {
   chapters: { name: string; number: number }[];
   role: forLocalStorage;
   subjectTeaching: forLocalStorage;
+  loadingForgetPassword: boolean;
 }
 export interface InitialStateGame {
   questionData: QuestionData;

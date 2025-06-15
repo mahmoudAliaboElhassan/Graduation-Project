@@ -1,7 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import UseInitialStates from "../../hooks/use-initial-state";
-import { signUp, logIn, getSubjects, getChapters } from "../act/actAuth";
+import {
+  signUp,
+  logIn,
+  getSubjects,
+  getChapters,
+  forgetPassword,
+} from "../act/actAuth";
 const { initialStateAuth } = UseInitialStates();
 
 export const authSlice = createSlice({
@@ -56,6 +62,8 @@ export const authSlice = createSlice({
         localStorage.setItem("role", action.payload.role);
         state.subjectTeaching = action.payload.subject;
         localStorage.setItem("subjectTeaching", action.payload.subject);
+        state.name = action.payload.name;
+        localStorage.setItem("name", action.payload.name);
       })
       .addCase(logIn.rejected, (state, action) => {
         state.loadingAuth = false;
@@ -85,9 +93,21 @@ export const authSlice = createSlice({
       })
       .addCase(getChapters.rejected, (state, action) => {
         state.loadingGetSubjects = false;
+      })
+      .addCase(forgetPassword.pending, (state, action) => {
+        state.loadingForgetPassword = true;
+        // if (action.payload) {
+        //   state.email = action.payload.email;
+        // }
+      })
+      .addCase(forgetPassword.fulfilled, (state, action) => {
+        state.loadingForgetPassword = false;
+      })
+      .addCase(forgetPassword.rejected, (state, action) => {
+        state.loadingForgetPassword = false;
       });
   },
 });
 
 export default authSlice.reducer;
-export { signUp, logIn, getSubjects, getChapters };
+export { signUp, logIn, getSubjects, getChapters, forgetPassword };

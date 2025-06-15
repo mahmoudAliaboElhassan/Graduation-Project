@@ -52,6 +52,7 @@ import {
   getAllQuestions,
   rejectQuestion,
 } from "../../state/act/actAdmin";
+import withGuard from "../../utils/withGuard";
 
 interface Question {
   questionID: number;
@@ -1065,4 +1066,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default withGuard(AdminDashboard);

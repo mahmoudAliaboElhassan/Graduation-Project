@@ -26,6 +26,7 @@ import { isToastActive } from "react-toastify/dist/core/store";
 import UseGrades from "../../hooks/use-grades";
 import UseSubjects from "../../hooks/use-subjects";
 import PasswordField from "../../components/formUI/password";
+import withGuard from "../../utils/withGuard";
 
 const FormFields = () => {
   const { values } = useFormikContext() as any;
@@ -168,4 +169,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default withGuard(SignUp);

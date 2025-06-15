@@ -2,8 +2,9 @@ import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import MultiStepQuestionModal from "../../../../components/formUI/fiveHintsMaking";
+import withGuard from "../../../../utils/withGuard";
 
-export default function MakeHintsQuestion() {
+function MakeHintsQuestion() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { t } = useTranslation("translation");
 
@@ -41,3 +42,4 @@ export default function MakeHintsQuestion() {
     </Box>
   );
 }
+export default withGuard(MakeHintsQuestion);

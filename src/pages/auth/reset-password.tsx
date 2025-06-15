@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Typography, Container } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { toast } from "react-toastify";
@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import { HeadingElement } from "../../styles/heading";
 import { FormWrapper, ContainerFormWrapper } from "../../styles/forms";
 import { useAppDispatch } from "../../hooks/redux";
-import { logIn } from "../../state/act/actAuth";
+import { logIn, resetPassword } from "../../state/act/actAuth";
 import UseThemMode from "../../hooks/use-theme-mode";
 import Swal from "sweetalert2";
 import { AxiosError } from "axios";
@@ -29,6 +29,8 @@ function ResetPassword() {
   const { INITIAL_FORM_STATE_RESET_PASSWORD } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_RESET_PASSWORD } = UseFormValidation();
   const { themeMode } = UseThemMode();
+  const { token } = useParams();
+  console.log("token", token);
   return (
     <>
       <div style={{ position: "relative", minHeight: "100vh" }}>
@@ -40,51 +42,36 @@ function ResetPassword() {
             validationSchema={FORM_VALIDATION_SCHEMA_RESET_PASSWORD}
             onSubmit={async (values) => {
               console.log(values);
-              //   dispatch(
-              //     logIn({ email: values.email, password: values.password })
-              //   )
-              //     .unwrap()
-              //     .then(() => {
-              //       {
-              //         toast.success(t("login-success"), {
-              //           position: "top-right",
-              //           autoClose: 1000,
-              //           hideProgressBar: false,
-              //           closeOnClick: true,
-              //           pauseOnHover: true,
-              //           draggable: true,
-              //           progress: undefined,
-              //         });
-              //       }
-              //       navigate("/");
-              //     })
-              //     .catch((error: AxiosError) => {
-              //       if (error?.response?.status === 401) {
-              //         Swal.fire({
-              //           title: t("error-login"),
-              //           text: t("error-login-text"),
-              //           icon: "error",
-              //           confirmButtonText: t("ok"),
-              //         });
-              //       }
-              //     });
-              // setLoading(true);
-              // const { confirmPassword, ...other } = values;
-              // try {
-              //   const user = await axiosInstance.post("/api/users/signup", other);
-              //   toast.success("You Have Created Account Successfully!");
-              //   console.log(user.data);
-              //   router.push("/login");
-              //   setLoading(false);
-              // } catch (error: any) {
-              //   setLoading(false);
-              //   Swal.fire({
-              //     title: "Error in Logging",
-              //     text: error.response.data.message,
-              //     icon: "error",
-              //     confirmButtonText: "ok",
-              //   });
-              // }
+              dispatch(
+                resetPassword({
+                  token: token || "",
+                  email: localStorage.getItem("email-resetted") || "",
+                  password: values.password,
+                })
+              )
+                .unwrap()
+                .then(() => {
+                  {
+                    toast.success(t("reset-success"), {
+                      position: "top-right",
+                      autoClose: 1000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                    });
+                  }
+                  navigate("/");
+                })
+                .catch((error: AxiosError) => {
+                  Swal.fire({
+                    title: t("error-reset-password"),
+                    text: t("error-reset-password-text"),
+                    icon: "error",
+                    confirmButtonText: t("ok"),
+                  });
+                });
             }}
           >
             <motion.div

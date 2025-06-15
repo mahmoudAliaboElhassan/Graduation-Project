@@ -7,6 +7,7 @@ import CardGame from "../../components/cardGame";
 import { HeadingElement } from "../../styles/heading";
 import UseGamesData from "../../hooks/use-game-data";
 import { useAppSelector } from "../../hooks/redux";
+import withGuard from "../../utils/withGuard";
 
 function Games() {
   const { t } = useTranslation();
@@ -50,4 +51,4 @@ function Games() {
   );
 }
 
-export default Games;
+export default withGuard(Games);

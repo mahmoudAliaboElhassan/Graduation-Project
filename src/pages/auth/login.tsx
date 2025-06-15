@@ -21,6 +21,7 @@ import UseThemMode from "../../hooks/use-theme-mode";
 import Swal from "sweetalert2";
 import { AxiosError } from "axios";
 import PasswordField from "../../components/formUI/password";
+import withGuard from "../../utils/withGuard";
 
 function Login() {
   const navigate = useNavigate();
@@ -138,4 +139,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default withGuard(Login);
