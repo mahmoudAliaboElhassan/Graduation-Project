@@ -7,6 +7,7 @@ import {
   getSubjects,
   getChapters,
   forgetPassword,
+  resetPassword,
 } from "../act/actAuth";
 const { initialStateAuth } = UseInitialStates();
 
@@ -105,6 +106,18 @@ export const authSlice = createSlice({
       })
       .addCase(forgetPassword.rejected, (state, action) => {
         state.loadingForgetPassword = false;
+      })
+      .addCase(resetPassword.pending, (state, action) => {
+        state.loadingResetPassword = true;
+        // if (action.payload) {
+        //   state.email = action.payload.email;
+        // }
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.loadingResetPassword = false;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.loadingResetPassword = false;
       });
   },
 });
