@@ -10,9 +10,9 @@ import CategoriesPage from "../pages/categoryGames";
 import CategoryEntertainment from "../pages/categoryGames/entertainment";
 import MakeHintsQuestion from "../pages/game/fiveHints/make";
 import AdminDashboard from "../pages/admin";
+import ResetPassword from "../pages/auth/reset-password";
 const Login = React.lazy(() => import("../pages/auth/login"));
 const Signup = React.lazy(() => import("../pages/auth/signup"));
-const ResetPassword = React.lazy(() => import("../pages/auth/reset-password"));
 const ForgetPassword = React.lazy(
   () => import("../pages/auth/forget-password")
 );

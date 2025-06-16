@@ -6,34 +6,13 @@ import {
   approveQuestion,
   rejectQuestion,
 } from "../act/actAdmin";
-const { initialStateGame } = UseInitialStates();
+import { Question } from "../../utils/types/initialState";
 
-interface Question {
-  questionID: number;
-  chapterName: string;
-  gradeName: string;
-  subjectName: string;
-  answer: string;
-  summary: string;
-  game: string;
-  hints: string[];
-}
-
-interface AdminState {
-  questions: Question[];
-  loadinGetQuestions: boolean;
-  error: string | null;
-}
-
-const initialState: AdminState = {
-  questions: [],
-  loadinGetQuestions: false,
-  error: null,
-};
+const { initialStateAdmin } = UseInitialStates();
 
 const adminSlice = createSlice({
   name: "admin",
-  initialState,
+  initialState: initialStateAdmin,
   reducers: {
     clearError: (state) => {
       state.error = null;

@@ -21,6 +21,7 @@ import UseThemMode from "../../hooks/use-theme-mode";
 import Swal from "sweetalert2";
 import { AxiosError } from "axios";
 import PasswordField from "../../components/formUI/password";
+import withGuard from "../admin/index";
 
 function ResetPassword() {
   const navigate = useNavigate();

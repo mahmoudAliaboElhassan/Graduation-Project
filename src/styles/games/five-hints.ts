@@ -25,16 +25,58 @@ export const Timer = styled(Grid)<{ timeExceeded: boolean }>(
   })
 );
 
-export const LinkPlay = styled(Link)<{ dir: string }>(({ dir }) => ({
-  display: "block",
-  textAlign: "center",
+export const LinkPlay = styled(Link)<{ dir: string }>(({ theme, dir }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "12px",
+  padding: "16px 32px",
+  fontSize: "1.1rem",
+  fontWeight: 600,
+  textTransform: "none",
   textDecoration: "none",
+  borderRadius: "50px",
+  minHeight: "56px",
+  minWidth: "200px",
+  position: "relative",
+  overflow: "hidden",
+  // More subtle background that matches your theme
+  backgroundColor: "rgba(255, 255, 255, 0.1)",
+  backdropFilter: "blur(10px)",
+  color: "#ffffff",
+  border: "1px solid rgba(255, 255, 255, 0.3)",
+  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
+  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
 
-  "& svg": {
-    transition: "transform 0.3s ease-in-out",
+  "& .MuiSvgIcon-root": {
+    fontSize: "1.5rem",
+    transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
   },
 
-  "&:hover svg": {
-    transform: dir === "ltr" ? "translateX(5px)" : "translate(-5px)", // Moves the icon to the right on hover
+  "&:hover": {
+    transform: "translateY(-2px)",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    borderColor: "rgba(255, 255, 255, 0.5)",
+    boxShadow: "0 12px 40px rgba(0, 0, 0, 0.4)",
+
+    "& .MuiSvgIcon-root": {
+      transform: dir === "ltr" ? "translateX(4px)" : "translateX(-4px)",
+    },
+  },
+
+  "&:active": {
+    transform: "translateY(0px)",
+    boxShadow: "0 6px 24px rgba(0, 0, 0, 0.3)",
+  },
+
+  [theme.breakpoints.down("sm")]: {
+    minWidth: "180px",
+    padding: "14px 24px",
+    fontSize: "1rem",
+  },
+
+  "&:focus-visible": {
+    outline: "2px solid rgba(255, 255, 255, 0.8)",
+    outlineOffset: "2px",
   },
 }));

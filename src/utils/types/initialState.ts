@@ -32,3 +32,19 @@ export interface InitialStateGame {
   offsideCorrectAnswer: number[];
   rank: forLocalStorage;
 }
+export type Question = {
+  questionID: number;
+  chapterName: string;
+  gradeName: string;
+  subjectName: string;
+  answer: string;
+  summary: string;
+  game: string;
+  hints: string[];
+};
+
+export interface initialStateAdmin {
+  questions: Question[];
+  loadinGetQuestions: boolean;
+  error: string | null;
+}

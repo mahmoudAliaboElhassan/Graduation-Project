@@ -2,6 +2,7 @@ import {
   InitialStateAuth,
   InitialStateMode,
   InitialStateGame,
+  initialStateAdmin,
 } from "../utils/types/initialState";
 
 function UseInitialStates() {
@@ -36,7 +37,17 @@ function UseInitialStates() {
     offsideCorrectAnswer: [],
   };
 
-  return { initialStateMode, initialStateAuth, initialStateGame };
+  const initialStateAdmin: initialStateAdmin = {
+    questions: [],
+    loadinGetQuestions: false,
+    error: null,
+  };
+  return {
+    initialStateMode,
+    initialStateAuth,
+    initialStateGame,
+    initialStateAdmin,
+  };
 }
 
 export default UseInitialStates;
