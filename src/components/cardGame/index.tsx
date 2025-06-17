@@ -60,9 +60,11 @@ function CardGame({ to, data }: Props) {
       onMouseLeave={() => setIsHovered(false)}
       component={Link}
       to={
-        categoryGame === "education"
-          ? to
-          : `/games/entertainment/${to}/play-${to}`
+        role === "Teacher"
+          ? categoryGame === "education"
+            ? `${to}/education`
+            : `${to}/entertainment`
+          : to
       }
     >
       <Box

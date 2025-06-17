@@ -11,6 +11,7 @@ import CategoryEntertainment from "../pages/categoryGames/entertainment";
 import MakeHintsQuestion from "../pages/game/fiveHints/make";
 import AdminDashboard from "../pages/admin";
 import ResetPassword from "../pages/auth/reset-password";
+import MakeOffsideQuestion from "../pages/game/offside/make";
 const Login = React.lazy(() => import("../pages/auth/login"));
 const Signup = React.lazy(() => import("../pages/auth/signup"));
 const ForgetPassword = React.lazy(
@@ -145,10 +146,18 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/make-hints",
+        path: "/make-hints/:category",
         element: (
           <Suspense fallback={<Loader />}>
             <MakeHintsQuestion />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/make-offside/:category",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <MakeOffsideQuestion />{" "}
           </Suspense>
         ),
       },

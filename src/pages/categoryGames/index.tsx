@@ -120,8 +120,13 @@ const CategoriesPage = () => {
   const { categories } = UseGamesCategories();
   const { categoryQuestionMaking } = UseQuestionCategories();
   const { role } = useAppSelector((state) => state.auth);
-  const categoryRole = role === "Teacher" ? categoryQuestionMaking : categories;
-
+  let categoryRole;
+  categoryRole = role === "Teacher" ? categoryQuestionMaking : categories;
+  if (role !== "Teacher" && role !== "Student") {
+    categoryRole = [categoryQuestionMaking[0], categories[0]];
+    
+  }
+  console.log("catergoryRole",categoryRole)
   return (
     <Box
       sx={{

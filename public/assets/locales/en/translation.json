@@ -272,5 +272,91 @@
   "error-email-sent-text": "We couldn't send the reset email. Please check if the email address is correct and registered in our system.",
   "reset-success": "Password reset successfully! You can now login with your new password.",
   "error-reset-password": "Password Reset Error",
-  "error-reset-password-text": "Unable to reset your password. The reset link may have expired or is invalid. Please request a new password reset."
+  "error-reset-password-text": "Unable to reset your password. The reset link may have expired or is invalid. Please request a new password reset.",
+  "offsideCreation": {
+    "pageTitle": "Create Offside Question",
+    "pageDescription": "Create engaging offside questions with 6 pieces of information and mark which ones are correct.",
+    "title": "Create Offside Question",
+    "steps": {
+      "selectGrade": "Select Grade",
+      "selectChapter": "Select Chapter",
+      "enterInformations": "Enter Informations",
+      "selectCorrect": "Select Correct Answers"
+    },
+    "descriptions": {
+      "grade": "Select the grade level for this offside question",
+      "chapter": "Select the chapter for this offside question",
+      "informations": "Enter 6 pieces of information for the offside question",
+      "correctAnswers": "Select which informations are correct"
+    },
+    "labels": {
+      "grade": "Grade",
+      "chapter": "Chapter",
+      "information": "Information",
+      "correctAnswer": "This information is correct"
+    },
+    "buttons": {
+      "openModal": "Start Creating",
+      "back": "Back",
+      "next": "Next",
+      "create": "Create Question",
+      "creating": "Creating..."
+    },
+    "errors": {
+      "gradeRequired": "Grade is required",
+      "chapterRequired": "Chapter is required",
+      "chapterFetchError": "Error fetching chapters",
+      "correctAnswersRequired": "At least one correct answer is required"
+    },
+    "toast": {
+      "success": "Offside question created successfully!",
+      "error": "Error creating offside question"
+    }
+  },
+  "explore-games": "Explore Games",
+  "graduationProject": "Graduation Project 2024",
+  "title": "EduPlay",
+  "subtitle": "Where Education Meets Entertainment - A revolutionary platform that transforms learning into an engaging gaming experience for students, teachers, and everyone who loves to learn.",
+  "startPlaying": "Start Playing",
+  "learnMore": "Learn More",
+  "threeWorlds": "Three Worlds, One Platform",
+  "threeWorldsDesc": "EduPlay brings together students, teachers, and casual learners in a unified gaming environment that makes education fun and accessible for everyone.",
+  "forStudents": "For Students",
+  "forStudentsDesc": "Learn through interactive educational games",
+  "forTeachers": "For Teachers",
+  "forTeachersDesc": "Create and manage educational content",
+  "forEveryone": "For Everyone",
+  "forEveryoneDesc": "Entertainment and casual learning",
+  "studentFeatures": [
+    "Play engaging educational games",
+    "Track your learning progress",
+    "Compete with classmates",
+    "Earn achievements and rewards"
+  ],
+  "teacherFeatures": [
+    "Design custom quiz questions",
+    "Monitor student progress",
+    "Create classroom challenges",
+    "Generate detailed reports"
+  ],
+  "everyoneFeatures": [
+    "Play entertainment quizzes",
+    "Challenge friends and family",
+    "Discover new topics",
+    "Have fun while learning"
+  ],
+  "ourMission": "Our Mission",
+  "missionText1": "EduPlay was born from the belief that learning should be enjoyable, engaging, and accessible to everyone. Our mission is to bridge the gap between education and entertainment, creating an environment where knowledge acquisition becomes a natural and fun process.",
+  "missionText2": "By empowering teachers with intuitive content creation tools and providing students with gamified learning experiences, we're revolutionizing how education is delivered and consumed in the digital age.",
+  "vision": "Vision",
+  "visionDesc": "To become the leading platform where education and entertainment converge, making learning a joyful journey for millions worldwide.",
+  "innovation": "Innovation",
+  "innovationDesc": "Continuously evolving our platform with cutting-edge technology to create immersive and effective learning experiences.",
+  "community": "Community",
+  "communityDesc": "Building a vibrant community of learners, educators, and knowledge enthusiasts who support and inspire each other.",
+  "readyToTransform": "Ready to Transform Learning?",
+  "joinThousands": "Join thousands of students and teachers who are already experiencing the future of education.",
+  "getStartedStudent": "Get Started as Student",
+  "joinAsTeacher": "Join as Teacher",
+  "language": "العربية"
 }

@@ -63,7 +63,10 @@ function HomePage() {
                 ? t("questionCreation.title")
                 : role === "Admin"
                 ? t("admin.dashboard.title")
-                : t("play-now")}
+                : role === "Student"
+                ? t("play-now")
+                : t("explore-games")}
+
               {direction.direction === "ltr" ? (
                 <ArrowForwardIcon fontSize="large" />
               ) : (
