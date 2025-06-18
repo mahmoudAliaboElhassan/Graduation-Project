@@ -225,6 +225,7 @@ function MultiStepQuestionModal({
           hints,
           answer: values.correctAnswer,
           summary: values.summary,
+          game: "five hints",
         })
       );
 

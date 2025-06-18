@@ -42,6 +42,7 @@ interface FormValues {
   information4: string;
   information5: string;
   information6: string;
+  summary: string;
   correctAnswers: number[];
 }
 
@@ -60,6 +61,7 @@ const INITIAL_FORM_STATE: FormValues = {
   information5: "",
   information6: "",
   correctAnswers: [],
+  summary: "",
 };
 
 const VALIDATION_SCHEMA = Yup.object({
@@ -72,6 +74,7 @@ const VALIDATION_SCHEMA = Yup.object({
   information5: Yup.string().required("Information 5 is required"),
   information6: Yup.string().required("Information 6 is required"),
   correctAnswers: Yup.array().min(1, "At least one correct answer is required"),
+  summary: Yup.string().required("Summary is required"),
 });
 
 function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
@@ -95,6 +98,7 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
     t("offsideCreation.steps.selectChapter") || "Select Chapter",
     t("offsideCreation.steps.enterInformations") || "Enter Informations",
     t("offsideCreation.steps.selectCorrect") || "Select Correct Answers",
+    t("questionCreation.steps.summary"),
   ];
 
   // Theme-based styling
@@ -193,7 +197,13 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
       });
       return;
     }
-
+    if (activeStep === 4 && !values.summary.trim()) {
+      setTouched({ summary: true });
+      setErrors({
+        summary: t("questionCreation.errors.summaryRequired"),
+      });
+      return;
+    }
     setActiveStep((prevStep) => prevStep + 1);
   };
 
@@ -228,19 +238,22 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
       ];
 
       const questionData = {
+        userId: Uid || "",
         grade: Number.parseInt(values.grade),
         chapter: values.chapterMakeQuestion,
-        informations: informations,
-        correctAnswers: values.correctAnswers.join(""),
+        hints: informations,
+        answer: values.correctAnswers.join(""),
+        summary: values.summary,
+        game: "offside",
       };
 
       console.log("Submitting offside question data:", questionData);
       console.log("Submitting question data:", questionData);
 
       // Dispatch the makeFiveHintsQuestion action
-      const result = await dispatch(makeOffsideQuestion(questionData));
+      const result = await dispatch(makeFiveHintsQuestion(questionData));
 
-      if (makeOffsideQuestion.fulfilled.match(result)) {
+      if (makeFiveHintsQuestion.fulfilled.match(result)) {
         console.log("Question created successfully:", result.payload);
 
         // Show success toast
@@ -500,7 +513,6 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                     />
                   </Box>
                 )}
-
                 {/* Step 2: Select Chapter */}
                 {activeStep === 1 && (
                   <Box>
@@ -535,7 +547,6 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                     />
                   </Box>
                 )}
-
                 {/* Step 3: Enter Informations */}
                 {activeStep === 2 && (
                   <Box>
@@ -581,7 +592,6 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                     </Box>
                   </Box>
                 )}
-
                 {/* Step 4: Select Correct Answers */}
                 {activeStep === 3 && (
                   <Box>
@@ -669,6 +679,38 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                         );
                       })}
                     </Box>
+                  </Box>
+                )}{" "}
+                {/* step 5: Enter Summary */}
+                {activeStep === 4 && (
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      sx={{
+                        color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {steps[4]}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        mb: 3,
+                        color:
+                          mymode === "light"
+                            ? "rgba(0, 0, 0, 0.6)"
+                            : "rgba(255, 255, 255, 0.6)",
+                      }}
+                    >
+                      {t("questionCreation.descriptions.summary")}
+                    </Typography>
+                    <TextFieldWrapper
+                      name="summary"
+                      label={t("questionCreation.labels.summary")}
+                      type="text"
+                    />
                   </Box>
                 )}
               </Box>

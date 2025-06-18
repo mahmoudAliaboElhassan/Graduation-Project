@@ -64,7 +64,9 @@ function CardGame({ to, data }: Props) {
           ? categoryGame === "education"
             ? `${to}/education`
             : `${to}/entertainment`
-          : to
+          : categoryGame === "education"
+          ? to
+          : `${to}/play-${to}`
       }
     >
       <Box

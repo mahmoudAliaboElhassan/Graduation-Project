@@ -32,5 +32,6 @@ export interface UserDataHintGameMakeQuestion {
   chapter: string;
   answer: string;
   summary: string;
-  hints: string[];
+  hints: string[] | string;
+  game: string;
 }
