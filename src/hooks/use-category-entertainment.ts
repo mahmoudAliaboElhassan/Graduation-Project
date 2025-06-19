@@ -6,40 +6,40 @@ function UseCategoryEntertainment() {
 
   const categoriesEntertainment: CategoryEntertainmentGame[] = [
     {
-      id: "0",
-      title: t("entertainment-categories.musicSongs.title"),
+      value: "0",
+      text: t("entertainment-categories.musicSongs.text"),
       description: t("entertainment-categories.musicSongs.description"),
       icon: "MusicNote",
       color: "#8B5CF6", // Purple
       route: "/music-songs",
     },
     {
-      id: "1",
-      title: t("entertainment-categories.moviesTv.title"),
+      value: "1",
+      text: t("entertainment-categories.moviesTv.text"),
       description: t("entertainment-categories.moviesTv.description"),
       icon: "Movie",
       color: "#EC4899", // Pink
       route: "/movies-tv",
     },
     {
-      id: "2",
-      title: t("entertainment-categories.artPaintings.title"),
+      value: "2",
+      text: t("entertainment-categories.artPaintings.text"),
       description: t("entertainment-categories.artPaintings.description"),
       icon: "Palette",
       color: "#F59E0B", // Amber
       route: "/art-paintings",
     },
     {
-      id: "3",
-      title: t("entertainment-categories.generalKnowledge.title"),
+      value: "3",
+      text: t("entertainment-categories.generalKnowledge.text"),
       description: t("entertainment-categories.generalKnowledge.description"),
       icon: "MenuBook",
       color: "#10B981", // Emerald
       route: "/general-knowledge",
     },
     {
-      id: "4",
-      title: t("entertainment-categories.sportsGames.title"),
+      value: "4",
+      text: t("entertainment-categories.sportsGames.text"),
       description: t("entertainment-categories.sportsGames.description"),
       icon: "EmojiEvents",
       color: "#3B82F6", // Blue

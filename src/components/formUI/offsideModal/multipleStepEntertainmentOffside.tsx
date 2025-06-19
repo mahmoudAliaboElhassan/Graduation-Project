@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import {
   Modal,
@@ -13,6 +15,8 @@ import {
   Paper,
   Backdrop,
   CircularProgress,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import { Formik, Form, type FormikTouched, type FormikErrors } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
@@ -20,77 +24,72 @@ import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 
-// Import your existing components and hooks
-import SelectComponent from "../../formUI/select";
-import TextFieldWrapper from "../../formUI/textField";
-import UseGrades from "../../../hooks/use-grades";
-import { getChapters } from "../../../state/act/actAuth";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { makeEducationQuestions } from "../../../state/act/actGame";
+// Import your existing components
+import TextFieldWrapper from "../textField";
+import SelectComponent from "../select";
+import { useAppSelector } from "../../../hooks/redux";
+import UseCategoryEntertainment from "../../../hooks/use-category-entertainment";
 
 interface FormValues {
-  grade: string;
-  chapterMakeQuestion: string;
-  hint1: string;
-  hint2: string;
-  hint3: string;
-  hint4: string;
-  hint5: string;
-  correctAnswer: string;
+  question: string;
+  section: string;
+  information1: string;
+  information2: string;
+  information3: string;
+  information4: string;
+  information5: string;
+  correctInformations: number[];
   summary: string;
 }
 
-interface MultiStepQuestionModalProps {
+interface MultiStepEntertainmentModalProps {
   open: boolean;
   onClose: () => void;
 }
 
 const INITIAL_FORM_STATE: FormValues = {
-  grade: "",
-  chapterMakeQuestion: "",
-  hint1: "",
-  hint2: "",
-  hint3: "",
-  hint4: "",
-  hint5: "",
-  correctAnswer: "",
+  question: "",
+  section: "",
+  information1: "",
+  information2: "",
+  information3: "",
+  information4: "",
+  information5: "",
+  correctInformations: [],
   summary: "",
 };
 
 const VALIDATION_SCHEMA = Yup.object({
-  grade: Yup.string().required("Grade is required"),
-  chapterMakeQuestion: Yup.string().required("Chapter is required"),
-  hint1: Yup.string().required("At least one hint is required"),
-  correctAnswer: Yup.string().required("Correct answer is required"),
+  question: Yup.string().required("Question is required"),
+  section: Yup.string().required("Section is required"),
+  information1: Yup.string().required("At least one information is required"),
+  correctInformations: Yup.array().min(
+    1,
+    "At least one correct information is required"
+  ),
   summary: Yup.string().required("Summary is required"),
 });
 
-function MultiStepQuestionModal({
+function MultipleStepOfsideEntertainment({
   open,
   onClose,
-}: MultiStepQuestionModalProps) {
-  const { t } = useTranslation("translation");
+}: MultiStepEntertainmentModalProps) {
+  const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [activeStep, setActiveStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoadingChapters, setIsLoadingChapters] = useState(false);
 
-  // Redux state and dispatch
-  const { chapters, subjectTeaching, Uid } = useAppSelector(
-    (state) => state.auth
-  );
+  const { categoriesEntertainment } = UseCategoryEntertainment();
   const { mymode } = useAppSelector((state) => state.mode);
-  const { grades } = UseGrades();
-  const dispatch = useAppDispatch();
 
-  // Updated steps with summary text instead of attachment
   const steps = [
-    t("questionCreation.steps.selectGrade"),
-    t("questionCreation.steps.selectChapter"),
-    t("questionCreation.steps.enterHints"),
-    t("questionCreation.steps.correctAnswer"),
-    t("questionCreation.steps.summary"),
+    t("questionCreation.steps.question") || "Enter Question",
+    t("questionCreation.steps.section") || "Select Section",
+    t("questionCreation.steps.enterInformations") || "Enter Informations",
+    t("entertainmentCreation.steps.selectCorrectInformations") ||
+      "Select Correct Informations",
+    t("questionCreation.steps.summary") || "Enter Summary",
   ];
 
   // Theme-based styling
@@ -110,10 +109,9 @@ function MultiStepQuestionModal({
         : "0 8px 32px rgba(26, 26, 46, 0.4)",
   };
 
-  // Fetch chapters when component loads or grade changes
   useEffect(() => {
     if (open) {
-      console.log("Modal opened, ready to create question...");
+      console.log("Entertainment Question Modal opened...");
     }
   }, [open]);
 
@@ -125,61 +123,52 @@ function MultiStepQuestionModal({
     ) => void,
     setErrors: (errors: Partial<FormikErrors<FormValues>>) => void
   ) => {
-    // Validation for each step
-    if (activeStep === 0 && !values.grade) {
-      setTouched({ grade: true });
-      setErrors({ grade: t("questionCreation.errors.gradeRequired") });
-      return;
-    } else if (activeStep === 0 && values.grade) {
-      // Dispatch getChapters with grade and subject from Redux
-      console.log(
-        "Dispatching getChapters for grade:",
-        values.grade,
-        "and subject:",
-        subjectTeaching
-      );
-      setIsLoadingChapters(true);
-      try {
-        await dispatch(
-          getChapters({
-            grade: +values.grade,
-            subject: subjectTeaching || "Arabic",
-          })
-        ).unwrap();
-      } catch (error) {
-        console.error("Error fetching chapters:", error);
-        toast.error(t("questionCreation.errors.chapterFetchError"));
-      } finally {
-        setIsLoadingChapters(false);
-      }
-    }
-
-    if (activeStep === 1 && !values.chapterMakeQuestion) {
-      setTouched({ chapterMakeQuestion: true });
+    // Step 0: Question validation
+    if (activeStep === 0 && !values.question.trim()) {
+      setTouched({ question: true });
       setErrors({
-        chapterMakeQuestion: t("questionCreation.errors.chapterRequired"),
+        question:
+          t("questionCreation.errors.questionRequired") ||
+          "Question is required",
       });
       return;
     }
 
-    if (activeStep === 2 && !values.hint1.trim()) {
-      setTouched({ hint1: true });
-      setErrors({ hint1: t("questionCreation.errors.hintsRequired") });
-      return;
-    }
-
-    if (activeStep === 3 && !values.correctAnswer.trim()) {
-      setTouched({ correctAnswer: true });
+    // Step 1: Section validation
+    if (activeStep === 1 && !values.section) {
+      setTouched({ section: true });
       setErrors({
-        correctAnswer: t("questionCreation.errors.correctAnswerRequired"),
+        section:
+          t("questionCreation.errors.sectionRequired") || "Section is required",
       });
       return;
     }
 
+    // Step 2: Hints validation
+    if (activeStep === 2 && !values.information1.trim()) {
+      setTouched({ information1: true });
+      setErrors({
+        information1:
+          t("questionCreation.errors.informationRequired") ||
+          "At least one information is required",
+      });
+      return;
+    }
+
+    // Step 3: Correct hints validation
+    if (activeStep === 3 && values.correctInformations.length === 0) {
+      setErrors({
+        correctInformations: "At least one correct information is required",
+      });
+      return;
+    }
+
+    // Step 4: Summary validation
     if (activeStep === 4 && !values.summary.trim()) {
       setTouched({ summary: true });
       setErrors({
-        summary: t("questionCreation.errors.summaryRequired"),
+        summary:
+          t("questionCreation.errors.summaryRequired") || "Summary is required",
       });
       return;
     }
@@ -191,88 +180,80 @@ function MultiStepQuestionModal({
     setActiveStep((prevStep) => prevStep - 1);
   };
 
+  const handleCorrectInformationChange = (
+    index: number,
+    checked: boolean,
+    setFieldValue: any,
+    values: FormValues
+  ) => {
+    const newCorrectInformations = checked
+      ? [...values.correctInformations, index] // Remove the + 1 here
+      : values.correctInformations.filter((info) => info !== index); // Remove the + 1 here
+
+    setFieldValue("correctInformations", newCorrectInformations.sort());
+  };
+
   const handleSubmit = async (values: FormValues, { resetForm }: any) => {
     setIsSubmitting(true);
 
     try {
-      // Prepare hints array, filtering out empty hints
-      const hints = [
-        values.hint1,
-        values.hint2,
-        values.hint3,
-        values.hint4,
-        values.hint5,
-      ].filter((hint) => hint.trim() !== "");
+      const informations = [
+        values.information1,
+        values.information2,
+        values.information3,
+        values.information4,
+        values.information5,
+      ].filter((info) => info.trim() !== "");
 
-      // Prepare data according to UserDataHintGameMakeQuestion interface
       const questionData = {
-        grade: Number.parseInt(values.grade),
-        userId: Uid || "", // Get userId from Redux state
-        chapter: values.chapterMakeQuestion,
-        answer: values.correctAnswer,
-        summary: values.summary, // Now using text summary instead of file
-        hints: hints,
+        question: values.question,
+        game: "offside",
+        section: Number.parseInt(values.section),
+        hints: informations, // Keep as 'hints' for API compatibility
+        answer: values.correctInformations.join(""),
+        summary: values.summary,
       };
 
-      console.log("Submitting question data:", questionData);
+      console.log("Submitting entertainment question data:", questionData);
 
-      // Dispatch the makeEducationQuestions action
-      const result = await dispatch(
-        makeEducationQuestions({
-          userId: Uid || "",
-          grade: +values.grade,
-          chapter: values.chapterMakeQuestion,
-          hints,
-          answer: values.correctAnswer,
-          summary: values.summary,
-          game: "five hints",
-        })
-      );
+      // Simulate API call - replace with your actual API call
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      if (makeEducationQuestions.fulfilled.match(result)) {
-        console.log("Question created successfully:", result.payload);
-
-        // Show success toast
-        toast.success(t("questionCreation.toast.success"), {
+      // Show success toast
+      toast.success(
+        t("questionCreation.toast.success") || "Question created successfully!",
+        {
           position: "top-center",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-        });
+        }
+      );
 
-        // Reset form and close modal after a short delay
-        setTimeout(() => {
-          resetForm();
-          setActiveStep(0);
-          onClose();
-        }, 1000);
-      } else {
-        console.error("Failed to create question:", result.payload);
+      // Reset form and close modal after a short delay
+      setTimeout(() => {
+        resetForm();
+        setActiveStep(0);
+        onClose();
+      }, 1000);
+    } catch (error) {
+      console.error("Error creating entertainment question:", error);
 
-        // Show error toast
-        toast.error(t("questionCreation.toast.error"), {
+      // Show error toast
+      toast.error(
+        t("questionCreation.toast.error") ||
+          "Failed to create question. Please try again.",
+        {
           position: "top-center",
           autoClose: 4000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-        });
-      }
-    } catch (error) {
-      console.error("Error creating question:", error);
-
-      // Show error toast
-      toast.error(t("questionCreation.toast.error"), {
-        position: "top-center",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+        }
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -312,7 +293,7 @@ function MultiStepQuestionModal({
         }}
       >
         {/* Loading Overlay */}
-        {(isLoadingChapters || isSubmitting) && (
+        {isSubmitting && (
           <Box
             sx={{
               position: "absolute",
@@ -346,9 +327,8 @@ function MultiStepQuestionModal({
                   fontWeight: "bold",
                 }}
               >
-                {isSubmitting
-                  ? t("questionCreation.buttons.creating")
-                  : t("loadingChapters")}
+                {t("questionCreation.buttons.creating") ||
+                  "Creating Question..."}
               </Typography>
             </Box>
           </Box>
@@ -381,7 +361,7 @@ function MultiStepQuestionModal({
                   : "1px 1px 2px rgba(0,0,0,0.3)",
             }}
           >
-            {t("questionCreation.title")}
+            {t("questionCreation.title") || "Create Entertainment Question"}
           </Typography>
           <IconButton
             aria-label="close"
@@ -457,7 +437,7 @@ function MultiStepQuestionModal({
           {({ values, setTouched, setErrors, setFieldValue }) => (
             <Form>
               <Box sx={{ minHeight: "300px", mb: 3 }}>
-                {/* Step 1: Select Grade */}
+                {/* Step 0: Enter Question */}
                 {activeStep === 0 && (
                   <Box>
                     <Typography
@@ -480,17 +460,19 @@ function MultiStepQuestionModal({
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      {t("questionCreation.descriptions.grade")}
+                      {t("questionCreation.descriptions.question") ||
+                        "Enter the main question for the entertainment game"}
                     </Typography>
-                    <SelectComponent
-                      name="grade"
-                      options={grades}
-                      label={t("questionCreation.labels.grade")}
+                    <TextFieldWrapper
+                      name="question"
+                      label={
+                        t("questionCreation.labels.question") || "Question"
+                      }
                     />
                   </Box>
                 )}
 
-                {/* Step 2: Select Chapter */}
+                {/* Step 1: Select Section */}
                 {activeStep === 1 && (
                   <Box>
                     <Typography
@@ -513,18 +495,18 @@ function MultiStepQuestionModal({
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      {t("questionCreation.descriptions.chapter")}
+                      {t("questionCreation.descriptions.section") ||
+                        "Select the section for this question"}
                     </Typography>
                     <SelectComponent
-                      name="chapterMakeQuestion"
-                      options={chapters}
-                      label={t("questionCreation.labels.chapter")}
-                      disabled={isLoadingChapters}
+                      name="section"
+                      options={categoriesEntertainment}
+                      label={t("questionCreation.labels.section") || "Section"}
                     />
                   </Box>
                 )}
 
-                {/* Step 3: Enter Hints */}
+                {/* Step 2: Enter Hints */}
                 {activeStep === 2 && (
                   <Box>
                     <Typography
@@ -547,7 +529,8 @@ function MultiStepQuestionModal({
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      {t("questionCreation.descriptions.hints")}
+                      {t("questionCreation.descriptions.hints") ||
+                        "Enter up to 5 hints to help players guess the answer"}
                     </Typography>
                     <Box
                       sx={{ display: "flex", flexDirection: "column", gap: 2 }}
@@ -555,18 +538,18 @@ function MultiStepQuestionModal({
                       {[1, 2, 3, 4, 5].map((num) => (
                         <TextFieldWrapper
                           key={num}
-                          name={`hint${num}`}
-                          label={`${t("questionCreation.labels.hint")} ${num}${
-                            num === 1 ? " *" : ""
-                          }`}
-                          type="text"
+                          name={`information${num}`}
+                          label={`${
+                            t("entertainmentCreation.labels.information") ||
+                            "Information"
+                          } ${num}${num === 1 ? " *" : ""}`}
                         />
                       ))}
                     </Box>
                   </Box>
                 )}
 
-                {/* Step 4: Correct Answer */}
+                {/* Step 3: Select Correct Hints */}
                 {activeStep === 3 && (
                   <Box>
                     <Typography
@@ -589,17 +572,80 @@ function MultiStepQuestionModal({
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      {t("questionCreation.descriptions.correctAnswer")}
+                      Select which hints are correct or true
                     </Typography>
-                    <TextFieldWrapper
-                      name="correctAnswer"
-                      label={t("questionCreation.labels.correctAnswer")}
-                      type="text"
-                    />
+                    <Box
+                      sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+                    >
+                      {[1, 2, 3, 4, 5].map((num) => {
+                        const informationValue = values[
+                          `information${num}` as keyof FormValues
+                        ] as string;
+                        if (!informationValue.trim()) return null;
+
+                        return (
+                          <Box
+                            key={num}
+                            sx={{
+                              p: 2,
+                              border: 1,
+                              borderColor: "divider",
+                              borderRadius: 1,
+                            }}
+                          >
+                            <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                              {t("entertainmentCreation.labels.information") ||
+                                "Information"}{" "}
+                              {num}:
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              sx={{ mb: 2, color: "text.secondary" }}
+                            >
+                              {informationValue}
+                            </Typography>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={values.correctInformations.includes(
+                                    num
+                                  )} // This stays the same
+                                  onChange={(e) =>
+                                    handleCorrectInformationChange(
+                                      num, // Pass num directly instead of num - 1
+                                      e.target.checked,
+                                      setFieldValue,
+                                      values
+                                    )
+                                  }
+                                  sx={{
+                                    color:
+                                      mymode === "light"
+                                        ? "#c31432"
+                                        : "#ff6b9d",
+                                    "&.Mui-checked": {
+                                      color:
+                                        mymode === "light"
+                                          ? "#c31432"
+                                          : "#ff6b9d",
+                                    },
+                                  }}
+                                />
+                              }
+                              label={
+                                t(
+                                  "entertainmentCreation.labels.correctInformation"
+                                ) || "This information is correct"
+                              }
+                            />
+                          </Box>
+                        );
+                      })}
+                    </Box>
                   </Box>
                 )}
 
-                {/* Step 5: Summary Text */}
+                {/* Step 4: Enter Summary */}
                 {activeStep === 4 && (
                   <Box>
                     <Typography
@@ -622,12 +668,12 @@ function MultiStepQuestionModal({
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      {t("questionCreation.descriptions.summary")}
+                      {t("questionCreation.descriptions.summary") ||
+                        "Enter a summary or additional information about the answer"}
                     </Typography>
                     <TextFieldWrapper
                       name="summary"
-                      label={t("questionCreation.labels.summary")}
-                      type="text"
+                      label={t("questionCreation.labels.summary") || "Summary"}
                     />
                   </Box>
                 )}
@@ -676,7 +722,7 @@ function MultiStepQuestionModal({
                     },
                   }}
                 >
-                  {t("questionCreation.buttons.back")}
+                  {t("questionCreation.buttons.back") || "Back"}
                 </Button>
 
                 {activeStep === steps.length - 1 ? (
@@ -702,8 +748,9 @@ function MultiStepQuestionModal({
                     disabled={isSubmitting}
                   >
                     {isSubmitting
-                      ? t("questionCreation.buttons.creating")
-                      : t("questionCreation.buttons.create")}
+                      ? t("questionCreation.buttons.creating") || "Creating..."
+                      : t("questionCreation.buttons.create") ||
+                        "Create Question"}
                   </Button>
                 ) : (
                   <Button
@@ -718,16 +765,9 @@ function MultiStepQuestionModal({
                         backgroundColor:
                           mymode === "light" ? "#a01729" : "#ff4081",
                       },
-                      "&:disabled": {
-                        backgroundColor:
-                          mymode === "light"
-                            ? "rgba(0, 0, 0, 0.12)"
-                            : "rgba(255, 255, 255, 0.12)",
-                      },
                     }}
-                    disabled={isLoadingChapters}
                   >
-                    {t("questionCreation.buttons.next")}
+                    {t("questionCreation.buttons.next") || "Next"}
                   </Button>
                 )}
               </Box>
@@ -739,4 +779,4 @@ function MultiStepQuestionModal({
   );
 }
 
-export default MultiStepQuestionModal;
+export default MultipleStepOfsideEntertainment;

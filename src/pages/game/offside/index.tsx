@@ -11,12 +11,16 @@ import {
   Button,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { getOffSideQuestions } from "../../../state/slices/game";
+import {
+  getOffsideEntertainment,
+  getOffSideQuestions,
+} from "../../../state/slices/game";
 import { Hint, Timer } from "../../../styles/games/five-hints";
 import RadioInput from "../../../components/formUI/offsideInput";
 import UseFormValidation from "../../../hooks/use-form-validation";
 import UseInitialValues from "../../../hooks/use-initial-values";
 import withGuard from "../../../utils/withGuard";
+import { useParams } from "react-router-dom";
 
 function Offside() {
   const dispatch = useAppDispatch();
@@ -24,17 +28,25 @@ function Offside() {
   const { offsideInformation, offsideCorrectAnswer } = useAppSelector(
     (state) => state.game
   );
+  const { categoryGame } = useParams();
 
   useEffect(() => {
-    dispatch(
-      getOffSideQuestions({
-        grade,
-        subject: localStorage.getItem("subject") || "",
-        chapter: localStorage.getItem("chapter") || "",
-        userID: localStorage.getItem("id") || "",
-      })
-    );
-  }, [dispatch, grade]);
+    categoryGame == "education"
+      ? dispatch(
+          getOffSideQuestions({
+            grade,
+            subject: localStorage.getItem("subject") || "",
+            chapter: localStorage.getItem("chapter") || "",
+            userID: localStorage.getItem("id") || "",
+          })
+        )
+      : dispatch(
+          getOffsideEntertainment({
+            entertainmentSection:
+              Number(localStorage.getItem("entertainmentGameId")) || 0,
+          })
+        );
+  }, []);
 
   const { FORM_VALIDATION_OFFSIDE_GAME } = UseFormValidation();
   const { INITIAL_FORM_STATE_OFFSIDE_GAME } = UseInitialValues();

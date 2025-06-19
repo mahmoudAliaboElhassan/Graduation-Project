@@ -4,7 +4,8 @@ import axiosInstance from "../../utils/axiosInstance";
 import {
   UserDataGameGetQuestion,
   UserDataHintGameAnswerQuestion,
-  UserDataHintGameMakeQuestion,
+  UserDataEducationMakeQuestion,
+  UserDataEntertainmentMakeQuestion,
 } from "../../utils/types/DTO";
 import { getHintsResponse, getOffsideHints } from "../../utils/dataResponse";
 
@@ -28,15 +29,25 @@ export const getHintsQuestions = createAsyncThunk(
     }
   }
 );
-export const getOffSideQuestions = createAsyncThunk(
-  "gameSlice/getOffSideQuestions",
-  async (userData: UserDataGameGetQuestion, thunkAPI) => {
+
+export const getHintsEntertainment = createAsyncThunk(
+  "gameSlice/getHintsEntertainment",
+  async (
+    { entertainmentSection }: { entertainmentSection: Number },
+    thunkAPI
+  ) => {
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const res = await axiosInstance.post<getOffsideHints>(
-        "/api/education/OffsideGame/question",
-        userData
+      const res = await axiosInstance.get<getOffsideHints>(
+        `/api/Entertainment/HintGame/question/${entertainmentSection}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+            // Add any other headers you need here
+            "Content-Type": "application/json",
+          },
+        }
       );
       console.log("from slice res is", res);
       return res.data;
@@ -48,8 +59,37 @@ export const getOffSideQuestions = createAsyncThunk(
     }
   }
 );
-export const getHintsEntertainment = createAsyncThunk(
-  "gameSlice/getHintsEntertainment",
+
+export const getOffSideQuestions = createAsyncThunk(
+  "gameSlice/getOffSideQuestions",
+  async (userData: UserDataGameGetQuestion, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.post<getOffsideHints>(
+        "/api/education/OffsideGame/question",
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+            // Add any other headers you need here
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("from slice res is", res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        console.log("400 Bad Request - Invalid input from slice");
+      }
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const getOffsideEntertainment = createAsyncThunk(
+  "gameSlice/getOffsideEntertainment",
   async (
     { entertainmentSection }: { entertainmentSection: Number },
     thunkAPI
@@ -57,8 +97,15 @@ export const getHintsEntertainment = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const res = await axiosInstance.get<getHintsResponse>(
-        `/api/Entertainment/${entertainmentSection}`
+      const res = await axiosInstance.get<getOffsideHints>(
+        `/api/Entertainment/OffsideGame/question/${entertainmentSection}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+            // Add any other headers you need here
+            "Content-Type": "application/json",
+          },
+        }
       );
       console.log("from slice res is", res);
       return res.data;
@@ -93,9 +140,9 @@ export const answerQuestion = createAsyncThunk(
     }
   }
 );
-export const makeFiveHintsQuestion = createAsyncThunk(
-  "gameSlice/makeFiveHintsQuestion",
-  async (userData: UserDataHintGameMakeQuestion, thunkAPI) => {
+export const makeEducationQuestions = createAsyncThunk(
+  "gameSlice/makeEducationQuestions",
+  async (userData: UserDataEducationMakeQuestion, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
 
     try {
@@ -119,14 +166,14 @@ export const makeFiveHintsQuestion = createAsyncThunk(
     }
   }
 );
-export const makeOffsideQuestion = createAsyncThunk(
-  "gameSlice/makeOffsideQuestion",
-  async (userData: any, thunkAPI) => {
+export const makeEntertainmentQuestions = createAsyncThunk(
+  "gameSlice/makeEntertainmentQuestions",
+  async (userData: UserDataEntertainmentMakeQuestion, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
 
     try {
       const res = await axiosInstance.post(
-        "/api/education/HintGame/makequestion",
+        "/api/entertainment/HintGame/makequestion",
         userData,
         {
           withCredentials: true, // ✅ Ensures cookies are sent

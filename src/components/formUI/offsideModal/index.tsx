@@ -28,10 +28,7 @@ import TextFieldWrapper from "../../formUI/textField";
 import UseGrades from "../../../hooks/use-grades";
 import { getChapters } from "../../../state/act/actAuth";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import {
-  makeFiveHintsQuestion,
-  makeOffsideQuestion,
-} from "../../../state/act/actGame";
+import { makeEducationQuestions } from "../../../state/act/actGame";
 
 interface FormValues {
   grade: string;
@@ -251,9 +248,9 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
       console.log("Submitting question data:", questionData);
 
       // Dispatch the makeFiveHintsQuestion action
-      const result = await dispatch(makeFiveHintsQuestion(questionData));
+      const result = await dispatch(makeEducationQuestions(questionData));
 
-      if (makeFiveHintsQuestion.fulfilled.match(result)) {
+      if (makeEducationQuestions.fulfilled.match(result)) {
         console.log("Question created successfully:", result.payload);
 
         // Show success toast

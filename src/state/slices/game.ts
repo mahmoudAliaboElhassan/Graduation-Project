@@ -6,6 +6,7 @@ import {
   answerQuestion,
   getOffSideQuestions,
   getHintsEntertainment,
+  getOffsideEntertainment,
 } from "../act/actGame";
 import { QuestionData } from "../../utils/types/initialState";
 const { initialStateGame } = UseInitialStates();
@@ -81,6 +82,17 @@ export const gameSlice = createSlice({
       .addCase(getOffSideQuestions.rejected, (state, action) => {
         state.loadingGetQuestions = false;
       })
+      .addCase(getOffsideEntertainment.pending, (state, action) => {
+        state.loadingGetQuestions = true;
+      })
+      .addCase(getOffsideEntertainment.fulfilled, (state, action) => {
+        state.loadingGetQuestions = false;
+        state.offsideInformation = action.payload.information;
+        state.offsideCorrectAnswer = action.payload.correctAnswer;
+      })
+      .addCase(getOffsideEntertainment.rejected, (state, action) => {
+        state.loadingGetQuestions = false;
+      })
 
       .addCase(answerQuestion.pending, (state, action) => {
         state.loadingAnswerQuestion = true;
@@ -102,4 +114,5 @@ export {
   getHintsEntertainment,
   getOffSideQuestions,
   answerQuestion,
+  getOffsideEntertainment,
 };

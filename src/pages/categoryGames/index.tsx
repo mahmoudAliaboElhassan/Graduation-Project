@@ -124,9 +124,8 @@ const CategoriesPage = () => {
   categoryRole = role === "Teacher" ? categoryQuestionMaking : categories;
   if (role !== "Teacher" && role !== "Student") {
     categoryRole = [categoryQuestionMaking[0], categories[0]];
-    
   }
-  console.log("catergoryRole",categoryRole)
+  console.log("catergoryRole", categoryRole);
   return (
     <Box
       sx={{

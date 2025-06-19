@@ -100,7 +100,7 @@
   "full-name": "Full Name",
   "start-playing": "Start Playing",
   "five-hints-title": "Five Hints",
-  "five-hints-description": "Five Hints is a thrilling guessing game where you test your knowledge by uncovering the correct answer with minimal hints! You start with no clues, and every 30 seconds, a new hint is revealed. The faster you guess, the higher your rank! If you crack the mystery on the first try, you’ll achieve the top rank. But beware—every additional hint lowers your score. Can you solve the puzzle before all hints are revealed? Challenge yourself and climb the leaderboard!",
+  "five-hints-description": "Five Hints is a thrilling guessing game where you test your knowledge by uncovering the correct answer with minimal hints! You start with no clues, and every 30 seconds, a new hint is revealed. The faster you guess, the higher your rank! If you crack the mystery on the first try, you'll achieve the top rank. But beware—every additional hint lowers your score. Can you solve the puzzle before all hints are revealed? Challenge yourself and climb the leaderboard!",
   "offside-title": "Offside",
   "offside-description": "Offside is a fast-paced logic game that tests your ability to distinguish between truth and deception! You start with 120 points and are presented with six statements—some are true, and some are false. Your goal is to identify the correct ones while avoiding the false ones. But be careful! Every wrong choice deducts points from your score. Can you keep your score high and make the right calls? Challenge yourself and prove your sharp judgment!",
   "correct-info": "Correct Info",
@@ -187,28 +187,40 @@
       "selectChapter": "Select Chapter",
       "enterHints": "Enter Hints",
       "correctAnswer": "Correct Answer",
-      "summary": "Summary"
+      "summary": "Summary",
+      "question": "Enter Question",
+      "answer": "Enter Answer",
+      "section": "Select Section"
     },
     "labels": {
       "grade": "Grade Level",
       "chapter": "Chapter",
       "hint": "Hint",
       "correctAnswer": "Correct Answer",
-      "summary": "Summary"
+      "summary": "Summary",
+      "question": "Question",
+      "answer": "Answer",
+      "section": "Section"
     },
     "placeholders": {
       "selectGrade": "Choose a grade level",
       "selectChapter": "Choose a chapter",
       "hint": "Enter hint",
       "correctAnswer": "Enter the correct answer",
-      "summary": "Enter a summary or description"
+      "summary": "Enter a summary or description",
+      "question": "Enter your question here",
+      "answer": "Enter the correct answer",
+      "section": "Choose a section"
     },
     "descriptions": {
       "grade": "Select the grade level for which you want to create this question.",
       "chapter": "Select the specific chapter or topic within the subject.",
       "hints": "Enter up to 5 hints to help students guess the answer. You can leave some hints empty if needed.",
       "correctAnswer": "Provide the correct answer that students should guess based on the hints.",
-      "summary": "Write a brief summary or description that provides context for this question."
+      "summary": "Write a brief summary or description that provides context for this question.",
+      "question": "Enter the main question for the five hints game",
+      "answer": "Enter the correct answer to the question",
+      "section": "Select the section for this question"
     },
     "buttons": {
       "back": "Back",
@@ -222,7 +234,10 @@
       "chapterRequired": "Please select a chapter",
       "hintsRequired": "Please enter at least one hint",
       "correctAnswerRequired": "Please enter the correct answer",
-      "summaryRequired": "Please enter a summary"
+      "summaryRequired": "Please enter a summary",
+      "questionRequired": "Question is required",
+      "answerRequired": "Answer is required",
+      "sectionRequired": "Section is required"
     },
     "toast": {
       "success": "🎉 Question created successfully!",
@@ -311,6 +326,34 @@
     "toast": {
       "success": "Offside question created successfully!",
       "error": "Error creating offside question"
+    }
+  },
+  "entertainmentCreation": {
+    "title": "Create Entertainment Question",
+    "pageTitle": "Entertainment Question Creator",
+    "pageDescription": "Create entertainment questions with informations for players to guess",
+    "steps": {
+      "enterInformations": "Enter Informations",
+      "selectCorrectInformations": "Select Correct Informations"
+    },
+    "labels": {
+      "information": "Information",
+      "correctInformation": "This information is correct"
+    },
+    "placeholders": {
+      "information": "Enter information"
+    },
+    "descriptions": {
+      "informations": "Enter up to 5 pieces of information for the entertainment question",
+      "correctInformations": "Select which informations are correct or true"
+    },
+    "errors": {
+      "informationRequired": "At least one information is required",
+      "correctInformationsRequired": "At least one correct information is required"
+    },
+    "toast": {
+      "success": "🎉 Entertainment question created successfully!",
+      "error": "❌ Failed to create entertainment question. Please try again."
     }
   },
   "explore-games": "Explore Games",

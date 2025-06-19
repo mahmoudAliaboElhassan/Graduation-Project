@@ -153,10 +153,10 @@ const CategoryEntertainment: React.FC = () => {
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           {categoriesEntertainment.map((category) => (
-            <Grid item xs={4} sm={4} md={4} key={category.id}>
+            <Grid item xs={4} sm={4} md={4} key={category.value}>
               <CategoryEntertainmentCard
-                id={category.id}
-                title={category.title}
+                id={category.value}
+                title={category.text}
                 description={category.description}
                 iconName={category.icon}
                 color={category.color}

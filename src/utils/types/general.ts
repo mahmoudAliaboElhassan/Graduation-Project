@@ -58,8 +58,8 @@ export interface CtegoryGames {
   color: string;
 }
 export interface CategoryEntertainmentGame {
-  id: string;
-  title: string;
+  value: string;
+  text: string;
   description: string;
   icon: string;
   color: string;
