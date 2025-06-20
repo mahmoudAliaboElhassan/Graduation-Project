@@ -2,6 +2,7 @@ import React from "react";
 
 export interface Header {
   href?: string;
+  click?: () => void;
   label: string;
 }
 export interface DirectionType {

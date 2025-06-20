@@ -1,9 +1,12 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Header } from "../utils/types/general";
+import { useAppDispatch } from "./redux";
+import { logOut } from "../state/slices/auth";
 
 function UseHeaderElements() {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const notUserAuth: Header[] = [
     {
       href: "/signup",
@@ -21,6 +24,7 @@ function UseHeaderElements() {
     },
     {
       label: t("logout"),
+      click: () => dispatch(logOut()),
     },
   ];
 

@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Typography, Container } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { toast } from "react-toastify";
@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import { HeadingElement } from "../../styles/heading";
 import { FormWrapper, ContainerFormWrapper } from "../../styles/forms";
 import { useAppDispatch } from "../../hooks/redux";
-import { logIn } from "../../state/act/actAuth";
+import { changePassword, logIn } from "../../state/act/actAuth";
 import UseThemMode from "../../hooks/use-theme-mode";
 import PasswordField from "../../components/formUI/password";
 import withGuard from "../../utils/withGuard";
@@ -26,6 +26,7 @@ function ChangePassword() {
   const { FORM_VALIDATION_SCHEMA_CHANGE_PASSWORD } = UseFormValidation();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { themeMode } = UseThemMode();
   return (
     <>
@@ -37,50 +38,24 @@ function ChangePassword() {
             }}
             validationSchema={FORM_VALIDATION_SCHEMA_CHANGE_PASSWORD}
             onSubmit={async (values) => {
-              //   console.log(values);
-              //   dispatch(
-              //     logIn({ email: values.email, password: values.password })
-              //   )
-              //     .unwrap()
-              //     .then(() => {
-              //       {
-              //         toast.success(t("login-success"), {
-              //           position: "top-right",
-              //           autoClose: 1000,
-              //           hideProgressBar: false,
-              //           closeOnClick: true,
-              //           pauseOnHover: true,
-              //           draggable: true,
-              //           progress: undefined,
-              //         });
-              //       }
-              //     })
-              //     .catch((error) => {
-              //       if (error.response.status === 401) {
-              //         Swal.fire({
-              //           title: t("error-login"),
-              //           text: t("error-login-text"),
-              //           icon: "error",
-              //           confirmButtonText: t("ok"),
-              //         });
-              //       }
-              //     }); // setLoading(true);
-              //   // const { confirmPassword, ...other } = values;
-              //   // try {
-              //   //   const user = await axiosInstance.post("/api/users/signup", other);
-              //   //   toast.success("You Have Created Account Successfully!");
-              //   //   console.log(user.data);
-              //   //   router.push("/login");
-              //   //   setLoading(false);
-              //   // } catch (error: any) {
-              //   //   setLoading(false);
-              //   //   Swal.fire({
-              //   //     title: "Error in Logging",
-              //   //     text: error.response.data.message,
-              //   //     icon: "error",
-              //   //     confirmButtonText: "ok",
-              //   //   });
-              //   // }
+              dispatch(
+                changePassword({
+                  oldPassword: values.currentPassword,
+                  newPassword: values.newPassword,
+                })
+              )
+                .unwrap()
+                .then(() => {
+                  toast.success(t("change-password-success")); // Toastify success
+                  navigate("/");
+                })
+                .catch((error) => {
+                  Swal.fire({
+                    icon: "error",
+                    title: t("change-password-error-title"),
+                    text: error?.message || t("change-password-error-message"),
+                  });
+                });
             }}
           >
             <div>

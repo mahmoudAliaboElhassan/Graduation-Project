@@ -12,6 +12,8 @@ function UseInitialStates() {
   const initialStateAuth: InitialStateAuth = {
     loadingAuth: false,
     loadingGetSubjects: false,
+    loadingAddPoints: false,
+    loadingChangePassword: false,
     email: localStorage.getItem("email"),
     name: localStorage.getItem("name"),
     grade: localStorage.getItem("grade"),

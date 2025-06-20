@@ -24,6 +24,10 @@ import UseInitialValues from "../../../hooks/use-initial-values";
 import withGuard from "../../../utils/withGuard";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { addPoints } from "../../../state/act/actAuth";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import ButtonWrapper from "../../../components/formUI/submit";
 
 function Offside() {
   const dispatch = useAppDispatch();
@@ -38,72 +42,32 @@ function Offside() {
   const [disabledFields, setDisabledFields] = useState<Record<string, boolean>>(
     {}
   );
-
-  // Simplified points system - just total points
-  const [totalPoints, setTotalPoints] = useState(50); // Start with 50 points
-  const [answeredQuestions, setAnsweredQuestions] = useState(0);
   const [answerStatus, setAnswerStatus] = useState<Record<string, boolean>>({});
+  const [totalPoints, setTotalPoints] = useState(50);
+  const [answeredQuestions, setAnsweredQuestions] = useState(0);
+  const [refreshQuestions, setRefreshQuestions] = useState(false);
 
-  // Handle answer submission and point calculation
+  const { FORM_VALIDATION_OFFSIDE_GAME } = UseFormValidation();
+  const { INITIAL_FORM_STATE_OFFSIDE_GAME } = UseInitialValues();
+
+  const resetGameState = () => {
+    setTotalPoints(50);
+    setAnsweredQuestions(0);
+    setAnswerStatus({});
+    setDisabledFields({});
+  };
+
   const handleAnswerSubmit = (questionName: string, isCorrect: boolean) => {
     setAnsweredQuestions((prev) => prev + 1);
-
-    // Track the answer status for this question
     setAnswerStatus((prev) => ({ ...prev, [questionName]: isCorrect }));
 
     if (!isCorrect) {
-      // Divide total points by 2 for wrong answer
       setTotalPoints((prev) => Math.floor(prev / 2));
-      console.log(
-        `❌ Wrong answer for ${questionName}. Total points divided by 2`
-      );
-    } else {
-      console.log(
-        `✅ Correct answer for ${questionName}. Total points maintained`
-      );
     }
   };
 
-  // Prevent page refresh/reload
   useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-      event.returnValue =
-        t("leave-game-warning") ||
-        "Are you sure you want to leave? Your progress will be lost.";
-      return event.returnValue;
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (
-        event.key === "F5" ||
-        (event.ctrlKey && event.key === "r") ||
-        (event.ctrlKey && event.shiftKey && event.key === "R")
-      ) {
-        event.preventDefault();
-        alert(
-          t("refresh-disabled") || "Page refresh is disabled during the game!"
-        );
-      }
-    };
-
-    const handleContextMenu = (event: MouseEvent) => {
-      event.preventDefault();
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("contextmenu", handleContextMenu);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("contextmenu", handleContextMenu);
-    };
-  }, [t]);
-
-  useEffect(() => {
-    categoryGame == "education"
+    categoryGame === "education"
       ? dispatch(
           getOffSideQuestions({
             grade,
@@ -118,10 +82,40 @@ function Offside() {
               Number(localStorage.getItem("entertainmentGameId")) || 0,
           })
         );
-  }, []);
+  }, [categoryGame, grade, refreshQuestions]);
 
-  const { FORM_VALIDATION_OFFSIDE_GAME } = UseFormValidation();
-  const { INITIAL_FORM_STATE_OFFSIDE_GAME } = UseInitialValues();
+  useEffect(() => {
+    if (offsideInformation.length > 0) {
+      resetGameState();
+    }
+  }, [offsideInformation]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = t("leave-game-warning") || "Are you sure?";
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (
+        event.key === "F5" ||
+        (event.ctrlKey && event.key.toLowerCase() === "r")
+      ) {
+        event.preventDefault();
+        alert(t("refresh-disabled") || "Page refresh is disabled!");
+      }
+    };
+    const handleContextMenu = (event: MouseEvent) => event.preventDefault();
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("contextmenu", handleContextMenu);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("contextmenu", handleContextMenu);
+    };
+  }, [t]);
 
   return (
     <>
@@ -131,25 +125,20 @@ function Offside() {
         transition={{ duration: 0.3, delay: 0.5 }}
       >
         <Container>
-          {/* Points Display */}
           <Paper
             elevation={3}
             sx={{
               p: 2,
               mb: 3,
               textAlign: "center",
-              bgcolor: mymode === "light" ? "#f5f5f5" : "#2d2d2d",
-              color: mymode === "light" ? "#333" : "#fff",
+              color: "#fff",
+              bgcolor: "inherit",
             }}
           >
-            <Typography
-              variant="h5"
-              component="div"
-              sx={{ fontWeight: "bold", mb: 1 }}
-            >
+            <Typography variant="h5" sx={{ fontWeight: "bold", mb: 1 }}>
               {t("total-points") || "Total Points"}: {totalPoints}
             </Typography>
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body2">
               {t("questions-answered") || "Questions Answered"}:{" "}
               {answeredQuestions}/{offsideInformation.length}
             </Typography>
@@ -158,16 +147,34 @@ function Offside() {
           <Formik
             initialValues={{ ...INITIAL_FORM_STATE_OFFSIDE_GAME }}
             validationSchema={FORM_VALIDATION_OFFSIDE_GAME}
-            onSubmit={(values) => {
-              console.log("Form submitted", values);
-              console.log("Final Points:", totalPoints);
-              // Here you can dispatch the final results to your store or API
+            onSubmit={(values, { setFieldValue }) => {
+              dispatch(addPoints({ points: totalPoints }))
+                .unwrap()
+                .then(() => {
+                  toast.success(
+                    t("points-added-success", "Points added successfully!")
+                  );
+                  Object.keys(values).forEach((key) => {
+                    setFieldValue(key, "");
+                  });
+                  setDisabledFields({});
+                  setAnswerStatus({});
+                  setRefreshQuestions((prev) => !prev);
+                })
+                .catch(() => {
+                  Swal.fire({
+                    icon: "error",
+                    title: t("error", "Error"),
+                    text: t(
+                      "failed-to-add-points",
+                      "Failed to add points. Please try again."
+                    ),
+                  });
+                });
             }}
           >
             {({ isValid, dirty }) => (
               <Form>
-                <Timer timeExceeded={true}>{"second"}</Timer>
-
                 <Grid container spacing={2} sx={{ mb: 2 }}>
                   {offsideInformation.map((info, index) => {
                     const fieldName = `question${index + 1}`;
@@ -188,7 +195,6 @@ function Offside() {
                           }}
                           transition={{ duration: 0.8, ease: "easeInOut" }}
                         >
-                          {/* Question Status Indicator */}
                           {disabledFields[fieldName] && (
                             <Box
                               sx={{
@@ -207,8 +213,8 @@ function Offside() {
                               }}
                             >
                               {answerStatus[fieldName]
-                                ? "✓ Correct"
-                                : "✗ Wrong"}
+                                ? t("correct-ans")
+                                : t("false-ans")}
                             </Box>
                           )}
 
@@ -228,7 +234,7 @@ function Offside() {
                             setDisabledFields={setDisabledFields}
                             onAnswerSubmit={handleAnswerSubmit}
                           />
-                          <ErrorMessage name={fieldName} component="div" />
+                          {/* <ErrorMessage name={fieldName} component="div" /> */}
                         </motion.div>
                       </Hint>
                     );
@@ -236,8 +242,7 @@ function Offside() {
                 </Grid>
 
                 <Box sx={{ textAlign: "center", mt: 3 }}>
-                  <Button
-                    type="submit"
+                  <ButtonWrapper
                     variant="contained"
                     color="primary"
                     disabled={
@@ -256,7 +261,7 @@ function Offside() {
                       ? t("submit-final-answer") || "Submit Final Answer"
                       : t("answer-all-questions") ||
                         `Answer All Questions (${answeredQuestions}/${offsideInformation.length})`}
-                  </Button>
+                  </ButtonWrapper>
                 </Box>
               </Form>
             )}
@@ -264,7 +269,6 @@ function Offside() {
         </Container>
       </motion.div>
 
-      {/* Full Screen Loading Overlay */}
       {loadingGetQuestions && (
         <Box
           sx={{
@@ -273,8 +277,6 @@ function Offside() {
             left: 0,
             right: 0,
             bottom: 0,
-            width: "100vw",
-            height: "100vh",
             backgroundColor:
               mymode === "light"
                 ? "rgba(255, 255, 255, 0.9)"

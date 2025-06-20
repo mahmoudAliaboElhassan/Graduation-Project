@@ -1,8 +1,13 @@
 import { useAppSelector } from "./redux";
 
 function UseLoadingStatus() {
-  const { loadingAuth, loadingForgetPassword, loadingResetPassword } =
-    useAppSelector((state) => state.auth);
+  const {
+    loadingAuth,
+    loadingForgetPassword,
+    loadingResetPassword,
+    loadingAddPoints,
+    loadingChangePassword,
+  } = useAppSelector((state) => state.auth);
   const { loadingGetQuestions, loadingAnswerQuestion } = useAppSelector(
     (state) => state.game
   );
@@ -11,7 +16,9 @@ function UseLoadingStatus() {
     loadingGetQuestions ||
     loadingAnswerQuestion ||
     loadingResetPassword ||
-    loadingForgetPassword;
+    loadingForgetPassword ||
+    loadingAddPoints ||
+    loadingChangePassword;
   return Boolean(loadingStatus);
 }
 

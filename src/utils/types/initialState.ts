@@ -11,6 +11,8 @@ export type QuestionData = {
 export interface InitialStateAuth {
   loadingAuth: boolean;
   loadingGetSubjects: boolean;
+  loadingChangePassword: boolean;
+  loadingAddPoints: boolean;
   name: forLocalStorage;
   email: forLocalStorage;
   grade: forLocalStorage;

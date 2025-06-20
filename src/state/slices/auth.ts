@@ -9,6 +9,7 @@ import {
   forgetPassword,
   resetPassword,
   addPoints,
+  changePassword,
 } from "../act/actAuth";
 const { initialStateAuth } = UseInitialStates();
 
@@ -16,18 +17,10 @@ export const authSlice = createSlice({
   name: "authSlice",
   initialState: initialStateAuth,
   reducers: {
-    // handlelogOutState: (state) => {
-    //   localStorage.removeItem("token");
-    //   localStorage.removeItem("type");
-    //   localStorage.removeItem("role");
-    //   localStorage.removeItem("expired");
-    //   localStorage.removeItem("userId");
-    //   localStorage.removeItem("countOfCartItem");
-    //   state.token = "";
-    //   state.expireToken = "";
-    //   state.role = "";
-    //   state.Uid = "";
-    // },
+    logOut: (state) => {
+      localStorage.removeItem("token");
+      state.token = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -43,14 +36,14 @@ export const authSlice = createSlice({
         console.log(action);
       })
       .addCase(addPoints.pending, (state, action) => {
-        // state.loadingAuth = true;
+        state.loadingAddPoints = true;
       })
       .addCase(addPoints.fulfilled, (state, action) => {
-        // state.loadingAuth = false;
+        state.loadingAddPoints = false;
         state.totalPoints = action.payload.totalpoints;
       })
       .addCase(addPoints.rejected, (state, action) => {
-        // state.loadingAuth = false;
+        state.loadingAddPoints = false;
         state.error = action.payload as string;
         // console.log(action);
       })
@@ -131,9 +124,22 @@ export const authSlice = createSlice({
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.loadingResetPassword = false;
+      })
+      .addCase(changePassword.pending, (state, action) => {
+        state.loadingChangePassword = true;
+        // if (action.payload) {
+        //   state.email = action.payload.email;
+        // }
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        state.loadingChangePassword = false;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.loadingChangePassword = false;
       });
   },
 });
 
 export default authSlice.reducer;
+export const { logOut } = authSlice.actions;
 export { signUp, logIn, getSubjects, getChapters, forgetPassword, addPoints };

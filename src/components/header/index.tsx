@@ -216,12 +216,14 @@ function Header() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {authElements.map(({ href, label }) => (
+              {authElements.map(({ href, click, label }) => (
                 <MenuItem
                   key={label}
-                  onClick={handleCloseUserMenu}
-                  component={Link as any}
-                  to={href}
+                  onClick={() => {
+                    if (click) click();
+                    handleCloseUserMenu();
+                  }}
+                  {...(href ? { component: Link as any, to: href } : {})}
                 >
                   <Typography
                     sx={{
