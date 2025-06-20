@@ -12,10 +12,11 @@ import IntroductorySection from "../../components/introductory";
 import UseMediaQuery from "../../hooks/use-media-query";
 import UseDirection from "../../hooks/use-direction";
 import { LinkPlay } from "../../styles/games/five-hints";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import WithoutDelegation from "../../components/nodeletation";
 import WithDelegation from "../../components/delegation";
 import CategoriesPage from "../categoryGames";
+import { addPoints } from "../../state/act/actAuth";
 
 function HomePage() {
   const [number, setNumber] = useState<number>(0);
@@ -25,11 +26,13 @@ function HomePage() {
 
   const { direction } = UseDirection();
 
+  const dispatch = useAppDispatch();
   useEffect(() => {
     setTimeout(() => {
       setNumber(number + 1);
     }, 1000);
-  }, [number]);
+    dispatch(addPoints({ points: 400 }));
+  }, []);
   return (
     <>
       <motion.div

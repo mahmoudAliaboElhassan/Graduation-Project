@@ -8,6 +8,7 @@ import {
   getChapters,
   forgetPassword,
   resetPassword,
+  addPoints,
 } from "../act/actAuth";
 const { initialStateAuth } = UseInitialStates();
 
@@ -40,6 +41,18 @@ export const authSlice = createSlice({
         state.loadingAuth = false;
         state.error = action.payload as string;
         console.log(action);
+      })
+      .addCase(addPoints.pending, (state, action) => {
+        // state.loadingAuth = true;
+      })
+      .addCase(addPoints.fulfilled, (state, action) => {
+        // state.loadingAuth = false;
+        state.totalPoints = action.payload.totalpoints;
+      })
+      .addCase(addPoints.rejected, (state, action) => {
+        // state.loadingAuth = false;
+        state.error = action.payload as string;
+        // console.log(action);
       })
       .addCase(logIn.pending, (state, action) => {
         state.loadingAuth = true;
@@ -123,4 +136,4 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export { signUp, logIn, getSubjects, getChapters, forgetPassword };
+export { signUp, logIn, getSubjects, getChapters, forgetPassword, addPoints };

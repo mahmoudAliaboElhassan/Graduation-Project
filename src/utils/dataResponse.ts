@@ -20,6 +20,9 @@ export interface getOffsideHints {
 export interface ResponseSubject {
   subjects: string[];
 }
+export interface ResponsePoints {
+  totalpoints: number;
+}
 export interface ResponseChapters {
   chapters: { name: string; number: number }[];
 }

@@ -6,6 +6,7 @@ import {
   LoginResponse,
   ResponseSubject,
   ResponseChapters,
+  ResponsePoints,
 } from "../../utils/dataResponse";
 
 interface ResponseCreate {
@@ -156,6 +157,36 @@ export const resetPassword = createAsyncThunk(
         email,
         password,
       });
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const addPoints = createAsyncThunk(
+  "authSlice/addPoints",
+  async ({ points }: { points: number }, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.get<ResponsePoints>(
+        `/api/Accounts/add/${points}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+            // Add any other headers you need here
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log("from slice res is");
       console.log(res);
       return res.data;

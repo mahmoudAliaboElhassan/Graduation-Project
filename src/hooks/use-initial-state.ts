@@ -24,6 +24,7 @@ function UseInitialStates() {
     subjectTeaching: localStorage.getItem("subjectTeaching"),
     loadingForgetPassword: false,
     loadingResetPassword: false,
+    totalPoints: Number(localStorage.getItem("points")) || 0,
   };
   const initialStateGame: InitialStateGame = {
     questionData: {

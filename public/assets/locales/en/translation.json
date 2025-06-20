@@ -113,23 +113,23 @@
   "entertainment-categories": {
     "pageTitle": "Explore Categories",
     "musicSongs": {
-      "title": "Music & Songs",
+      "text": "Music & Songs",
       "description": "Explore a diverse collection of music genres, songs, artists, and musical instruments"
     },
     "moviesTv": {
-      "title": "Movies & TV Shows",
+      "text": "Movies & TV Shows",
       "description": "Discover popular movies, TV series, documentaries, and entertainment content"
     },
     "artPaintings": {
-      "title": "Art & Paintings",
+      "text": "Art & Paintings",
       "description": "Browse through famous artworks, paintings, sculptures, and various art styles"
     },
     "generalKnowledge": {
-      "title": "General Knowledge",
+      "text": "General Knowledge",
       "description": "Expand your knowledge with interesting facts, history, science, and general information"
     },
     "sportsGames": {
-      "title": "Sports & Games",
+      "text": "Sports & Games",
       "description": "Learn about different sports, games, competitions, and recreational activities"
     }
   },
@@ -401,5 +401,11 @@
   "joinThousands": "Join thousands of students and teachers who are already experiencing the future of education.",
   "getStartedStudent": "Get Started as Student",
   "joinAsTeacher": "Join as Teacher",
-  "language": "العربية"
+  "loading-offside": "Loading questions...",
+  "select-subject-description": "Choose a subject to start your learning journey. Select from the available subjects below to access lessons, quizzes, and interactive content.",
+  "select-chapter-description": "Select a chapter from your chosen subject to dive deeper into specific topics. Each chapter contains detailed lessons, practice exercises, and assessments.",
+  "total-points": "Total Points",
+  "questions-answered": "Questions Answered",
+  "submit-final-answer": "Submit Final Answer",
+  "answer-all-questions": "Answer All Questions"
 }

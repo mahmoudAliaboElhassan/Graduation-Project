@@ -12,6 +12,7 @@ import { useAppSelector } from "../../hooks/redux";
 import UseDirection from "../../hooks/use-direction";
 import UseMediaQuery from "../../hooks/use-media-query";
 import Scroll from "../../components/scroll";
+import { MainContent, PageWrapper } from "../../styles/footer";
 
 function RootLayout() {
   const { mymode } = useAppSelector((state) => state.mode);
@@ -53,37 +54,44 @@ function RootLayout() {
               : "linear-gradient(0deg, #1a1a2e, #4b000f)",
         }}
       >
-        <Header />
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme={mymode}
-        />
-        <div style={{ height: "56px" }}></div>
+        <PageWrapper>
+          <Header />
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme={mymode}
+          />
+          <div style={{ height: "56px" }}></div>
 
-        {/* AnimatePresence with unique key for page transitions */}
-        {location.pathname !== "/" ? (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: direction.direction === "ltr" ? -50 : 50 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-            >
+          {/* AnimatePresence with unique key for page transitions */}
+          {location.pathname !== "/" ? (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={location.pathname}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{
+                  opacity: 0,
+                  x: direction.direction === "ltr" ? -50 : 50,
+                }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              >
+                <Outlet />
+              </motion.div>
+            </AnimatePresence>
+          ) : (
+            <MainContent>
               <Outlet />
-            </motion.div>
-          </AnimatePresence>
-        ) : (
-          <Outlet />
-        )}
+            </MainContent>
+          )}
+        </PageWrapper>
         <Scroll />
       </div>
 

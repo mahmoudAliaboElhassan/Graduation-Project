@@ -1,6 +1,7 @@
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
-import { Field } from "formik";
+import { Field, FieldProps } from "formik";
 import { useTranslation } from "react-i18next";
+import { useAppSelector } from "../../../hooks/redux";
 
 interface RadioInputProps {
   name: string;
@@ -9,6 +10,7 @@ interface RadioInputProps {
   setDisabledFields: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
   >;
+  onAnswerSubmit: (questionName: string, isCorrect: boolean) => void;
 }
 
 const RadioInput: React.FC<RadioInputProps> = ({
@@ -16,33 +18,61 @@ const RadioInput: React.FC<RadioInputProps> = ({
   index,
   disabled,
   setDisabledFields,
+  onAnswerSubmit,
 }) => {
-  const correct = [1, 3, 5];
+  const { offsideCorrectAnswer } = useAppSelector((state) => state.game);
   const { t } = useTranslation();
+
+  // Convert zero-based index to one-based for comparison with offsideCorrectAnswer array
+  const questionNumber = index + 1;
+
+  const handleRadioChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    form: any
+  ) => {
+    if (disabled) return;
+
+    const { name, value } = event.target;
+    const userAnswer = value === "true";
+
+    // Set form value and disable the field
+    form.setFieldValue(name, value);
+    setDisabledFields((prev) => ({ ...prev, [name]: true }));
+
+    // Check if answer is correct
+    const isCorrectAnswer = offsideCorrectAnswer.includes(questionNumber);
+    const isUserAnswerCorrect = userAnswer === isCorrectAnswer;
+
+    // Debug logging
+    console.log({
+      questionNumber,
+      userAnswer,
+      isCorrectAnswer,
+      isUserAnswerCorrect,
+      offsideCorrectAnswer,
+    });
+
+    // Call the parent's answer submit handler with the result
+    onAnswerSubmit(name, isUserAnswerCorrect);
+
+    if (isUserAnswerCorrect) {
+      console.log(
+        `Question ${questionNumber}: Correct answer! Points maintained.`
+      );
+    } else {
+      console.log(
+        `Question ${questionNumber}: Incorrect answer. Points will be halved.`
+      );
+    }
+  };
+
   return (
     <Field name={name}>
-      {({ field, form }: any) => (
+      {({ field, form }: FieldProps) => (
         <RadioGroup
           row
           {...field}
-          onChange={(event) => {
-            if (!disabled) {
-              const { name, value } = event.target;
-              form.setFieldValue(name, value);
-              console.log("index", index);
-              console.log("name", name);
-              console.log("value", event.target.value);
-              setDisabledFields((prev) => ({ ...prev, [name]: true }));
-              if (
-                (value === "true" && correct.includes(index)) ||
-                (value === "false" && !correct.includes(index))
-              ) {
-                console.log("correct answer");
-              } else {
-                console.log("false answer");
-              }
-            }
-          }}
+          onChange={(event) => handleRadioChange(event, form)}
         >
           <FormControlLabel
             value="true"
@@ -59,4 +89,5 @@ const RadioInput: React.FC<RadioInputProps> = ({
     </Field>
   );
 };
+
 export default RadioInput;
