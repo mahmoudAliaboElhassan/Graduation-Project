@@ -110,12 +110,16 @@ const About: React.FC = () => {
           position: "relative",
           minHeight: "100vh",
           overflow: "hidden",
-          direction: isRTL ? "rtl" : "ltr",
+          direction: isRTL ? "rtl" : "ltr",  
+          backgroundImage:
+            mymode === "light"
+              ? "linear-gradient(to top, #c31432, #240b36)"
+              : "linear-gradient(0deg, #1a1a2e, #4b000f)",
         }}
       >
         <Grid item xs={12}>
           {/* Hero Section */}
-          <Box sx={{ textAlign: "center", py: { xs: 8, md: 12 }, mb: 6 }}>
+          <Box sx={{ textAlign: "center", py: { xs: 8, md: 12 }, mb: 6,bgcolor:"inherit" }}>
             <Chip
               label={t("graduationProject")}
               sx={{

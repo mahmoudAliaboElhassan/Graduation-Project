@@ -4,14 +4,22 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import RootLayout from "../pages/rootLayout";
 import ErrorPage from "../pages/error";
-import HomePage from "../pages/home";
-import Loader from "../components/loader";
-import CategoriesPage from "../pages/categoryGames";
-import CategoryEntertainment from "../pages/categoryGames/entertainment";
-import MakeHintsQuestion from "../pages/game/fiveHints/make";
-import AdminDashboard from "../pages/admin";
-import ResetPassword from "../pages/auth/reset-password";
-import MakeOffsideQuestion from "../pages/game/offside/make";
+
+const HomePage = React.lazy(() => import("../pages/home"));
+const Loader = React.lazy(() => import("../components/loader"));
+const CategoriesPage = React.lazy(() => import("../pages/categoryGames"));
+const CategoryEntertainment = React.lazy(
+  () => import("../pages/categoryGames/entertainment")
+);
+const MakeHintsQuestion = React.lazy(
+  () => import("../pages/game/fiveHints/make")
+);
+const AdminDashboard = React.lazy(() => import("../pages/admin"));
+const ResetPassword = React.lazy(() => import("../pages/auth/reset-password"));
+
+const MakeOffsideQuestion = React.lazy(
+  () => import("../pages/game/offside/make")
+);
 const Login = React.lazy(() => import("../pages/auth/login"));
 const Signup = React.lazy(() => import("../pages/auth/signup"));
 const ForgetPassword = React.lazy(
