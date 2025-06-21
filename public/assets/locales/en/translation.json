@@ -417,5 +417,12 @@
   "change-password-success": "Password changed successfully!",
   "change-password-error-title": "Failed to change password",
   "change-password-error-message": "An error occurred while changing the password. Please try again.",
-  "answered-false": "Your answer is incorrect. Try another question!"
+
+  "answered-false": "Incorrect Answer",
+  "incorrect-answer-with-correct": "Your answer is incorrect.<br><strong>The correct answer is: {{correctAnswer}}</strong>",
+  "session-expired": "Your session has expired. Please log in again.",
+  "session-expiring-soon": "Your session will expire soon. Please save your work.",
+  "token-expired-log": "Token expired - triggering logout",
+  "time-until-expiration-log": "Time until expiration (minutes):",
+  "showing-expiration-warning-log": "Showing expiration warning"
 }

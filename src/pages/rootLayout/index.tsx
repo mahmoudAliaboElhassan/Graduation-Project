@@ -1,27 +1,107 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
 
 import Header from "../../components/header";
 import Footer from "../../components/footer";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import UseDirection from "../../hooks/use-direction";
 import UseMediaQuery from "../../hooks/use-media-query";
 import Scroll from "../../components/scroll";
 import { MainContent, PageWrapper } from "../../styles/footer";
+import { logOut } from "../../state/slices/auth";
 
 function RootLayout() {
   const { mymode } = useAppSelector((state) => state.mode);
   const { direction } = UseDirection();
-  const isSmallScreen = UseMediaQuery({ query: "(max-width: 360px)" });
 
+  const { expirationToken, token } = useAppSelector((state) => state.auth);
+
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
+  const handleTokenExpiration = useCallback(() => {
+    dispatch(logOut());
+    toast.error(
+      t("session-expired", "Your session has expired. Please log in again.")
+    );
+  }, [dispatch, t]);
+
+  const checkTokenExpiration = useCallback(() => {
+    if (!token || !expirationToken) {
+      return;
+    }
+
+    const now = new Date();
+    const expiration = new Date(expirationToken);
+
+    // Check if token has expired
+    if (now >= expiration) {
+      console.log(t("token-expired-log", "Token expired - triggering logout"));
+      handleTokenExpiration();
+      return;
+    }
+
+    // Calculate time until expiration
+    const timeUntilExpiration = expiration.getTime() - now.getTime();
+    console.log(
+      t("time-until-expiration-log", "Time until expiration (minutes):"),
+      timeUntilExpiration / (60 * 1000)
+    );
+
+    // If token expires in less than 5 minutes, show warning
+    const fiveMinutes = 5 * 60 * 1000;
+    if (timeUntilExpiration <= fiveMinutes && timeUntilExpiration > 0) {
+      console.log(
+        t("showing-expiration-warning-log", "Showing expiration warning")
+      );
+      toast.warning(
+        t(
+          "session-expiring-soon",
+          "Your session will expire soon. Please save your work."
+        )
+      );
+    }
+  }, [token, expirationToken, handleTokenExpiration, t]);
+
+  useEffect(() => {
+    // Only check if user is logged in
+    if (!token) return;
+
+    // Initial check
+    checkTokenExpiration();
+
+    // Set up interval to check every minute
+    const interval = setInterval(checkTokenExpiration, 60000);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(interval);
+  }, [token, checkTokenExpiration]);
+
+  // Also check on window focus (when user returns to tab)
+  useEffect(() => {
+    if (!token) return;
+
+    const handleWindowFocus = () => {
+      checkTokenExpiration();
+    };
+
+    window.addEventListener("focus", handleWindowFocus);
+
+    return () => {
+      window.removeEventListener("focus", handleWindowFocus);
+    };
+  }, [token, checkTokenExpiration]);
+
   const location = useLocation();
-  console.log("location.pathname", location.pathname);
+  console.log(
+    t("current-location-log", "Current location pathname:"),
+    location.pathname
+  );
   useEffect(() => {
     document.title = t("website-title");
     const htmlElement = document.documentElement;

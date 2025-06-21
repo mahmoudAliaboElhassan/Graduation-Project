@@ -401,5 +401,11 @@
   "change-password-success": "تم تغيير كلمة المرور بنجاح!",
   "change-password-error-title": "فشل في تغيير كلمة المرور",
   "change-password-error-message": "حدث خطأ أثناء تغيير كلمة المرور. يرجى المحاولة مرة أخرى.",
-  "answered-false": "إجابتك غير صحيحة، جرّب سؤالًا آخر!"
+  "answered-false": "إجابة خاطئة",
+  "incorrect-answer-with-correct": "إجابتك خاطئة.<br><strong>الإجابة الصحيحة هي: {{correctAnswer}}</strong>",
+  "session-expired": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى.",
+  "session-expiring-soon": "ستنتهي صلاحية جلستك قريباً. يرجى حفظ عملك.",
+  "token-expired-log": "انتهت صلاحية الرمز المميز - تسجيل الخروج",
+  "time-until-expiration-log": "الوقت حتى انتهاء الصلاحية (بالدقائق):",
+  "showing-expiration-warning-log": "عرض تحذير انتهاء الصلاحية"
 }

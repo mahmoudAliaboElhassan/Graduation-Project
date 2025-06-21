@@ -23,6 +23,7 @@ export interface InitialStateAuth {
   chapters: { name: string; number: number }[];
   role: forLocalStorage;
   subjectTeaching: forLocalStorage;
+  expirationToken: Date | null;
   totalPoints: number;
   loadingForgetPassword: boolean;
   loadingResetPassword: boolean;
@@ -34,7 +35,7 @@ export interface InitialStateGame {
   offsideInformation: string[];
   offsideCorrectAnswer: number[];
   rank: forLocalStorage;
-  correct:boolean
+  correct: boolean;
 }
 export type Question = {
   questionID: number;

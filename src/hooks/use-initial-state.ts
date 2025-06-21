@@ -3,31 +3,42 @@ import {
   InitialStateMode,
   InitialStateGame,
   initialStateAdmin,
+  forLocalStorage,
 } from "../utils/types/initialState";
 
 function UseInitialStates() {
   const initialStateMode: InitialStateMode = {
     mymode: (localStorage.getItem("mymode") as "dark" | "light") || "dark",
   };
+  const getExpirationToken = (): Date | null => {
+    const storedExpiration = localStorage.getItem("expirationToken");
+    if (!storedExpiration) return null;
+
+    const parsedDate = new Date(storedExpiration);
+    return isNaN(parsedDate.getTime()) ? null : parsedDate;
+  };
+
   const initialStateAuth: InitialStateAuth = {
     loadingAuth: false,
     loadingGetSubjects: false,
-    loadingAddPoints: false,
     loadingChangePassword: false,
-    email: localStorage.getItem("email"),
-    name: localStorage.getItem("name"),
-    grade: localStorage.getItem("grade"),
-    token: localStorage.getItem("token"),
-    Uid: localStorage.getItem("id"),
+    loadingAddPoints: false,
+    name: localStorage.getItem("name") as forLocalStorage,
+    email: localStorage.getItem("email") as forLocalStorage,
+    grade: localStorage.getItem("grade") as forLocalStorage,
+    token: localStorage.getItem("token") as forLocalStorage,
+    Uid: localStorage.getItem("Uid") as forLocalStorage,
     error: "",
     subjects: [],
     chapters: [],
-    role: localStorage.getItem("role"),
-    subjectTeaching: localStorage.getItem("subjectTeaching"),
+    role: localStorage.getItem("role") as forLocalStorage,
+    subjectTeaching: localStorage.getItem("subjectTeaching") as forLocalStorage,
+    expirationToken: getExpirationToken(), // ✅ safely handled here
+    totalPoints: 0,
     loadingForgetPassword: false,
     loadingResetPassword: false,
-    totalPoints: Number(localStorage.getItem("points")) || 0,
   };
+
   const initialStateGame: InitialStateGame = {
     questionData: {
       correctAnswer: localStorage.getItem("correctAnswer") || null,

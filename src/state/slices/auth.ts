@@ -71,6 +71,12 @@ export const authSlice = createSlice({
         localStorage.setItem("subjectTeaching", action.payload.subject);
         state.name = action.payload.name;
         localStorage.setItem("name", action.payload.name);
+
+        state.expirationToken = new Date(action.payload.expiration);
+        localStorage.setItem(
+          "expirationToken",
+          String(new Date(action.payload.expiration))
+        );
       })
       .addCase(logIn.rejected, (state, action) => {
         state.loadingAuth = false;

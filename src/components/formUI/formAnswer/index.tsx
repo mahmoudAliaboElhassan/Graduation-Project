@@ -74,11 +74,16 @@ function QuestionAnswer({ hints, submit, resetSeconds }: Props) {
 
   const handleIncorrectAnswer = useCallback(() => {
     Swal.fire({
-      title: t("answered-false"),
+      title: t("answered-false", "Incorrect Answer"),
+      html: t(
+        "incorrect-answer-with-correct",
+        "Your answer is incorrect.<br><strong>The correct answer is: {{correctAnswer}}</strong>",
+        { correctAnswer: questionData.correctAnswer }
+      ),
       icon: "error",
-      confirmButtonText: t("ok"),
+      confirmButtonText: t("ok", "OK"),
     });
-  }, [t]);
+  }, [t, questionData.correctAnswer]);
 
   const handleAnswerSubmissionError = useCallback(() => {
     Swal.fire({
