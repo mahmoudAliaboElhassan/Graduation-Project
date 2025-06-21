@@ -1,5 +1,6 @@
 import { Formik, Form } from "formik";
 import { useTranslation } from "react-i18next";
+import { useCallback } from "react";
 
 import UseInitialValues from "../../../hooks/use-initial-values";
 import UseFormValidation from "../../../hooks/use-form-validation";
@@ -10,61 +11,129 @@ import ButtonWrapper from "../submit";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
+import { addPoints } from "../../../state/act/actAuth";
 
 interface Props {
   hints: number;
+  submit: () => void;
+  resetSeconds: () => void;
 }
-function QuestionAnswer({ hints }: Props) {
+
+interface FormValues {
+  answer: string;
+}
+
+const POINTS_BASE = 50;
+const POINTS_HINT_PENALTY = 10;
+const POINTS_DELAY_MS = 1500;
+
+function QuestionAnswer({ hints, submit, resetSeconds }: Props) {
   const { INITIAL_FORM_STATE_ANSWER_QUESTION } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_ANSWER_QUESTION } = UseFormValidation();
-  const { questionData, rank } = useAppSelector((state) => state.game);
+  const { questionData, correct } = useAppSelector((state) => state.game);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+
+  const calculatePoints = useCallback(() => {
+    return POINTS_BASE - (hints - 1) * POINTS_HINT_PENALTY;
+  }, [hints]);
+
+  const handlePointsAddition = useCallback(async () => {
+    try {
+      const pointsToAdd = calculatePoints();
+      const result = await dispatch(
+        addPoints({ points: pointsToAdd })
+      ).unwrap();
+      toast.success(
+        t(
+          "points-added-success",
+          "{{points}} points added successfully! Total: {{totalPoints}}",
+          {
+            points: pointsToAdd,
+            totalPoints: result.totalpoints,
+          }
+        )
+      );
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: t("error", "Error"),
+        text: t(
+          "failed-to-add-points",
+          "Failed to add points. Please try again."
+        ),
+      });
+    }
+  }, [dispatch, calculatePoints, t]);
+
+  const handleCorrectAnswer = useCallback(() => {
+    setTimeout(() => {
+      handlePointsAddition();
+    }, POINTS_DELAY_MS);
+  }, [handlePointsAddition]);
+
+  const handleIncorrectAnswer = useCallback(() => {
+    Swal.fire({
+      title: t("answered-false"),
+      icon: "error",
+      confirmButtonText: t("ok"),
+    });
+  }, [t]);
+
+  const handleAnswerSubmissionError = useCallback(() => {
+    Swal.fire({
+      title: t("error-submitting-answer"),
+      icon: "error",
+      confirmButtonText: t("ok"),
+    });
+  }, [t]);
+
+  const handleSubmit = useCallback(
+    async (values: FormValues, { resetForm }: { resetForm: () => void }) => {
+      console.log("Answer submitted:", values);
+      console.log("Hints used:", hints);
+      console.log("correct", questionData.correctAnswer);
+
+      dispatch(
+        answerQuestion({
+          answer: values.answer,
+          correctanswer: questionData.correctAnswer,
+        })
+      )
+        .unwrap()
+        .then((res) => {
+          console.log("Response:", res);
+          submit();
+          resetSeconds();
+          resetForm();
+          if (res) {
+            handleCorrectAnswer();
+          } else {
+            handleIncorrectAnswer();
+          }
+        })
+        .catch((error: unknown) => {
+          console.error("Error submitting answer:", error);
+          handleAnswerSubmissionError();
+        });
+    },
+    [
+      dispatch,
+      questionData.correctAnswer,
+      hints,
+      correct,
+      handleCorrectAnswer,
+      handleIncorrectAnswer,
+      handleAnswerSubmissionError,
+    ]
+  );
 
   return (
     <div style={{ paddingBottom: "1rem" }}>
       <Formik
-        initialValues={{
-          ...INITIAL_FORM_STATE_ANSWER_QUESTION,
-        }}
+        initialValues={INITIAL_FORM_STATE_ANSWER_QUESTION}
         validationSchema={FORM_VALIDATION_SCHEMA_ANSWER_QUESTION}
-        onSubmit={async (values) => {
-          console.log(values);
-          console.log("hints", hints);
-          dispatch(
-            answerQuestion({
-              answer: values.answer,
-              hintsused: hints,
-              correctanswer: questionData.correctAnswer,
-            })
-          )
-            .unwrap()
-            .then((data) => {
-              console.log("data", data);
-              if (rank) {
-                setTimeout(() => {
-                  toast.success(t("answer-submitted", { rank: data }), {
-                    position: "top-right",
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  });
-                }, 1500);
-              }
-              navigate("/");
-            })
-            .catch((error: AxiosError) => {
-              Swal.fire({
-                title: t("error-submitting-answer"),
-                icon: "error",
-                confirmButtonText: t("ok"),
-              });
-            }); // setLoading(true);
-        }}
+        onSubmit={handleSubmit}
       >
         {() => (
           <Form>

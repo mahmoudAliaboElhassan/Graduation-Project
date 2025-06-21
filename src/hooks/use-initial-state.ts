@@ -38,6 +38,7 @@ function UseInitialStates() {
     rank: localStorage.getItem("rank") || null,
     offsideInformation: [],
     offsideCorrectAnswer: [],
+    correct: false,
   };
 
   const initialStateAdmin: initialStateAdmin = {

@@ -20,7 +20,6 @@ export interface UserDataGameGetQuestion {
 }
 export interface UserDataHintGameAnswerQuestion {
   answer: string;
-  hintsused: number;
   correctanswer: forLocalStorage;
 }
 export interface Grade {

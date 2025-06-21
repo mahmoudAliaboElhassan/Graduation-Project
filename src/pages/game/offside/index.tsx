@@ -150,9 +150,16 @@ function Offside() {
             onSubmit={(values, { setFieldValue }) => {
               dispatch(addPoints({ points: totalPoints }))
                 .unwrap()
-                .then(() => {
+                .then((result) => {
                   toast.success(
-                    t("points-added-success", "Points added successfully!")
+                    t(
+                      "points-added-success",
+                      "{{points}} points added successfully! Total: {{totalPoints}}",
+                      {
+                        points: totalPoints,
+                        totalPoints: result.totalpoints,
+                      }
+                    )
                   );
                   Object.keys(values).forEach((key) => {
                     setFieldValue(key, "");

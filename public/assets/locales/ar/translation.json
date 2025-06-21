@@ -392,7 +392,7 @@
   "questions-answered": "الأسئلة المُجابة",
   "submit-final-answer": "إرسال الإجابة النهائية",
   "answer-all-questions": "أجب عن جميع الأسئلة",
-  "points-added-success": "تمت إضافة النقاط بنجاح!",
+  "points-added-success": "تم إضافة {{points}} نقطة بنجاح! المجموع: {{totalPoints}}",
   "failed-to-add-points": "فشل في إضافة النقاط. حاول مرة أخرى.",
   "error": "خطأ",
   "add-points": "أضف النقاط",
@@ -400,5 +400,6 @@
   "false-ans": "✗ خطأ",
   "change-password-success": "تم تغيير كلمة المرور بنجاح!",
   "change-password-error-title": "فشل في تغيير كلمة المرور",
-  "change-password-error-message": "حدث خطأ أثناء تغيير كلمة المرور. يرجى المحاولة مرة أخرى."
+  "change-password-error-message": "حدث خطأ أثناء تغيير كلمة المرور. يرجى المحاولة مرة أخرى.",
+  "answered-false": "إجابتك غير صحيحة، جرّب سؤالًا آخر!"
 }

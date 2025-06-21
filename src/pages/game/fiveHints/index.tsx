@@ -16,16 +16,26 @@ import withGuard from "../../../utils/withGuard";
 
 function FiveHints() {
   const dispatch = useAppDispatch();
-  const { questionData, loadingGetQuestions } = useAppSelector(
-    (state) => state.game
-  );
+  const { questionData, loadingGetQuestions, loadingAnswerQuestion } =
+    useAppSelector((state) => state.game);
   const [second, setSecond] = useState<number>(0);
   const HINTTIME = 30;
   const [noOfHints, setNoOfHints] = useState<number>(0);
   const { t } = useTranslation();
   const { grade } = useAppSelector((state) => state.auth);
-
+  const [flag, setFlage] = useState<boolean>(false);
   const { categoryGame } = useParams();
+
+  const changeFlag = () => {
+    setFlage((prevFlag) => !prevFlag);
+  };
+
+  const resetSeconds = () => {
+    setTimeout(() => {
+      setNoOfHints(0);
+      setSecond(0);
+    }, 1500);
+  };
 
   useEffect(() => {
     categoryGame == "education"
@@ -43,10 +53,10 @@ function FiveHints() {
               Number(localStorage.getItem("entertainmentGameId")) || 0,
           })
         );
-  }, []);
+  }, [dispatch, flag]);
 
   useEffect(() => {
-    if (!loadingGetQuestions) {
+    if (!loadingGetQuestions && !loadingAnswerQuestion) {
       const interval = setInterval(() => {
         setSecond((prevSecond) => {
           if (prevSecond >= 4 * HINTTIME + 1) {
@@ -61,7 +71,7 @@ function FiveHints() {
 
       return () => clearInterval(interval);
     }
-  }, [second, loadingGetQuestions]);
+  }, [second, loadingGetQuestions, loadingAnswerQuestion]);
 
   return (
     <motion.div
@@ -141,7 +151,11 @@ function FiveHints() {
             );
           })}
         </Grid>
-        <QuestionAnswer hints={noOfHints} />
+        <QuestionAnswer
+          hints={noOfHints}
+          submit={changeFlag}
+          resetSeconds={resetSeconds}
+        />
       </Container>
     </motion.div>
   );

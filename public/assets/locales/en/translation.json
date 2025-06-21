@@ -408,7 +408,7 @@
   "questions-answered": "Questions Answered",
   "submit-final-answer": "Submit Final Answer",
   "answer-all-questions": "Answer All Questions",
-  "points-added-success": "Points added successfully!",
+  "points-added-success": "{{points}} points added successfully! Total: {{totalPoints}}",
   "failed-to-add-points": "Failed to add points. Please try again.",
   "error": "Error",
   "add-points": "Add Points",
@@ -416,5 +416,6 @@
   "false-ans": "✗ Wrong",
   "change-password-success": "Password changed successfully!",
   "change-password-error-title": "Failed to change password",
-  "change-password-error-message": "An error occurred while changing the password. Please try again."
+  "change-password-error-message": "An error occurred while changing the password. Please try again.",
+  "answered-false": "Your answer is incorrect. Try another question!"
 }

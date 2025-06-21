@@ -34,6 +34,7 @@ export interface InitialStateGame {
   offsideInformation: string[];
   offsideCorrectAnswer: number[];
   rank: forLocalStorage;
+  correct:boolean
 }
 export type Question = {
   questionID: number;
