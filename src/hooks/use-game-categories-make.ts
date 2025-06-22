@@ -11,6 +11,7 @@ function UseQuestionCategories() {
       icon: "Theaters",
       color: "#06B6D4", // Cyan
       route: "/entertainment-sections",
+      state: "make",
     },
     {
       title: t("questionCategories.academic.title"),

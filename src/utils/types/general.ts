@@ -57,6 +57,7 @@ export interface CtegoryGames {
   icon: string;
   route: string;
   color: string;
+  state?: string;
 }
 export interface CategoryEntertainmentGame {
   value: string;

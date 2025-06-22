@@ -7,19 +7,22 @@ function UseSubjects() {
 
   const subjects: SubjectType[] = [
     { text: t("subject.arabic"), value: "Arabic" },
-    { text: t("subject.mathematics"), value: "Mathematics" },
+    { text: t("subject.mathematics"), value: "Math" },
     { text: t("subject.english"), value: "English" },
     { text: t("subject.physics"), value: "Physics" },
     { text: t("subject.chemistry"), value: "Chemistry" },
     { text: t("subject.biology"), value: "Biology" },
     { text: t("subject.history"), value: "History" },
     { text: t("subject.geography"), value: "Geography" },
-    { text: t("subject.science"), value: "science" },
-    { text: t("subject.physicalEducation"), value: "Physical Education" },
-    { text: t("subject.art"), value: "Art" },
-    { text: t("subject.music"), value: "Music" },
+    { text: t("subject.science"), value: "Science" },
+    // { text: t("subject.physicalEducation"), value: "Physical Education" },
+    // { text: t("subject.art"), value: "Art" },
+    // { text: t("subject.music"), value: "Music" },
     { text: t("subject.socialStudies"), value: "Social Studies" },
     { text: t("subject.economics"), value: "Economics" },
+    { text: t("subject.history"), value: "History" },
+    { text: t("subject.statistics"), value: "Statistics" },
+    { text: t("subject.logic"), value: "Philosophy and Logic" },
   ];
 
   return { subjects };

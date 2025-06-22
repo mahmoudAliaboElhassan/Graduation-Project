@@ -19,6 +19,13 @@ function UseGamesData() {
       color: "#10B981", // Emerald
       category: "sports-games",
     },
+    {
+      title: t("question-journey-title"),
+      description: t("question-journey-description"),
+      icon: "Quiz", // Material icon for quiz game
+      color: "#F59E0B", // Amber
+      category: "educational",
+    },
   ];
 
   return { gamesData };

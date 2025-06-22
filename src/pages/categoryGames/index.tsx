@@ -27,6 +27,7 @@ interface CategoryCardProps {
   icon: string;
   color: string;
   route: string;
+  state: string | undefined;
 }
 
 export const CategoryCard = ({
@@ -35,6 +36,7 @@ export const CategoryCard = ({
   icon,
   color,
   route,
+  state,
 }: CategoryCardProps) => {
   const { direction } = UseDirection();
   const theme = useTheme();
@@ -63,6 +65,11 @@ export const CategoryCard = ({
     >
       <CardActionArea
         component={Link}
+        onClick={() => {
+          if (state) {
+            localStorage.setItem("gameState", state);
+          }
+        }}
         to={route}
         sx={{
           display: "flex",
@@ -137,17 +144,20 @@ const CategoriesPage = () => {
       <HeadingElement> {t("categories.pageTitle")}</HeadingElement>
 
       <Grid container spacing={4} justifyContent="center" alignItems="center">
-        {categoryRole.map(({ title, description, icon, color, route }) => (
-          <Grid item xs={12} sm={5} key={route}>
-            <CategoryCard
-              title={title}
-              description={description}
-              icon={icon}
-              color={color}
-              route={route}
-            />
-          </Grid>
-        ))}
+        {categoryRole.map(
+          ({ title, description, icon, color, route, state }) => (
+            <Grid item xs={12} sm={5} key={route}>
+              <CategoryCard
+                title={title}
+                description={description}
+                icon={icon}
+                color={color}
+                route={route}
+                state={state}
+              />
+            </Grid>
+          )
+        )}
       </Grid>
       <Outlet />
     </Box>

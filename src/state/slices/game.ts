@@ -15,6 +15,9 @@ export const gameSlice = createSlice({
   name: "gameSlice",
   initialState: initialStateGame,
   reducers: {
+    clearHintsData: (state) => {
+      state.questionData = {} as QuestionData;
+    },
     // handlelogOutState: (state) => {
     //   localStorage.removeItem("token");
     //   localStorage.removeItem("type");
@@ -107,6 +110,7 @@ export const gameSlice = createSlice({
   },
 });
 
+export const { clearHintsData } = gameSlice.actions;
 export default gameSlice.reducer;
 export {
   getHintsQuestions,

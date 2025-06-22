@@ -4,6 +4,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import RootLayout from "../pages/rootLayout";
 import ErrorPage from "../pages/error";
+const MakeDifficulty = React.lazy(
+  () => import("../pages/game/difficulty/make")
+);
+const Difficulty = React.lazy(() => import("../pages/game/difficulty"));
 
 const HomePage = React.lazy(() => import("../pages/home"));
 const Loader = React.lazy(() => import("../components/loader"));
@@ -138,6 +142,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/games/:categoryGame/:gameType/play-difficulty",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Difficulty />{" "}
+          </Suspense>
+        ),
+      },
+      {
         path: "/games/:categoryGame/:gameType/play-offside",
         element: (
           <Suspense fallback={<Loader />}>
@@ -154,10 +166,18 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/make-hints/:category",
+        path: "/make-five-hints/:category",
         element: (
           <Suspense fallback={<Loader />}>
             <MakeHintsQuestion />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/make-difficulty/:category",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <MakeDifficulty />
           </Suspense>
         ),
       },

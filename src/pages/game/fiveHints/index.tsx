@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import {
   getHintsQuestions,
   getHintsEntertainment,
+  clearHintsData,
 } from "../../../state/slices/game";
 import { Hint, Timer } from "../../../styles/games/five-hints";
 import QuestionAnswer from "../../../components/formUI/formAnswer";
@@ -19,7 +20,7 @@ function FiveHints() {
   const { questionData, loadingGetQuestions, loadingAnswerQuestion } =
     useAppSelector((state) => state.game);
   const [second, setSecond] = useState<number>(0);
-  const HINTTIME = 30;
+  const HINTTIME = 10;
   const [noOfHints, setNoOfHints] = useState<number>(0);
   const { t } = useTranslation();
   const { grade } = useAppSelector((state) => state.auth);
@@ -54,9 +55,11 @@ function FiveHints() {
           })
         );
   }, [dispatch, flag]);
+  const hasQuestionData =
+    questionData && questionData.hints && Array.isArray(questionData.hints);
 
   useEffect(() => {
-    if (!loadingGetQuestions && !loadingAnswerQuestion) {
+    if (!loadingGetQuestions && !loadingAnswerQuestion && hasQuestionData) {
       const interval = setInterval(() => {
         setSecond((prevSecond) => {
           if (prevSecond >= 4 * HINTTIME + 1) {
@@ -73,46 +76,27 @@ function FiveHints() {
     }
   }, [second, loadingGetQuestions, loadingAnswerQuestion]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearHintsData());
+    };
+  }, [dispatch]);
+
+  // Check if questionData and hints exist
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: 0.5 }}
     >
-      {/* <div>
-        <button
-          onClick={() => {
-            dispatch(
-              getQuestion({
-                grade: "one",
-                subject: "science",
-                chapter: "one",
-              })
-            );
-          }}
-        >
-          Get Question
-        </button>
-        <button
-          onClick={() => {
-            dispatch(
-              answerQuestion({
-                answer: "الزعيم سعد زغلول",
-                hintsused: 1,
-                correctanswer: questionData.correctAnswer,
-              })
-            );
-          }}
-        >
-          Answer
-        </button>
-      </div> */}
       <Container>
         <Timer timeExceeded={second > 4 * HINTTIME}>{second}</Timer>
+
         <Grid container spacing={2} sx={{ mb: 2 }}>
-          {Array.from({ length: 5 }, (_, index) => {
-            const isFlipping = second / HINTTIME > index;
-            return (
+          {loadingGetQuestions ? (
+            // Show loading state with "hint" text
+            Array.from({ length: 5 }, (_, index) => (
               <Hint size={{ xs: index === 4 ? 12 : 6 }} key={index}>
                 <motion.div
                   style={{
@@ -124,33 +108,89 @@ function FiveHints() {
                     border: "3px solid white",
                     borderRadius: "8px",
                     padding: "8px",
-                    backgroundColor: isFlipping ? "#4caf50" : "#eee",
+                    backgroundColor: "#eee",
                     transformStyle: "preserve-3d",
-                  }}
-                  animate={{
-                    rotateY: isFlipping ? 360 : 0,
-                  }}
-                  transition={{
-                    duration: 0.8,
-                    ease: "easeInOut",
                   }}
                 >
                   <span
                     style={{
                       fontWeight: "bold",
                       fontSize: "18px",
-                      color: isFlipping ? "white" : "black",
+                      color: "black",
                     }}
                   >
-                    {isFlipping && !loadingGetQuestions && questionData
-                      ? questionData.hints[index]
-                      : t("hint")}
+                    {t("hint")}
                   </span>
                 </motion.div>
               </Hint>
-            );
-          })}
+            ))
+          ) : !hasQuestionData ? (
+            // Show "no question" message when loading is finished but no question data
+            <Grid size={12}>
+              <motion.div
+                style={{
+                  width: "100%",
+                  height: "200px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: "3px solid #ccc",
+                  borderRadius: "8px",
+                  padding: "20px",
+                  backgroundColor: "#f5f5f5",
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  style={{ textAlign: "center", color: "#666" }}
+                >
+                  {t("noQuestion", "No question available")}
+                </Typography>
+              </motion.div>
+            </Grid>
+          ) : (
+            // Show hints when question data exists
+            questionData.hints.map((hint, index) => {
+              const isFlipping = second / HINTTIME > index;
+              return (
+                <Hint size={{ xs: index === 4 ? 12 : 6 }} key={index}>
+                  <motion.div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      border: "3px solid white",
+                      borderRadius: "8px",
+                      padding: "8px",
+                      backgroundColor: isFlipping ? "#4caf50" : "#eee",
+                      transformStyle: "preserve-3d",
+                    }}
+                    animate={{
+                      rotateY: isFlipping ? 360 : 0,
+                    }}
+                    transition={{
+                      duration: 0.8,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: "18px",
+                        color: isFlipping ? "white" : "black",
+                      }}
+                    >
+                      {isFlipping ? hint : t("hint")}
+                    </span>
+                  </motion.div>
+                </Hint>
+              );
+            })
+          )}
         </Grid>
+
         <QuestionAnswer
           hints={noOfHints}
           submit={changeFlag}

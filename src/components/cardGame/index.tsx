@@ -64,9 +64,14 @@ function CardGame({ to, data }: Props) {
           ? categoryGame === "education"
             ? `${to}/education`
             : `${to}/entertainment`
-          : categoryGame === "education"
-          ? to
-          : `${to}/play-${to}`
+          : role === "Student"
+          ? categoryGame === "education"
+            ? to
+            : `${to}/play-${to}`
+          : /* For roles that are neither Student nor Teacher */
+          localStorage.getItem("gameState") === "play"
+          ? `${to}/play-${to}`
+          : `/make-${to}/entertainment`
       }
     >
       <Box

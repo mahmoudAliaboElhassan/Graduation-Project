@@ -36,7 +36,7 @@ function Games() {
 
         <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
           <CardGame
-            to={role === "Teacher" ? "/make-hints" : "five-hints"}
+            to={role === "Teacher" ? "/make-five-hints" : "five-hints"}
             data={gamesData[0]}
           />
         </Grid>
@@ -44,6 +44,12 @@ function Games() {
           <CardGame
             to={role === "Teacher" ? "/make-offside" : "offside"}
             data={gamesData[1]}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
+          <CardGame
+            to={role == "Teacher" ? "/make-difficulty" : "difficulty"}
+            data={gamesData[2]}
           />
         </Grid>
       </Grid>

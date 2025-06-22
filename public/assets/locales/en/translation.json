@@ -66,7 +66,9 @@
     "art": "Art",
     "music": "Music",
     "socialStudies": "Social Studies",
-    "economics": "Economics"
+    "economics": "Economics",
+    "statistics": "Statistics",
+    "logic": "Philosophy & Logic"
   },
   "play-now": "Start Playing Now",
   "select-chapter": "Select Chapter",
@@ -100,9 +102,9 @@
   "full-name": "Full Name",
   "start-playing": "Start Playing",
   "five-hints-title": "Five Hints",
-  "five-hints-description": "Five Hints is a thrilling guessing game where you test your knowledge by uncovering the correct answer with minimal hints! You start with no clues, and every 30 seconds, a new hint is revealed. The faster you guess, the higher your rank! If you crack the mystery on the first try, you'll achieve the top rank. But beware—every additional hint lowers your score. Can you solve the puzzle before all hints are revealed? Challenge yourself and climb the leaderboard!",
+  "five-hints-description": "Five Hints is a thrilling guessing game where you test your knowledge by uncovering the correct answer with minimal hints! You start with no clues, and every 10 seconds, a new hint is revealed. The faster you guess, the higher your rank! If you crack the mystery on the first try, you'll achieve the top rank. But beware—every additional hint lowers your score. Can you solve the puzzle before all hints are revealed? Challenge yourself and climb the leaderboard!",
   "offside-title": "Offside",
-  "offside-description": "Offside is a fast-paced logic game that tests your ability to distinguish between truth and deception! You start with 120 points and are presented with six statements—some are true, and some are false. Your goal is to identify the correct ones while avoiding the false ones. But be careful! Every wrong choice deducts points from your score. Can you keep your score high and make the right calls? Challenge yourself and prove your sharp judgment!",
+  "offside-description": "Offside is a fast-paced logic game that tests your ability to distinguish between truth and deception! You start with 50 points and are presented with six statements—some are true, and some are false. Your goal is to identify the correct ones while avoiding the false ones. But be careful! Every wrong choice deducts points from your score. Can you keep your score high and make the right calls? Challenge yourself and prove your sharp judgment!",
   "correct-info": "Correct Info",
   "false-info": "False Info",
   "get-reset": "Get Reset Link",
@@ -424,5 +426,8 @@
   "session-expiring-soon": "Your session will expire soon. Please save your work.",
   "token-expired-log": "Token expired - triggering logout",
   "time-until-expiration-log": "Time until expiration (minutes):",
-  "showing-expiration-warning-log": "Showing expiration warning"
+  "showing-expiration-warning-log": "Showing expiration warning",
+  "question-journey-title": "The Question Journey",
+  "question-journey-description": "In each round, you’ll receive 6 questions from easiest to hardest — answer them correctly to win!",
+  "noQuestion": "No question available"
 }

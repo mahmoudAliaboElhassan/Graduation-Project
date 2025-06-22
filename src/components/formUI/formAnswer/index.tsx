@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { AxiosError } from "axios";
 import { addPoints } from "../../../state/act/actAuth";
+import { clearHintsData } from "../../../state/slices/game";
 
 interface Props {
   hints: number;
@@ -111,6 +112,7 @@ function QuestionAnswer({ hints, submit, resetSeconds }: Props) {
           submit();
           resetSeconds();
           resetForm();
+          dispatch(clearHintsData());
           if (res) {
             handleCorrectAnswer();
           } else {

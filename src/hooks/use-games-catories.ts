@@ -11,6 +11,7 @@ function UseGamesCategories() {
       icon: "Theaters",
       color: "#06B6D4", // Cyan
       route: "/entertainment-sections",
+      state: "play",
     },
     {
       title: t("categories.education.title"),

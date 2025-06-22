@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useAppSelector } from "../hooks/redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function withGuard<T extends object>(
   Component: React.ComponentType<T>
@@ -9,7 +9,7 @@ function withGuard<T extends object>(
     const { token, role } = useAppSelector((state) => state.auth);
     const { pathname } = useLocation();
     const navigate = useNavigate();
-
+    const { category } = useParams();
     const authUserRoutes = ["/change-password"];
     const authNotUserRoutes = [
       "/login",
@@ -42,10 +42,11 @@ function withGuard<T extends object>(
         }
       }
 
-      if (!token || role !== "Teacher") {
+      if ((!token || role !== "Teacher") && category === "education") {
         if (
           pathname.startsWith("/make-offside") ||
-          pathname.startsWith("/make-hints")
+          pathname.startsWith("/make-five-hints") ||
+          pathname.startsWith("/make-difficulty")
         ) {
           navigate("/");
         }

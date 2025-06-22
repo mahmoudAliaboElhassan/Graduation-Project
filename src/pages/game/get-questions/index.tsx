@@ -161,6 +161,8 @@ const MultiStepModal = () => {
 
     params.gameType === "five-hints"
       ? navigate("play-five-hints")
+      : params.gameType === "difficulty"
+      ? navigate("play-difficulty")
       : navigate("play-offside");
   };
 
