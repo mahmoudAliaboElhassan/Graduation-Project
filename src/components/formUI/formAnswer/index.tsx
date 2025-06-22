@@ -16,7 +16,7 @@ import { clearHintsData } from "../../../state/slices/game";
 
 interface Props {
   hints: number;
-  submit: () => void;
+  onAnswerSubmitted: () => void;
   resetSeconds: () => void;
 }
 
@@ -28,7 +28,7 @@ const POINTS_BASE = 50;
 const POINTS_HINT_PENALTY = 10;
 const POINTS_DELAY_MS = 1500;
 
-function QuestionAnswer({ hints, submit, resetSeconds }: Props) {
+function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
   const { INITIAL_FORM_STATE_ANSWER_QUESTION } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_ANSWER_QUESTION } = UseFormValidation();
   const { questionData, correct } = useAppSelector((state) => state.game);
@@ -109,15 +109,18 @@ function QuestionAnswer({ hints, submit, resetSeconds }: Props) {
         .unwrap()
         .then((res) => {
           console.log("Response:", res);
-          submit();
           resetSeconds();
           resetForm();
           dispatch(clearHintsData());
+
           if (res) {
             handleCorrectAnswer();
           } else {
             handleIncorrectAnswer();
           }
+
+          // Trigger the callback to show new question button
+          onAnswerSubmitted();
         })
         .catch((error: unknown) => {
           console.error("Error submitting answer:", error);
@@ -132,6 +135,8 @@ function QuestionAnswer({ hints, submit, resetSeconds }: Props) {
       handleCorrectAnswer,
       handleIncorrectAnswer,
       handleAnswerSubmissionError,
+      onAnswerSubmitted,
+      resetSeconds,
     ]
   );
 

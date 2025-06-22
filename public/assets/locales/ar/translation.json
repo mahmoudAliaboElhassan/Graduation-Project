@@ -412,5 +412,7 @@
   "showing-expiration-warning-log": "عرض تحذير انتهاء الصلاحية",
   "question-journey-title": "رحلة الأسئلة",
   "question-journey-description": "في كل جولة هتوصلك ٦ أسئلة من الأسهل للأصعب — جاوب صح علشان تكسب!",
-  "noQuestion": "لا يوجد سؤال متاح"
+  "noQuestion": "لا يوجد سؤال متاح",
+  "newQuestion": "سؤال جديد",
+  "exitGame": "إنهاء اللعبة"
 }

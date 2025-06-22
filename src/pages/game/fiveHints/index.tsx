@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import { motion } from "framer-motion";
-import { Container, TextField, Typography } from "@mui/material";
+import { Container, TextField, Typography, Button, Box } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { ExitToApp } from "@mui/icons-material";
 
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import {
@@ -17,6 +18,7 @@ import withGuard from "../../../utils/withGuard";
 
 function FiveHints() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { questionData, loadingGetQuestions, loadingAnswerQuestion } =
     useAppSelector((state) => state.game);
   const [second, setSecond] = useState<number>(0);
@@ -24,21 +26,15 @@ function FiveHints() {
   const [noOfHints, setNoOfHints] = useState<number>(0);
   const { t } = useTranslation();
   const { grade } = useAppSelector((state) => state.auth);
-  const [flag, setFlage] = useState<boolean>(false);
+  const [showNewQuestionButton, setShowNewQuestionButton] =
+    useState<boolean>(false);
   const { categoryGame } = useParams();
 
-  const changeFlag = () => {
-    setFlage((prevFlag) => !prevFlag);
-  };
+  const getNewQuestion = () => {
+    setShowNewQuestionButton(false);
+    setSecond(0);
+    setNoOfHints(0);
 
-  const resetSeconds = () => {
-    setTimeout(() => {
-      setNoOfHints(0);
-      setSecond(0);
-    }, 1500);
-  };
-
-  useEffect(() => {
     categoryGame == "education"
       ? dispatch(
           getHintsQuestions({
@@ -54,7 +50,45 @@ function FiveHints() {
               Number(localStorage.getItem("entertainmentGameId")) || 0,
           })
         );
-  }, [dispatch, flag]);
+  };
+
+  const handleExitGame = () => {
+    // Clear game data before navigating
+    dispatch(clearHintsData());
+    // Navigate to games page
+    navigate("/games");
+  };
+
+  const onAnswerSubmitted = () => {
+    setShowNewQuestionButton(true);
+  };
+
+  const resetSeconds = () => {
+    setTimeout(() => {
+      setNoOfHints(0);
+      setSecond(0);
+    }, 1500);
+  };
+
+  useEffect(() => {
+    // Initial load
+    categoryGame == "education"
+      ? dispatch(
+          getHintsQuestions({
+            grade,
+            subject: localStorage.getItem("subject") || "",
+            chapter: localStorage.getItem("chapter") || "",
+            userID: localStorage.getItem("id") || "",
+          })
+        )
+      : dispatch(
+          getHintsEntertainment({
+            entertainmentSection:
+              Number(localStorage.getItem("entertainmentGameId")) || 0,
+          })
+        );
+  }, [dispatch]);
+
   const hasQuestionData =
     questionData && questionData.hints && Array.isArray(questionData.hints);
 
@@ -74,15 +108,13 @@ function FiveHints() {
 
       return () => clearInterval(interval);
     }
-  }, [second, loadingGetQuestions, loadingAnswerQuestion]);
+  }, [second, loadingGetQuestions, loadingAnswerQuestion, hasQuestionData]);
 
   useEffect(() => {
     return () => {
       dispatch(clearHintsData());
     };
   }, [dispatch]);
-
-  // Check if questionData and hints exist
 
   return (
     <motion.div
@@ -91,11 +123,34 @@ function FiveHints() {
       transition={{ duration: 0.3, delay: 0.5 }}
     >
       <Container>
+        {/* Exit Game Button */}
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleExitGame}
+            startIcon={<ExitToApp />}
+            sx={{
+              borderRadius: "8px",
+              textTransform: "none",
+              marginTop: "8px",
+              fontWeight: "bold",
+              "&:hover": {
+                backgroundColor: "rgba(255, 0, 0, 0.1)",
+                borderColor: "red",
+                color: "red",
+              },
+            }}
+          >
+            {/* {t("exitGame", "Exit Game")} */}
+          </Button>
+        </Box>
+
         <Timer timeExceeded={second > 4 * HINTTIME}>{second}</Timer>
 
         <Grid container spacing={2} sx={{ mb: 2 }}>
-          {loadingGetQuestions ? (
-            // Show loading state with "hint" text
+          {loadingGetQuestions || showNewQuestionButton ? (
+            // Show loading state or waiting for new question with "hint" text
             Array.from({ length: 5 }, (_, index) => (
               <Hint size={{ xs: index === 4 ? 12 : 6 }} key={index}>
                 <motion.div
@@ -125,7 +180,7 @@ function FiveHints() {
               </Hint>
             ))
           ) : !hasQuestionData ? (
-            // Show "no question" message when loading is finished but no question data
+            // Show "no question" message when loading is finished but no question data and not waiting for new question
             <Grid size={12}>
               <motion.div
                 style={{
@@ -191,9 +246,29 @@ function FiveHints() {
           )}
         </Grid>
 
+        {showNewQuestionButton && (
+          <div style={{ textAlign: "center", marginBottom: "1rem" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={getNewQuestion}
+              disabled={loadingGetQuestions}
+              style={{
+                padding: "12px 24px",
+                fontSize: "16px",
+                fontWeight: "bold",
+              }}
+            >
+              {loadingGetQuestions
+                ? t("loading", "Loading...")
+                : t("newQuestion", "New Question")}
+            </Button>
+          </div>
+        )}
+
         <QuestionAnswer
           hints={noOfHints}
-          submit={changeFlag}
+          onAnswerSubmitted={onAnswerSubmitted}
           resetSeconds={resetSeconds}
         />
       </Container>

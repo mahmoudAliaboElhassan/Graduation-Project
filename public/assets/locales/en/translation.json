@@ -429,5 +429,7 @@
   "showing-expiration-warning-log": "Showing expiration warning",
   "question-journey-title": "The Question Journey",
   "question-journey-description": "In each round, you’ll receive 6 questions from easiest to hardest — answer them correctly to win!",
-  "noQuestion": "No question available"
+  "noQuestion": "No question available",
+  "newQuestion": "New Question",
+  "exitGame": "Exit Game"
 }
