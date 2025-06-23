@@ -27,7 +27,7 @@ function UseInitialStates() {
     email: localStorage.getItem("email") as forLocalStorage,
     grade: localStorage.getItem("grade") as forLocalStorage,
     token: localStorage.getItem("token") as forLocalStorage,
-    Uid: localStorage.getItem("Uid") as forLocalStorage,
+    Uid: localStorage.getItem("id") as forLocalStorage,
     error: "",
     subjects: [],
     chapters: [],

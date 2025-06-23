@@ -7,6 +7,8 @@ import {
   UserDataEducationMakeQuestion,
   UserDataEntertainmentMakeQuestion,
   AnswerDifficultyT,
+  EducationDifficultyT,
+  EntertainmentDifficultyT,
 } from "../../utils/types/DTO";
 import {
   getHintsResponse,
@@ -272,6 +274,62 @@ export const answerDifficulty = createAsyncThunk(
         answer,
         {
           withCredentials: true, // ✅ Ensures cookies are sent
+        }
+      );
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error);
+    }
+  }
+);
+export const makeEducationDifficulty = createAsyncThunk(
+  "gameSlice/makeEducationDifficulty",
+  async (educationDifficulty: EducationDifficultyT, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.post(
+        "/api/education/DifficultyGame/makequestion",
+        educationDifficulty,
+        {
+          withCredentials: true, // ✅ Ensures cookies are sent
+        }
+      );
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error);
+    }
+  }
+);
+export const makeEntertainmentDifficulty = createAsyncThunk(
+  "gameSlice/makeEntertainmentDifficulty",
+  async (entertainmentDifficulty: EntertainmentDifficultyT, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.post(
+        "/api/entertainment/DifficultyGame/make",
+        entertainmentDifficulty,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+            // Add any other headers you need here
+            "Content-Type": "application/json",
+          },
         }
       );
       console.log("from slice res is");

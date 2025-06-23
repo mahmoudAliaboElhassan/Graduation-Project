@@ -190,7 +190,7 @@
       "enterHints": "Enter Hints",
       "correctAnswer": "Correct Answer",
       "enterInformations": "Enter Informations",
-
+      "enterQuestions": " Enter Questions",
       "summary": "Summary",
       "question": "Enter Question",
       "answer": "Enter Answer",
@@ -217,6 +217,7 @@
       "section": "Choose a section"
     },
     "descriptions": {
+      "questions": "Create exactly 6 questions with their answers, summaries, and difficulty levels.",
       "grade": "Select the grade level for which you want to create this question.",
       "chapter": "Select the specific chapter or topic within the subject.",
       "hints": "Enter up to 5 hints to help students guess the answer. You can leave some hints empty if needed.",
@@ -438,6 +439,8 @@
 
   "difficulty": {
     "title": "Difficulty Test",
+    "pageTitle": "Create Your Challenge",
+    "pageDescription": "Choose your question difficulty and start building your game!",
     "description": "Answer all the questions and click Submit",
     "loading": "Loading questions...",
     "submitting": "Submitting...",
@@ -452,6 +455,14 @@
     "readyForNewChallenge": "Great job! Ready for a new challenge?",
     "getNewQuestions": "Get New Questions",
     "gettingNewQuestions": "Getting New Questions...",
+
+    "levels": {
+      "veryEasy": "Very Easy",
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard",
+      "veryHard": "Very Hard"
+    },
     "fetchError": "Error loading questions. Please try again.",
     "validation": {
       "answerRequired": "Answer to question {{number}} is required"

@@ -1,4 +1,5 @@
 import { forLocalStorage } from "./initialState";
+import gameSlice from "../../state/slices/game";
 
 export interface UserDataSignUp {
   name: string;
@@ -47,3 +48,26 @@ type answerQuestion = {
   correctanswer: string;
 };
 export type AnswerDifficultyT = answerQuestion[];
+
+export interface EducationDifficultyT {
+  grade: number;
+  chapter: string;
+  userId: string;
+  game: string;
+  questions: {
+    question: string;
+    answer: string;
+    summary: string;
+    difficultyLevel: number;
+  }[];
+}
+export interface EntertainmentDifficultyT {
+  section: number;
+  game: string;
+  questions: {
+    question: string;
+    answer: string;
+    summary: string;
+    difficultyLevel: number;
+  }[];
+}
