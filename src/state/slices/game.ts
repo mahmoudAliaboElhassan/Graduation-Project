@@ -24,6 +24,10 @@ export const gameSlice = createSlice({
     clearDifficultyData: (state) => {
       state.difficultyData = [];
     },
+    clearOffsieData: (state) => {
+      state.offsideInformation = [];
+      state.offsideCorrectAnswer = [];
+    },
     // handlelogOutState: (state) => {
     //   localStorage.removeItem("token");
     //   localStorage.removeItem("type");
@@ -145,7 +149,8 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { clearHintsData, clearDifficultyData } = gameSlice.actions;
+export const { clearHintsData, clearOffsieData, clearDifficultyData } =
+  gameSlice.actions;
 export default gameSlice.reducer;
 export {
   getHintsQuestions,

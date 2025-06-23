@@ -6,7 +6,7 @@ import { logOut } from "../state/slices/auth";
 
 function UseHeaderElements() {
   const { t } = useTranslation();
-  const { token } = useAppSelector((state) => state.auth);
+  const { token, role } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const notUserAuth: Header[] = [
     {
@@ -48,7 +48,8 @@ function UseHeaderElements() {
     },
   ];
 
-  const headerElements = token ? header : header.slice(0, -1);
+  const headerElements =
+    token && role === "Student" ? header : header.slice(0, -1);
 
   return { userAuth, notUserAuth, headerElements };
 }

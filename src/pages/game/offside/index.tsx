@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import {
   getOffsideEntertainment,
   getOffSideQuestions,
+  clearOffsieData, // Add this import
 } from "../../../state/slices/game";
 import { Hint, Timer } from "../../../styles/games/five-hints";
 import RadioInput from "../../../components/formUI/offsideInput";
@@ -46,6 +47,7 @@ function Offside() {
   const [totalPoints, setTotalPoints] = useState(50);
   const [answeredQuestions, setAnsweredQuestions] = useState(0);
   const [refreshQuestions, setRefreshQuestions] = useState(false);
+  const [gameCompleted, setGameCompleted] = useState(false); // New state for tracking game completion
 
   const { FORM_VALIDATION_OFFSIDE_GAME } = UseFormValidation();
   const { INITIAL_FORM_STATE_OFFSIDE_GAME } = UseInitialValues();
@@ -55,6 +57,7 @@ function Offside() {
     setAnsweredQuestions(0);
     setAnswerStatus({});
     setDisabledFields({});
+    setGameCompleted(false); // Reset game completion state
   };
 
   const handleAnswerSubmit = (questionName: string, isCorrect: boolean) => {
@@ -64,6 +67,13 @@ function Offside() {
     if (!isCorrect) {
       setTotalPoints((prev) => Math.floor(prev / 2));
     }
+  };
+
+  // Function to handle getting new questions
+  const handleGetNewQuestions = () => {
+    dispatch(clearOffsieData());
+    resetGameState();
+    setRefreshQuestions((prev) => !prev);
   };
 
   useEffect(() => {
@@ -89,6 +99,11 @@ function Offside() {
       resetGameState();
     }
   }, [offsideInformation]);
+
+  // Check if all questions are answered (but don't auto-complete)
+  useEffect(() => {
+    // This effect is just for tracking, no auto-completion
+  }, [answeredQuestions, offsideInformation.length]);
 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -161,12 +176,15 @@ function Offside() {
                       }
                     )
                   );
+                  // Set game as completed and dispatch clearOffsieData
+                  setGameCompleted(true);
+                  dispatch(clearOffsieData());
+
                   Object.keys(values).forEach((key) => {
                     setFieldValue(key, "");
                   });
                   setDisabledFields({});
                   setAnswerStatus({});
-                  setRefreshQuestions((prev) => !prev);
                 })
                 .catch(() => {
                   Swal.fire({
@@ -249,26 +267,60 @@ function Offside() {
                 </Grid>
 
                 <Box sx={{ textAlign: "center", mt: 3 }}>
-                  <ButtonWrapper
-                    variant="contained"
-                    color="primary"
-                    disabled={
-                      !dirty ||
-                      !isValid ||
-                      answeredQuestions !== offsideInformation.length
-                    }
-                    sx={{
-                      minWidth: 200,
-                      height: 48,
-                      fontSize: "1.1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {answeredQuestions === offsideInformation.length
-                      ? t("submit-final-answer") || "Submit Final Answer"
-                      : t("answer-all-questions") ||
+                  {/* Show Submit button when all questions are answered but game not completed */}
+                  {answeredQuestions === offsideInformation.length &&
+                    !gameCompleted && (
+                      <ButtonWrapper
+                        variant="contained"
+                        color="primary"
+                        disabled={!dirty || !isValid}
+                        sx={{
+                          minWidth: 200,
+                          height: 48,
+                          fontSize: "1.1rem",
+                          fontWeight: "bold",
+                          mb: 2,
+                        }}
+                      >
+                        {t("submit-final-answer") || "Submit Final Answer"}
+                      </ButtonWrapper>
+                    )}
+
+                  {/* Show progress when not all questions are answered */}
+                  {answeredQuestions < offsideInformation.length && (
+                    <Button
+                      variant="outlined"
+                      disabled
+                      sx={{
+                        minWidth: 200,
+                        height: 48,
+                        fontSize: "1.1rem",
+                        fontWeight: "bold",
+                        mb: 2,
+                      }}
+                    >
+                      {t("answer-all-questions") ||
                         `Answer All Questions (${answeredQuestions}/${offsideInformation.length})`}
-                  </ButtonWrapper>
+                    </Button>
+                  )}
+
+                  {/* Show Get New Questions button after submitting */}
+                  {gameCompleted && (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={handleGetNewQuestions}
+                      sx={{
+                        minWidth: 200,
+                        height: 48,
+                        fontSize: "1.1rem",
+                        fontWeight: "bold",
+                        mt: 2,
+                      }}
+                    >
+                      {t("newQuestion") || "Get New Questions"}
+                    </Button>
+                  )}
                 </Box>
               </Form>
             )}
