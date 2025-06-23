@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import { AxiosError } from "axios";
 import { addPoints } from "../../../state/act/actAuth";
 import { clearHintsData } from "../../../state/slices/game";
+import { useParams } from "react-router-dom";
 
 interface Props {
   hints: number;
@@ -38,32 +39,45 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
   const calculatePoints = useCallback(() => {
     return POINTS_BASE - (hints - 1) * POINTS_HINT_PENALTY;
   }, [hints]);
+  const { categoryGame } = useParams();
 
   const handlePointsAddition = useCallback(async () => {
-    try {
-      const pointsToAdd = calculatePoints();
-      const result = await dispatch(
-        addPoints({ points: pointsToAdd })
-      ).unwrap();
+    const pointsToAdd = calculatePoints();
+    if (categoryGame === "education") {
+      try {
+        const result = await dispatch(
+          addPoints({ points: pointsToAdd })
+        ).unwrap();
+        toast.success(
+          t(
+            "points-added-success",
+            "{{points}} points added successfully! Total: {{totalPoints}}",
+            {
+              points: pointsToAdd,
+              totalPoints: result.totalpoints,
+            }
+          )
+        );
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: t("error", "Error"),
+          text: t(
+            "failed-to-add-points",
+            "Failed to add points. Please try again."
+          ),
+        });
+      }
+    } else {
       toast.success(
         t(
-          "points-added-success",
-          "{{points}} points added successfully! Total: {{totalPoints}}",
+          "points-added-success-entertainment",
+          "{{points}} points added successfully!",
           {
             points: pointsToAdd,
-            totalPoints: result.totalpoints,
           }
         )
       );
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: t("error", "Error"),
-        text: t(
-          "failed-to-add-points",
-          "Failed to add points. Please try again."
-        ),
-      });
     }
   }, [dispatch, calculatePoints, t]);
 

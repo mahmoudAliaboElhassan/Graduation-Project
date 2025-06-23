@@ -399,6 +399,7 @@
   "submit-final-answer": "إرسال الإجابة النهائية",
   "answer-all-questions": "أجب عن جميع الأسئلة",
   "points-added-success": "تم إضافة {{points}} نقطة بنجاح! المجموع: {{totalPoints}}",
+  "points-added-success-entertainment": "لقد حصلت على {{points}} نقطة بنجاح! ",
   "failed-to-add-points": "فشل في إضافة النقاط. حاول مرة أخرى.",
   "error": "خطأ",
   "add-points": "أضف النقاط",

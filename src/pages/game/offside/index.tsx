@@ -38,7 +38,6 @@ function Offside() {
   const { offsideInformation, loadingGetQuestions } = useAppSelector(
     (state) => state.game
   );
-  const { categoryGame } = useParams();
 
   const [disabledFields, setDisabledFields] = useState<Record<string, boolean>>(
     {}
@@ -51,6 +50,7 @@ function Offside() {
 
   const { FORM_VALIDATION_OFFSIDE_GAME } = UseFormValidation();
   const { INITIAL_FORM_STATE_OFFSIDE_GAME } = UseInitialValues();
+  const { categoryGame } = useParams();
 
   const resetGameState = () => {
     setTotalPoints(50);
@@ -163,39 +163,63 @@ function Offside() {
             initialValues={{ ...INITIAL_FORM_STATE_OFFSIDE_GAME }}
             validationSchema={FORM_VALIDATION_OFFSIDE_GAME}
             onSubmit={(values, { setFieldValue }) => {
-              dispatch(addPoints({ points: totalPoints }))
-                .unwrap()
-                .then((result) => {
-                  toast.success(
-                    t(
-                      "points-added-success",
-                      "{{points}} points added successfully! Total: {{totalPoints}}",
-                      {
-                        points: totalPoints,
-                        totalPoints: result.totalpoints,
-                      }
-                    )
-                  );
-                  // Set game as completed and dispatch clearOffsieData
-                  setGameCompleted(true);
-                  dispatch(clearOffsieData());
+              if (categoryGame === "education") {
+                // For education category, dispatch addPoints
+                dispatch(addPoints({ points: totalPoints }))
+                  .unwrap()
+                  .then((result) => {
+                    toast.success(
+                      t(
+                        "points-added-success",
+                        "{{points}} points added successfully! Total: {{totalPoints}}",
+                        {
+                          points: totalPoints,
+                          totalPoints: result.totalpoints,
+                        }
+                      )
+                    );
+                    // Set game as completed and dispatch clearOffsieData
+                    setGameCompleted(true);
+                    dispatch(clearOffsieData());
 
-                  Object.keys(values).forEach((key) => {
-                    setFieldValue(key, "");
+                    Object.keys(values).forEach((key) => {
+                      setFieldValue(key, "");
+                    });
+                    setDisabledFields({});
+                    setAnswerStatus({});
+                  })
+                  .catch(() => {
+                    Swal.fire({
+                      icon: "error",
+                      title: t("error", "Error"),
+                      text: t(
+                        "failed-to-add-points",
+                        "Failed to add points. Please try again."
+                      ),
+                    });
                   });
-                  setDisabledFields({});
-                  setAnswerStatus({});
-                })
-                .catch(() => {
-                  Swal.fire({
-                    icon: "error",
-                    title: t("error", "Error"),
-                    text: t(
-                      "failed-to-add-points",
-                      "Failed to add points. Please try again."
-                    ),
-                  });
+              } else {
+                // For entertainment category, just show success toast
+                toast.success(
+                  t(
+                    "points-added-success-entertainment",
+                    "{{points}} points added successfully!",
+                    {
+                      points: totalPoints,
+                    }
+                  )
+                );
+
+                // Set game as completed and dispatch clearOffsieData
+                setGameCompleted(true);
+                dispatch(clearOffsieData());
+
+                Object.keys(values).forEach((key) => {
+                  setFieldValue(key, "");
                 });
+                setDisabledFields({});
+                setAnswerStatus({});
+              }
             }}
           >
             {({ isValid, dirty }) => (

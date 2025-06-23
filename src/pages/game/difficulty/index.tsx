@@ -193,30 +193,45 @@ const Difficulty: React.FC<DifficultyProps> = () => {
         });
         setShowScoreDialog(true);
 
-        dispatch(addPoints({ points: totalScore }))
-          .unwrap()
-          .then((result) => {
-            toast.success(
-              t(
-                "points-added-success",
-                "{{points}} points added successfully! Total: {{totalPoints}}",
-                {
-                  points: totalScore,
-                  totalPoints: result.totalpoints,
-                }
-              )
-            );
-          })
-          .catch(() => {
-            Swal.fire({
-              icon: "error",
-              title: t("error", "Error"),
-              text: t(
-                "failed-to-add-points",
-                "Failed to add points. Please try again."
-              ),
+        // Check categoryGame and handle points accordingly
+        if (categoryGame === "education") {
+          // For education category, add points to user account
+          dispatch(addPoints({ points: totalScore }))
+            .unwrap()
+            .then((result) => {
+              toast.success(
+                t(
+                  "points-added-success",
+                  "{{points}} points added successfully! Total: {{totalPoints}}",
+                  {
+                    points: totalScore,
+                    totalPoints: result.totalpoints,
+                  }
+                )
+              );
+            })
+            .catch(() => {
+              Swal.fire({
+                icon: "error",
+                title: t("error", "Error"),
+                text: t(
+                  "failed-to-add-points",
+                  "Failed to add points. Please try again."
+                ),
+              });
             });
-          });
+        } else {
+          // For entertainment category, only show toast
+          toast.success(
+            t(
+              "points-added-success-entertainment",
+              "you got {{points}} points",
+              {
+                points: totalScore,
+              }
+            )
+          );
+        }
 
         // Reset form after success
         setTimeout(() => {

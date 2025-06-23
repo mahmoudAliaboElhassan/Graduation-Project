@@ -415,6 +415,7 @@
   "submit-final-answer": "Submit Final Answer",
   "answer-all-questions": "Answer All Questions",
   "points-added-success": "{{points}} points added successfully! Total: {{totalPoints}}",
+  "points-added-success-entertainment": "you got {{points}} points",
   "failed-to-add-points": "Failed to add points. Please try again.",
   "error": "Error",
   "add-points": "Add Points",
