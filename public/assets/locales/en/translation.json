@@ -303,6 +303,7 @@
       "selectCorrect": "Select Correct Answers"
     },
     "descriptions": {
+      "question": "Enter the main question for the Offside game",
       "grade": "Select the grade level for this offside question",
       "chapter": "Select the chapter for this offside question",
       "informations": "Enter 6 pieces of information for the offside question",

@@ -36,6 +36,7 @@ interface FormValues {
   information3: string;
   information4: string;
   information5: string;
+  information6: string;
   correctInformations: number[];
   summary: string;
 }
@@ -53,6 +54,7 @@ const INITIAL_FORM_STATE: FormValues = {
   information3: "",
   information4: "",
   information5: "",
+  information6: "",
   correctInformations: [],
   summary: "",
 };
@@ -201,6 +203,7 @@ function MultipleStepOfsideEntertainment({
         values.information3,
         values.information4,
         values.information5,
+        values.information6,
       ].filter((info) => info.trim() !== "");
 
       const questionData = {
@@ -458,7 +461,7 @@ function MultipleStepOfsideEntertainment({
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      {t("questionCreation.descriptions.question") ||
+                      {t("offsideCreation.descriptions.question") ||
                         "Enter the main question for the entertainment game"}
                     </Typography>
                     <TextFieldWrapper
@@ -527,13 +530,13 @@ function MultipleStepOfsideEntertainment({
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      {t("questionCreation.descriptions.hints") ||
-                        "Enter up to 5 hints to help players guess the answer"}
+                      {t("offsideCreation.descriptions.informations") ||
+                        "Enter up to 6 hints to help players guess the answer"}
                     </Typography>
                     <Box
                       sx={{ display: "flex", flexDirection: "column", gap: 2 }}
                     >
-                      {[1, 2, 3, 4, 5].map((num) => (
+                      {[1, 2, 3, 4, 5, 6].map((num) => (
                         <TextFieldWrapper
                           key={num}
                           name={`information${num}`}
@@ -570,12 +573,12 @@ function MultipleStepOfsideEntertainment({
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      Select which hints are correct or true
+                      {t("offsideCreation.descriptions.correctAnswers")}
                     </Typography>
                     <Box
                       sx={{ display: "flex", flexDirection: "column", gap: 2 }}
                     >
-                      {[1, 2, 3, 4, 5].map((num) => {
+                      {[1, 2, 3, 4, 5, 6].map((num) => {
                         const informationValue = values[
                           `information${num}` as keyof FormValues
                         ] as string;
