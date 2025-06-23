@@ -38,7 +38,7 @@ const FiveHints = React.lazy(() => import("../pages/game/fiveHints"));
 const Games = React.lazy(() => import("../pages/game"));
 const Offside = React.lazy(() => import("../pages/game/offside"));
 const GetQuestions = React.lazy(() => import("../pages/game/get-questions"));
-
+const LeaderboardPage = React.lazy(() => import("../pages/top10"));
 const router = createBrowserRouter([
   {
     path: "/",
@@ -194,6 +194,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <AdminDashboard />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/top-10",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <LeaderboardPage />{" "}
           </Suspense>
         ),
       },

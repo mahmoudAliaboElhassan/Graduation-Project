@@ -37,6 +37,11 @@ function UseInitialStates() {
     totalPoints: 0,
     loadingForgetPassword: false,
     loadingResetPassword: false,
+    loadingGetTopTen: false,
+    topTen: {
+      me: 0,
+      data: [],
+    },
   };
 
   const initialStateGame: InitialStateGame = {

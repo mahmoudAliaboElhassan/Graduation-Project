@@ -10,6 +10,7 @@ import {
   resetPassword,
   addPoints,
   changePassword,
+  getTopTen,
 } from "../act/actAuth";
 const { initialStateAuth } = UseInitialStates();
 
@@ -142,6 +143,16 @@ export const authSlice = createSlice({
       })
       .addCase(changePassword.rejected, (state, action) => {
         state.loadingChangePassword = false;
+      })
+      .addCase(getTopTen.pending, (state, action) => {
+        state.loadingGetTopTen = true;
+      })
+      .addCase(getTopTen.fulfilled, (state, action) => {
+        state.loadingGetTopTen = false;
+        state.topTen = action.payload;
+      })
+      .addCase(getTopTen.rejected, (state, action) => {
+        state.loadingGetTopTen = false;
       });
   },
 });

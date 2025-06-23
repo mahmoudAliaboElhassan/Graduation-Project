@@ -1,4 +1,5 @@
 import { string } from "yup";
+import { TopTenR } from "../dataResponse";
 
 export interface InitialStateMode {
   mymode: "dark" | "light";
@@ -29,6 +30,8 @@ export interface InitialStateAuth {
   totalPoints: number;
   loadingForgetPassword: boolean;
   loadingResetPassword: boolean;
+  loadingGetTopTen: boolean;
+  topTen: TopTenR;
 }
 
 type DifficultyDataQuestion = {

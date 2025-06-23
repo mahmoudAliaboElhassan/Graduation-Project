@@ -35,3 +35,13 @@ type DifficultyQuestion = {
 export type DifficultyResponse = DifficultyQuestion[];
 
 export type AnswerDifficultyR = boolean[];
+
+export interface PlayerScore {
+  name: string;
+  totalPoints: number;
+}
+
+export interface TopTenR {
+  me: number;
+  data: PlayerScore[];
+}

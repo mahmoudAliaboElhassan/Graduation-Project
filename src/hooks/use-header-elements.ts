@@ -1,11 +1,12 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Header } from "../utils/types/general";
-import { useAppDispatch } from "./redux";
+import { useAppDispatch, useAppSelector } from "./redux";
 import { logOut } from "../state/slices/auth";
 
 function UseHeaderElements() {
   const { t } = useTranslation();
+  const { token } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const notUserAuth: Header[] = [
     {
@@ -28,7 +29,7 @@ function UseHeaderElements() {
     },
   ];
 
-  const headerElements: Header[] = [
+  const header: Header[] = [
     {
       label: t("home"),
       href: "/",
@@ -41,7 +42,14 @@ function UseHeaderElements() {
       label: t("contact"),
       href: "/contacts",
     },
+    {
+      label: t("top10.title"),
+      href: "/top-10",
+    },
   ];
+
+  const headerElements = token ? header : header.slice(0, -1);
+
   return { userAuth, notUserAuth, headerElements };
 }
 

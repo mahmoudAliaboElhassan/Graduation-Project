@@ -461,5 +461,16 @@
       "success": "Answers submitted successfully!",
       "error": "An error occurred while submitting the answers"
     }
+  },
+
+  "top10": {
+    "title": "TOP 10",
+    "subtitle": "Top 10 Players",
+    "noData": "No data to display",
+    "you": "You",
+    "points": "points",
+    "rank": "Rank #{{number}}",
+    "remainingLeaders": "Other Leaders",
+    "yourPosition": "Your Current Position"
   }
 }
