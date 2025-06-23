@@ -1,3 +1,5 @@
+import { string } from "yup";
+
 export interface InitialStateMode {
   mymode: "dark" | "light";
 }
@@ -28,6 +30,12 @@ export interface InitialStateAuth {
   loadingForgetPassword: boolean;
   loadingResetPassword: boolean;
 }
+
+type DifficultyDataQuestion = {
+  question: string;
+  correctAnswer: string;
+  score: number;
+};
 export interface InitialStateGame {
   questionData: QuestionData;
   loadingGetQuestions: boolean;
@@ -36,6 +44,7 @@ export interface InitialStateGame {
   offsideCorrectAnswer: number[];
   rank: forLocalStorage;
   correct: boolean;
+  difficultyData: DifficultyDataQuestion[];
 }
 export type Question = {
   questionID: number;

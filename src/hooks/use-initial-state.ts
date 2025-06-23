@@ -50,6 +50,7 @@ function UseInitialStates() {
     offsideInformation: [],
     offsideCorrectAnswer: [],
     correct: false,
+    difficultyData: [],
   };
 
   const initialStateAdmin: initialStateAdmin = {

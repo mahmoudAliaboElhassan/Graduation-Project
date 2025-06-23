@@ -26,3 +26,12 @@ export interface ResponsePoints {
 export interface ResponseChapters {
   chapters: { name: string; number: number }[];
 }
+
+type DifficultyQuestion = {
+  question: string;
+  correctAnswer: string;
+  score: number;
+};
+export type DifficultyResponse = DifficultyQuestion[];
+
+export type AnswerDifficultyR = boolean[];

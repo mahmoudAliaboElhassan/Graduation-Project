@@ -42,3 +42,8 @@ export interface UserDataEntertainmentMakeQuestion {
   summary: string;
   game: string;
 }
+type answerQuestion = {
+  answer: string;
+  correctanswer: string;
+};
+export type AnswerDifficultyT = answerQuestion[];

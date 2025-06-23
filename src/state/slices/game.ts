@@ -7,6 +7,9 @@ import {
   getOffSideQuestions,
   getHintsEntertainment,
   getOffsideEntertainment,
+  getEducationDifficulty,
+  getEntertainmentDifficulty,
+  answerDifficulty,
 } from "../act/actGame";
 import { QuestionData } from "../../utils/types/initialState";
 const { initialStateGame } = UseInitialStates();
@@ -17,6 +20,9 @@ export const gameSlice = createSlice({
   reducers: {
     clearHintsData: (state) => {
       state.questionData = {} as QuestionData;
+    },
+    clearDifficultyData: (state) => {
+      state.difficultyData = [];
     },
     // handlelogOutState: (state) => {
     //   localStorage.removeItem("token");
@@ -106,11 +112,40 @@ export const gameSlice = createSlice({
       })
       .addCase(answerQuestion.rejected, (state, action) => {
         state.loadingAnswerQuestion = false;
+      })
+      .addCase(getEducationDifficulty.pending, (state, action) => {
+        state.loadingGetQuestions = true;
+      })
+      .addCase(getEducationDifficulty.fulfilled, (state, action) => {
+        state.loadingGetQuestions = false;
+        state.difficultyData = action.payload;
+      })
+      .addCase(getEducationDifficulty.rejected, (state, action) => {
+        state.loadingGetQuestions = false;
+      })
+      .addCase(getEntertainmentDifficulty.pending, (state, action) => {
+        state.loadingGetQuestions = true;
+      })
+      .addCase(getEntertainmentDifficulty.fulfilled, (state, action) => {
+        state.loadingGetQuestions = false;
+        state.difficultyData = action.payload;
+      })
+      .addCase(getEntertainmentDifficulty.rejected, (state, action) => {
+        state.loadingGetQuestions = false;
+      })
+      .addCase(answerDifficulty.pending, (state, action) => {
+        state.loadingAnswerQuestion = true;
+      })
+      .addCase(answerDifficulty.fulfilled, (state, action) => {
+        state.loadingAnswerQuestion = false;
+      })
+      .addCase(answerDifficulty.rejected, (state, action) => {
+        state.loadingAnswerQuestion = false;
       });
   },
 });
 
-export const { clearHintsData } = gameSlice.actions;
+export const { clearHintsData, clearDifficultyData } = gameSlice.actions;
 export default gameSlice.reducer;
 export {
   getHintsQuestions,
@@ -118,4 +153,5 @@ export {
   getOffSideQuestions,
   answerQuestion,
   getOffsideEntertainment,
+  getEducationDifficulty,
 };

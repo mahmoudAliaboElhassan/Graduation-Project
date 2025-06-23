@@ -319,15 +319,6 @@
       "informations": "أدخل 6 معلومات لسؤال الأوفسايد",
       "correctAnswers": "اختر أي معلومات صحيحة",
       "information": "أدخل معلومات صحيحة وخاطئة لاختبار المستخدم"
-
-
-
-
-
-
-
-
-
     },
     "labels": {
       "grade": "الصف",
@@ -425,5 +416,31 @@
   "question-journey-description": "في كل جولة هتوصلك ٦ أسئلة من الأسهل للأصعب — جاوب صح علشان تكسب!",
   "noQuestion": "لا يوجد سؤال متاح",
   "newQuestion": "سؤال جديد",
-  "exitGame": "إنهاء اللعبة"
+  "exitGame": "إنهاء اللعبة",
+  "difficulty": {
+    "title": "اختبار الصعوبة",
+    "description": "أجب على جميع الأسئلة واضغط إرسال",
+    "loading": "جاري تحميل الأسئلة...",
+    "submitting": "جاري الإرسال...",
+    "noQuestions": "لا توجد أسئلة متاحة حالياً",
+    "progress": "التقدم",
+    "totalScore": "مجموع النقاط",
+    "points": "نقطة",
+    "question": "السؤال",
+    "yourAnswer": "إجابتك",
+    "submitAnswers": "إرسال الإجابات",
+    "submissionComplete": "تم الإرسال!",
+    "readyForNewChallenge": "عمل رائع! هل أنت مستعد لتحدٍ جديد؟",
+    "getNewQuestions": "احصل على أسئلة جديدة",
+    "gettingNewQuestions": "جاري تحميل الأسئلة الجديدة...",
+    "fetchError": "حدث خطأ أثناء تحميل الأسئلة. يرجى المحاولة مرة أخرى.",
+    "validation": {
+      "answerRequired": "إجابة السؤال {{number}} مطلوبة"
+    },
+    "toast": {
+      "newQuestions": "تم تحميل الأسئلة الجديدة بنجاح!",
+      "success": "تم إرسال الإجابات بنجاح!",
+      "error": "حدث خطأ أثناء إرسال الإجابات"
+    }
+  }
 }
