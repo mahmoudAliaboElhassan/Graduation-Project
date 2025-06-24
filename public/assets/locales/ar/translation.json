@@ -465,5 +465,36 @@
     "rank": "المركز #{{number}}",
     "remainingLeaders": "باقي المتصدرين",
     "yourPosition": "موقعك الحالي"
+  },
+
+  "dashboard": "لوحة التحكم",
+  "addSubject": "إضافة مادة",
+  "addGrade": "إضافة صف",
+  "addChapter": "إضافة فصل",
+  "educationalQuestions": "أسئلة تعليمية",
+  "entertainmentQuestions": "أسئلة ترفيهية",
+  "common": {
+    "admin_panel": "لوحة الإدارة",
+    "admin_dashboard": "لوحة التحكم الإدارية",
+    "admin_user": "مستخدم إداري",
+    "administrator": "مدير النظام"
+  },
+  "menu": {
+    "dashboard": "لوحة التحكم",
+    "subjects": "المواد الدراسية",
+    "grades": "الصفوف الدراسية",
+    "chapters": "الفصول",
+    "questions": "الأسئلة",
+    "entertainment": "الترفيه",
+    "settings": "الإعدادات",
+    "manage_subjects": "إدارة المواد الدراسية",
+    "manage_grades": "إدارة الصفوف الدراسية",
+    "manage_chapters": "إدارة الفصول",
+    "manage_questions": "إدارة الأسئلة"
+  },
+  "welcome": {
+    "title": "مرحباً بك في لوحة التحكم الإدارية",
+    "subtitle": "إدارة منصتك التعليمية بسهولة",
+    "description": "اختر خياراً من الشريط الجانبي للبدء في إدارة المواد والصفوف والفصول والأسئلة."
   }
 }

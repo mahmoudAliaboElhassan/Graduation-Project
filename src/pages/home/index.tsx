@@ -14,14 +14,14 @@ import { LinkPlay } from "../../styles/games/five-hints";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 
 function HomePage() {
-   const isBigScreen = UseMediaQuery({ query: "(min-width: 700px)" });
+  const isBigScreen = UseMediaQuery({ query: "(min-width: 700px)" });
   const { t } = useTranslation();
   const { token, role } = useAppSelector((state) => state.auth);
 
   const { direction } = UseDirection();
 
   const dispatch = useAppDispatch();
- 
+
   return (
     <>
       <motion.div
@@ -48,7 +48,7 @@ function HomePage() {
           <IntroductorySection />
           {token && (
             <LinkPlay
-              to={role === "Admin" ? "admin-dashboard" : "games"}
+              to={role === "Admin" ? "admin" : "games"}
               dir={direction.direction}
             >
               {role === "Teacher"

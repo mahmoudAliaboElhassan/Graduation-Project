@@ -67,3 +67,10 @@ export interface CategoryEntertainmentGame {
   color: string;
   route: string;
 }
+export interface MenuItem {
+  text: string;
+  icon: string;
+  path: string;
+  badge?: string;
+  id: number;
+}

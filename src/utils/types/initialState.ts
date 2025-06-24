@@ -59,9 +59,19 @@ export type Question = {
   game: string;
   hints: string[];
 };
+export type EntertainmentQuestion = {
+  questionID: number;
+  question: string;
+  answer: string;
+  section: number;
+  summary: string;
+  game: string;
+  hints: string[];
+};
 
 export interface initialStateAdmin {
   questions: Question[];
   loadinGetQuestions: boolean;
   error: string | null;
+  EntertainmentQuestions: EntertainmentQuestion[];
 }

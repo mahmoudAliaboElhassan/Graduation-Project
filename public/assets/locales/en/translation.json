@@ -484,5 +484,36 @@
     "rank": "Rank #{{number}}",
     "remainingLeaders": "Other Leaders",
     "yourPosition": "Your Current Position"
+  },
+
+  "dashboard": "Dashboard",
+  "addSubject": "Add Subject",
+  "addGrade": "Add Grade",
+  "addChapter": "Add Chapter",
+  "educationalQuestions": "Educational Questions",
+  "entertainmentQuestions": "Entertainment Questions",
+  "common": {
+    "admin_panel": "Admin Panel",
+    "admin_dashboard": "Admin Dashboard",
+    "admin_user": "Admin User",
+    "administrator": "Administrator"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "subjects": "Subjects",
+    "grades": "Grades",
+    "chapters": "Chapters",
+    "questions": "Questions",
+    "entertainment": "Entertainment",
+    "settings": "Settings",
+    "manage_subjects": "Manage Subjects",
+    "manage_grades": "Manage Grades",
+    "manage_chapters": "Manage Chapters",
+    "manage_questions": "Manage Questions"
+  },
+  "welcome": {
+    "title": "Welcome to Admin Dashboard",
+    "subtitle": "Manage your educational platform with ease",
+    "description": "Select an option from the sidebar to get started with managing subjects, grades, chapters, and questions."
   }
 }

@@ -62,6 +62,7 @@ function UseInitialStates() {
     questions: [],
     loadinGetQuestions: false,
     error: null,
+    EntertainmentQuestions: [],
   };
   return {
     initialStateMode,

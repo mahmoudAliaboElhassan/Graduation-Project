@@ -2,11 +2,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import UseInitialStates from "../../hooks/use-initial-state";
 import {
-  getAllQuestions,
+  getEducationQuestions,
   approveQuestion,
   rejectQuestion,
+  getEntertainmentQuestions,
 } from "../act/actAdmin";
-import { Question } from "../../utils/types/initialState";
+import {
+  EntertainmentQuestion,
+  Question,
+} from "../../utils/types/initialState";
 
 const { initialStateAdmin } = UseInitialStates();
 
@@ -21,24 +25,37 @@ const adminSlice = createSlice({
   extraReducers: (builder) => {
     // Get all questions
     builder
-      .addCase(getAllQuestions.pending, (state) => {
+      .addCase(getEducationQuestions.pending, (state) => {
         state.loadinGetQuestions = true;
         state.error = null;
       })
       .addCase(
-        getAllQuestions.fulfilled,
+        getEducationQuestions.fulfilled,
         (state, action: PayloadAction<Question[]>) => {
           state.loadinGetQuestions = false;
           state.questions = action.payload;
         }
       )
-      .addCase(getAllQuestions.rejected, (state, action) => {
+      .addCase(getEducationQuestions.rejected, (state, action) => {
         state.loadinGetQuestions = false;
         state.error = action.payload as string;
-      });
+      })
+      .addCase(getEntertainmentQuestions.pending, (state) => {
+        state.loadinGetQuestions = true;
+        state.error = null;
+      })
+      .addCase(
+        getEntertainmentQuestions.fulfilled,
+        (state, action: PayloadAction<EntertainmentQuestion[]>) => {
+          state.loadinGetQuestions = false;
+          state.EntertainmentQuestions = action.payload;
+        }
+      )
+      .addCase(getEntertainmentQuestions.rejected, (state, action) => {
+        state.loadinGetQuestions = false;
+        state.error = action.payload as string;
+      })
 
-    // Approve question
-    builder
       .addCase(approveQuestion.pending, (state) => {
         state.error = null;
       })
@@ -50,10 +67,7 @@ const adminSlice = createSlice({
       })
       .addCase(approveQuestion.rejected, (state, action) => {
         state.error = action.payload as string;
-      });
-
-    // Reject question
-    builder
+      })
       .addCase(rejectQuestion.pending, (state) => {
         state.error = null;
       })
@@ -70,4 +84,4 @@ const adminSlice = createSlice({
 });
 
 export default adminSlice.reducer;
-export { getAllQuestions, approveQuestion, rejectQuestion };
+export { getEducationQuestions, approveQuestion, rejectQuestion };
