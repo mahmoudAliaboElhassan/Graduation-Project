@@ -130,6 +130,11 @@ function Offside() {
       document.removeEventListener("contextmenu", handleContextMenu);
     };
   }, [t]);
+  useEffect(() => {
+    return () => {
+      dispatch(clearOffsieData());
+    };
+  }, [dispatch]);
 
   return (
     <>
