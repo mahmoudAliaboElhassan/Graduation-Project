@@ -29,6 +29,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { makeEducationQuestions } from "../../../state/act/actGame";
 
 interface FormValues {
+  question: string;
   grade: string;
   chapterMakeQuestion: string;
   hint1: string;
@@ -46,6 +47,7 @@ interface MultiStepQuestionModalProps {
 }
 
 const INITIAL_FORM_STATE: FormValues = {
+  question: "",
   grade: "",
   chapterMakeQuestion: "",
   hint1: "",
@@ -58,6 +60,7 @@ const INITIAL_FORM_STATE: FormValues = {
 };
 
 const VALIDATION_SCHEMA = Yup.object({
+  question: Yup.string().required("Question is required"),
   grade: Yup.string().required("Grade is required"),
   chapterMakeQuestion: Yup.string().required("Chapter is required"),
   hint1: Yup.string().required("At least one hint is required"),
@@ -84,8 +87,9 @@ function MultiStepQuestionModal({
   const { grades } = UseGrades();
   const dispatch = useAppDispatch();
 
-  // Updated steps with summary text instead of attachment
+  // Updated steps with question as first step
   const steps = [
+    t("questionCreation.steps.enterQuestion"),
     t("questionCreation.steps.selectGrade"),
     t("questionCreation.steps.selectChapter"),
     t("questionCreation.steps.enterHints"),
@@ -126,11 +130,17 @@ function MultiStepQuestionModal({
     setErrors: (errors: Partial<FormikErrors<FormValues>>) => void
   ) => {
     // Validation for each step
-    if (activeStep === 0 && !values.grade) {
+    if (activeStep === 0 && !values.question.trim()) {
+      setTouched({ question: true });
+      setErrors({ question: t("questionCreation.errors.questionRequired") });
+      return;
+    }
+
+    if (activeStep === 1 && !values.grade) {
       setTouched({ grade: true });
       setErrors({ grade: t("questionCreation.errors.gradeRequired") });
       return;
-    } else if (activeStep === 0 && values.grade) {
+    } else if (activeStep === 1 && values.grade) {
       // Dispatch getChapters with grade and subject from Redux
       console.log(
         "Dispatching getChapters for grade:",
@@ -154,7 +164,7 @@ function MultiStepQuestionModal({
       }
     }
 
-    if (activeStep === 1 && !values.chapterMakeQuestion) {
+    if (activeStep === 2 && !values.chapterMakeQuestion) {
       setTouched({ chapterMakeQuestion: true });
       setErrors({
         chapterMakeQuestion: t("questionCreation.errors.chapterRequired"),
@@ -162,13 +172,13 @@ function MultiStepQuestionModal({
       return;
     }
 
-    if (activeStep === 2 && !values.hint1.trim()) {
+    if (activeStep === 3 && !values.hint1.trim()) {
       setTouched({ hint1: true });
       setErrors({ hint1: t("questionCreation.errors.hintsRequired") });
       return;
     }
 
-    if (activeStep === 3 && !values.correctAnswer.trim()) {
+    if (activeStep === 4 && !values.correctAnswer.trim()) {
       setTouched({ correctAnswer: true });
       setErrors({
         correctAnswer: t("questionCreation.errors.correctAnswerRequired"),
@@ -176,7 +186,7 @@ function MultiStepQuestionModal({
       return;
     }
 
-    if (activeStep === 4 && !values.summary.trim()) {
+    if (activeStep === 5 && !values.summary.trim()) {
       setTouched({ summary: true });
       setErrors({
         summary: t("questionCreation.errors.summaryRequired"),
@@ -206,6 +216,7 @@ function MultiStepQuestionModal({
 
       // Prepare data according to UserDataHintGameMakeQuestion interface
       const questionData = {
+        question: values.question, // Include the question field
         grade: Number.parseInt(values.grade),
         userId: Uid || "", // Get userId from Redux state
         chapter: values.chapterMakeQuestion,
@@ -216,10 +227,11 @@ function MultiStepQuestionModal({
 
       console.log("Submitting question data:", questionData);
 
-      // Dispatch the makeEducationQuestions action
+      // Dispatch the makeEducationQuestions action with the question field
       const result = await dispatch(
         makeEducationQuestions({
           userId: Uid || "",
+          question: values.question, // Add question to the dispatch
           grade: +values.grade,
           chapter: values.chapterMakeQuestion,
           hints,
@@ -457,7 +469,7 @@ function MultiStepQuestionModal({
           {({ values, setTouched, setErrors, setFieldValue }) => (
             <Form>
               <Box sx={{ minHeight: "300px", mb: 3 }}>
-                {/* Step 1: Select Grade */}
+                {/* Step 0: Enter Question */}
                 {activeStep === 0 && (
                   <Box>
                     <Typography
@@ -480,17 +492,17 @@ function MultiStepQuestionModal({
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      {t("questionCreation.descriptions.grade")}
+                      {t("questionCreation.descriptions.question")}
                     </Typography>
-                    <SelectComponent
-                      name="grade"
-                      options={grades}
-                      label={t("questionCreation.labels.grade")}
+                    <TextFieldWrapper
+                      name="question"
+                      label={t("questionCreation.labels.question")}
+                      type="text"
                     />
                   </Box>
                 )}
 
-                {/* Step 2: Select Chapter */}
+                {/* Step 1: Select Grade */}
                 {activeStep === 1 && (
                   <Box>
                     <Typography
@@ -502,6 +514,39 @@ function MultiStepQuestionModal({
                       }}
                     >
                       {steps[1]}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        mb: 3,
+                        color:
+                          mymode === "light"
+                            ? "rgba(0, 0, 0, 0.6)"
+                            : "rgba(255, 255, 255, 0.6)",
+                      }}
+                    >
+                      {t("questionCreation.descriptions.grade")}
+                    </Typography>
+                    <SelectComponent
+                      name="grade"
+                      options={grades}
+                      label={t("questionCreation.labels.grade")}
+                    />
+                  </Box>
+                )}
+
+                {/* Step 2: Select Chapter */}
+                {activeStep === 2 && (
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      sx={{
+                        color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {steps[2]}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -525,7 +570,7 @@ function MultiStepQuestionModal({
                 )}
 
                 {/* Step 3: Enter Hints */}
-                {activeStep === 2 && (
+                {activeStep === 3 && (
                   <Box>
                     <Typography
                       variant="h6"
@@ -535,7 +580,7 @@ function MultiStepQuestionModal({
                         fontWeight: "bold",
                       }}
                     >
-                      {steps[2]}
+                      {steps[3]}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -567,7 +612,7 @@ function MultiStepQuestionModal({
                 )}
 
                 {/* Step 4: Correct Answer */}
-                {activeStep === 3 && (
+                {activeStep === 4 && (
                   <Box>
                     <Typography
                       variant="h6"
@@ -577,7 +622,7 @@ function MultiStepQuestionModal({
                         fontWeight: "bold",
                       }}
                     >
-                      {steps[3]}
+                      {steps[4]}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -600,7 +645,7 @@ function MultiStepQuestionModal({
                 )}
 
                 {/* Step 5: Summary Text */}
-                {activeStep === 4 && (
+                {activeStep === 5 && (
                   <Box>
                     <Typography
                       variant="h6"
@@ -610,7 +655,7 @@ function MultiStepQuestionModal({
                         fontWeight: "bold",
                       }}
                     >
-                      {steps[4]}
+                      {steps[5]}
                     </Typography>
                     <Typography
                       variant="body2"

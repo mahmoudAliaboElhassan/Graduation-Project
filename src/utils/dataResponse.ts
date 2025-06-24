@@ -12,10 +12,14 @@ export interface LoginResponse {
 export interface getHintsResponse {
   correctAnswer: string;
   hints: string[];
+  question: string;
+  summary: string;
 }
 export interface getOffsideHints {
   correctAnswer: number[];
   information: string[];
+  question: string;
+  summary: string;
 }
 export interface ResponseSubject {
   subjects: string[];

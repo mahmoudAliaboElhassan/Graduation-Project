@@ -31,9 +31,14 @@ import { getTopTen } from "../../state/act/actAuth";
 import { useTranslation } from "react-i18next";
 
 // Types
-interface PlayerData {
+export interface PlayerScore {
   name: string;
   totalPoints: number;
+}
+
+export interface TopTenR {
+  me: number;
+  data: PlayerScore[];
 }
 
 // Styled components & animations
@@ -41,10 +46,12 @@ const pulse = keyframes`
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
 `;
+
 const shimmer = keyframes`
   0% { background-position: -200px 0; }
   100% { background-position: calc(200px + 100%) 0; }
 `;
+
 const MainContainer = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
   position: "relative",
@@ -59,6 +66,7 @@ const MainContainer = styled(Box)(({ theme }) => ({
   },
   zIndex: 0,
 }));
+
 const HeaderCard = styled(Paper)(({ theme }) => ({
   background: `linear-gradient(45deg, ${alpha(
     theme.palette.common.white,
@@ -86,6 +94,7 @@ const HeaderCard = styled(Paper)(({ theme }) => ({
     animation: `${shimmer} 3s infinite`,
   },
 }));
+
 const TopPlayerCard = styled(Card)<{ rank: number }>(({ theme, rank }) => {
   const getGradient = () => {
     switch (rank) {
@@ -123,6 +132,7 @@ const TopPlayerCard = styled(Card)<{ rank: number }>(({ theme, rank }) => {
     },
   };
 });
+
 const RankBadge = styled(Avatar)<{ rank: number }>(({ theme, rank }) => {
   const getColors = () => {
     switch (rank) {
@@ -165,6 +175,7 @@ const RankBadge = styled(Avatar)<{ rank: number }>(({ theme, rank }) => {
     animation: `${pulse} 2s infinite`,
   };
 });
+
 const PlayerRow = styled(Paper)<{ rank: number; isCurrentUser?: boolean }>(
   ({ theme, rank, isCurrentUser }) => ({
     background: isCurrentUser
@@ -187,6 +198,7 @@ const PlayerRow = styled(Paper)<{ rank: number; isCurrentUser?: boolean }>(
     },
   })
 );
+
 const PointsDisplay = styled(Typography)(({ theme }) => ({
   fontWeight: "bold",
   background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
@@ -221,15 +233,17 @@ const getRankIcon = (rank: number): JSX.Element => {
       );
   }
 };
+
 const formatPoints = (points: number): string => points.toLocaleString();
 
 // Sub-components
 interface TopPlayerCardProps {
-  player: PlayerData;
+  player: PlayerScore;
   rank: number;
   isCurrentUser: boolean;
   delay: number;
 }
+
 const TopPlayerCardComponent: React.FC<TopPlayerCardProps> = ({
   player,
   rank,
@@ -287,11 +301,12 @@ const TopPlayerCardComponent: React.FC<TopPlayerCardProps> = ({
 };
 
 interface PlayerRowProps {
-  player: PlayerData;
+  player: PlayerScore;
   rank: number;
   isCurrentUser: boolean;
   delay: number;
 }
+
 const PlayerRowComponent: React.FC<PlayerRowProps> = ({
   player,
   rank,
@@ -411,10 +426,14 @@ const Top10LeaderboardPage: React.FC = () => {
     dispatch(getTopTen());
   }, [dispatch]);
 
-  const isCurrentUser = (index: number) => index === topTen?.me;
-  const hasData = topTen?.data.length > 0;
-  const topThree = hasData ? topTen.data.slice(0, 3) : [];
-  const remainingPlayers = hasData ? topTen.data.slice(3) : [];
+  // Type-safe helper functions
+  const isCurrentUser = (index: number): boolean => {
+    return topTen?.me - 1 === index;
+  };
+
+  const hasData = Boolean(topTen?.data && topTen.data.length > 0);
+  const topThree = hasData ? topTen!.data.slice(0, 3) : [];
+  const remainingPlayers = hasData ? topTen!.data.slice(3) : [];
 
   if (loadingGetTopTen) {
     return (
@@ -570,6 +589,7 @@ const Top10LeaderboardPage: React.FC = () => {
             )}
 
             {topTen?.me !== undefined &&
+              topTen.me >= 0 &&
               topTen.me < 10 &&
               topTen.data[topTen.me] && (
                 <Zoom in timeout={1500}>
@@ -599,11 +619,11 @@ const Top10LeaderboardPage: React.FC = () => {
                       </Typography>
                     </Stack>
                     <Typography variant="h2" sx={{ fontWeight: "bold", mb: 1 }}>
-                      #{topTen.me + 1}
+                      #{topTen.me}
                     </Typography>
                     <Typography variant="h6">
-                      {topTen.data[topTen.me].name} •{" "}
-                      {formatPoints(topTen.data[topTen.me].totalPoints)}{" "}
+                      {topTen.data[topTen.me - 1].name} •{" "}
+                      {formatPoints(topTen.data[topTen.me - 1].totalPoints)}{" "}
                       {t("top10.points")}
                     </Typography>
                   </Paper>

@@ -35,9 +35,8 @@ function Offside() {
   const { t } = useTranslation();
   const { grade } = useAppSelector((state) => state.auth);
   const { mymode } = useAppSelector((state) => state.mode);
-  const { offsideInformation, loadingGetQuestions } = useAppSelector(
-    (state) => state.game
-  );
+  const { offsideInformation, loadingGetQuestions, question, summary } =
+    useAppSelector((state) => state.game);
 
   const [disabledFields, setDisabledFields] = useState<Record<string, boolean>>(
     {}
@@ -163,6 +162,13 @@ function Offside() {
             initialValues={{ ...INITIAL_FORM_STATE_OFFSIDE_GAME }}
             validationSchema={FORM_VALIDATION_OFFSIDE_GAME}
             onSubmit={(values, { setFieldValue }) => {
+              Swal.fire({
+                title: t("summary", "Summary"),
+                text: summary,
+                icon: "info",
+                confirmButtonText: t("ok", "حسنًا"),
+              });
+
               if (categoryGame === "education") {
                 // For education category, dispatch addPoints
                 dispatch(addPoints({ points: totalPoints }))
@@ -225,6 +231,7 @@ function Offside() {
             {({ isValid, dirty }) => (
               <Form>
                 <Grid container spacing={2} sx={{ mb: 2 }}>
+                  <Hint size={{ xs: 12 }}>{question}</Hint>
                   {offsideInformation.map((info, index) => {
                     const fieldName = `question${index + 1}`;
                     return (

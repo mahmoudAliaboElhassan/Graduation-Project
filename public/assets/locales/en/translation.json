@@ -190,7 +190,8 @@
       "enterHints": "Enter Hints",
       "correctAnswer": "Correct Answer",
       "enterInformations": "Enter Informations",
-      "enterQuestions": " Enter Questions",
+      "enterQuestions": "Enter Questions",
+      "enterQuestion": "Enter Question",
       "summary": "Summary",
       "question": "Enter Question",
       "answer": "Enter Answer",
@@ -250,6 +251,14 @@
     }
   },
   "admin": {
+    "education": {
+      "title": "Educational Questions",
+      "description": "Manage and review educational questions submitted by users."
+    },
+    "entertainment": {
+      "title": "Entertainment Questions",
+      "description": "Manage and review entertainment questions submitted by users."
+    },
     "dashboard": {
       "title": "Admin Dashboard",
       "description": "Review and manage educational questions submitted by teachers"
@@ -298,6 +307,7 @@
     "pageDescription": "Create engaging offside questions with 6 pieces of information and mark which ones are correct.",
     "title": "Create Offside Question",
     "steps": {
+      "question": "Enter Question",
       "selectGrade": "Select Grade",
       "selectChapter": "Select Chapter",
       "enterInformations": "Enter Informations",
@@ -313,6 +323,7 @@
     "labels": {
       "grade": "Grade",
       "chapter": "Chapter",
+      "question": "Question",
       "information": "Information",
       "correctAnswer": "This information is correct"
     },
@@ -426,7 +437,7 @@
   "change-password-error-message": "An error occurred while changing the password. Please try again.",
 
   "answered-false": "Incorrect Answer",
-  "incorrect-answer-with-correct": "Your answer is incorrect.<br><strong>The correct answer is: {{correctAnswer}}</strong>",
+  "incorrect-answer-with-correct": "<h3>{{summary}}</h3><br><strong>The correct answer is: {{correctAnswer}}</strong>",
   "session-expired": "Your session has expired. Please log in again.",
   "session-expiring-soon": "Your session will expire soon. Please save your work.",
   "token-expired-log": "Token expired - triggering logout",
@@ -515,5 +526,8 @@
     "title": "Welcome to Admin Dashboard",
     "subtitle": "Manage your educational platform with ease",
     "description": "Select an option from the sidebar to get started with managing subjects, grades, chapters, and questions."
-  }
+  },
+
+  "educational-summary-title": "Educational Summary",
+  "entertainment-summary-message": "Did you know? {{summary}}"
 }

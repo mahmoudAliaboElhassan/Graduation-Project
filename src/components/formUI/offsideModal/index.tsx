@@ -31,6 +31,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { makeEducationQuestions } from "../../../state/act/actGame";
 
 interface FormValues {
+  question: string;
   grade: string;
   chapterMakeQuestion: string;
   information1: string;
@@ -49,6 +50,7 @@ interface MultiStepOffsideModalProps {
 }
 
 const INITIAL_FORM_STATE: FormValues = {
+  question: "",
   grade: "",
   chapterMakeQuestion: "",
   information1: "",
@@ -62,6 +64,7 @@ const INITIAL_FORM_STATE: FormValues = {
 };
 
 const VALIDATION_SCHEMA = Yup.object({
+  question: Yup.string().required("Question is required"),
   grade: Yup.string().required("Grade is required"),
   chapterMakeQuestion: Yup.string().required("Chapter is required"),
   information1: Yup.string().required("Information 1 is required"),
@@ -91,11 +94,12 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
   const dispatch = useAppDispatch();
 
   const steps = [
+    t("offsideCreation.steps.question") || "Enter Question",
     t("offsideCreation.steps.selectGrade") || "Select Grade",
     t("offsideCreation.steps.selectChapter") || "Select Chapter",
     t("offsideCreation.steps.enterInformations") || "Enter Informations",
     t("offsideCreation.steps.selectCorrect") || "Select Correct Answers",
-    t("questionCreation.steps.summary"),
+    t("questionCreation.steps.summary") || "Summary",
   ];
 
   // Theme-based styling
@@ -130,13 +134,23 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
     setErrors: (errors: Partial<FormikErrors<FormValues>>) => void
   ) => {
     // Validation for each step
-    if (activeStep === 0 && !values.grade) {
+    if (activeStep === 0 && !values.question.trim()) {
+      setTouched({ question: true });
+      setErrors({
+        question:
+          t("offsideCreation.errors.questionRequired") ||
+          "Question is required",
+      });
+      return;
+    }
+
+    if (activeStep === 1 && !values.grade) {
       setTouched({ grade: true });
       setErrors({
         grade: t("offsideCreation.errors.gradeRequired") || "Grade is required",
       });
       return;
-    } else if (activeStep === 0 && values.grade) {
+    } else if (activeStep === 1 && values.grade) {
       setIsLoadingChapters(true);
       try {
         await dispatch(
@@ -156,7 +170,7 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
       }
     }
 
-    if (activeStep === 1 && !values.chapterMakeQuestion) {
+    if (activeStep === 2 && !values.chapterMakeQuestion) {
       setTouched({ chapterMakeQuestion: true });
       setErrors({
         chapterMakeQuestion:
@@ -165,7 +179,7 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
       return;
     }
 
-    if (activeStep === 2) {
+    if (activeStep === 3) {
       const informations = [
         values.information1,
         values.information2,
@@ -186,7 +200,7 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
       }
     }
 
-    if (activeStep === 3 && values.correctAnswers.length === 0) {
+    if (activeStep === 4 && values.correctAnswers.length === 0) {
       setErrors({
         correctAnswers:
           t("offsideCreation.errors.correctAnswersRequired") ||
@@ -194,10 +208,11 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
       });
       return;
     }
-    if (activeStep === 4 && !values.summary.trim()) {
+    if (activeStep === 5 && !values.summary.trim()) {
       setTouched({ summary: true });
       setErrors({
-        summary: t("questionCreation.errors.summaryRequired"),
+        summary:
+          t("questionCreation.errors.summaryRequired") || "Summary is required",
       });
       return;
     }
@@ -236,6 +251,7 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
 
       const questionData = {
         userId: Uid || "",
+        question: values.question,
         grade: Number.parseInt(values.grade),
         chapter: values.chapterMakeQuestion,
         hints: informations,
@@ -245,7 +261,6 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
       };
 
       console.log("Submitting offside question data:", questionData);
-      console.log("Submitting question data:", questionData);
 
       // Dispatch the makeFiveHintsQuestion action
       const result = await dispatch(makeEducationQuestions(questionData));
@@ -254,14 +269,18 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
         console.log("Question created successfully:", result.payload);
 
         // Show success toast
-        toast.success(t("offsideCreation.toast.success"), {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
+        toast.success(
+          t("offsideCreation.toast.success") ||
+            "Question created successfully!",
+          {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          }
+        );
 
         // Reset form and close modal after a short delay
         setTimeout(() => {
@@ -273,31 +292,38 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
         console.error("Failed to create question:", result.payload);
 
         // Show error toast
-        toast.error(t("offsideCreation.toast.error"), {
+        toast.error(
+          t("offsideCreation.toast.error") || "Failed to create question",
+          {
+            position: "top-center",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Error creating question:", error);
+
+      // Show error toast
+      toast.error(
+        t("offsideCreation.toast.error") || "Error creating question",
+        {
           position: "top-center",
           autoClose: 4000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-        });
-      }
-    } catch (error) {
-      console.error("Error creating question:", error);
-
-      // Show error toast
-      toast.error(t("offsideCreation.toast.error"), {
-        position: "top-center",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+        }
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
+
   return (
     <Modal
       open={open}
@@ -477,7 +503,7 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
           {({ values, setTouched, setErrors, setFieldValue }) => (
             <Form>
               <Box sx={{ minHeight: "300px", mb: 3 }}>
-                {/* Step 1: Select Grade */}
+                {/* Step 0: Enter Question */}
                 {activeStep === 0 && (
                   <Box>
                     <Typography
@@ -500,17 +526,18 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      {t("offsideCreation.descriptions.grade") ||
-                        "Select the grade level for this offside question"}
+                      {t("offsideCreation.descriptions.question") ||
+                        "Enter the main question for this offside game"}
                     </Typography>
-                    <SelectComponent
-                      name="grade"
-                      options={grades}
-                      label={t("offsideCreation.labels.grade") || "Grade"}
+                    <TextFieldWrapper
+                      name="question"
+                      label={t("offsideCreation.labels.question") || "Question"}
+                      type="text"
                     />
                   </Box>
                 )}
-                {/* Step 2: Select Chapter */}
+
+                {/* Step 1: Select Grade */}
                 {activeStep === 1 && (
                   <Box>
                     <Typography
@@ -533,18 +560,18 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      {t("offsideCreation.descriptions.chapter") ||
-                        "Select the chapter for this offside question"}
+                      {t("offsideCreation.descriptions.grade") ||
+                        "Select the grade level for this offside question"}
                     </Typography>
                     <SelectComponent
-                      name="chapterMakeQuestion"
-                      options={chapters}
-                      label={t("offsideCreation.labels.chapter") || "Chapter"}
-                      disabled={isLoadingChapters}
+                      name="grade"
+                      options={grades}
+                      label={t("offsideCreation.labels.grade") || "Grade"}
                     />
                   </Box>
                 )}
-                {/* Step 3: Enter Informations */}
+
+                {/* Step 2: Select Chapter */}
                 {activeStep === 2 && (
                   <Box>
                     <Typography
@@ -556,6 +583,41 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                       }}
                     >
                       {steps[2]}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        mb: 3,
+                        color:
+                          mymode === "light"
+                            ? "rgba(0, 0, 0, 0.6)"
+                            : "rgba(255, 255, 255, 0.6)",
+                      }}
+                    >
+                      {t("offsideCreation.descriptions.chapter") ||
+                        "Select the chapter for this offside question"}
+                    </Typography>
+                    <SelectComponent
+                      name="chapterMakeQuestion"
+                      options={chapters}
+                      label={t("offsideCreation.labels.chapter") || "Chapter"}
+                      disabled={isLoadingChapters}
+                    />
+                  </Box>
+                )}
+
+                {/* Step 3: Enter Informations */}
+                {activeStep === 3 && (
+                  <Box>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      sx={{
+                        color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {steps[3]}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -589,8 +651,9 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                     </Box>
                   </Box>
                 )}
+
                 {/* Step 4: Select Correct Answers */}
-                {activeStep === 3 && (
+                {activeStep === 4 && (
                   <Box>
                     <Typography
                       variant="h6"
@@ -600,7 +663,7 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                         fontWeight: "bold",
                       }}
                     >
-                      {steps[3]}
+                      {steps[4]}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -677,9 +740,10 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                       })}
                     </Box>
                   </Box>
-                )}{" "}
-                {/* step 5: Enter Summary */}
-                {activeStep === 4 && (
+                )}
+
+                {/* Step 5: Enter Summary */}
+                {activeStep === 5 && (
                   <Box>
                     <Typography
                       variant="h6"
@@ -689,7 +753,7 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                         fontWeight: "bold",
                       }}
                     >
-                      {steps[4]}
+                      {steps[5]}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -701,11 +765,12 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      {t("questionCreation.descriptions.summary")}
+                      {t("questionCreation.descriptions.summary") ||
+                        "Enter a summary for this question"}
                     </Typography>
                     <TextFieldWrapper
                       name="summary"
-                      label={t("questionCreation.labels.summary")}
+                      label={t("questionCreation.labels.summary") || "Summary"}
                       type="text"
                     />
                   </Box>

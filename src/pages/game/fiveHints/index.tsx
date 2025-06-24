@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import { motion } from "framer-motion";
-import { Container, TextField, Typography, Button, Box } from "@mui/material";
+import {
+  Container,
+  TextField,
+  Typography,
+  Button,
+  Box,
+  Card,
+  CardContent,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import { ExitToApp } from "@mui/icons-material";
+import { alpha, useTheme } from "@mui/material/styles";
 
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import {
@@ -19,8 +28,13 @@ import withGuard from "../../../utils/withGuard";
 function FiveHints() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { questionData, loadingGetQuestions, loadingAnswerQuestion } =
-    useAppSelector((state) => state.game);
+  const {
+    questionData,
+    loadingGetQuestions,
+    loadingAnswerQuestion,
+    question,
+    summary,
+  } = useAppSelector((state) => state.game);
   const [second, setSecond] = useState<number>(0);
   const HINTTIME = 10;
   const [noOfHints, setNoOfHints] = useState<number>(0);
@@ -51,6 +65,7 @@ function FiveHints() {
           })
         );
   };
+  const theme = useTheme();
 
   const handleExitGame = () => {
     // Clear game data before navigating
@@ -147,6 +162,30 @@ function FiveHints() {
         </Box>
 
         <Timer timeExceeded={second > 4 * HINTTIME}>{second}</Timer>
+        <Card
+          elevation={4}
+          sx={{
+            backgroundColor: "#eee",
+            borderRadius: 3,
+            boxShadow: `0 8px 24px ${alpha(theme.palette.primary.main, 0.15)}`,
+            p: 3,
+            mb: 4,
+            maxWidth: "800px",
+            mx: "auto",
+          }}
+        >
+          <CardContent>
+            <Typography
+              variant="h5"
+              fontWeight={700}
+              align="center"
+              color="black"
+              gutterBottom
+            >
+              {question}
+            </Typography>
+          </CardContent>
+        </Card>
 
         <Grid container spacing={2} sx={{ mb: 2 }}>
           {loadingGetQuestions || showNewQuestionButton ? (

@@ -20,13 +20,19 @@ export const gameSlice = createSlice({
   reducers: {
     clearHintsData: (state) => {
       state.questionData = {} as QuestionData;
+      state.question = "";
+      state.summary = "";
     },
     clearDifficultyData: (state) => {
       state.difficultyData = [];
+      state.question = "";
+      state.summary = "";
     },
     clearOffsieData: (state) => {
       state.offsideInformation = [];
       state.offsideCorrectAnswer = [];
+      state.question = "";
+      state.summary = "";
     },
     // handlelogOutState: (state) => {
     //   localStorage.removeItem("token");
@@ -47,6 +53,8 @@ export const gameSlice = createSlice({
         state.loadingGetQuestions = true;
       })
       .addCase(getHintsQuestions.fulfilled, (state, action) => {
+        state.question = action.payload.question;
+        state.summary = action.payload.summary;
         state.loadingGetQuestions = false;
         state.questionData = action.payload as {} as QuestionData;
         console.log("action.payload");
@@ -67,6 +75,8 @@ export const gameSlice = createSlice({
         state.loadingGetQuestions = true;
       })
       .addCase(getHintsEntertainment.fulfilled, (state, action) => {
+        state.question = action.payload.question;
+        state.summary = action.payload.summary;
         state.loadingGetQuestions = false;
         state.questionData = action.payload as {} as QuestionData;
         console.log("action.payload");
@@ -88,6 +98,8 @@ export const gameSlice = createSlice({
         state.loadingGetQuestions = true;
       })
       .addCase(getOffSideQuestions.fulfilled, (state, action) => {
+        state.question = action.payload.question;
+        state.summary = action.payload.summary;
         state.loadingGetQuestions = false;
         state.offsideInformation = action.payload.information;
         state.offsideCorrectAnswer = action.payload.correctAnswer;
@@ -99,6 +111,8 @@ export const gameSlice = createSlice({
         state.loadingGetQuestions = true;
       })
       .addCase(getOffsideEntertainment.fulfilled, (state, action) => {
+        state.question = action.payload.question;
+        state.summary = action.payload.summary;
         state.loadingGetQuestions = false;
         state.offsideInformation = action.payload.information;
         state.offsideCorrectAnswer = action.payload.correctAnswer;

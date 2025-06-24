@@ -200,7 +200,6 @@ const EntertainmentQuestions = () => {
     setPage(0);
   };
 
-  // Theme-based styling
   const paperStyle = {
     backgroundColor:
       mymode === "light"
@@ -305,7 +304,7 @@ const EntertainmentQuestions = () => {
       )}
 
       {/* Filters and Search */}
-      <Paper sx={{ mb: 3, ...paperStyle }}>
+      <Paper sx={{ mb: 3, mt: 9, ...paperStyle }}>
         <Toolbar sx={{ flexWrap: "wrap", gap: 2, py: 2 }}>
           <TextField
             size="small"

@@ -28,6 +28,7 @@ export interface Grade {
 }
 export interface UserDataEducationMakeQuestion {
   grade: number;
+  question: string;
   userId: string;
   chapter: string;
   answer: string;

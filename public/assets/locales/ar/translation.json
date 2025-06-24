@@ -172,6 +172,7 @@
       "enterHints": "أدخل التلميحات",
       "enterInformations": "أدخل المعلومات",
       "enterQuestions": "أدخل الأسئله",
+      "enterQuestion": "أدخل السؤال",
       "correctAnswer": "الإجابة الصحيحة",
       "summary": "الملخص",
       "question": "أدخل السؤال",
@@ -261,6 +262,14 @@
   },
   "create-question-now": "أنشئ السؤال الآن",
   "admin": {
+    "education": {
+      "title": "أسئلة تعليمية",
+      "description": "إدارة ومراجعة الأسئلة التعليمية المُقدمة من المستخدمين."
+    },
+    "entertainment": {
+      "title": "أسئلة ترفيهية",
+      "description": "إدارة ومراجعة الأسئلة الترفيهية المُقدمة من المستخدمين."
+    },
     "dashboard": {
       "title": "لوحة تحكم الإدارة",
       "description": "مراجعة وإدارة الأسئلة التعليمية المقدمة من المعلمين"
@@ -310,6 +319,7 @@
     "title": "إنشاء سؤال أوفسايد",
     "steps": {
       "selectGrade": "اختر الصف",
+      "question": "أدخل السؤال",
       "selectChapter": "اختر الفصل",
       "enterInformations": "أدخل المعلومات",
       "selectCorrect": "اختر الإجابات الصحيحة"
@@ -317,6 +327,7 @@
     "descriptions": {
       "question": "أدخل السؤال الرئيسي للعبه الأوفسايد",
       "grade": "اختر مستوى الصف لسؤال الأوفسايد ده",
+
       "chapter": "اختر الفصل لسؤال الأوفسايد ده",
       "informations": "أدخل 6 معلومات لسؤال الأوفسايد",
       "correctAnswers": "اختر أي معلومات صحيحة",
@@ -325,6 +336,7 @@
     "labels": {
       "grade": "الصف",
       "chapter": "الفصل",
+      "question": "السؤال",
       "information": "معلومة",
       "correctAnswer": "المعلومة دي صحيحة"
     },
@@ -409,7 +421,7 @@
   "change-password-error-title": "فشل في تغيير كلمة المرور",
   "change-password-error-message": "حدث خطأ أثناء تغيير كلمة المرور. يرجى المحاولة مرة أخرى.",
   "answered-false": "إجابة خاطئة",
-  "incorrect-answer-with-correct": "إجابتك خاطئة.<br><strong>الإجابة الصحيحة هي: {{correctAnswer}}</strong>",
+  "incorrect-answer-with-correct": "<h3>{{summary}}</h3><br><strong>الإجابة الصحيحة هي: {{correctAnswer}}</strong>",
   "session-expired": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى.",
   "session-expiring-soon": "ستنتهي صلاحية جلستك قريباً. يرجى حفظ عملك.",
   "token-expired-log": "انتهت صلاحية الرمز المميز - تسجيل الخروج",
@@ -496,5 +508,7 @@
     "title": "مرحباً بك في لوحة التحكم الإدارية",
     "subtitle": "إدارة منصتك التعليمية بسهولة",
     "description": "اختر خياراً من الشريط الجانبي للبدء في إدارة المواد والصفوف والفصول والأسئلة."
-  }
+  },
+  "educational-summary-title": "ملخص تعليمي",
+  "entertainment-summary-message": "هل كنت تعلم؟ {{summary}}"
 }

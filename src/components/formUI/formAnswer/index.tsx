@@ -32,7 +32,9 @@ const POINTS_DELAY_MS = 1500;
 function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
   const { INITIAL_FORM_STATE_ANSWER_QUESTION } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_ANSWER_QUESTION } = UseFormValidation();
-  const { questionData, correct } = useAppSelector((state) => state.game);
+  const { questionData, correct, summary } = useAppSelector(
+    (state) => state.game
+  );
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -89,14 +91,13 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
 
   const handleIncorrectAnswer = useCallback(() => {
     Swal.fire({
-      title: t("answered-false", "Incorrect Answer"),
-      html: t(
-        "incorrect-answer-with-correct",
-        "Your answer is incorrect.<br><strong>The correct answer is: {{correctAnswer}}</strong>",
-        { correctAnswer: questionData.correctAnswer }
-      ),
+      title: t("answered-false", "إجابة خاطئة"),
+      html: t("incorrect-answer-with-correct", {
+        correctAnswer: questionData.correctAnswer,
+        summary: summary || "",
+      }),
       icon: "error",
-      confirmButtonText: t("ok", "OK"),
+      confirmButtonText: t("ok", "حسنًا"),
     });
   }, [t, questionData.correctAnswer]);
 
@@ -129,6 +130,26 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
 
           if (res) {
             handleCorrectAnswer();
+            if (summary) {
+              if (categoryGame === "education") {
+                Swal.fire({
+                  icon: "info",
+                  title: t("educational-summary-title", "Educational Summary"),
+                  text: summary,
+                  confirmButtonText: t("ok", "OK"),
+                });
+              } else {
+                toast.info(
+                  t(
+                    "entertainment-summary-message",
+                    "Did you know? {{summary}}",
+                    {
+                      summary,
+                    }
+                  )
+                );
+              }
+            }
           } else {
             handleIncorrectAnswer();
           }

@@ -48,6 +48,8 @@ export interface InitialStateGame {
   rank: forLocalStorage;
   correct: boolean;
   difficultyData: DifficultyDataQuestion[];
+  question: string;
+  summary: string;
 }
 export type Question = {
   questionID: number;
