@@ -553,5 +553,6 @@
   "name-required": "Subject name is required",
   "image-required": "Subject image is required",
   "invalid-file-type": "Please select a valid image file",
-  "file-too-large": "Image size should be less than 5MB"
+  "file-too-large": "Image size should be less than 5MB",
+  "create-question-now": "Create Question Now"
 }

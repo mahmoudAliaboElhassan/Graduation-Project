@@ -33,6 +33,7 @@ import Swal from "sweetalert2";
 import { addSubject } from "../../../state/act/actAdmin";
 import UseInitialValues from "../../../hooks/use-initial-values";
 import UseFormValidation from "../../../hooks/use-form-validation";
+import UseDirection from "../../../hooks/use-direction";
 
 interface FormValues {
   name: string;
@@ -59,6 +60,7 @@ export default function AddSubject() {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
+  const { direction } = UseDirection();
 
   return (
     <>
@@ -137,7 +139,7 @@ export default function AddSubject() {
                           variant="subtitle1"
                           gutterBottom
                           color="text.secondary"
-                          sx={{ mb: 2 }}
+                          sx={{ mb: 2, color: "white" }}
                         >
                           {t("subject-image") || "Subject Image"} *
                         </Typography>
@@ -159,11 +161,14 @@ export default function AddSubject() {
                           direction="row"
                           spacing={2}
                           alignItems="center"
-                          sx={{ mb: 2 }}
+                          sx={{
+                            mb: 4,
+                            width: "fit-content",
+                            margin: "auto",
+                          }}
                         >
                           <Button
                             variant="outlined"
-                            startIcon={<CloudUploadIcon />}
                             onClick={handleFileUpload}
                             disabled={isSubmitting}
                             sx={{
@@ -173,7 +178,10 @@ export default function AddSubject() {
                               px: 3,
                             }}
                           >
-                            {t("choose-image") || "Choose Image"}
+                            <CloudUploadIcon fontSize="large" />
+                            <span style={{ [direction.marginLeft]: "6px" }}>
+                              {t("choose-image") || "Choose Image"}
+                            </span>
                           </Button>
 
                           <IconButton
@@ -189,7 +197,7 @@ export default function AddSubject() {
                               },
                             }}
                           >
-                            <PhotoCameraIcon />
+                            <PhotoCameraIcon fontSize="large" />
                           </IconButton>
                         </Stack>
 
@@ -242,19 +250,20 @@ export default function AddSubject() {
                                 }}
                                 disabled={isSubmitting}
                               >
-                                <DeleteIcon />
+                                <DeleteIcon fontSize="medium" />
                               </IconButton>
                             </Stack>
                           </Box>
                         )}
                       </Grid>
                     </Grid>
-
-                    <ButtonWrapper disabled={isSubmitting}>
-                      {isSubmitting
-                        ? t("adding-subject") || "Adding Subject..."
-                        : t("add-subject") || "Add Subject"}
-                    </ButtonWrapper>
+                    <div style={{ marginTop: "8px" }}>
+                      <ButtonWrapper disabled={isSubmitting}>
+                        {isSubmitting
+                          ? t("adding-subject") || "Adding Subject..."
+                          : t("add-subject") || "Add Subject"}
+                      </ButtonWrapper>
+                    </div>
                   </FormWrapper>
                 </Form>
               </motion.div>
