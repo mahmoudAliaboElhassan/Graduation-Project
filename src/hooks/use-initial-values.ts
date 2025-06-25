@@ -9,6 +9,7 @@ import {
   InitialValuesOffsideGame,
   InitialValuesForgetPassword,
   InitialValuesResetPassword,
+  InitialValuesAddGrade,
 } from "../utils/types/initialValues";
 
 function UseInitialValues() {
@@ -56,6 +57,9 @@ function UseInitialValues() {
   const INITIAL_FORM_STATE_RESET_PASSWORD: InitialValuesResetPassword = {
     password: "",
   };
+  const INITIAL_FORM_STATE_ADD_GRADE: InitialValuesAddGrade = {
+    grade: "",
+  };
   return {
     INITIAL_FORM_STATE_SIGNUP,
     INITIAL_FORM_STATE_LOGIN,
@@ -66,6 +70,7 @@ function UseInitialValues() {
     INITIAL_FORM_STATE_OFFSIDE_GAME,
     INITIAL_FORM_STATE_FORGET_PASSWORD,
     INITIAL_FORM_STATE_RESET_PASSWORD,
+    INITIAL_FORM_STATE_ADD_GRADE,
   };
 }
 

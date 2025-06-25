@@ -42,3 +42,6 @@ export interface InitialValuesForgetPassword {
 export interface InitialValuesResetPassword {
   password: string;
 }
+export interface InitialValuesAddGrade {
+  grade: string;
+}

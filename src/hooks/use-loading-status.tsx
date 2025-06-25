@@ -11,6 +11,11 @@ function UseLoadingStatus() {
   const { loadingGetQuestions, loadingAnswerQuestion } = useAppSelector(
     (state) => state.game
   );
+
+  const { loadingAddGrade, loadingAddSubject } = useAppSelector(
+    (state) => state.admin
+  );
+
   const loadingStatus =
     loadingAuth ||
     loadingGetQuestions ||
@@ -18,6 +23,8 @@ function UseLoadingStatus() {
     loadingResetPassword ||
     loadingForgetPassword ||
     loadingAddPoints ||
+    loadingAddGrade ||
+    loadingAddSubject ||
     loadingChangePassword;
   return Boolean(loadingStatus);
 }

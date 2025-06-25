@@ -80,6 +80,8 @@ export type EntertainmentQuestion = {
 export interface initialStateAdmin {
   questions: Question[];
   loadinGetQuestions: boolean;
+  loadingAddGrade: boolean;
+  loadingAddSubject: boolean;
   error: string | null;
   EntertainmentQuestions: EntertainmentQuestion[];
 }

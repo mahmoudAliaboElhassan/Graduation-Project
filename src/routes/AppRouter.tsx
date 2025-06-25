@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "../pages/rootLayout";
 import ErrorPage from "../pages/error";
 import { AddSubject } from "../pages/admin/addSubject";
+
 const MakeDifficulty = React.lazy(
   () => import("../pages/game/difficulty/make")
 );
@@ -26,6 +27,7 @@ const EducationalQuestions = React.lazy(
 const EntertainmentQuestions = React.lazy(
   () => import("../pages/admin/entertainmentQuestion")
 );
+const AddGrade = React.lazy(() => import("../pages/admin/addGrade"));
 const ResetPassword = React.lazy(() => import("../pages/auth/reset-password"));
 
 const MakeOffsideQuestion = React.lazy(
@@ -212,14 +214,14 @@ const router = createBrowserRouter([
               </Suspense>
             ),
           },
-          // {
-          //   path: "add-grade",
-          //   element: (
-          //     <Suspense fallback={<Loader />}>
-          //       <AddGrade />
-          //     </Suspense>
-          //   ),
-          // },
+          {
+            path: "add-grade",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <AddGrade />
+              </Suspense>
+            ),
+          },
           // {
           //   path: "add-chapter",
           //   element: (

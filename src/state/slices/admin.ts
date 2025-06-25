@@ -6,6 +6,8 @@ import {
   approveQuestion,
   rejectQuestion,
   getEntertainmentQuestions,
+  addGrade,
+  addSubject,
 } from "../act/actAdmin";
 import {
   EntertainmentQuestion,
@@ -79,9 +81,37 @@ const adminSlice = createSlice({
       })
       .addCase(rejectQuestion.rejected, (state, action) => {
         state.error = action.payload as string;
+      })
+      .addCase(addGrade.pending, (state) => {
+        state.error = null;
+        state.loadingAddGrade = true;
+      })
+      .addCase(addGrade.fulfilled, (state, action) => {
+        state.loadingAddGrade = false;
+      })
+      .addCase(addGrade.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.loadingAddGrade = false;
+      })
+      .addCase(addSubject.pending, (state) => {
+        state.error = null;
+        state.loadingAddSubject = true;
+      })
+      .addCase(addSubject.fulfilled, (state, action) => {
+        state.loadingAddSubject = false;
+      })
+      .addCase(addSubject.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.loadingAddSubject = false;
       });
   },
 });
 
 export default adminSlice.reducer;
-export { getEducationQuestions, approveQuestion, rejectQuestion };
+export {
+  getEducationQuestions,
+  approveQuestion,
+  rejectQuestion,
+  addGrade,
+  addSubject,
+};

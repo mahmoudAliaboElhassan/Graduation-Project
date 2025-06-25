@@ -70,6 +70,8 @@ function UseInitialStates() {
   const initialStateAdmin: initialStateAdmin = {
     questions: [],
     loadinGetQuestions: false,
+    loadingAddSubject: false,
+    loadingAddGrade: false,
     error: null,
     EntertainmentQuestions: [],
   };

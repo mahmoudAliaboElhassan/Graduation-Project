@@ -81,3 +81,63 @@ export const rejectQuestion = createAsyncThunk(
     }
   }
 );
+export const addGrade = createAsyncThunk(
+  "adminSlice/addGrade",
+  async ({ grade }: { grade: string }, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.post(
+        `/api/Admin/add-grade`,
+        { grade },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+            // Add any other headers you need here
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const addSubject = createAsyncThunk(
+  "adminSlice/addSubject",
+  async ({ name, image }: { name: string; image: File }, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.post(
+        `/api/Admin/add-subject`,
+        { name, image },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+            // Add any other headers you need here
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

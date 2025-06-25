@@ -375,7 +375,6 @@ const AdminDashboard: React.FC = () => {
               background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
               color: "white",
               textAlign: "center",
             }}

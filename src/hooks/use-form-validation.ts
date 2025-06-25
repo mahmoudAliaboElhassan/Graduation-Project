@@ -160,6 +160,9 @@ function UseFormValidation() {
         "Password must contain at least one special character (!@#$%^&*, etc.)"
       ),
   });
+  const FORM_VALIDATION_SCHEMA_ADD_GRADE = Yup.object({
+    grade: Yup.string().required("grade is required"),
+  });
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
     FORM_VALIDATION_SCHEMA_SIGNUP,
@@ -170,6 +173,7 @@ function UseFormValidation() {
     FORM_VALIDATION_OFFSIDE_GAME,
     FORM_VALIDATION_SCHEMA_FORGET_PASSWORD,
     FORM_VALIDATION_SCHEMA_RESET_PASSWORD,
+    FORM_VALIDATION_SCHEMA_ADD_GRADE,
   };
 }
 
