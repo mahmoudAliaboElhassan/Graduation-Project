@@ -42,6 +42,11 @@ function UseInitialStates() {
       me: 0,
       data: [],
     },
+
+    allSubjects: [],
+    loadingGetAllSubjects: false,
+    loadingGetAllGrades: false,
+    allGrades: [{ gradeId: 0, gradeName: "" }],
   };
 
   const initialStateGame: InitialStateGame = {

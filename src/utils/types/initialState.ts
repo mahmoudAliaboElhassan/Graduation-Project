@@ -32,6 +32,10 @@ export interface InitialStateAuth {
   loadingResetPassword: boolean;
   loadingGetTopTen: boolean;
   topTen: TopTenR;
+  allSubjects: string[];
+  loadingGetAllSubjects: boolean;
+  loadingGetAllGrades: boolean;
+  allGrades: { gradeId: number; gradeName: string }[];
 }
 
 type DifficultyDataQuestion = {

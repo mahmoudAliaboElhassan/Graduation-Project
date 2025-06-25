@@ -8,6 +8,8 @@ import {
   ResponseChapters,
   ResponsePoints,
   TopTenR,
+  Subjects,
+  Grades,
 } from "../../utils/dataResponse";
 
 interface ResponseCreate {
@@ -247,6 +249,48 @@ export const getTopTen = createAsyncThunk(
           "Content-Type": "application/json",
         },
       });
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const getAllSubjects = createAsyncThunk(
+  "authSlice/getAllSubjects",
+  async (_, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.get<Subjects>(
+        `/api/Accounts/All-Subjects`
+      );
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const getAllGrades = createAsyncThunk(
+  "authSlice/getAllGrades",
+  async (_, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.get<Grades>(`/api/Accounts/All-Grades`);
       console.log("from slice res is");
       console.log(res);
       return res.data;

@@ -510,5 +510,7 @@
     "description": "اختر خياراً من الشريط الجانبي للبدء في إدارة المواد والصفوف والفصول والأسئلة."
   },
   "educational-summary-title": "ملخص تعليمي",
-  "entertainment-summary-message": "هل كنت تعلم؟ {{summary}}"
+  "entertainment-summary-message": "هل كنت تعلم؟ {{summary}}",
+  "loading-data": "جاري تحميل البيانات...",
+  "loading-grades": "جاري تحميل الصفوف..."
 }

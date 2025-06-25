@@ -49,3 +49,6 @@ export interface TopTenR {
   me: number;
   data: PlayerScore[];
 }
+export type Subjects = string[];
+
+export type Grades = { gradeId: number; gradeName: string }[];

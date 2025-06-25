@@ -11,6 +11,8 @@ import {
   addPoints,
   changePassword,
   getTopTen,
+  getAllSubjects,
+  getAllGrades,
 } from "../act/actAuth";
 const { initialStateAuth } = UseInitialStates();
 
@@ -153,10 +155,38 @@ export const authSlice = createSlice({
       })
       .addCase(getTopTen.rejected, (state, action) => {
         state.loadingGetTopTen = false;
+      })
+      .addCase(getAllSubjects.pending, (state, action) => {
+        state.loadingGetAllSubjects = true;
+      })
+      .addCase(getAllSubjects.fulfilled, (state, action) => {
+        state.loadingGetAllSubjects = false;
+        state.allSubjects = action.payload;
+      })
+      .addCase(getAllSubjects.rejected, (state, action) => {
+        state.loadingGetAllSubjects = false;
+      })
+      .addCase(getAllGrades.pending, (state, action) => {
+        state.loadingGetAllGrades = true;
+      })
+      .addCase(getAllGrades.fulfilled, (state, action) => {
+        state.loadingGetAllGrades = false;
+        state.allGrades = action.payload;
+      })
+      .addCase(getAllGrades.rejected, (state, action) => {
+        state.loadingGetAllGrades = false;
       });
   },
 });
 
 export default authSlice.reducer;
 export const { logOut } = authSlice.actions;
-export { signUp, logIn, getSubjects, getChapters, forgetPassword, addPoints };
+export {
+  signUp,
+  logIn,
+  getSubjects,
+  getChapters,
+  forgetPassword,
+  addPoints,
+  getAllSubjects,
+};

@@ -18,7 +18,7 @@ function UseInitialValues() {
     password: "",
     confirmPassword: "",
     type: "",
-    grade: "",
+    gradeUser: "",
     subject: "",
   };
   const INITIAL_FORM_STATE_LOGIN: InitialValuesLogin = {

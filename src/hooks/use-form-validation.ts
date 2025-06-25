@@ -60,7 +60,7 @@ function UseFormValidation() {
       .oneOf([Yup.ref("password")], "Passwords do not match"),
     type: Yup.string().required("User Role is Required"),
 
-    grade: Yup.string().when("type", {
+    gradeUser: Yup.string().when("type", {
       is: (value: unknown) => value == "0",
       then: (schema) => schema.required("Grade is required for students"),
       otherwise: (schema) => schema.notRequired(),
