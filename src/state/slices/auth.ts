@@ -13,6 +13,7 @@ import {
   getTopTen,
   getAllSubjects,
   getAllGrades,
+  getTeacherGrades,
 } from "../act/actAuth";
 const { initialStateAuth } = UseInitialStates();
 
@@ -175,6 +176,16 @@ export const authSlice = createSlice({
       })
       .addCase(getAllGrades.rejected, (state, action) => {
         state.loadingGetAllGrades = false;
+      })
+      .addCase(getTeacherGrades.pending, (state, action) => {
+        state.loadingGetTeacherGrades = true;
+      })
+      .addCase(getTeacherGrades.fulfilled, (state, action) => {
+        state.loadingGetTeacherGrades = false;
+        state.teacherGrades = action.payload;
+      })
+      .addCase(getTeacherGrades.rejected, (state, action) => {
+        state.loadingGetTeacherGrades = false;
       });
   },
 });

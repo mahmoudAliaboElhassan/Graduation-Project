@@ -24,13 +24,13 @@ import { toast } from "react-toastify";
 import SelectComponent from "../../formUI/select";
 import TextFieldWrapper from "../../formUI/textField";
 import UseGrades from "../../../hooks/use-grades";
-import { getChapters } from "../../../state/act/actAuth";
+import { getChapters, getTeacherGrades } from "../../../state/act/actAuth";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { makeEducationQuestions } from "../../../state/act/actGame";
 
 interface FormValues {
   question: string;
-  grade: string;
+  gradeSelect: string;
   chapterMakeQuestion: string;
   hint1: string;
   hint2: string;
@@ -48,7 +48,7 @@ interface MultiStepQuestionModalProps {
 
 const INITIAL_FORM_STATE: FormValues = {
   question: "",
-  grade: "",
+  gradeSelect: "",
   chapterMakeQuestion: "",
   hint1: "",
   hint2: "",
@@ -61,7 +61,7 @@ const INITIAL_FORM_STATE: FormValues = {
 
 const VALIDATION_SCHEMA = Yup.object({
   question: Yup.string().required("Question is required"),
-  grade: Yup.string().required("Grade is required"),
+  gradeSelect: Yup.string().required("Grade is required"),
   chapterMakeQuestion: Yup.string().required("Chapter is required"),
   hint1: Yup.string().required("At least one hint is required"),
   correctAnswer: Yup.string().required("Correct answer is required"),
@@ -80,13 +80,25 @@ function MultiStepQuestionModal({
   const [isLoadingChapters, setIsLoadingChapters] = useState(false);
 
   // Redux state and dispatch
-  const { chapters, subjectTeaching, Uid } = useAppSelector(
-    (state) => state.auth
-  );
-  const { mymode } = useAppSelector((state) => state.mode);
-  const { grades } = UseGrades();
+
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    dispatch(getTeacherGrades());
+  }, [dispatch]);
+
+  const {
+    chapters,
+    subjectTeaching,
+    Uid,
+    teacherGrades,
+    loadingGetTeacherGrades,
+  } = useAppSelector((state) => state.auth);
+  const { mymode } = useAppSelector((state) => state.mode);
+  const gradesSelect = teacherGrades.map((grade) => ({
+    text: grade.gradeName,
+    value: grade.gradeId.toString(),
+  }));
   // Updated steps with question as first step
   const steps = [
     t("questionCreation.steps.enterQuestion"),
@@ -136,15 +148,15 @@ function MultiStepQuestionModal({
       return;
     }
 
-    if (activeStep === 1 && !values.grade) {
-      setTouched({ grade: true });
-      setErrors({ grade: t("questionCreation.errors.gradeRequired") });
+    if (activeStep === 1 && !values.gradeSelect) {
+      setTouched({ gradeSelect: true });
+      setErrors({ gradeSelect: t("questionCreation.errors.gradeRequired") });
       return;
-    } else if (activeStep === 1 && values.grade) {
+    } else if (activeStep === 1 && values.gradeSelect) {
       // Dispatch getChapters with grade and subject from Redux
       console.log(
         "Dispatching getChapters for grade:",
-        values.grade,
+        values.gradeSelect,
         "and subject:",
         subjectTeaching
       );
@@ -152,7 +164,7 @@ function MultiStepQuestionModal({
       try {
         await dispatch(
           getChapters({
-            grade: +values.grade,
+            grade: +values.gradeSelect,
             subject: subjectTeaching || "Arabic",
           })
         ).unwrap();
@@ -217,7 +229,7 @@ function MultiStepQuestionModal({
       // Prepare data according to UserDataHintGameMakeQuestion interface
       const questionData = {
         question: values.question, // Include the question field
-        grade: Number.parseInt(values.grade),
+        grade: Number.parseInt(values.gradeSelect),
         userId: Uid || "", // Get userId from Redux state
         chapter: values.chapterMakeQuestion,
         answer: values.correctAnswer,
@@ -232,7 +244,7 @@ function MultiStepQuestionModal({
         makeEducationQuestions({
           userId: Uid || "",
           question: values.question, // Add question to the dispatch
-          grade: +values.grade,
+          grade: +values.gradeSelect,
           chapter: values.chapterMakeQuestion,
           hints,
           answer: values.correctAnswer,
@@ -324,7 +336,7 @@ function MultiStepQuestionModal({
         }}
       >
         {/* Loading Overlay */}
-        {(isLoadingChapters || isSubmitting) && (
+        {(isLoadingChapters || isSubmitting || loadingGetTeacherGrades) && (
           <Box
             sx={{
               position: "absolute",
@@ -360,6 +372,8 @@ function MultiStepQuestionModal({
               >
                 {isSubmitting
                   ? t("questionCreation.buttons.creating")
+                  : loadingGetTeacherGrades
+                  ? t("loading-grades")
                   : t("loadingChapters")}
               </Typography>
             </Box>
@@ -528,9 +542,10 @@ function MultiStepQuestionModal({
                       {t("questionCreation.descriptions.grade")}
                     </Typography>
                     <SelectComponent
-                      name="grade"
-                      options={grades}
+                      name="gradeSelect"
+                      options={gradesSelect}
                       label={t("questionCreation.labels.grade")}
+                      disabled={loadingGetTeacherGrades}
                     />
                   </Box>
                 )}
@@ -770,7 +785,7 @@ function MultiStepQuestionModal({
                             : "rgba(255, 255, 255, 0.12)",
                       },
                     }}
-                    disabled={isLoadingChapters}
+                    disabled={isLoadingChapters || loadingGetTeacherGrades}
                   >
                     {t("questionCreation.buttons.next")}
                   </Button>

@@ -512,5 +512,7 @@
   "educational-summary-title": "ملخص تعليمي",
   "entertainment-summary-message": "هل كنت تعلم؟ {{summary}}",
   "loading-data": "جاري تحميل البيانات...",
-  "loading-grades": "جاري تحميل الصفوف..."
+  "loading-grades": "جاري تحميل الصفوف...",
+  "question": "السؤال",
+  "of": "من"
 }

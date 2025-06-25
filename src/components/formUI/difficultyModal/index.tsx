@@ -26,7 +26,7 @@ import { toast } from "react-toastify";
 import SelectComponent from "../../formUI/select";
 import TextFieldWrapper from "../../formUI/textField";
 import UseGrades from "../../../hooks/use-grades";
-import { getChapters } from "../../../state/act/actAuth";
+import { getChapters, getTeacherGrades } from "../../../state/act/actAuth";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import {
   makeEducationDifficulty,
@@ -41,7 +41,7 @@ interface Question {
 }
 
 interface FormValues {
-  grade: string;
+  gradesSelect: string;
   chapterMakeQuestion: string;
   questions: Question[];
 }
@@ -53,7 +53,7 @@ interface MultipleStepDifficultyMoadalProps {
 
 // Static 6 questions initial state
 const INITIAL_FORM_STATE: FormValues = {
-  grade: "",
+  gradesSelect: "",
   chapterMakeQuestion: "",
   questions: Array(6)
     .fill({
@@ -71,7 +71,7 @@ const INITIAL_FORM_STATE: FormValues = {
 };
 
 const VALIDATION_SCHEMA = Yup.object({
-  grade: Yup.string().required("Grade is required"),
+  gradesSelect: Yup.string().required("Grade is required"),
   chapterMakeQuestion: Yup.string().required("Chapter is required"),
   questions: Yup.array()
     .of(
@@ -100,11 +100,14 @@ function MultipleStepDifficultyMoadal({
   const [isLoadingChapters, setIsLoadingChapters] = useState(false);
 
   // Redux state and dispatch
-  const { chapters, subjectTeaching, Uid } = useAppSelector(
-    (state) => state.auth
-  );
+  const {
+    chapters,
+    subjectTeaching,
+    Uid,
+    teacherGrades,
+    loadingGetTeacherGrades,
+  } = useAppSelector((state) => state.auth);
   const { mymode } = useAppSelector((state) => state.mode);
-  const { grades } = UseGrades();
   const dispatch = useAppDispatch();
 
   // Updated steps - now only 3 steps
@@ -121,6 +124,15 @@ function MultipleStepDifficultyMoadal({
     { value: 3, label: t("difficulty.levels.hard") },
     { value: 4, label: t("difficulty.levels.veryHard") },
   ];
+
+  useEffect(() => {
+    dispatch(getTeacherGrades());
+  }, [dispatch]);
+
+  const gradesSelect = teacherGrades.map((grade) => ({
+    text: grade.gradeName,
+    value: grade.gradeId.toString(),
+  }));
 
   // Theme-based styling
   const modalStyle = {
@@ -155,15 +167,15 @@ function MultipleStepDifficultyMoadal({
     setErrors: (errors: Partial<FormikErrors<FormValues>>) => void
   ) => {
     // Validation for each step
-    if (activeStep === 0 && !values.grade) {
-      setTouched({ grade: true });
-      setErrors({ grade: t("questionCreation.errors.gradeRequired") });
+    if (activeStep === 0 && !values.gradesSelect) {
+      setTouched({ gradesSelect: true });
+      setErrors({ gradesSelect: t("questionCreation.errors.gradeRequired") });
       return;
-    } else if (activeStep === 0 && values.grade) {
+    } else if (activeStep === 0 && values.gradesSelect) {
       // Dispatch getChapters with grade and subject from Redux
       console.log(
         "Dispatching getChapters for grade:",
-        values.grade,
+        values.gradesSelect,
         "and subject:",
         subjectTeaching
       );
@@ -171,7 +183,7 @@ function MultipleStepDifficultyMoadal({
       try {
         await dispatch(
           getChapters({
-            grade: +values.grade,
+            grade: +values.gradesSelect,
             subject: subjectTeaching || "Arabic",
           })
         ).unwrap();
@@ -219,7 +231,7 @@ function MultipleStepDifficultyMoadal({
 
       // Prepare data for submission
       const questionData = {
-        grade: Number.parseInt(values.grade),
+        grade: Number.parseInt(values.gradesSelect),
         userId: Uid || "",
         chapter: values.chapterMakeQuestion,
         questions: values.questions,
@@ -307,8 +319,7 @@ function MultipleStepDifficultyMoadal({
           ...modalStyle,
         }}
       >
-        {/* Loading Overlay */}
-        {(isLoadingChapters || isSubmitting) && (
+        {(isLoadingChapters || isSubmitting || loadingGetTeacherGrades) && (
           <Box
             sx={{
               position: "absolute",
@@ -344,6 +355,8 @@ function MultipleStepDifficultyMoadal({
               >
                 {isSubmitting
                   ? t("questionCreation.buttons.creating")
+                  : loadingGetTeacherGrades
+                  ? t("loading-grades")
                   : t("loadingChapters")}
               </Typography>
             </Box>
@@ -479,9 +492,10 @@ function MultipleStepDifficultyMoadal({
                       {t("questionCreation.descriptions.grade")}
                     </Typography>
                     <SelectComponent
-                      name="grade"
-                      options={grades}
+                      name="gradesSelect"
+                      options={gradesSelect}
                       label={t("questionCreation.labels.grade")}
+                      disabled={loadingGetTeacherGrades}
                     />
                   </Box>
                 )}
@@ -573,7 +587,7 @@ function MultipleStepDifficultyMoadal({
                               mb: 2,
                             }}
                           >
-                            Question {index + 1} of 6
+                            {t("question")} {index + 1} {t("of")} 6
                           </Typography>
 
                           <Box

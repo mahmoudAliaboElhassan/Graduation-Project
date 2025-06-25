@@ -35,7 +35,9 @@ export interface InitialStateAuth {
   allSubjects: string[];
   loadingGetAllSubjects: boolean;
   loadingGetAllGrades: boolean;
+  loadingGetTeacherGrades: boolean;
   allGrades: { gradeId: number; gradeName: string }[];
+  teacherGrades: { gradeId: number; gradeName: string }[];
 }
 
 type DifficultyDataQuestion = {

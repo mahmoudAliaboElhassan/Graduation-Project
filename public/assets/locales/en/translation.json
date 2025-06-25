@@ -531,5 +531,7 @@
   "educational-summary-title": "Educational Summary",
   "entertainment-summary-message": "Did you know? {{summary}}",
   "loading-data": "Loading data...",
-  "loading-grades": "Loading grades..."
+  "loading-grades": "Loading grades...",
+  "question": "Question",
+  "of": "Of"
 }

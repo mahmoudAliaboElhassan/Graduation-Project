@@ -26,13 +26,13 @@ import { toast } from "react-toastify";
 import SelectComponent from "../../formUI/select";
 import TextFieldWrapper from "../../formUI/textField";
 import UseGrades from "../../../hooks/use-grades";
-import { getChapters } from "../../../state/act/actAuth";
+import { getChapters, getTeacherGrades } from "../../../state/act/actAuth";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import { makeEducationQuestions } from "../../../state/act/actGame";
 
 interface FormValues {
   question: string;
-  grade: string;
+  gradeSelect: string;
   chapterMakeQuestion: string;
   information1: string;
   information2: string;
@@ -51,7 +51,7 @@ interface MultiStepOffsideModalProps {
 
 const INITIAL_FORM_STATE: FormValues = {
   question: "",
-  grade: "",
+  gradeSelect: "",
   chapterMakeQuestion: "",
   information1: "",
   information2: "",
@@ -65,7 +65,7 @@ const INITIAL_FORM_STATE: FormValues = {
 
 const VALIDATION_SCHEMA = Yup.object({
   question: Yup.string().required("Question is required"),
-  grade: Yup.string().required("Grade is required"),
+  gradeSelect: Yup.string().required("Grade is required"),
   chapterMakeQuestion: Yup.string().required("Chapter is required"),
   information1: Yup.string().required("Information 1 is required"),
   information2: Yup.string().required("Information 2 is required"),
@@ -86,11 +86,20 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
   const [isLoadingChapters, setIsLoadingChapters] = useState(false);
 
   // Redux state and dispatch
-  const { chapters, subjectTeaching, Uid } = useAppSelector(
-    (state) => state.auth
-  );
+  const {
+    chapters,
+    subjectTeaching,
+    Uid,
+    teacherGrades,
+    loadingGetTeacherGrades,
+  } = useAppSelector((state) => state.auth);
+
+  const gradesSelect = teacherGrades.map((grade) => ({
+    text: grade.gradeName,
+    value: grade.gradeId.toString(),
+  }));
   const { mymode } = useAppSelector((state) => state.mode);
-  const { grades } = UseGrades();
+  // const { grades } = UseGrades();
   const dispatch = useAppDispatch();
 
   const steps = [
@@ -101,6 +110,10 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
     t("offsideCreation.steps.selectCorrect") || "Select Correct Answers",
     t("questionCreation.steps.summary") || "Summary",
   ];
+
+  useEffect(() => {
+    dispatch(getTeacherGrades());
+  }, [dispatch]);
 
   // Theme-based styling
   const modalStyle = {
@@ -144,18 +157,19 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
       return;
     }
 
-    if (activeStep === 1 && !values.grade) {
-      setTouched({ grade: true });
+    if (activeStep === 1 && !values.gradeSelect) {
+      setTouched({ gradeSelect: true });
       setErrors({
-        grade: t("offsideCreation.errors.gradeRequired") || "Grade is required",
+        gradeSelect:
+          t("offsideCreation.errors.gradeRequired") || "Grade is required",
       });
       return;
-    } else if (activeStep === 1 && values.grade) {
+    } else if (activeStep === 1 && values.gradeSelect) {
       setIsLoadingChapters(true);
       try {
         await dispatch(
           getChapters({
-            grade: +values.grade,
+            grade: +values.gradeSelect,
             subject: subjectTeaching || "Arabic",
           })
         ).unwrap();
@@ -252,7 +266,7 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
       const questionData = {
         userId: Uid || "",
         question: values.question,
-        grade: Number.parseInt(values.grade),
+        grade: Number.parseInt(values.gradeSelect),
         chapter: values.chapterMakeQuestion,
         hints: informations,
         answer: values.correctAnswers.join(""),
@@ -358,7 +372,7 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
         }}
       >
         {/* Loading Overlay */}
-        {(isLoadingChapters || isSubmitting) && (
+        {(isLoadingChapters || isSubmitting || loadingGetTeacherGrades) && (
           <Box
             sx={{
               position: "absolute",
@@ -393,8 +407,10 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                 }}
               >
                 {isSubmitting
-                  ? t("offsideCreation.buttons.creating") || "Creating..."
-                  : t("loadingChapters") || "Loading chapters..."}
+                  ? t("questionCreation.buttons.creating")
+                  : loadingGetTeacherGrades
+                  ? t("loading-grades")
+                  : t("loadingChapters")}
               </Typography>
             </Box>
           </Box>
@@ -564,9 +580,10 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
                         "Select the grade level for this offside question"}
                     </Typography>
                     <SelectComponent
-                      name="grade"
-                      options={grades}
+                      name="gradeSelect"
+                      options={gradesSelect}
                       label={t("offsideCreation.labels.grade") || "Grade"}
+                      disabled={loadingGetTeacherGrades}
                     />
                   </Box>
                 )}
