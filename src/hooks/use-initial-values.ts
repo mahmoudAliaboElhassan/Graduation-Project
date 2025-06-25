@@ -10,6 +10,7 @@ import {
   InitialValuesForgetPassword,
   InitialValuesResetPassword,
   InitialValuesAddGrade,
+  InitialValuesAddSubject,
 } from "../utils/types/initialValues";
 
 function UseInitialValues() {
@@ -60,6 +61,10 @@ function UseInitialValues() {
   const INITIAL_FORM_STATE_ADD_GRADE: InitialValuesAddGrade = {
     grade: "",
   };
+  const InitialValuesAddSubject: InitialValuesAddSubject = {
+    name: "",
+    image: null,
+  };
   return {
     INITIAL_FORM_STATE_SIGNUP,
     INITIAL_FORM_STATE_LOGIN,
@@ -71,6 +76,7 @@ function UseInitialValues() {
     INITIAL_FORM_STATE_FORGET_PASSWORD,
     INITIAL_FORM_STATE_RESET_PASSWORD,
     INITIAL_FORM_STATE_ADD_GRADE,
+    InitialValuesAddSubject,
   };
 }
 

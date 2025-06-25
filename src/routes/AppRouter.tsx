@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import RootLayout from "../pages/rootLayout";
 import ErrorPage from "../pages/error";
-import { AddSubject } from "../pages/admin/addSubject";
+import AddSubject from "../pages/admin/addSubject";
 
 const MakeDifficulty = React.lazy(
   () => import("../pages/game/difficulty/make")

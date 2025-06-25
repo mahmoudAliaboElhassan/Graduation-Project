@@ -1,75 +1,267 @@
-// AddSubject.tsx
-import React, { useState } from "react";
+import { Form, Formik } from "formik";
+import { Link, useNavigate } from "react-router-dom";
 import {
-  Box,
   Typography,
-  TextField,
+  Container,
+  Box,
+  Stack,
+  IconButton,
+  Avatar,
   Button,
-  Paper,
-  Grid,
-  Alert,
 } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import { toast } from "react-toastify";
+import { motion } from "framer-motion";
+import { useRef } from "react";
+import * as Yup from "yup";
+import {
+  CloudUpload as CloudUploadIcon,
+  PhotoCamera as PhotoCameraIcon,
+  Delete as DeleteIcon,
+  Image as ImageIcon,
+} from "@mui/icons-material";
+import UseThemMode from "../../../hooks/use-theme-mode";
+import { ContainerFormWrapper, FormWrapper } from "../../../styles/forms";
+import { useAppDispatch } from "../../../hooks/redux";
+import { useTranslation } from "react-i18next";
+import { AxiosError } from "axios";
+import { HeadingElement } from "../../../styles/heading";
+import TextFieldWrapper from "../../../components/formUI/textField";
+import ButtonWrapper from "../../../components/formUI/submit";
+import withGuard from "../../../utils/withGuard";
+import Swal from "sweetalert2";
+import { addSubject } from "../../../state/act/actAdmin";
+import UseInitialValues from "../../../hooks/use-initial-values";
+import UseFormValidation from "../../../hooks/use-form-validation";
 
-export const AddSubject: React.FC = () => {
-  const [subjectName, setSubjectName] = useState("");
-  const [description, setDescription] = useState("");
-  const [success, setSuccess] = useState(false);
+interface FormValues {
+  name: string;
+  image: File | null;
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Add your submit logic here
-    console.log({ subjectName, description });
-    setSuccess(true);
-    setSubjectName("");
-    setDescription("");
-    setTimeout(() => setSuccess(false), 3000);
+export default function AddSubject() {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const { themeMode } = UseThemMode();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { InitialValuesAddSubject } = UseInitialValues();
+  const { FORM_VALIDATION_SCHEMA_ADD_Subject } = UseFormValidation();
+  const handleFileUpload = () => {
+    fileInputRef.current?.click();
+  };
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
   return (
-    <Box>
-      <Typography variant="h4" gutterBottom>
-        Add Subject
-      </Typography>
-      <Paper elevation={3} sx={{ p: 3, maxWidth: 600 }}>
-        {success && (
-          <Alert severity="success" sx={{ mb: 2 }}>
-            Subject added successfully!
-          </Alert>
-        )}
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Subject Name"
-                value={subjectName}
-                onChange={(e) => setSubjectName(e.target.value)}
-                required
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Description"
-                multiline
-                rows={4}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                size="large"
+    <>
+      <div style={{ minHeight: "100vh" }}>
+        <ContainerFormWrapper maxWidth="sm">
+          <Formik
+            initialValues={InitialValuesAddSubject}
+            validationSchema={FORM_VALIDATION_SCHEMA_ADD_Subject}
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              console.log(values);
+              try {
+                await dispatch(
+                  addSubject({
+                    name: values.name,
+                    image: values.image!,
+                  })
+                ).unwrap();
+
+                toast.success(
+                  t("subject-added") || "Subject added successfully!",
+                  {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  }
+                );
+
+                resetForm();
+                if (fileInputRef.current) {
+                  fileInputRef.current.value = "";
+                }
+              } catch (error: any) {
+                if (error?.response?.status === 401) {
+                  Swal.fire({
+                    title: t("error-add-subject") || "Error Adding Subject",
+                    text:
+                      t("error-add-subject-text") ||
+                      "An error occurred while adding the subject",
+                    icon: "error",
+                    confirmButtonText: t("ok") || "OK",
+                  });
+                }
+              } finally {
+                setSubmitting(false);
+              }
+            }}
+          >
+            {({ values, setFieldValue, errors, touched, isSubmitting }) => (
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.5 }}
               >
-                Add Subject
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Paper>
-    </Box>
+                <Form>
+                  <FormWrapper>
+                    <HeadingElement mode={themeMode}>
+                      {t("add-subject-now") || "Add New Subject"}
+                    </HeadingElement>
+
+                    <Grid container spacing={3}>
+                      {/* Subject Name Field */}
+                      <Grid size={{ xs: 12 }}>
+                        <TextFieldWrapper
+                          name="name"
+                          label={t("subject-name") || "Subject Name"}
+                        />
+                      </Grid>
+
+                      {/* Image Upload Section */}
+                      <Grid size={{ xs: 12 }}>
+                        <Typography
+                          variant="subtitle1"
+                          gutterBottom
+                          color="text.secondary"
+                          sx={{ mb: 2 }}
+                        >
+                          {t("subject-image") || "Subject Image"} *
+                        </Typography>
+
+                        {/* Hidden file input */}
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0] || null;
+                            setFieldValue("image", file);
+                          }}
+                          accept="image/*"
+                          style={{ display: "none" }}
+                        />
+
+                        {/* Upload Buttons */}
+                        <Stack
+                          direction="row"
+                          spacing={2}
+                          alignItems="center"
+                          sx={{ mb: 2 }}
+                        >
+                          <Button
+                            variant="outlined"
+                            startIcon={<CloudUploadIcon />}
+                            onClick={handleFileUpload}
+                            disabled={isSubmitting}
+                            sx={{
+                              borderStyle: "dashed",
+                              borderWidth: 2,
+                              py: 1.5,
+                              px: 3,
+                            }}
+                          >
+                            {t("choose-image") || "Choose Image"}
+                          </Button>
+
+                          <IconButton
+                            color="primary"
+                            onClick={handleFileUpload}
+                            disabled={isSubmitting}
+                            sx={{
+                              border: "1px dashed",
+                              borderColor: "primary.main",
+                              "&:hover": {
+                                backgroundColor: "primary.light",
+                                color: "white",
+                              },
+                            }}
+                          >
+                            <PhotoCameraIcon />
+                          </IconButton>
+                        </Stack>
+
+                        {/* Error Message */}
+                        {errors.image && touched.image && (
+                          <Typography
+                            color="error"
+                            variant="caption"
+                            sx={{ display: "block", mb: 1 }}
+                          >
+                            {errors.image}
+                          </Typography>
+                        )}
+
+                        {/* Image Preview */}
+                        {values.image && (
+                          <Box sx={{ mt: 2 }}>
+                            <Stack
+                              direction="row"
+                              spacing={2}
+                              alignItems="center"
+                            >
+                              <Avatar
+                                src={URL.createObjectURL(values.image)}
+                                sx={{ width: 60, height: 60 }}
+                              >
+                                <ImageIcon />
+                              </Avatar>
+
+                              <Box sx={{ flex: 1 }}>
+                                <Typography variant="body2" fontWeight="medium">
+                                  {values.image.name}
+                                </Typography>
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary"
+                                >
+                                  {formatFileSize(values.image.size)}
+                                </Typography>
+                              </Box>
+
+                              <IconButton
+                                size="small"
+                                color="error"
+                                onClick={() => {
+                                  setFieldValue("image", null);
+                                  if (fileInputRef.current) {
+                                    fileInputRef.current.value = "";
+                                  }
+                                }}
+                                disabled={isSubmitting}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </Stack>
+                          </Box>
+                        )}
+                      </Grid>
+                    </Grid>
+
+                    <ButtonWrapper disabled={isSubmitting}>
+                      {isSubmitting
+                        ? t("adding-subject") || "Adding Subject..."
+                        : t("add-subject") || "Add Subject"}
+                    </ButtonWrapper>
+                  </FormWrapper>
+                </Form>
+              </motion.div>
+            )}
+          </Formik>
+        </ContainerFormWrapper>
+      </div>
+    </>
   );
-};
+}

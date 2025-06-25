@@ -45,3 +45,7 @@ export interface InitialValuesResetPassword {
 export interface InitialValuesAddGrade {
   grade: string;
 }
+export interface InitialValuesAddSubject {
+  name: string;
+  image: File | null;
+}

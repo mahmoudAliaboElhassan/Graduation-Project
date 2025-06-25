@@ -1,7 +1,9 @@
 import * as Yup from "yup";
 import parsePhoneNumberFromString from "libphonenumber-js";
+import { useTranslation } from "react-i18next";
 
 function UseFormValidation() {
+  const { t } = useTranslation();
   const FORM_VALIDATION_SCHEMA_LOGIN = Yup.object({
     email: Yup.string()
       .email("Enter a Valid Email")
@@ -163,6 +165,40 @@ function UseFormValidation() {
   const FORM_VALIDATION_SCHEMA_ADD_GRADE = Yup.object({
     grade: Yup.string().required("grade is required"),
   });
+  const FORM_VALIDATION_SCHEMA_ADD_Subject = Yup.object().shape({
+    name: Yup.string()
+      .min(2, t("name-too-short") || "Name must be at least 2 characters")
+      .required(t("name-required") || "Subject name is required"),
+    image: Yup.mixed()
+      .required(t("image-required") || "Subject image is required")
+      .test(
+        "fileType",
+        t("invalid-file-type") || "Please select a valid image file",
+        (value) => {
+          if (!value) return false;
+          const file = value as File;
+          const allowedTypes = [
+            "image/jpeg",
+            "image/jpg",
+            "image/png",
+            "image/gif",
+            "image/webp",
+          ];
+          return allowedTypes.includes(file.type);
+        }
+      )
+      .test(
+        "fileSize",
+        t("file-too-large") || "Image size should be less than 5MB",
+        (value) => {
+          if (!value) return false;
+          const file = value as File;
+          const maxSize = 5 * 1024 * 1024; // 5MB
+          return file.size <= maxSize;
+        }
+      ),
+  });
+
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
     FORM_VALIDATION_SCHEMA_SIGNUP,
@@ -174,6 +210,7 @@ function UseFormValidation() {
     FORM_VALIDATION_SCHEMA_FORGET_PASSWORD,
     FORM_VALIDATION_SCHEMA_RESET_PASSWORD,
     FORM_VALIDATION_SCHEMA_ADD_GRADE,
+    FORM_VALIDATION_SCHEMA_ADD_Subject,
   };
 }
 
