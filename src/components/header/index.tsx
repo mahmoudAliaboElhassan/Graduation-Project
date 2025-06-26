@@ -202,17 +202,23 @@ function Header() {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                mr: 2,
-                gap: 2,
+                mr: { xs: 1, sm: 2 },
+                gap: { xs: 1, sm: 2 },
+                maxWidth: { xs: "120px", sm: "none" },
+                overflow: "hidden",
               }}
             >
               {name && (
                 <Typography
-                  variant="body1"
+                  variant="body2"
                   sx={{
                     color: "white",
                     fontWeight: 500,
-                    display: { xs: "none", sm: "block" },
+                    display: { xs: "none", md: "block" },
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    maxWidth: { sm: "100px", md: "150px" },
                   }}
                 >
                   {name}
@@ -225,8 +231,9 @@ function Header() {
                     alignItems: "center",
                     backgroundColor: "rgba(255, 255, 255, 0.1)",
                     borderRadius: "16px",
-                    px: 2,
-                    py: 0.5,
+                    px: { xs: 1, sm: 2 },
+                    py: { xs: 0.25, sm: 0.5 },
+                    minWidth: "fit-content",
                   }}
                 >
                   <Typography
@@ -234,6 +241,8 @@ function Header() {
                     sx={{
                       color: "white",
                       fontWeight: 600,
+                      fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {t("points", { totalPoints })}

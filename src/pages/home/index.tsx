@@ -75,43 +75,42 @@ function HomePage() {
   };
 
   // Get role-specific content
-const getRoleContent = () => {
-  switch (role) {
-    case "Admin":
-      return {
-        title: t("admin.dashboard.title"),
-        icon: <AdminPanelSettingsIcon sx={{ fontSize: 28 }} />,
-        path: "admin",
-        color: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        description: t("roleDescription.admin"),
-      };
-    case "Teacher":
-      return {
-        title: t("questionCreation.title"),
-        icon: <QuizIcon sx={{ fontSize: 28 }} />,
-        path: "games",
-        color: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
-        description: t("roleDescription.teacher"),
-      };
-    case "Student":
-      return {
-        title: t("play-now"),
-        icon: <PlayArrowIcon sx={{ fontSize: 28 }} />,
-        path: "games",
-        color: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-        description: t("roleDescription.student"),
-      };
-    default:
-      return {
-        title: t("explore-games"),
-        icon: <SchoolIcon sx={{ fontSize: 28 }} />,
-        path: "games",
-        color: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
-        description: t("roleDescription.default"),
-      };
-  }
-};
-
+  const getRoleContent = () => {
+    switch (role) {
+      case "Admin":
+        return {
+          title: t("admin.dashboard.title"),
+          icon: <AdminPanelSettingsIcon sx={{ fontSize: 28 }} />,
+          path: "admin",
+          color: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          description: t("roleDescription.admin"),
+        };
+      case "Teacher":
+        return {
+          title: t("questionCreation.title"),
+          icon: <QuizIcon sx={{ fontSize: 28 }} />,
+          path: "games",
+          color: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+          description: t("roleDescription.teacher"),
+        };
+      case "Student":
+        return {
+          title: t("play-now"),
+          icon: <PlayArrowIcon sx={{ fontSize: 28 }} />,
+          path: "games",
+          color: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
+          description: t("roleDescription.student"),
+        };
+      default:
+        return {
+          title: t("explore-games"),
+          icon: <SchoolIcon sx={{ fontSize: 28 }} />,
+          path: "games",
+          color: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+          description: t("roleDescription.default"),
+        };
+    }
+  };
 
   const roleContent = getRoleContent();
 
@@ -364,13 +363,13 @@ const getRoleContent = () => {
                   },
                 }}
               >
-                Get Started
+                {t("get-started")}
                 <ArrowForwardIcon sx={{ ml: 1 }} />
               </Button>
 
               <Button
                 component={Link}
-                to="/register"
+                to="/signup"
                 variant="outlined"
                 size="large"
                 sx={{

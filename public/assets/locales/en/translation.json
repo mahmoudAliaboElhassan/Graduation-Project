@@ -589,5 +589,6 @@
     "teacher": "Create and manage questions",
     "student": "Start playing and learning",
     "default": "Discover amazing games"
-  }
+  },
+  "get-started": "Get started"
 }
