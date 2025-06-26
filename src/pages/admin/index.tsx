@@ -51,7 +51,7 @@ const LayoutRoot = styled(Box)(({ theme }) => ({
 // Main content area - always behaves like mobile (full width)
 const MainContent = styled("main")(({ theme }) => ({
   flexGrow: 1,
-  // minHeight: "100vh",
+  minHeight: "100vh",
   maxWidth: "100vw",
   display: "flex",
   flexDirection: "column",
@@ -397,7 +397,7 @@ const AdminDashboard: React.FC = () => {
           {drawerContent}
         </StyledDrawer>
       </Box>
-      <div style={{ marginTop: "120px" }}>
+      <div style={{ marginTop: "60px" }}>
         {/* Main Content - Always full width */}
         <MainContent>
           <ContentArea>

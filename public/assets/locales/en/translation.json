@@ -501,6 +501,7 @@
   "addSubject": "Add Subject",
   "addGrade": "Add Grade",
   "addChapter": "Add Chapter",
+  "addGradeSubjects": "Add Subjects to Grade",
   "educationalQuestions": "Educational Questions",
   "entertainmentQuestions": "Entertainment Questions",
   "common": {
@@ -558,17 +559,25 @@
 
   "chapter-details": "Chapter Details",
 
-  "grade-required": "Grade is required",
   "subject-required": "Subject is required",
-  "chapter-number-required": "Chapter number is required",
-  "chapter-name-required": "Chapter name is required",
   "chapter-added": "Chapter added successfully!",
   "error-add-chapter": "Error adding chapter",
   "error-add-chapter-text": "You don't have permission to add chapters",
   "adding-chapter": "Adding Chapter...",
   "add-chapter-now": "Add New Chapter",
-  "select-grade-description": "Choose the grade level for the new chapter",
   "chapter-details-description": "Enter the chapter number and name",
   "chapter-number": "Chapter Number",
-  "chapter-name": "Chapter Name"
+  "chapter-name": "Chapter Name",
+  "select-grade-description": "Choose the grade level for the subjects",
+  "select-subjects": "Select Subjects",
+  "select-subjects-description": "Choose multiple subjects for this grade. You can remove selected subjects by clicking the X button on each chip.",
+  "grade-required": "Grade is required",
+  "subjects-required": "At least one subject is required",
+  "chapter-number-required": "Chapter number is required",
+  "chapter-name-required": "Chapter name is required",
+  "adding-subjects": "Adding Subjects...",
+  "subjects-added": "Subjects added successfully!",
+  "error-add-subjects-text": "You don't have permission to add subjects",
+  "add-subjects-now": "Add Subjects",
+  "addSubjects": "Add Subjects"
 }

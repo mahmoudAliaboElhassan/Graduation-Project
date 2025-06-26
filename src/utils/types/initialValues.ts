@@ -55,3 +55,7 @@ export interface InitialValuesAddChapter {
   chapterName: string;
   chapterNumber: number | null;
 }
+export interface InitialValuesAddSubjects {
+  gradesSelect: number | null;
+  subjects: string[];
+}

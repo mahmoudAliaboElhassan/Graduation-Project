@@ -73,6 +73,7 @@ function UseInitialStates() {
     loadingAddSubject: false,
     loadingAddGrade: false,
     loadingAddChapter: false,
+    loadinAddGradeSubjects: false,
     error: null,
     EntertainmentQuestions: [],
   };

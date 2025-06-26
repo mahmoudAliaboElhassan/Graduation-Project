@@ -483,6 +483,7 @@
   "addSubject": "إضافة مادة",
   "addGrade": "إضافة صف",
   "addChapter": "إضافة فصل",
+  "addGradeSubjects": "إضافة مواد فصل",
   "educationalQuestions": "أسئلة تعليمية",
   "entertainmentQuestions": "أسئلة ترفيهية",
   "common": {
@@ -549,5 +550,15 @@
   "select-grade-description": "اختار الصف الذي تريد إضافه له الفصل",
   "chapter-details-description": "اكتب رقم واسم الفصل",
   "chapter-number": "رقم الفصل",
-  "chapter-name": "اسم الفصل"
+  "chapter-name": "اسم الفصل",
+
+  "select-subjects": "اختار المواد",
+  "select-subjects-description": "اختار أكتر من مادة للصف ده. يمكنك إزاله أي مادة عن طريق الضغط على علامة X.",
+  "subjects-required": "لازم تختار على الأقل مادة واحدة",
+
+  "adding-subjects": "جاري إضافة المواد...",
+  "subjects-added": "تم إضافة المواد بنجاح!",
+  "error-add-subjects-text": "انت مش مسموح ليك تضيف المواد",
+  "add-subjects-now": "أضف المواد",
+  "addSubjects": "أضف المواد"
 }

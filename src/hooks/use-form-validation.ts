@@ -212,6 +212,16 @@ function UseFormValidation() {
       .required("Chapter Name is required")
       .min(2, "Chapter Name must be at least 2 characters long"),
   });
+  const FORM_VALIDATION_SCHEMA_ADD_SUBJECTS = Yup.object({
+    gradesSelect: Yup.number()
+      .required("grade is required")
+      .nonNullable()
+      .notOneOf([0], "grade must not be zero"),
+    subjects: Yup.array()
+      .of(Yup.string().required("Each subject must be a string"))
+      .min(1, "At least one subject is required")
+      .required("Subjects are required"),
+  });
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
     FORM_VALIDATION_SCHEMA_SIGNUP,
@@ -225,6 +235,7 @@ function UseFormValidation() {
     FORM_VALIDATION_SCHEMA_ADD_GRADE,
     FORM_VALIDATION_SCHEMA_ADD_Subject,
     FORM_VALIDATION_SCHEMA_ADD_CHAPTER,
+    FORM_VALIDATION_SCHEMA_ADD_SUBJECTS,
   };
 }
 

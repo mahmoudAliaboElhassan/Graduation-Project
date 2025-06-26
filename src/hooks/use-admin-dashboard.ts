@@ -15,6 +15,12 @@ function UseAdminDashboard() {
     { id: 3, text: t("addGrade"), icon: "GradeIcon", path: "add-grade" },
     { id: 4, text: t("addChapter"), icon: "ChapterIcon", path: "add-chapter" },
     {
+      id: 4,
+      text: t("addGradeSubjects"),
+      icon: "ChapterIcon",
+      path: "add-grade-subjects",
+    },
+    {
       id: 5,
       text: t("educationalQuestions"),
       icon: "QuizIcon",

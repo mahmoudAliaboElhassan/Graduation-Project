@@ -4,6 +4,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import RootLayout from "../pages/rootLayout";
 import ErrorPage from "../pages/error";
+const AddGradeSubjects = React.lazy(
+  () => import("../pages/admin/addGradeSubjects")
+);
 const AddSubject = React.lazy(() => import("../pages/admin/addSubject"));
 const AddChapter = React.lazy(() => import("../pages/admin/addChapter"));
 
@@ -228,6 +231,14 @@ const router = createBrowserRouter([
             element: (
               <Suspense fallback={<Loader />}>
                 <AddChapter />
+              </Suspense>
+            ),
+          },
+          {
+            path: "add-grade-subjects",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <AddGradeSubjects />
               </Suspense>
             ),
           },

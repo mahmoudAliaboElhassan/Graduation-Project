@@ -9,6 +9,7 @@ import {
   addGrade,
   addSubject,
   addChapter,
+  addGradeSujects,
 } from "../act/actAdmin";
 import {
   EntertainmentQuestion,
@@ -115,6 +116,17 @@ const adminSlice = createSlice({
       .addCase(addChapter.rejected, (state, action) => {
         state.error = action.payload as string;
         state.loadingAddChapter = false;
+      })
+      .addCase(addGradeSujects.pending, (state) => {
+        state.error = null;
+        state.loadinAddGradeSubjects = true;
+      })
+      .addCase(addGradeSujects.fulfilled, (state, action) => {
+        state.loadinAddGradeSubjects = false;
+      })
+      .addCase(addGradeSujects.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.loadinAddGradeSubjects = false;
       });
   },
 });

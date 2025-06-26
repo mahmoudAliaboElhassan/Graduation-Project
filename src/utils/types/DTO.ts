@@ -78,3 +78,7 @@ export interface ChapterData {
   chapterNumber: number;
   chapterName: string;
 }
+export interface GradeSubjects {
+  grade: number;
+  subjectNames: string[];
+}

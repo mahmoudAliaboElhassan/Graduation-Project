@@ -12,6 +12,7 @@ import {
   InitialValuesAddGrade,
   InitialValuesAddSubject,
   InitialValuesAddChapter,
+  InitialValuesAddSubjects,
 } from "../utils/types/initialValues";
 
 function UseInitialValues() {
@@ -72,6 +73,10 @@ function UseInitialValues() {
     chapterName: "",
     chapterNumber: null,
   };
+  const INITIAL_FORM_STATE_ADD_SUBJECTS: InitialValuesAddSubjects = {
+    gradesSelect: null,
+    subjects: [],
+  };
   return {
     INITIAL_FORM_STATE_SIGNUP,
     INITIAL_FORM_STATE_LOGIN,
@@ -85,6 +90,7 @@ function UseInitialValues() {
     INITIAL_FORM_STATE_ADD_GRADE,
     InitialValuesAddSubject,
     INITIAL_FORM_STATE_ADD_CHAPTER,
+    INITIAL_FORM_STATE_ADD_SUBJECTS,
   };
 }
 

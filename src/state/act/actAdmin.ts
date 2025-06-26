@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../utils/axiosInstance";
-import { ChapterData } from "../../utils/types/DTO";
+import { ChapterData, GradeSubjects } from "../../utils/types/DTO";
 
 export const getEducationQuestions = createAsyncThunk(
   "adminSlice/getEducationQuestions",
@@ -150,6 +150,36 @@ export const addChapter = createAsyncThunk(
       const res = await axiosInstance.post(
         `/api/Admin/add-chapters`,
         chapterData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+            // Add any other headers you need here
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const addGradeSujects = createAsyncThunk(
+  "adminSlice/addGradeSujects",
+  async (gradeSubjects: GradeSubjects, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.post(
+        `/api/Admin/add-grade-subjects`,
+        gradeSubjects,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`, // example

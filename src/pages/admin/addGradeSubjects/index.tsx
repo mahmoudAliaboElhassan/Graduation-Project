@@ -25,38 +25,36 @@ import TextFieldWrapper from "../../../components/formUI/textField";
 import ButtonWrapper from "../../../components/formUI/submit";
 import withGuard from "../../../utils/withGuard";
 import Swal from "sweetalert2";
-import { addChapter } from "../../../state/act/actAdmin";
+import { addChapter, addGradeSujects } from "../../../state/act/actAdmin";
 import { useEffect, useState } from "react";
-import { getAllGrades, getSubjects } from "../../../state/act/actAuth";
+import {
+  getAllGrades,
+  getAllSubjects,
+  getSubjects,
+} from "../../../state/act/actAuth";
 import SelectComponent from "../../../components/formUI/select";
+import { GradeSubjects } from "../../../utils/types/DTO";
+import MultiSelectComponent from "../../../components/formUI/select/multiple";
 
 // Interface for the chapter data
-export interface ChapterData {
-  grade: number;
-  subject: string;
-  chapterNumber: number;
-  chapterName: string;
-}
 
-function AddChapter() {
+function AddGradeSubjects() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { INITIAL_FORM_STATE_ADD_CHAPTER } = UseInitialValues();
-  const { FORM_VALIDATION_SCHEMA_ADD_CHAPTER } = UseFormValidation();
+  const { INITIAL_FORM_STATE_ADD_SUBJECTS } = UseInitialValues();
+  const { FORM_VALIDATION_SCHEMA_ADD_SUBJECTS } = UseFormValidation();
   const { themeMode } = UseThemMode();
-  const { loadingGetAllGrades, allGrades, subjects } = useAppSelector(
+  const { loadingGetAllGrades, allGrades, allSubjects } = useAppSelector(
     (state) => state.auth
   );
-
   const [activeStep, setActiveStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(false);
 
   const steps = [
     t("select-grade") || "Select Grade",
-    t("select-subject") || "Select Subject",
-    t("chapter-details") || "Chapter Details",
+    t("select-subjects") || "Select Subjects", // Updated to plural
   ];
 
   useEffect(() => {
@@ -66,6 +64,10 @@ function AddChapter() {
   const gradesSelect = allGrades.map((grade) => ({
     text: grade.gradeName,
     value: grade.gradeId.toString(),
+  }));
+  const subjectSelect = allSubjects.map((subject) => ({
+    text: subject,
+    value: subject,
   }));
 
   const handleNext = async (values: any, setTouched: any, setErrors: any) => {
@@ -82,9 +84,7 @@ function AddChapter() {
       // Load subjects for the selected grade
       setIsLoadingSubjects(true);
       try {
-        await dispatch(
-          getSubjects({ grade: Number(values.gradesSelect) })
-        ).unwrap();
+        await dispatch(getAllSubjects()).unwrap();
       } catch (error: any) {
         console.error("Error loading subjects:", error);
         toast.error(error?.response?.data, {
@@ -96,10 +96,14 @@ function AddChapter() {
       }
     }
 
-    if (activeStep === 1 && !values.subjectQetQuestions) {
-      setTouched({ subjectQetQuestions: true });
+    // Updated validation for subjects array
+    if (
+      activeStep === 1 &&
+      (!values.subjects || values.subjects.length === 0)
+    ) {
+      setTouched({ subjects: true });
       setErrors({
-        subjectQetQuestions: t("subject-required") || "Subject is required",
+        subjects: t("subjects-required") || "At least one subject is required",
       });
       return;
     }
@@ -133,18 +137,16 @@ function AddChapter() {
     setIsSubmitting(true);
 
     try {
-      const chapterData: ChapterData = {
+      const subjectGrades: GradeSubjects = {
+        subjectNames: values.subjects, // This will now be an array of strings
         grade: Number(values.gradesSelect),
-        subject: values.subjectQetQuestions,
-        chapterNumber: Number(values.chapterNumber),
-        chapterName: values.chapterName,
       };
 
-      console.log("Submitting chapter data:", chapterData);
+      console.log("Submitting subjects data:", subjectGrades);
 
-      const result = await dispatch(addChapter(chapterData)).unwrap();
+      const result = await dispatch(addGradeSujects(subjectGrades)).unwrap();
 
-      toast.success(t("chapter-added") || "Chapter added successfully!", {
+      toast.success(t("subjects-added") || "Subjects added successfully!", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -160,14 +162,14 @@ function AddChapter() {
         setActiveStep(0);
       }, 1000);
     } catch (error: any) {
-      console.error("Error adding chapter:", error);
+      console.error("Error adding subjects:", error);
 
       if (error?.status === 401) {
         Swal.fire({
-          title: t("error-add-chapter") || "Error adding chapter",
+          title: t("error-add-subject") || "Error adding subjects",
           text:
-            t("error-add-chapter-text") ||
-            "You don't have permission to add chapters",
+            t("error-add-subjects-text") ||
+            "You don't have permission to add subjects",
           icon: "error",
           confirmButtonText: t("ok") || "OK",
         });
@@ -186,9 +188,9 @@ function AddChapter() {
     <ContainerFormWrapper maxWidth="sm">
       <Formik
         initialValues={{
-          ...INITIAL_FORM_STATE_ADD_CHAPTER,
+          ...INITIAL_FORM_STATE_ADD_SUBJECTS,
         }}
-        validationSchema={FORM_VALIDATION_SCHEMA_ADD_CHAPTER}
+        validationSchema={FORM_VALIDATION_SCHEMA_ADD_SUBJECTS}
         onSubmit={handleSubmit}
         enableReinitialize
       >
@@ -199,38 +201,8 @@ function AddChapter() {
             transition={{ duration: 0.3, delay: 0.5 }}
           >
             <FormWrapper>
-              {/* Loading Overlay */}
-              {(isLoadingSubjects || loadingGetAllGrades) && (
-                <Box
-                  sx={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: "rgba(255, 255, 255, 0.8)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    zIndex: 1000,
-                    borderRadius: 1,
-                  }}
-                >
-                  <Box textAlign="center">
-                    <CircularProgress size={50} sx={{ mb: 2 }} />
-                    <Typography variant="body1" sx={{ fontWeight: "bold" }}>
-                      {isSubmitting
-                        ? t("adding-chapter") || "Adding Chapter..."
-                        : loadingGetAllGrades
-                        ? t("loading-grades") || "Loading Grades..."
-                        : t("loading-subjects") || "Loading Subjects..."}
-                    </Typography>
-                  </Box>
-                </Box>
-              )}
-
               <HeadingElement mode={themeMode}>
-                {t("add-chapter-now") || "Add New Chapter"}
+                {t("add-subjects-now") || "Add Subjects"}
               </HeadingElement>
 
               {/* Stepper */}
@@ -249,59 +221,97 @@ function AddChapter() {
                     <Grid size={{ xs: 12 }}>
                       <Typography variant="body2" sx={{ mb: 2, opacity: 0.7 }}>
                         {t("select-grade-description") ||
-                          "Choose the grade level for the new chapter"}
+                          "Choose the grade level for the subjects"}
                       </Typography>
-                      <SelectComponent
-                        name="gradesSelect"
-                        options={gradesSelect}
-                        label={t("select-grade") || "Select Grade"}
-                        disabled={loadingGetAllGrades}
-                      />
+
+                      {/* Grade Select with Localized Loader */}
+                      <Box sx={{ position: "relative" }}>
+                        <SelectComponent
+                          name="gradesSelect"
+                          options={gradesSelect}
+                          label={t("select-grade") || "Select Grade"}
+                          disabled={loadingGetAllGrades}
+                        />
+
+                        {/* Localized Loader for Grades */}
+                        {loadingGetAllGrades && (
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              backgroundColor: "rgba(255, 255, 255, 0.8)",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              borderRadius: 1,
+                              zIndex: 10,
+                            }}
+                          >
+                            <Box textAlign="center">
+                              <CircularProgress size={24} sx={{ mb: 1 }} />
+                              <Typography
+                                variant="caption"
+                                sx={{ fontSize: "0.75rem" }}
+                              >
+                                {t("loading-grades") || "Loading Grades..."}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        )}
+                      </Box>
                     </Grid>
                   )}
 
-                  {/* Step 1: Select Subject */}
+                  {/* Step 1: Select Subjects (Multi-select) */}
                   {activeStep === 1 && (
                     <Grid size={{ xs: 12 }}>
                       <Typography variant="body2" sx={{ mb: 2, opacity: 0.7 }}>
-                        {t("select-subject-description") ||
-                          "Choose the subject for the new chapter"}
+                        {t("select-subjects-description") ||
+                          "Choose multiple subjects for this grade. You can remove selected subjects by clicking the X button on each chip."}
                       </Typography>
-                      <SelectComponent
-                        name="subjectQetQuestions"
-                        options={subjects as any}
-                        label={t("select-subject") || "Select Subject"}
-                        disabled={isLoadingSubjects}
-                      />
-                    </Grid>
-                  )}
 
-                  {/* Step 2: Chapter Details */}
-                  {activeStep === 2 && (
-                    <>
-                      <Grid size={{ xs: 12 }}>
-                        <Typography
-                          variant="body2"
-                          sx={{ mb: 2, opacity: 0.7 }}
-                        >
-                          {t("chapter-details-description") ||
-                            "Enter the chapter number and name"}
-                        </Typography>
-                      </Grid>
-                      <Grid size={{ xs: 12 }}>
-                        <TextFieldWrapper
-                          name="chapterNumber"
-                          label={t("chapter-number") || "Chapter Number"}
-                          type="number"
+                      {/* Subjects Multi-Select with Localized Loader */}
+                      <Box sx={{ position: "relative" }}>
+                        <MultiSelectComponent
+                          name="subjects"
+                          options={subjectSelect}
+                          label={t("select-subjects") || "Select Subjects"}
+                          disabled={isLoadingSubjects}
                         />
-                      </Grid>
-                      <Grid size={{ xs: 12 }}>
-                        <TextFieldWrapper
-                          name="chapterName"
-                          label={t("chapter-name") || "Chapter Name"}
-                        />
-                      </Grid>
-                    </>
+
+                        {/* Localized Loader for Subjects */}
+                        {isLoadingSubjects && (
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              backgroundColor: "rgba(255, 255, 255, 0.8)",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              borderRadius: 1,
+                              zIndex: 10,
+                            }}
+                          >
+                            <Box textAlign="center">
+                              <CircularProgress size={24} sx={{ mb: 1 }} />
+                              <Typography
+                                variant="caption"
+                                sx={{ fontSize: "0.75rem" }}
+                              >
+                                {t("loading-subjects") || "Loading Subjects..."}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        )}
+                      </Box>
+                    </Grid>
                   )}
                 </Grid>
 
@@ -326,8 +336,8 @@ function AddChapter() {
                   {activeStep === steps.length - 1 ? (
                     <ButtonWrapper disabled={isSubmitting} sx={{ flex: 1 }}>
                       {isSubmitting
-                        ? t("adding-chapter") || "Adding Chapter..."
-                        : t("addChapter") || "Add Chapter"}
+                        ? t("adding-subjects") || "Adding subjects..."
+                        : t("addSubjects") || "Add Subjects"}
                     </ButtonWrapper>
                   ) : (
                     <Button
@@ -349,4 +359,4 @@ function AddChapter() {
   );
 }
 
-export default withGuard(AddChapter);
+export default withGuard(AddGradeSubjects);
