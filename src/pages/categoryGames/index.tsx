@@ -49,7 +49,7 @@ export const CategoryCard = ({
   };
 
   const iconComponent = iconMap[icon as keyof typeof iconMap] || <SchoolIcon />;
-
+  const { mymode } = useAppSelector((state) => state.mode);
   return (
     <Card
       sx={{
@@ -108,7 +108,10 @@ export const CategoryCard = ({
             gutterBottom
             variant="h5"
             component="div"
-            sx={{ fontWeight: "bold" }}
+            sx={{
+              fontWeight: "bold",
+              color: mymode === "dark" ? "white" : "black",
+            }}
           >
             {title}
           </Typography>
@@ -134,33 +137,38 @@ const CategoriesPage = () => {
   }
   console.log("catergoryRole", categoryRole);
   return (
-    <Box
-      sx={{
-        flexGrow: 1,
-        p: 4,
-        direction: direction.direction,
-      }}
-    >
-      <HeadingElement> {t("categories.pageTitle")}</HeadingElement>
+    <div style={{ position: "relative", minHeight: "100vh" }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          p: 4,
+          direction: direction.direction,
+          position: "absolute",
+          top: "50%",
+          transform: "translateY(-50%)",
+        }}
+      >
+        <HeadingElement> {t("categories.pageTitle")}</HeadingElement>
 
-      <Grid container spacing={4} justifyContent="center" alignItems="center">
-        {categoryRole.map(
-          ({ title, description, icon, color, route, state }) => (
-            <Grid item xs={12} sm={5} key={route}>
-              <CategoryCard
-                title={title}
-                description={description}
-                icon={icon}
-                color={color}
-                route={route}
-                state={state}
-              />
-            </Grid>
-          )
-        )}
-      </Grid>
-      <Outlet />
-    </Box>
+        <Grid container spacing={4} justifyContent="center" alignItems="center">
+          {categoryRole.map(
+            ({ title, description, icon, color, route, state }) => (
+              <Grid item xs={12} sm={5} key={route}>
+                <CategoryCard
+                  title={title}
+                  description={description}
+                  icon={icon}
+                  color={color}
+                  route={route}
+                  state={state}
+                />
+              </Grid>
+            )
+          )}
+        </Grid>
+        <Outlet />
+      </Box>
+    </div>
   );
 };
 

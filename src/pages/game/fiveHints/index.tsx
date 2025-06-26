@@ -105,7 +105,10 @@ function FiveHints() {
   }, [dispatch]);
 
   const hasQuestionData =
-    questionData && questionData.hints && Array.isArray(questionData.hints);
+    questionData &&
+    questionData.hints &&
+    Array.isArray(questionData.hints) &&
+    questionData.hints.length > 0;
 
   useEffect(() => {
     if (!loadingGetQuestions && !loadingAnswerQuestion && hasQuestionData) {
@@ -182,7 +185,11 @@ function FiveHints() {
               color="black"
               gutterBottom
             >
-              {question}
+              {question
+                ? question
+                : loadingGetQuestions
+                ? t("wait-question")
+                : t("noQuestion", "No question available")}
             </Typography>
           </CardContent>
         </Card>

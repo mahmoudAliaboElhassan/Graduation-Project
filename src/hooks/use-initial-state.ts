@@ -34,7 +34,7 @@ function UseInitialStates() {
     role: localStorage.getItem("role") as forLocalStorage,
     subjectTeaching: localStorage.getItem("subjectTeaching") as forLocalStorage,
     expirationToken: getExpirationToken(), // ✅ safely handled here
-    totalPoints: 0,
+    totalPoints: localStorage.getItem("totalPoints") || "0",
     loadingForgetPassword: false,
     loadingResetPassword: false,
     loadingGetTopTen: false,
@@ -65,6 +65,7 @@ function UseInitialStates() {
     difficultyData: [],
     question: "",
     summary: "",
+    errorGetQuestions: "",
   };
 
   const initialStateAdmin: initialStateAdmin = {

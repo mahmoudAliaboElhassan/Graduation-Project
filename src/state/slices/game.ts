@@ -96,6 +96,7 @@ export const gameSlice = createSlice({
 
       .addCase(getOffSideQuestions.pending, (state, action) => {
         state.loadingGetQuestions = true;
+        state.errorGetQuestions = "";
       })
       .addCase(getOffSideQuestions.fulfilled, (state, action) => {
         state.question = action.payload.question;
@@ -103,12 +104,18 @@ export const gameSlice = createSlice({
         state.loadingGetQuestions = false;
         state.offsideInformation = action.payload.information;
         state.offsideCorrectAnswer = action.payload.correctAnswer;
+        state.errorGetQuestions = "";
       })
       .addCase(getOffSideQuestions.rejected, (state, action) => {
         state.loadingGetQuestions = false;
+        state.errorGetQuestions =
+          (typeof action.payload === "string"
+            ? action.payload
+            : action.error?.message) || "An unknown error occurred";
       })
       .addCase(getOffsideEntertainment.pending, (state, action) => {
         state.loadingGetQuestions = true;
+        state.errorGetQuestions = "";
       })
       .addCase(getOffsideEntertainment.fulfilled, (state, action) => {
         state.question = action.payload.question;
@@ -116,9 +123,14 @@ export const gameSlice = createSlice({
         state.loadingGetQuestions = false;
         state.offsideInformation = action.payload.information;
         state.offsideCorrectAnswer = action.payload.correctAnswer;
+        state.errorGetQuestions = "";
       })
       .addCase(getOffsideEntertainment.rejected, (state, action) => {
         state.loadingGetQuestions = false;
+        state.errorGetQuestions =
+          (typeof action.payload === "string"
+            ? action.payload
+            : action.error?.message) || "An unknown error occurred";
       })
 
       .addCase(answerQuestion.pending, (state, action) => {

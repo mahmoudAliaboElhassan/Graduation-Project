@@ -35,8 +35,13 @@ function Offside() {
   const { t } = useTranslation();
   const { grade } = useAppSelector((state) => state.auth);
   const { mymode } = useAppSelector((state) => state.mode);
-  const { offsideInformation, loadingGetQuestions, question, summary } =
-    useAppSelector((state) => state.game);
+  const {
+    offsideInformation,
+    loadingGetQuestions,
+    question,
+    summary,
+    errorGetQuestions,
+  } = useAppSelector((state) => state.game);
 
   const [disabledFields, setDisabledFields] = useState<Record<string, boolean>>(
     {}
@@ -236,7 +241,15 @@ function Offside() {
             {({ isValid, dirty }) => (
               <Form>
                 <Grid container spacing={2} sx={{ mb: 2 }}>
-                  <Hint size={{ xs: 12 }}>{question}</Hint>
+                  <Hint size={{ xs: 12 }}>
+                    {loadingGetQuestions
+                      ? t("wait-question")
+                      : errorGetQuestions
+                      ? t("noQuestion")
+                      : offsideInformation?.length > 0
+                      ? question
+                      : t("call-new-question")}
+                  </Hint>
                   {offsideInformation.map((info, index) => {
                     const fieldName = `question${index + 1}`;
                     return (

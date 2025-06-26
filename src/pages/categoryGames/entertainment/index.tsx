@@ -141,8 +141,7 @@ const CategoryEntertainment: React.FC = () => {
         px: { xs: 2, md: 4 },
         minHeight: "100vh",
         direction: direction.direction,
-        backgroundColor: theme.palette.background.default,
-      }}
+       }}
     >
       <Container maxWidth="lg">
         <HeadingElement>{t("categories.pageTitle")}</HeadingElement>

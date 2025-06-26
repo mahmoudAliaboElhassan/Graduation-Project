@@ -48,6 +48,7 @@ function Header() {
   const { mymode } = useAppSelector((state) => state.mode);
   const location = useLocation();
 
+  const { name, totalPoints } = useAppSelector((state) => state.auth);
   return (
     <AppBar position="fixed">
       <Container maxWidth="xl">
@@ -194,6 +195,54 @@ function Header() {
               </Button>
             ))}
           </Box>
+
+          {/* User Info Section - Name and Points */}
+          {token && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                mr: 2,
+                gap: 2,
+              }}
+            >
+              {name && (
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: "white",
+                    fontWeight: 500,
+                    display: { xs: "none", sm: "block" },
+                  }}
+                >
+                  {name}
+                </Typography>
+              )}
+              {totalPoints !== undefined && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    borderRadius: "16px",
+                    px: 2,
+                    py: 0.5,
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: "white",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {t("points", { totalPoints })}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+          )}
+
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title={t("user-menu")}>
               <IconButton color="inherit" onClick={handleOpenUserMenu}>

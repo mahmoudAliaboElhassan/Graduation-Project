@@ -8,9 +8,7 @@ function UseLoadingStatus() {
     loadingAddPoints,
     loadingChangePassword,
   } = useAppSelector((state) => state.auth);
-  const { loadingGetQuestions, loadingAnswerQuestion } = useAppSelector(
-    (state) => state.game
-  );
+  const { loadingAnswerQuestion } = useAppSelector((state) => state.game);
 
   const {
     loadingAddGrade,
@@ -21,7 +19,6 @@ function UseLoadingStatus() {
 
   const loadingStatus =
     loadingAuth ||
-    loadingGetQuestions ||
     loadingAnswerQuestion ||
     loadingResetPassword ||
     loadingForgetPassword ||

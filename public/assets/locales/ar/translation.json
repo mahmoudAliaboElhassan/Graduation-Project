@@ -560,5 +560,14 @@
   "subjects-added": "تم إضافة المواد بنجاح!",
   "error-add-subjects-text": "انت مش مسموح ليك تضيف المواد",
   "add-subjects-now": "أضف المواد",
-  "addSubjects": "أضف المواد"
+  "addSubjects": "أضف المواد",
+  "points": "{{totalPoints}} نقطة",
+  "wait-question": "يرجى الانتظار، جاري تحميل السؤال...",
+  "call-new-question": "اطلب سؤالًا جديدًا",
+  "roleDescription": {
+    "admin": "إدارة النظام والمستخدمين",
+    "teacher": "إنشاء الأسئلة وإدارتها",
+    "student": "ابدأ اللعب و التعلم",
+    "default": "اكتشف ألعابًا رائعة"
+  }
 }

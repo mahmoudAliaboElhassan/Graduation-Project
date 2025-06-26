@@ -8,6 +8,7 @@ export interface LoginResponse {
   message: string;
   role: string;
   subject: string;
+  points: number;
 }
 export interface getHintsResponse {
   correctAnswer: string;

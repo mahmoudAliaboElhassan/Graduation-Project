@@ -24,6 +24,10 @@ export const authSlice = createSlice({
     logOut: (state) => {
       localStorage.removeItem("token");
       state.token = "";
+      state.totalPoints = "0";
+      localStorage.removeItem("totalPoints");
+      state.name = "";
+      localStorage.removeItem("name");
     },
   },
   extraReducers: (builder) => {
@@ -44,7 +48,8 @@ export const authSlice = createSlice({
       })
       .addCase(addPoints.fulfilled, (state, action) => {
         state.loadingAddPoints = false;
-        state.totalPoints = action.payload.totalpoints;
+        localStorage.setItem("totalPoints", String(action.payload.totalpoints));
+        state.totalPoints = String(action.payload.totalpoints);
       })
       .addCase(addPoints.rejected, (state, action) => {
         state.loadingAddPoints = false;
@@ -81,6 +86,9 @@ export const authSlice = createSlice({
           "expirationToken",
           String(new Date(action.payload.expiration))
         );
+
+        localStorage.setItem("totalPoints", String(action.payload.points));
+        state.totalPoints = String(action.payload.points);
       })
       .addCase(logIn.rejected, (state, action) => {
         state.loadingAuth = false;

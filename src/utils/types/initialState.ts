@@ -27,7 +27,7 @@ export interface InitialStateAuth {
   role: forLocalStorage;
   subjectTeaching: forLocalStorage;
   expirationToken: Date | null;
-  totalPoints: number;
+  totalPoints: forLocalStorage;
   loadingForgetPassword: boolean;
   loadingResetPassword: boolean;
   loadingGetTopTen: boolean;
@@ -55,6 +55,7 @@ export interface InitialStateGame {
   correct: boolean;
   difficultyData: DifficultyDataQuestion[];
   question: string;
+  errorGetQuestions: string;
   summary: string;
 }
 export type Question = {
