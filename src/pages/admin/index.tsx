@@ -51,7 +51,7 @@ const LayoutRoot = styled(Box)(({ theme }) => ({
 // Main content area - always behaves like mobile (full width)
 const MainContent = styled("main")(({ theme }) => ({
   flexGrow: 1,
-  minHeight: "100vh",
+  // minHeight: "100vh",
   maxWidth: "100vw",
   display: "flex",
   flexDirection: "column",
@@ -350,7 +350,7 @@ const AdminDashboard: React.FC = () => {
       <CssBaseline />
 
       {/* AppBar */}
-      <StyledAppBar position="fixed">
+      <StyledAppBar>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -397,61 +397,62 @@ const AdminDashboard: React.FC = () => {
           {drawerContent}
         </StyledDrawer>
       </Box>
-
-      {/* Main Content - Always full width */}
-      <MainContent>
-        <ContentArea>
-          {location.pathname === "/admin" ? (
-            <WelcomeContainer>
-              <WelcomeCard elevation={0}>
-                <Avatar
-                  sx={{
-                    width: 80,
-                    height: 80,
-                    bgcolor: "primary.main",
-                    mx: "auto",
-                    mb: 3,
-                  }}
-                >
-                  <DashboardIcon sx={{ fontSize: 40 }} />
-                </Avatar>
-                <Typography
-                  variant="h3"
-                  gutterBottom
-                  sx={{
-                    fontWeight: 700,
-                    background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                    backgroundClip: "text",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    mb: 2,
-                  }}
-                >
-                  {t("welcome.title")}
-                </Typography>
-                <Typography
-                  variant="h6"
-                  color="text.secondary"
-                  sx={{
-                    mb: 4,
-                    fontWeight: 400,
-                    opacity: 0.8,
-                  }}
-                >
-                  {t("welcome.subtitle")}
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  {t("welcome.description")}
-                </Typography>
-              </WelcomeCard>
-            </WelcomeContainer>
-          ) : (
-            <OutletWrapper>
-              <Outlet />
-            </OutletWrapper>
-          )}
-        </ContentArea>
-      </MainContent>
+      <div style={{ marginTop: "120px" }}>
+        {/* Main Content - Always full width */}
+        <MainContent>
+          <ContentArea>
+            {location.pathname === "/admin" ? (
+              <WelcomeContainer>
+                <WelcomeCard elevation={0}>
+                  <Avatar
+                    sx={{
+                      width: 80,
+                      height: 80,
+                      bgcolor: "primary.main",
+                      mx: "auto",
+                      mb: 3,
+                    }}
+                  >
+                    <DashboardIcon sx={{ fontSize: 40 }} />
+                  </Avatar>
+                  <Typography
+                    variant="h3"
+                    gutterBottom
+                    sx={{
+                      fontWeight: 700,
+                      background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                      backgroundClip: "text",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      mb: 2,
+                    }}
+                  >
+                    {t("welcome.title")}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    color="text.secondary"
+                    sx={{
+                      mb: 4,
+                      fontWeight: 400,
+                      opacity: 0.8,
+                    }}
+                  >
+                    {t("welcome.subtitle")}
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    {t("welcome.description")}
+                  </Typography>
+                </WelcomeCard>
+              </WelcomeContainer>
+            ) : (
+              <OutletWrapper>
+                <Outlet />
+              </OutletWrapper>
+            )}
+          </ContentArea>
+        </MainContent>
+      </div>
     </LayoutRoot>
   );
 };

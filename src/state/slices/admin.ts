@@ -8,6 +8,7 @@ import {
   getEntertainmentQuestions,
   addGrade,
   addSubject,
+  addChapter,
 } from "../act/actAdmin";
 import {
   EntertainmentQuestion,
@@ -103,6 +104,17 @@ const adminSlice = createSlice({
       .addCase(addSubject.rejected, (state, action) => {
         state.error = action.payload as string;
         state.loadingAddSubject = false;
+      })
+      .addCase(addChapter.pending, (state) => {
+        state.error = null;
+        state.loadingAddChapter = true;
+      })
+      .addCase(addChapter.fulfilled, (state, action) => {
+        state.loadingAddChapter = false;
+      })
+      .addCase(addChapter.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.loadingAddChapter = false;
       });
   },
 });

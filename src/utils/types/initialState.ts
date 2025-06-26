@@ -82,6 +82,7 @@ export interface initialStateAdmin {
   loadinGetQuestions: boolean;
   loadingAddGrade: boolean;
   loadingAddSubject: boolean;
+  loadingAddChapter: boolean;
   error: string | null;
   EntertainmentQuestions: EntertainmentQuestion[];
 }

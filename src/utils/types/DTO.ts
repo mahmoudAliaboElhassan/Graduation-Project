@@ -72,3 +72,9 @@ export interface EntertainmentDifficultyT {
     difficultyLevel: number;
   }[];
 }
+export interface ChapterData {
+  grade: number;
+  subject: string;
+  chapterNumber: number;
+  chapterName: string;
+}

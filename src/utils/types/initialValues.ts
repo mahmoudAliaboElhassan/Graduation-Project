@@ -49,3 +49,9 @@ export interface InitialValuesAddSubject {
   name: string;
   image: File | null;
 }
+export interface InitialValuesAddChapter {
+  gradesSelect: number | null;
+  subjectQetQuestions: string;
+  chapterName: string;
+  chapterNumber: number | null;
+}

@@ -12,9 +12,8 @@ function UseLoadingStatus() {
     (state) => state.game
   );
 
-  const { loadingAddGrade, loadingAddSubject } = useAppSelector(
-    (state) => state.admin
-  );
+  const { loadingAddGrade, loadingAddSubject, loadingAddChapter } =
+    useAppSelector((state) => state.admin);
 
   const loadingStatus =
     loadingAuth ||
@@ -25,6 +24,7 @@ function UseLoadingStatus() {
     loadingAddPoints ||
     loadingAddGrade ||
     loadingAddSubject ||
+    loadingAddChapter ||
     loadingChangePassword;
   return Boolean(loadingStatus);
 }

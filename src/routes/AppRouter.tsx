@@ -4,7 +4,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import RootLayout from "../pages/rootLayout";
 import ErrorPage from "../pages/error";
-import AddSubject from "../pages/admin/addSubject";
+const AddSubject = React.lazy(() => import("../pages/admin/addSubject"));
+const AddChapter = React.lazy(() => import("../pages/admin/addChapter"));
 
 const MakeDifficulty = React.lazy(
   () => import("../pages/game/difficulty/make")
@@ -222,14 +223,14 @@ const router = createBrowserRouter([
               </Suspense>
             ),
           },
-          // {
-          //   path: "add-chapter",
-          //   element: (
-          //     <Suspense fallback={<Loader />}>
-          //       <AddChapter />
-          //     </Suspense>
-          //   ),
-          // },
+          {
+            path: "add-chapter",
+            element: (
+              <Suspense fallback={<Loader />}>
+                <AddChapter />
+              </Suspense>
+            ),
+          },
           {
             path: "educational-questions",
             element: (

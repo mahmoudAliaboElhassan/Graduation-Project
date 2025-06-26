@@ -534,5 +534,20 @@
   "name-required": "اسم المادة مطلوب",
   "image-required": "صورة المادة مطلوبة",
   "invalid-file-type": "يرجى اختيار ملف صورة صالح",
-  "file-too-large": "يجب ألا يتجاوز حجم الصورة 5 ميجابايت"
+  "file-too-large": "يجب ألا يتجاوز حجم الصورة 5 ميجابايت",
+
+  "chapter-details": "تفاصيل الفصل",
+  "grade-required": "الصف مطلوب",
+  "subject-required": "المادة مطلوبة",
+  "chapter-number-required": "رقم الفصل مطلوب",
+  "chapter-name-required": "اسم الفصل مطلوب",
+  "chapter-added": "تم إضافة الفصل بنجاح!",
+  "error-add-chapter": "فيه مشكلة في إضافة الفصل",
+  "error-add-chapter-text": "مش مسموحلك تضيف فصول",
+  "adding-chapter": "جاري إضافة الفصل...",
+  "add-chapter-now": "أضف فصل جديد",
+  "select-grade-description": "اختار الصف الذي تريد إضافه له الفصل",
+  "chapter-details-description": "اكتب رقم واسم الفصل",
+  "chapter-number": "رقم الفصل",
+  "chapter-name": "اسم الفصل"
 }

@@ -554,5 +554,21 @@
   "image-required": "Subject image is required",
   "invalid-file-type": "Please select a valid image file",
   "file-too-large": "Image size should be less than 5MB",
-  "create-question-now": "Create Question Now"
+  "create-question-now": "Create Question Now",
+
+  "chapter-details": "Chapter Details",
+
+  "grade-required": "Grade is required",
+  "subject-required": "Subject is required",
+  "chapter-number-required": "Chapter number is required",
+  "chapter-name-required": "Chapter name is required",
+  "chapter-added": "Chapter added successfully!",
+  "error-add-chapter": "Error adding chapter",
+  "error-add-chapter-text": "You don't have permission to add chapters",
+  "adding-chapter": "Adding Chapter...",
+  "add-chapter-now": "Add New Chapter",
+  "select-grade-description": "Choose the grade level for the new chapter",
+  "chapter-details-description": "Enter the chapter number and name",
+  "chapter-number": "Chapter Number",
+  "chapter-name": "Chapter Name"
 }
