@@ -145,7 +145,9 @@ const CategoriesPage = () => {
           direction: direction.direction,
           position: "absolute",
           top: "50%",
-          transform: "translateY(-50%)",
+          left: "50%",
+          transform: "translate(-50%,-50%)",
+          width: "100%",
         }}
       >
         <HeadingElement> {t("categories.pageTitle")}</HeadingElement>

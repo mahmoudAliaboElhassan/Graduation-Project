@@ -195,7 +195,7 @@ function HomePage() {
                   )}
                   {totalPoints !== undefined && (
                     <Chip
-                      label={`${totalPoints} Points`}
+                      label={t("points", { totalPoints })}
                       sx={{
                         background: "linear-gradient(45deg, #FFD700, #FFA500)",
                         color: "white",
@@ -274,60 +274,64 @@ function HomePage() {
               <motion.div variants={itemVariants} style={{ marginTop: "2rem" }}>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
-                    <Card
-                      sx={{
-                        background: "rgba(255, 255, 255, 0.1)",
-                        backdropFilter: "blur(10px)",
-                        border: "1px solid rgba(255, 255, 255, 0.2)",
-                        borderRadius: 2,
-                        cursor: "pointer",
-                        transition: "all 0.3s ease",
-                        "&:hover": {
-                          transform: "translateY(-5px)",
-                          boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-                        },
-                      }}
-                    >
-                      <CardContent sx={{ textAlign: "center", py: 2 }}>
-                        <QuizIcon
-                          sx={{ fontSize: 32, color: "white", mb: 1 }}
-                        />
-                        <Typography
-                          variant="body2"
-                          sx={{ color: "white", fontWeight: 500 }}
-                        >
-                          Quick Quiz
-                        </Typography>
-                      </CardContent>
-                    </Card>
+                    <Link to={"games/education"}>
+                      <Card
+                        sx={{
+                          background: "rgba(255, 255, 255, 0.1)",
+                          backdropFilter: "blur(10px)",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                          borderRadius: 2,
+                          cursor: "pointer",
+                          transition: "all 0.3s ease",
+                          "&:hover": {
+                            transform: "translateY(-5px)",
+                            boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+                          },
+                        }}
+                      >
+                        <CardContent sx={{ textAlign: "center", py: 2 }}>
+                          <QuizIcon
+                            sx={{ fontSize: 32, color: "white", mb: 1 }}
+                          />
+                          <Typography
+                            variant="body2"
+                            sx={{ color: "white", fontWeight: 500 }}
+                          >
+                            {t("quick-quiz")}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Link>
                   </Grid>
                   <Grid item xs={6}>
-                    <Card
-                      sx={{
-                        background: "rgba(255, 255, 255, 0.1)",
-                        backdropFilter: "blur(10px)",
-                        border: "1px solid rgba(255, 255, 255, 0.2)",
-                        borderRadius: 2,
-                        cursor: "pointer",
-                        transition: "all 0.3s ease",
-                        "&:hover": {
-                          transform: "translateY(-5px)",
-                          boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-                        },
-                      }}
-                    >
-                      <CardContent sx={{ textAlign: "center", py: 2 }}>
-                        <SchoolIcon
-                          sx={{ fontSize: 32, color: "white", mb: 1 }}
-                        />
-                        <Typography
-                          variant="body2"
-                          sx={{ color: "white", fontWeight: 500 }}
-                        >
-                          Leaderboard
-                        </Typography>
-                      </CardContent>
-                    </Card>
+                    <Link to={"top-10"}>
+                      <Card
+                        sx={{
+                          background: "rgba(255, 255, 255, 0.1)",
+                          backdropFilter: "blur(10px)",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                          borderRadius: 2,
+                          cursor: "pointer",
+                          transition: "all 0.3s ease",
+                          "&:hover": {
+                            transform: "translateY(-5px)",
+                            boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+                          },
+                        }}
+                      >
+                        <CardContent sx={{ textAlign: "center", py: 2 }}>
+                          <SchoolIcon
+                            sx={{ fontSize: 32, color: "white", mb: 1 }}
+                          />
+                          <Typography
+                            variant="body2"
+                            sx={{ color: "white", fontWeight: 500 }}
+                          >
+                            {t("leaderboard")}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Link>
                   </Grid>
                 </Grid>
               </motion.div>

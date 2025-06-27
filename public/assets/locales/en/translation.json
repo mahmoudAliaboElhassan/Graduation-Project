@@ -590,5 +590,7 @@
     "student": "Start playing and learning",
     "default": "Discover amazing games"
   },
-  "get-started": "Get started"
+  "get-started": "Get started",
+  "leaderboard": "Leaderboard",
+  "quick-quiz": "Quick Quiz"
 }

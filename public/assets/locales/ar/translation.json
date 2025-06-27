@@ -562,6 +562,8 @@
   "add-subjects-now": "أضف المواد",
   "addSubjects": "أضف المواد",
   "points": "{{totalPoints}} نقطة",
+  "welcome-now": "أهلاً",
+
   "wait-question": "يرجى الانتظار، جاري تحميل السؤال...",
   "call-new-question": "اطلب سؤالًا جديدًا",
   "roleDescription": {
@@ -569,6 +571,8 @@
     "teacher": "إنشاء الأسئلة وإدارتها",
     "student": "ابدأ اللعب و التعلم",
     "default": "اكتشف ألعابًا رائعة",
-    "get-started": "ابدأ الآن"
+    "get-started": "ابدأ الآن",
+    "leaderboard": "لوحة الصدارة",
+    "quick-quiz": "اختبار سريع"
   }
 }
