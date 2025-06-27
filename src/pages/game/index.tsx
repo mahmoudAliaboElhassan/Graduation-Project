@@ -28,7 +28,7 @@ function Games() {
       <Grid spacing={4} container>
         <Grid size={{ xs: 12 }}>
           <HeadingElement>
-            {role == "Teacher"
+            {role == "Teacher" || role == "Admin"
               ? t("select-game-create")
               : t("select-game-play")}
           </HeadingElement>
@@ -36,19 +36,31 @@ function Games() {
 
         <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
           <CardGame
-            to={role === "Teacher" ? "/make-five-hints" : "five-hints"}
+            to={
+              role === "Teacher" || role == "Admin"
+                ? "/make-five-hints"
+                : "five-hints"
+            }
             data={gamesData[0]}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
           <CardGame
-            to={role === "Teacher" ? "/make-offside" : "offside"}
+            to={
+              role === "Teacher" || role == "Admin"
+                ? "/make-offside"
+                : "offside"
+            }
             data={gamesData[1]}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
           <CardGame
-            to={role == "Teacher" ? "/make-difficulty" : "difficulty"}
+            to={
+              role == "Teacher" || role == "Admin"
+                ? "/make-difficulty"
+                : "difficulty"
+            }
             data={gamesData[2]}
           />
         </Grid>

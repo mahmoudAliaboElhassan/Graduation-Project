@@ -556,7 +556,7 @@
   "image-required": "Subject image is required",
   "invalid-file-type": "Please select a valid image file",
   "file-too-large": "Image size should be less than 5MB",
-  "create-question-now": "Create Question Now",
+  "create-question-now": "Create Question",
 
   "chapter-details": "Chapter Details",
 
@@ -592,5 +592,6 @@
   },
   "get-started": "Get started",
   "leaderboard": "Leaderboard",
-  "quick-quiz": "Quick Quiz"
+  "quick-quiz": "Quick Quiz",
+  "start-playing": "Start Playing"
 }

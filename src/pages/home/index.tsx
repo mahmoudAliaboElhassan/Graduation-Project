@@ -18,6 +18,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import QuizIcon from "@mui/icons-material/Quiz";
 import SchoolIcon from "@mui/icons-material/School";
+import AddIcon from "@mui/icons-material/Add";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 
@@ -269,7 +270,49 @@ function HomePage() {
               </Paper>
             </motion.div>
 
-            {/* Additional Quick Actions for different roles */}
+            {/* Additional Quick Actions for Admin */}
+            {role === "Admin" && (
+              <motion.div variants={itemVariants} style={{ marginTop: "2rem" }}>
+                <Link to={"games"}>
+                  <Card
+                    sx={{
+                      background: "rgba(255, 255, 255, 0.1)",
+                      backdropFilter: "blur(10px)",
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                      borderRadius: 2,
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "translateY(-5px)",
+                        boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+                      },
+                    }}
+                  >
+                    <CardContent sx={{ textAlign: "center", py: 3 }}>
+                      <AddIcon sx={{ fontSize: 36, color: "white", mb: 1 }} />
+                      <Typography
+                        variant="h6"
+                        sx={{ color: "white", fontWeight: 600, mb: 1 }}
+                      >
+                        {t("questionCreation.title") || "Create Questions"}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: "rgba(255, 255, 255, 0.8)",
+                          fontWeight: 400,
+                        }}
+                      >
+                        {t("manage-game-content") ||
+                          "Manage game content and create new questions"}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </motion.div>
+            )}
+
+            {/* Additional Quick Actions for Students */}
             {role === "Student" && (
               <motion.div variants={itemVariants} style={{ marginTop: "2rem" }}>
                 <Grid container spacing={2}>
@@ -391,7 +434,7 @@ function HomePage() {
                   },
                 }}
               >
-                Sign Up
+                {t("signup")}
               </Button>
             </Stack>
           </motion.div>

@@ -42,7 +42,10 @@ function withGuard<T extends object>(
         }
       }
 
-      if ((!token || role !== "Teacher") && category === "education") {
+      if (
+        (!token || (role !== "Teacher" && role !== "Admin")) &&
+        category === "education"
+      ) {
         if (
           pathname.startsWith("/make-offside") ||
           pathname.startsWith("/make-five-hints") ||

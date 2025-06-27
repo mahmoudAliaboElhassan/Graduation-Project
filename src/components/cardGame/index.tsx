@@ -39,14 +39,14 @@ function CardGame({ to, data }: Props) {
   );
   const { role } = useAppSelector((state) => state.auth);
 
-  // Check if we should show two buttons
+  // Check if we should show two buttons - Admin acts as Teacher
   const showTwoButtons =
     categoryGame === "entertainment" &&
-    (role === "Teacher" || role === "Student");
+    (role === "Teacher" || role === "Student" || role === "Admin");
 
-  // Generate the appropriate links
+  // Generate the appropriate links - Admin acts as Teacher
   const getMakeLink = () => {
-    if (role === "Teacher") {
+    if (role === "Teacher" || role === "Admin") {
       return categoryGame === "education"
         ? `${to}/education`
         : `${to}/entertainment`;
@@ -60,7 +60,7 @@ function CardGame({ to, data }: Props) {
     // Extract game name from the 'to' prop (e.g., "offside" from "/make-offside")
     const gameName = to.replace("/make-", "").replace("/", "");
 
-    if (role === "Teacher") {
+    if (role === "Teacher" || role === "Admin") {
       return categoryGame === "education"
         ? `${to}/education`
         : `/games/${categoryGame}/${gameName}/play-${gameName}`;
@@ -73,14 +73,14 @@ function CardGame({ to, data }: Props) {
   };
 
   const getSingleButtonLink = () => {
-    if (role === "Teacher") {
+    if (role === "Teacher" || role === "Admin") {
       return categoryGame === "education"
         ? `${to}/education`
         : `${to}/entertainment`;
     } else if (role === "Student") {
       return categoryGame === "education" ? to : `${to}/play-${to}`;
     }
-    // For roles that are neither Student nor Teacher
+    // For roles that are neither Student nor Teacher nor Admin
     return localStorage.getItem("gameState") === "play"
       ? `${to}/play-${to}`
       : `/make-${to}/entertainment`;
@@ -334,6 +334,7 @@ function CardGame({ to, data }: Props) {
           transform: isSmallScreen ? "translateX(-50%)" : "none",
           width: isSmallScreen ? "auto" : "calc(100% - 48px)",
           px: 0,
+          textAlign: "center",
         }}
       >
         <Button
@@ -356,7 +357,9 @@ function CardGame({ to, data }: Props) {
             },
           }}
         >
-          {role === "Teacher" || localStorage.getItem("gameState") === "make"
+          {role === "Teacher" ||
+          role === "Admin" ||
+          localStorage.getItem("gameState") === "make"
             ? t("create-question-now")
             : t("start-playing")}
         </Button>
