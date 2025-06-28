@@ -119,6 +119,7 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
         answerQuestion({
           answer: values.answer,
           correctanswer: questionData.correctAnswer,
+          hints: questionData.hints.join(","),
         })
       )
         .unwrap()

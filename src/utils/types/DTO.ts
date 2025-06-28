@@ -22,6 +22,7 @@ export interface UserDataGameGetQuestion {
 export interface UserDataHintGameAnswerQuestion {
   answer: string;
   correctanswer: forLocalStorage;
+  hints: string;
 }
 export interface Grade {
   grade: number;
@@ -47,7 +48,9 @@ export interface UserDataEntertainmentMakeQuestion {
 type answerQuestion = {
   answer: string;
   correctanswer: string;
+  question: string;
 };
+
 export type AnswerDifficultyT = answerQuestion[];
 
 export interface EducationDifficultyT {

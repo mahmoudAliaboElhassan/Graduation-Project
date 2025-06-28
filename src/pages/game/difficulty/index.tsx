@@ -54,6 +54,7 @@ interface FormValues {
 interface AnswerSubmission {
   answer: string;
   correctanswer: string;
+  question: string;
 }
 
 interface DifficultyProps {
@@ -163,6 +164,7 @@ const Difficulty: React.FC<DifficultyProps> = () => {
         (question, index) => ({
           answer: values[`question_${index}`] || "",
           correctanswer: question.correctAnswer,
+          question: question.question,
         })
       );
 
