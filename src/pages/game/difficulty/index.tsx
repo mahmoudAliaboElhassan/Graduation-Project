@@ -73,6 +73,7 @@ const Difficulty: React.FC<DifficultyProps> = () => {
   const { difficultyData, loadingGetQuestions } = useAppSelector(
     (state) => state.game
   );
+
   const { mymode } = useAppSelector((state) => state.mode);
 
   // Local state
@@ -501,19 +502,23 @@ const Difficulty: React.FC<DifficultyProps> = () => {
                   <CardContent sx={{ py: 2 }}>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                       {isCorrect ? (
+                        <>
                         <CheckCircleIcon
                           sx={{
                             color: mymode === "light" ? "#4caf50" : "#66bb6a",
                             fontSize: 28,
                           }}
                         />
-                      ) : (
+                      </>) : (
+                        <>
                         <CancelIcon
                           sx={{
                             color: mymode === "light" ? "#f44336" : "#ef5350",
                             fontSize: 28,
                           }}
-                        />
+                          
+                          />
+                          <span>{difficultyData[index].correctAnswer}</span> </>
                       )}
                       <Box sx={{ flex: 1 }}>
                         <Typography
