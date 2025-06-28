@@ -81,9 +81,7 @@ function ResetPassword() {
               transition={{ duration: 0.3, delay: 0.5 }}
             >
               <FormWrapper>
-                <HeadingElement mode={themeMode}>
-                  {t("reset-password")}
-                </HeadingElement>
+                <HeadingElement>{t("reset-password")}</HeadingElement>
                 <Grid container>
                   <Grid size={{ xs: 12 }}>
                     <PasswordField name="password" label={t("password")} />

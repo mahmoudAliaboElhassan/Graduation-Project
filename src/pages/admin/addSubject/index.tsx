@@ -120,7 +120,7 @@ export default function AddSubject() {
               >
                 <Form>
                   <FormWrapper>
-                    <HeadingElement mode={themeMode}>
+                    <HeadingElement>
                       {t("add-subject-now") || "Add New Subject"}
                     </HeadingElement>
 

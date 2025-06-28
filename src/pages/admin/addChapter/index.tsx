@@ -229,7 +229,7 @@ function AddChapter() {
                 </Box>
               )}
 
-              <HeadingElement mode={themeMode}>
+              <HeadingElement>
                 {t("add-chapter-now") || "Add New Chapter"}
               </HeadingElement>
 

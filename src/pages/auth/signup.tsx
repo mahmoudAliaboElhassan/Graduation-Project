@@ -264,7 +264,7 @@ function SignUp() {
               transition={{ duration: 0.3, delay: 0.5 }}
             >
               <FormWrapper>
-                <HeadingElement mode={mymode}>{t("signup-now")}</HeadingElement>
+                <HeadingElement>{t("signup-now")}</HeadingElement>
                 <FormFields />
                 <ButtonWrapper disabled={isSelectLoading}>
                   {t("signup")}

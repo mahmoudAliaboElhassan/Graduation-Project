@@ -60,9 +60,7 @@ function ChangePassword() {
           >
             <div>
               <FormWrapper>
-                <HeadingElement mode={themeMode}>
-                  {t("change-password-now")}
-                </HeadingElement>
+                <HeadingElement>{t("change-password-now")}</HeadingElement>
                 <Grid container>
                   <Grid size={{ xs: 12 }}>
                     <PasswordField

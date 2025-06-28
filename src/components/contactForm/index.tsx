@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
- import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import emailjs from "emailjs-com";
 
 import TextFieldWrapper from "../../components/formUI/textField";
@@ -21,7 +21,7 @@ import { InitialValuesContacts } from "../../utils/types/initialValues";
 
 function ContactForm() {
   const { t } = useTranslation();
-   const { INITIAL_FORM_STATE_CONTACT } = UseInitialValues();
+  const { INITIAL_FORM_STATE_CONTACT } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_CONTACTS } = UseFormValidation();
   const { themeMode } = UseThemMode();
 
@@ -91,7 +91,7 @@ function ContactForm() {
             transition={{ duration: 0.3, delay: 0.5 }}
           >
             <FormWrapper style={{ border: "none" }}>
-              <HeadingElement mode={themeMode}>{t("contact-heading")}</HeadingElement>
+              <HeadingElement>{t("contact-heading")}</HeadingElement>
               <Grid container spacing={1}>
                 <Grid size={{ xs: 6 }}>
                   <TextFieldWrapper name="email" label={t("email")} />

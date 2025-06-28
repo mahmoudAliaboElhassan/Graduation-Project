@@ -34,7 +34,7 @@ function Games() {
           </HeadingElement>
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
+        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
           <CardGame
             to={
               role === "Teacher" || role == "Admin"
@@ -44,7 +44,7 @@ function Games() {
             data={gamesData[0]}
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
+        <Grid size={{ xs: 12, sm: 12, md: 6, lg: 6 }}>
           <CardGame
             to={
               role === "Teacher" || role == "Admin"
@@ -54,7 +54,7 @@ function Games() {
             data={gamesData[1]}
           />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
+        <Grid size={{ xs: 12, sm: 12, md: 12, lg: 12 }}>
           <CardGame
             to={
               role == "Teacher" || role == "Admin"

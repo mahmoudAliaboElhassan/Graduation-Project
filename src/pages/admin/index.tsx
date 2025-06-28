@@ -36,7 +36,7 @@ import { styled } from "@mui/material/styles";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import UseAdminDashboard from "../../hooks/use-admin-dashboard";
 import UseDirection from "../../hooks/use-direction";
-
+import "./admin.css";
 const drawerWidth = 280;
 
 // Root layout container
@@ -54,6 +54,8 @@ const MainContent = styled("main")(({ theme }) => ({
   minHeight: "100vh",
   maxWidth: "100vw",
   display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   flexDirection: "column",
   overflow: "hidden",
   marginLeft: 0,
@@ -166,7 +168,7 @@ const WelcomeCard = styled(Paper)(({ theme }) => ({
 const WelcomeContainer = styled(Box)({
   display: "flex",
   justifyContent: "center",
-  alignItems: "flex-start",
+  alignItems: "center",
   width: "100%",
   minHeight: "100%",
 });

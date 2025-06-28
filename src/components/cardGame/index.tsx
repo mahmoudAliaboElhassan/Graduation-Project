@@ -179,6 +179,7 @@ function CardGame({ to, data }: Props) {
             display: "flex",
             gap: 1,
             flexDirection: isSmallScreen ? "column" : "row",
+            whiteSpace: "nowrap",
           }}
         >
           <Button
@@ -334,7 +335,7 @@ function CardGame({ to, data }: Props) {
           transform: isSmallScreen ? "translateX(-50%)" : "none",
           width: isSmallScreen ? "auto" : "calc(100% - 48px)",
           px: 0,
-          textAlign: "center",
+          whiteSpace: "nowrap",
         }}
       >
         <Button

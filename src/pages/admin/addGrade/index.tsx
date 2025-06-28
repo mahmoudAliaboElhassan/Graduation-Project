@@ -69,9 +69,7 @@ function AddGrade() {
               transition={{ duration: 0.3, delay: 0.5 }}
             >
               <FormWrapper>
-                <HeadingElement mode={themeMode}>
-                  {t("add-grade-now")}
-                </HeadingElement>
+                <HeadingElement>{t("add-grade-now")}</HeadingElement>
                 <Grid container>
                   <Grid size={{ xs: 12 }}>
                     <TextFieldWrapper name="grade" label={t("grade")} />

@@ -201,7 +201,7 @@ function AddGradeSubjects() {
             transition={{ duration: 0.3, delay: 0.5 }}
           >
             <FormWrapper>
-              <HeadingElement mode={themeMode}>
+              <HeadingElement>
                 {t("add-subjects-now") || "Add Subjects"}
               </HeadingElement>
 

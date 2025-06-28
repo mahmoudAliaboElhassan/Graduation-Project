@@ -24,6 +24,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../hooks/redux";
 import UseMediaQuery from "../../hooks/use-media-query";
+import UseDirection from "../../hooks/use-direction";
 
 interface Colors {
   primary: string;
@@ -43,7 +44,10 @@ interface MissionItem {
   description: string;
   color: string;
 }
-
+const scrollToMission = () => {
+  const missionSection = document.getElementById("mission-section");
+  missionSection?.scrollIntoView({ behavior: "smooth" });
+};
 const About: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { mymode } = useAppSelector((state: any) => state.mode);
@@ -99,7 +103,7 @@ const About: React.FC = () => {
       color: mymode === "light" ? "#fca5a5" : "#f87171",
     },
   ];
-
+  const { direction } = UseDirection();
   return (
     <Container>
       <Grid
@@ -110,16 +114,19 @@ const About: React.FC = () => {
           position: "relative",
           minHeight: "100vh",
           overflow: "hidden",
-          direction: isRTL ? "rtl" : "ltr",  
-          backgroundImage:
-            mymode === "light"
-              ? "linear-gradient(to top, #c31432, #240b36)"
-              : "linear-gradient(0deg, #1a1a2e, #4b000f)",
+          direction: isRTL ? "rtl" : "ltr",
+          // Removed backgroundImage - will inherit from root layout
         }}
       >
         <Grid item xs={12}>
           {/* Hero Section */}
-          <Box sx={{ textAlign: "center", py: { xs: 8, md: 12 }, mb: 6,bgcolor:"inherit" }}>
+          <Box
+            sx={{
+              textAlign: "center",
+              py: { xs: 8, md: 12 },
+              mb: 6,
+            }}
+          >
             <Chip
               label={t("graduationProject")}
               sx={{
@@ -178,7 +185,7 @@ const About: React.FC = () => {
               direction={{ xs: "column", sm: "row" }}
               spacing={2}
               justifyContent="center"
-              sx={{ mt: 4 }}
+              sx={{ mt: 4, gap: "8px" }}
             >
               <Button
                 component={Link}
@@ -202,11 +209,13 @@ const About: React.FC = () => {
               <Button
                 variant="outlined"
                 size="large"
+                onClick={scrollToMission}
                 sx={{
                   borderColor: "white",
                   color: "white",
                   px: 4,
                   py: 1.5,
+
                   fontSize: "1.1rem",
                   "&:hover": {
                     backgroundColor: "white",
@@ -520,6 +529,7 @@ const About: React.FC = () => {
 
           {/* Mission Section */}
           <Paper
+            id="mission-section"
             sx={{
               background: colors.paperBg,
               backdropFilter: "blur(10px)",
