@@ -18,14 +18,18 @@ import { HeadingElement } from "../../styles/heading";
 import { FormWrapper } from "../../styles/forms";
 import { useAppDispatch } from "../../hooks/redux";
 import { InitialValuesContacts } from "../../utils/types/initialValues";
+import { useState } from "react";
 
 function ContactForm() {
   const { t } = useTranslation();
   const { INITIAL_FORM_STATE_CONTACT } = UseInitialValues();
   const { FORM_VALIDATION_SCHEMA_CONTACTS } = UseFormValidation();
   const { themeMode } = UseThemMode();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const sendEmail = (formValues: InitialValuesContacts) => {
+    setIsSubmitting(true);
+
     const templateParams = {
       email: formValues.email,
       title: formValues.title,
@@ -37,7 +41,7 @@ function ContactForm() {
     // console.log("Template ID:", process.env.REACT_APP_TEMPLATE_ID);
     // console.log("User ID:", process.env.REACT_APP_USER_ID);
 
-    emailjs
+    return emailjs
       .send(
         process.env.REACT_APP_SERVICE_ID || "",
         process.env.REACT_APP_TEMPLATE_ID || "",
@@ -45,6 +49,8 @@ function ContactForm() {
         process.env.REACT_APP_USER_ID || ""
       )
       .then((response) => {
+        setIsSubmitting(false);
+
         console.log("Email sent successfully:", response);
         toast.success(t("sent-success"), {
           position: "top-right",
@@ -58,12 +64,16 @@ function ContactForm() {
         });
       })
       .catch((error) => {
+        setIsSubmitting(false);
+
         console.error("Error sending email:", error);
         Swal.fire({
           title: t("error-sending-message"),
           icon: "error",
           confirmButtonText: t("ok"),
         });
+        // Rethrow error so that onSubmit can handle it if needed
+        throw error;
       });
   };
 
@@ -80,9 +90,16 @@ function ContactForm() {
             ...INITIAL_FORM_STATE_CONTACT,
           }}
           validationSchema={FORM_VALIDATION_SCHEMA_CONTACTS}
-          onSubmit={async (values) => {
+          onSubmit={async (values, { resetForm }) => {
             console.log(values);
-            sendEmail(values);
+
+            sendEmail(values)
+              .then(() => {
+                resetForm(); // 👈 Reset the form after success
+              })
+              .catch(() => {
+                // Don’t reset on error
+              });
           }}
         >
           <motion.div
@@ -106,7 +123,9 @@ function ContactForm() {
                   <TextFieldWrapper name="message" label={t("message")} />
                 </Grid>
               </Grid>
-              <ButtonWrapper>{t("contact")}</ButtonWrapper>{" "}
+              <ButtonWrapper disabled={isSubmitting}>
+                {t("contact")}
+              </ButtonWrapper>{" "}
             </FormWrapper>
           </motion.div>
         </Formik>
