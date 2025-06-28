@@ -452,6 +452,17 @@
 
   "difficulty": {
     "title": "Difficulty Test",
+    "results": {
+      "title": "Quiz Results",
+      "subtitle": "Points Earned",
+      "correct": "Correct",
+      "incorrect": "Incorrect",
+      "correctAnswer": "Correct Answer",
+      "performance": "Performance",
+      "correctAnswers": "Correct Answers",
+      "accuracy": "Accuracy",
+      "close": "Close"
+    },
     "pageTitle": "Create Your Challenge",
     "pageDescription": "Choose your question difficulty and start building your game!",
     "description": "Answer all the questions and click Submit",

@@ -500,25 +500,29 @@ const Difficulty: React.FC<DifficultyProps> = () => {
                   }}
                 >
                   <CardContent sx={{ py: 2 }}>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    {/* Question Title */}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 2,
+                        mb: 2,
+                      }}
+                    >
                       {isCorrect ? (
-                        <>
                         <CheckCircleIcon
                           sx={{
                             color: mymode === "light" ? "#4caf50" : "#66bb6a",
                             fontSize: 28,
                           }}
                         />
-                      </>) : (
-                        <>
+                      ) : (
                         <CancelIcon
                           sx={{
                             color: mymode === "light" ? "#f44336" : "#ef5350",
                             fontSize: 28,
                           }}
-                          
-                          />
-                          <span>{difficultyData[index].correctAnswer}</span> </>
+                        />
                       )}
                       <Box sx={{ flex: 1 }}>
                         <Typography
@@ -527,8 +531,8 @@ const Difficulty: React.FC<DifficultyProps> = () => {
                             fontWeight: "bold",
                             color:
                               mymode === "light"
-                                ? "rgba(0, 0, 0, 0.8)"
-                                : "rgba(255, 255, 255, 0.8)",
+                                ? "rgba(0, 0, 0, 0.9)"
+                                : "rgba(255, 255, 255, 0.9)",
                           }}
                         >
                           {t("difficulty.question")} {index + 1}
@@ -536,10 +540,14 @@ const Difficulty: React.FC<DifficultyProps> = () => {
                         <Typography
                           variant="body2"
                           sx={{
-                            color:
-                              mymode === "light"
-                                ? "rgba(0, 0, 0, 0.6)"
-                                : "rgba(255, 255, 255, 0.6)",
+                            color: isCorrect
+                              ? mymode === "light"
+                                ? "#4caf50"
+                                : "#66bb6a"
+                              : mymode === "light"
+                              ? "#f44336"
+                              : "#ef5350",
+                            fontWeight: "bold",
                           }}
                         >
                           {isCorrect
@@ -564,6 +572,98 @@ const Difficulty: React.FC<DifficultyProps> = () => {
                         }}
                       />
                     </Box>
+
+                    {/* Question Text */}
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color:
+                          mymode === "light"
+                            ? "rgba(0, 0, 0, 0.7)"
+                            : "rgba(255, 255, 255, 0.7)",
+                        mb: 2,
+                        fontStyle: "italic",
+                        backgroundColor:
+                          mymode === "light"
+                            ? "rgba(0, 0, 0, 0.03)"
+                            : "rgba(255, 255, 255, 0.03)",
+                        p: 1.5,
+                        borderRadius: 1,
+                        borderLeft: `4px solid ${
+                          mymode === "light" ? "#c31432" : "#ff6b9d"
+                        }`,
+                      }}
+                    >
+                      "{difficultyData[index].question}"
+                    </Typography>
+
+                    {/* Correct Answer Display - Only for incorrect answers */}
+                    {!isCorrect && (
+                      <Box
+                        sx={{
+                          backgroundColor:
+                            mymode === "light"
+                              ? "rgba(76, 175, 80, 0.1)"
+                              : "rgba(102, 187, 106, 0.1)",
+                          border: `1px solid ${
+                            mymode === "light" ? "#4caf50" : "#66bb6a"
+                          }`,
+                          borderRadius: 2,
+                          p: 2,
+                          mt: 1,
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            mb: 1,
+                          }}
+                        >
+                          <CheckCircleIcon
+                            sx={{
+                              color: mymode === "light" ? "#4caf50" : "#66bb6a",
+                              fontSize: 20,
+                            }}
+                          />
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              fontWeight: "bold",
+                              color: mymode === "light" ? "#4caf50" : "#66bb6a",
+                            }}
+                          >
+                            {t(
+                              "difficulty.results.correctAnswer",
+                              "Correct Answer"
+                            )}
+                            :
+                          </Typography>
+                        </Box>
+                        <Typography
+                          variant="body1"
+                          sx={{
+                            color:
+                              mymode === "light"
+                                ? "rgba(0, 0, 0, 0.8)"
+                                : "rgba(255, 255, 255, 0.8)",
+                            fontWeight: "bold",
+                            backgroundColor:
+                              mymode === "light"
+                                ? "rgba(76, 175, 80, 0.05)"
+                                : "rgba(102, 187, 106, 0.05)",
+                            p: 1,
+                            borderRadius: 1,
+                            border: `1px dashed ${
+                              mymode === "light" ? "#4caf50" : "#66bb6a"
+                            }`,
+                          }}
+                        >
+                          {difficultyData[index].correctAnswer}
+                        </Typography>
+                      </Box>
+                    )}
                   </CardContent>
                 </Card>
               </Grid>
@@ -609,7 +709,6 @@ const Difficulty: React.FC<DifficultyProps> = () => {
             </Typography>
           </Box>
         </DialogContent>
-
         <DialogActions sx={{ justifyContent: "center", pb: 3 }}>
           <Button
             onClick={handleCloseScoreDialog}

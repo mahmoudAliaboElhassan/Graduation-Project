@@ -433,6 +433,17 @@
   "newQuestion": "سؤال جديد",
   "exitGame": "إنهاء اللعبة",
   "difficulty": {
+    "results": {
+      "title": "نتائج الاختبار",
+      "subtitle": "النقاط المكتسبة",
+      "correct": "صحيح",
+      "incorrect": "خطأ",
+      "correctAnswer": "الإجابة الصحيحة",
+      "performance": "الأداء",
+      "correctAnswers": "الإجابات الصحيحة",
+      "accuracy": "الدقة",
+      "close": "إغلاق"
+    },
     "title": "اختبار الصعوبة",
     "pageTitle": "أنشئ تحديك",
     "pageDescription": "اختر صعوبة السؤال وابدأ في بناء لعبتك!",
