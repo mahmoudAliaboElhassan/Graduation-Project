@@ -53,24 +53,7 @@
     "secondary": "المرحلة الثانوية - الصف {{grade}}"
   },
 
-  "subject": {
-    "arabic": "العربية",
-    "mathematics": "الرياضيات",
-    "english": "الإنجليزية",
-    "physics": "الفيزياء",
-    "chemistry": "الكيمياء",
-    "biology": "علم الأحياء",
-    "history": "التاريخ",
-    "geography": "الجغرافيا",
-    "science": "العلوم",
-    "physicalEducation": "التربية البدنية",
-    "art": "الفن",
-    "music": "الموسيقى",
-    "socialStudies": "الدراسات الاجتماعية",
-    "economics": "الاقتصاد",
-    "statistics": "الإحصاء",
-    "logic": "الفلسفه و المنطق"
-  },
+  "subject": "الماده",
   "play-now": "أبدأ اللعب الآن",
   "select-chapter": "إختر فصل",
   "next": "التالي",
