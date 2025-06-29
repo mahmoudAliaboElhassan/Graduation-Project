@@ -582,5 +582,7 @@
   "hints": "التلميحات",
   "no-questions-found": "لم يتم العثور على أسئلة",
   "try-adjusting-filters": "جرب تعديل المرشحات لرؤية المزيد من النتائج",
-  "get-started": "ابدأ الآن"
+  "get-started": "ابدأ الآن",
+  "loading-education": "جارٍ تحميل الأسئلة التعليمية...",
+  "loading-entertainment": "جارٍ تحميل الأسئلة الترفيهية..."
 }

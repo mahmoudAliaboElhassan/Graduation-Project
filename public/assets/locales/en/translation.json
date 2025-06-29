@@ -603,5 +603,7 @@
   "chapter": "Chapter",
   "hints": "Hints",
   "no-questions-found": "No questions found",
-  "try-adjusting-filters": "Try adjusting the filters to see more results"
+  "try-adjusting-filters": "Try adjusting the filters to see more results",
+  "loading-education": "Loading educational questions...",
+  "loading-entertainment": "Loading entertainment questions..."
 }

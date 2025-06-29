@@ -152,6 +152,7 @@ const EducationalQuestions = () => {
     setActionLoading(selectedQuestion.questionID);
 
     try {
+      setConfirmDialogOpen(false);
       if (actionType === "approve") {
         await dispatch(
           approveQuestion({ questionId: selectedQuestion.questionID })
@@ -243,7 +244,16 @@ const EducationalQuestions = () => {
             sx={{
               color: mymode === "light" ? "#c31432" : "#ff6b9d",
             }}
-          />
+          />{" "}
+          <Typography
+            variant="body1"
+            sx={{
+              color: mymode === "light" ? "#c31432" : "#ff6b9d",
+              fontWeight: "bold",
+            }}
+          >
+            {t("loading-education")}
+          </Typography>
         </Box>
       </Container>
     );
@@ -303,7 +313,7 @@ const EducationalQuestions = () => {
       )}
 
       {/* Filters and Search */}
-      <Paper sx={{ mb: 3, mt: 6, ...paperStyle }}>
+      <Paper sx={{ mb: 3, ...paperStyle }}>
         <Toolbar sx={{ flexWrap: "wrap", gap: 2, py: 2 }}>
           <TextField
             size="small"

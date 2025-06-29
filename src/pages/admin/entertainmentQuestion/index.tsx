@@ -1,7 +1,4 @@
-"use client";
-
-import type React from "react";
-
+import React from "react";
 import { useEffect, useState } from "react";
 import {
   Box,
@@ -43,6 +40,7 @@ import {
   Visibility as ViewIcon,
   Search as SearchIcon,
   FilterList as FilterIcon,
+  Clear as ClearIcon,
 } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -70,12 +68,14 @@ const EntertainmentQuestions = () => {
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const { categoriesEntertainment } = UseCategoryEntertainment();
+
   const getSection = (question: Question): string | undefined => {
     const selected = categoriesEntertainment.find(
-      (cat) => Number(cat.value) == question.section
+      (cat) => Number(cat.value) === question.section
     );
-    return selected?.text;
+    return selected?.text || `Section ${question.section}`;
   };
+
   // Redux state
   const { EntertainmentQuestions, loadinGetQuestions, error } = useAppSelector(
     (state) => state.admin
@@ -107,30 +107,76 @@ const EntertainmentQuestions = () => {
     dispatch(getEntertainmentQuestions());
   }, [dispatch]);
 
-  // Filter questions based on search and filters
-  const filteredQuestions =
-    EntertainmentQuestions?.filter((question: Question) => {
-      const matchesSearch =
-        question?.question?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        question?.answer?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        question?.summary?.toLowerCase().includes(searchTerm.toLowerCase());
+  // Reset page when filters change
+  useEffect(() => {
+    setPage(0);
+  }, [searchTerm, sectionFilter, gameFilter]);
 
+  // Filter questions based on search and filters with better error handling
+  const filteredQuestions = React.useMemo(() => {
+    if (!EntertainmentQuestions || !Array.isArray(EntertainmentQuestions)) {
+      return [];
+    }
+
+    return EntertainmentQuestions.filter((question: Question) => {
+      // Safety checks for undefined values
+      if (!question) return false;
+
+      // Search term matching with null safety
+      const matchesSearch =
+        !searchTerm ||
+        [
+          question.question,
+          question.answer,
+          question.summary,
+          getSection(question),
+        ].some(
+          (field) =>
+            field &&
+            field.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+      // Section filter matching
       const matchesSection =
-        !sectionFilter || question.section.toString() === sectionFilter;
+        !sectionFilter || question.section?.toString() === sectionFilter;
+
+      // Game filter matching
       const matchesGame = !gameFilter || question.game === gameFilter;
 
       return matchesSearch && matchesSection && matchesGame;
-    }) || [];
+    });
+  }, [
+    EntertainmentQuestions,
+    searchTerm,
+    sectionFilter,
+    gameFilter,
+    categoriesEntertainment,
+  ]);
 
-  // Get unique values for filters
-  const uniqueSections = Array.from(
-    new Set(
-      EntertainmentQuestions?.map((q: Question) => q.section.toString()) || []
-    )
-  ).sort();
-  const uniqueGames = Array.from(
-    new Set(EntertainmentQuestions?.map((q: Question) => q.game) || [])
-  );
+  // Get unique values for filters with better error handling
+  const uniqueSections = React.useMemo(() => {
+    if (!EntertainmentQuestions || !Array.isArray(EntertainmentQuestions)) {
+      return [];
+    }
+    return Array.from(
+      new Set(
+        EntertainmentQuestions.map((q: Question) =>
+          q?.section?.toString()
+        ).filter(Boolean)
+      )
+    ).sort();
+  }, [EntertainmentQuestions]);
+
+  const uniqueGames = React.useMemo(() => {
+    if (!EntertainmentQuestions || !Array.isArray(EntertainmentQuestions)) {
+      return [];
+    }
+    return Array.from(
+      new Set(
+        EntertainmentQuestions.map((q: Question) => q?.game).filter(Boolean)
+      )
+    ).sort();
+  }, [EntertainmentQuestions]);
 
   // Handle view question details
   const handleViewQuestion = (question: Question) => {
@@ -155,6 +201,7 @@ const EntertainmentQuestions = () => {
     setActionLoading(selectedQuestion.questionID);
 
     try {
+      setConfirmDialogOpen(false);
       if (actionType === "approve") {
         await dispatch(
           approveQuestion({ questionId: selectedQuestion.questionID })
@@ -200,6 +247,9 @@ const EntertainmentQuestions = () => {
     setPage(0);
   };
 
+  // Check if any filters are active
+  const hasActiveFilters = searchTerm || sectionFilter || gameFilter;
+
   const paperStyle = {
     backgroundColor:
       mymode === "light"
@@ -244,7 +294,16 @@ const EntertainmentQuestions = () => {
             sx={{
               color: mymode === "light" ? "#c31432" : "#ff6b9d",
             }}
-          />
+          />{" "}
+          <Typography
+            variant="body1"
+            sx={{
+              color: mymode === "light" ? "#c31432" : "#ff6b9d",
+              fontWeight: "bold",
+            }}
+          >
+            {t("loading-entertainment")}
+          </Typography>
         </Box>
       </Container>
     );
@@ -303,12 +362,12 @@ const EntertainmentQuestions = () => {
         </Alert>
       )}
 
-      {/* Filters and Search */}
-      <Paper sx={{ mb: 3, mt: 9, ...paperStyle }}>
+      {/* Enhanced Filters and Search */}
+      <Paper sx={{ mb: 3, ...paperStyle }}>
         <Toolbar sx={{ flexWrap: "wrap", gap: 2, py: 2 }}>
           <TextField
             size="small"
-            placeholder={t("admin.searchPlaceholder")}
+            placeholder={t("admin.searchPlaceholder") || "Search questions..."}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             InputProps={{
@@ -317,6 +376,17 @@ const EntertainmentQuestions = () => {
                   <SearchIcon
                     sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
                   />
+                </InputAdornment>
+              ),
+              endAdornment: searchTerm && (
+                <InputAdornment position="end">
+                  <IconButton
+                    size="small"
+                    onClick={() => setSearchTerm("")}
+                    sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
+                  >
+                    <ClearIcon />
+                  </IconButton>
                 </InputAdornment>
               ),
             }}
@@ -339,15 +409,15 @@ const EntertainmentQuestions = () => {
             }}
           />
 
-          <FormControl size="small" sx={{ minWidth: 120 }}>
+          <FormControl size="small" sx={{ minWidth: 150 }}>
             <InputLabel
               sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
             >
-              {t("questionCreation.steps.section")}
+              {t("questionCreation.steps.section") || "Section"}
             </InputLabel>
             <Select
               value={sectionFilter}
-              label={t("questionCreation.labels.section")}
+              label={t("questionCreation.labels.section") || "Section"}
               onChange={(e) => setSectionFilter(e.target.value)}
               sx={{
                 "& .MuiOutlinedInput-notchedOutline": {
@@ -364,24 +434,25 @@ const EntertainmentQuestions = () => {
                 },
               }}
             >
-              <MenuItem value="">{t("admin.all")}</MenuItem>
+              <MenuItem value="">{t("admin.all") || "All"}</MenuItem>
               {uniqueSections.map((section) => (
                 <MenuItem key={section} value={section}>
-                  {section}
+                  {categoriesEntertainment.find((cat) => cat.value === section)
+                    ?.text || `Section ${section}`}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
 
-          <FormControl size="small" sx={{ minWidth: 120 }}>
+          <FormControl size="small" sx={{ minWidth: 150 }}>
             <InputLabel
               sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
             >
-              {t("admin.gameType")}
+              {t("admin.gameType") || "Game Type"}
             </InputLabel>
             <Select
               value={gameFilter}
-              label={t("admin.gameType")}
+              label={t("admin.gameType") || "Game Type"}
               onChange={(e) => setGameFilter(e.target.value)}
               sx={{
                 "& .MuiOutlinedInput-notchedOutline": {
@@ -398,7 +469,7 @@ const EntertainmentQuestions = () => {
                 },
               }}
             >
-              <MenuItem value="">{t("admin.all")}</MenuItem>
+              <MenuItem value="">{t("admin.all") || "All"}</MenuItem>
               {uniqueGames.map((game) => (
                 <MenuItem key={game} value={game}>
                   {game}
@@ -408,38 +479,114 @@ const EntertainmentQuestions = () => {
           </FormControl>
 
           <Button
-            variant="outlined"
+            variant={hasActiveFilters ? "contained" : "outlined"}
             onClick={handleClearFilters}
             startIcon={<FilterIcon />}
+            disabled={!hasActiveFilters}
             sx={{
               borderColor: mymode === "light" ? "#c31432" : "#ff6b9d",
-              color: mymode === "light" ? "#c31432" : "#ff6b9d",
+              color: hasActiveFilters
+                ? "#ffffff"
+                : mymode === "light"
+                ? "#c31432"
+                : "#ff6b9d",
+              backgroundColor: hasActiveFilters
+                ? mymode === "light"
+                  ? "#c31432"
+                  : "#ff6b9d"
+                : "transparent",
               "&:hover": {
                 borderColor: mymode === "light" ? "#a01729" : "#ff4081",
-                backgroundColor:
-                  mymode === "light"
-                    ? "rgba(195, 20, 50, 0.1)"
-                    : "rgba(255, 107, 157, 0.1)",
+                backgroundColor: hasActiveFilters
+                  ? mymode === "light"
+                    ? "#a01729"
+                    : "#ff4081"
+                  : mymode === "light"
+                  ? "rgba(195, 20, 50, 0.1)"
+                  : "rgba(255, 107, 157, 0.1)",
+              },
+              "&:disabled": {
+                opacity: 0.5,
               },
             }}
           >
-            {t("admin.clearFilters")}
+            {t("admin.clearFilters") || "Clear Filters"}
           </Button>
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <Typography
-            variant="body2"
+          <Box
             sx={{
-              color:
-                mymode === "light"
-                  ? "rgba(0, 0, 0, 0.7)"
-                  : "rgba(255, 255, 255, 0.7)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              gap: 0.5,
             }}
           >
-            {t("admin.totalQuestions", { count: filteredQuestions.length })}
-          </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color:
+                  mymode === "light"
+                    ? "rgba(0, 0, 0, 0.7)"
+                    : "rgba(255, 255, 255, 0.7)",
+              }}
+            >
+              {t("admin.totalQuestions", { count: filteredQuestions.length }) ||
+                `Total: ${filteredQuestions.length} questions`}
+            </Typography>
+            {hasActiveFilters && (
+              <Typography
+                variant="caption"
+                sx={{
+                  color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                  fontWeight: "bold",
+                }}
+              >
+                (Filtered from {EntertainmentQuestions?.length || 0})
+              </Typography>
+            )}
+          </Box>
         </Toolbar>
+
+        {/* Active filters indicator */}
+        {hasActiveFilters && (
+          <Box sx={{ px: 2, pb: 2 }}>
+            <Typography variant="caption" sx={{ mb: 1, display: "block" }}>
+              Active filters:
+            </Typography>
+            <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+              {searchTerm && (
+                <Chip
+                  label={`Search: "${searchTerm}"`}
+                  size="small"
+                  onDelete={() => setSearchTerm("")}
+                  color="primary"
+                />
+              )}
+              {sectionFilter && (
+                <Chip
+                  label={`Section: ${
+                    categoriesEntertainment.find(
+                      (cat) => cat.value === sectionFilter
+                    )?.text || sectionFilter
+                  }`}
+                  size="small"
+                  onDelete={() => setSectionFilter("")}
+                  color="primary"
+                />
+              )}
+              {gameFilter && (
+                <Chip
+                  label={`Game: ${gameFilter}`}
+                  size="small"
+                  onDelete={() => setGameFilter("")}
+                  color="primary"
+                />
+              )}
+            </Box>
+          </Box>
+        )}
       </Paper>
 
       {/* Questions Table */}
@@ -457,7 +604,7 @@ const EntertainmentQuestions = () => {
                     }`,
                   }}
                 >
-                  {t("admin.questionId")}
+                  {t("admin.questionId") || "ID"}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -468,7 +615,7 @@ const EntertainmentQuestions = () => {
                     }`,
                   }}
                 >
-                  {t("questionCreation.labels.question")}
+                  {t("questionCreation.labels.question") || "Question"}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -479,7 +626,7 @@ const EntertainmentQuestions = () => {
                     }`,
                   }}
                 >
-                  {t("questionCreation.labels.section")}
+                  {t("questionCreation.labels.section") || "Section"}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -490,7 +637,7 @@ const EntertainmentQuestions = () => {
                     }`,
                   }}
                 >
-                  {t("admin.gameType")}
+                  {t("admin.gameType") || "Game Type"}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -501,7 +648,7 @@ const EntertainmentQuestions = () => {
                     }`,
                   }}
                 >
-                  {t("admin.answer")}
+                  {t("admin.answer") || "Answer"}
                 </TableCell>
                 <TableCell
                   align="center"
@@ -513,168 +660,183 @@ const EntertainmentQuestions = () => {
                     }`,
                   }}
                 >
-                  {t("admin.actions")}
+                  {t("admin.actions") || "Actions"}
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredQuestions
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((question: Question) => (
-                  <TableRow
-                    key={question.questionID}
-                    hover
-                    sx={{
-                      "&:hover": {
-                        backgroundColor:
-                          mymode === "light"
-                            ? "rgba(195, 20, 50, 0.05)"
-                            : "rgba(255, 107, 157, 0.05)",
-                      },
-                    }}
-                  >
-                    <TableCell>
-                      <Typography variant="body2" fontWeight="medium">
-                        #{question.questionID}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          maxWidth: 200,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {question.question}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={getSection(question)}
-                        size="small"
-                        sx={{
+              {filteredQuestions.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
+                    <Typography variant="body1" color="text.secondary">
+                      {hasActiveFilters
+                        ? "No questions match your current filters"
+                        : "No questions available"}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filteredQuestions
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((question: Question) => (
+                    <TableRow
+                      key={question.questionID}
+                      hover
+                      sx={{
+                        "&:hover": {
                           backgroundColor:
                             mymode === "light"
-                              ? "rgba(195, 20, 50, 0.1)"
-                              : "rgba(255, 107, 157, 0.1)",
-                          color: mymode === "light" ? "#c31432" : "#ff6b9d",
-                          border: `1px solid ${
-                            mymode === "light" ? "#c31432" : "#ff6b9d"
-                          }`,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={question.game}
-                        size="small"
-                        sx={{
-                          backgroundColor:
-                            mymode === "light"
-                              ? "rgba(75, 0, 15, 0.1)"
-                              : "rgba(75, 0, 15, 0.3)",
-                          color: mymode === "light" ? "#4b000f" : "#ff9999",
-                          border: `1px solid ${
-                            mymode === "light" ? "#4b000f" : "#ff9999"
-                          }`,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          maxWidth: 150,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {question.answer}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Box
-                        sx={{
-                          display: "flex",
-                          gap: 1,
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Tooltip title={t("admin.viewDetails")}>
-                          <IconButton
-                            size="small"
-                            onClick={() => handleViewQuestion(question)}
-                            sx={{
-                              color: mymode === "light" ? "#c31432" : "#ff6b9d",
-                              "&:hover": {
-                                backgroundColor:
-                                  mymode === "light"
-                                    ? "rgba(195, 20, 50, 0.1)"
-                                    : "rgba(255, 107, 157, 0.1)",
-                              },
-                            }}
+                              ? "rgba(195, 20, 50, 0.05)"
+                              : "rgba(255, 107, 157, 0.05)",
+                        },
+                      }}
+                    >
+                      <TableCell>
+                        <Typography variant="body2" fontWeight="medium">
+                          #{question.questionID}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            maxWidth: 200,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {question.question}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Chip
+                          label={getSection(question)}
+                          size="small"
+                          sx={{
+                            backgroundColor:
+                              mymode === "light"
+                                ? "rgba(195, 20, 50, 0.1)"
+                                : "rgba(255, 107, 157, 0.1)",
+                            color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                            border: `1px solid ${
+                              mymode === "light" ? "#c31432" : "#ff6b9d"
+                            }`,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Chip
+                          label={question.game}
+                          size="small"
+                          sx={{
+                            backgroundColor:
+                              mymode === "light"
+                                ? "rgba(75, 0, 15, 0.1)"
+                                : "rgba(75, 0, 15, 0.3)",
+                            color: mymode === "light" ? "#4b000f" : "#ff9999",
+                            border: `1px solid ${
+                              mymode === "light" ? "#4b000f" : "#ff9999"
+                            }`,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            maxWidth: 150,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {question.answer}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="center">
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: 1,
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Tooltip
+                            title={t("admin.viewDetails") || "View Details"}
                           >
-                            <ViewIcon />
-                          </IconButton>
-                        </Tooltip>
+                            <IconButton
+                              size="small"
+                              onClick={() => handleViewQuestion(question)}
+                              sx={{
+                                color:
+                                  mymode === "light" ? "#c31432" : "#ff6b9d",
+                                "&:hover": {
+                                  backgroundColor:
+                                    mymode === "light"
+                                      ? "rgba(195, 20, 50, 0.1)"
+                                      : "rgba(255, 107, 157, 0.1)",
+                                },
+                              }}
+                            >
+                              <ViewIcon />
+                            </IconButton>
+                          </Tooltip>
 
-                        <Tooltip title={t("admin.approve")}>
-                          <IconButton
-                            size="small"
-                            onClick={() =>
-                              handleActionClick(question, "approve")
-                            }
-                            disabled={actionLoading === question.questionID}
-                            sx={{
-                              color: "#4caf50",
-                              "&:hover": {
-                                backgroundColor: "rgba(76, 175, 80, 0.1)",
-                              },
-                            }}
-                          >
-                            {actionLoading === question.questionID ? (
-                              <CircularProgress
-                                size={20}
-                                sx={{ color: "#4caf50" }}
-                              />
-                            ) : (
-                              <ApproveIcon />
-                            )}
-                          </IconButton>
-                        </Tooltip>
+                          <Tooltip title={t("admin.approve") || "Approve"}>
+                            <IconButton
+                              size="small"
+                              onClick={() =>
+                                handleActionClick(question, "approve")
+                              }
+                              disabled={actionLoading === question.questionID}
+                              sx={{
+                                color: "#4caf50",
+                                "&:hover": {
+                                  backgroundColor: "rgba(76, 175, 80, 0.1)",
+                                },
+                              }}
+                            >
+                              {actionLoading === question.questionID ? (
+                                <CircularProgress
+                                  size={20}
+                                  sx={{ color: "#4caf50" }}
+                                />
+                              ) : (
+                                <ApproveIcon />
+                              )}
+                            </IconButton>
+                          </Tooltip>
 
-                        <Tooltip title={t("admin.reject")}>
-                          <IconButton
-                            size="small"
-                            onClick={() =>
-                              handleActionClick(question, "reject")
-                            }
-                            disabled={actionLoading === question.questionID}
-                            sx={{
-                              color: "#f44336",
-                              "&:hover": {
-                                backgroundColor: "rgba(244, 67, 54, 0.1)",
-                              },
-                            }}
-                          >
-                            {actionLoading === question.questionID ? (
-                              <CircularProgress
-                                size={20}
-                                sx={{ color: "#f44336" }}
-                              />
-                            ) : (
-                              <RejectIcon />
-                            )}
-                          </IconButton>
-                        </Tooltip>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                          <Tooltip title={t("admin.reject") || "Reject"}>
+                            <IconButton
+                              size="small"
+                              onClick={() =>
+                                handleActionClick(question, "reject")
+                              }
+                              disabled={actionLoading === question.questionID}
+                              sx={{
+                                color: "#f44336",
+                                "&:hover": {
+                                  backgroundColor: "rgba(244, 67, 54, 0.1)",
+                                },
+                              }}
+                            >
+                              {actionLoading === question.questionID ? (
+                                <CircularProgress
+                                  size={20}
+                                  sx={{ color: "#f44336" }}
+                                />
+                              ) : (
+                                <RejectIcon />
+                              )}
+                            </IconButton>
+                          </Tooltip>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))
+              )}
             </TableBody>
           </Table>
         </TableContainer>
