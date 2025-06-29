@@ -56,7 +56,7 @@ function withGuard<T extends object>(
       }
 
       if (!token || role !== "Admin") {
-        if (pathname.startsWith("/admin-dashboard")) {
+        if (pathname.startsWith("/admin")) {
           navigate("/");
         }
       }

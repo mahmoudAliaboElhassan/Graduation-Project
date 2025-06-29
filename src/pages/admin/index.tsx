@@ -37,6 +37,7 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import UseAdminDashboard from "../../hooks/use-admin-dashboard";
 import UseDirection from "../../hooks/use-direction";
 import "./admin.css";
+import withGuard from "../../utils/withGuard";
 const drawerWidth = 280;
 
 // Root layout container
@@ -457,4 +458,4 @@ const AdminDashboard: React.FC = () => {
   );
 };
 
-export default AdminDashboard;
+export default withGuard(AdminDashboard);
