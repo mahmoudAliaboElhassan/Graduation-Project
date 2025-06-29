@@ -111,9 +111,9 @@ const EntertainmentQuestions = () => {
   const filteredQuestions =
     EntertainmentQuestions?.filter((question: Question) => {
       const matchesSearch =
-        question.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        question.answer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        question.summary.toLowerCase().includes(searchTerm.toLowerCase());
+        question?.question?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        question?.answer?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        question?.summary?.toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchesSection =
         !sectionFilter || question.section.toString() === sectionFilter;

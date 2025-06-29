@@ -194,7 +194,7 @@ function HomePage() {
                       }}
                     />
                   )}
-                  {totalPoints !== undefined && (
+                  {totalPoints && role === "Student" && (
                     <Chip
                       label={t("points", { totalPoints })}
                       sx={{

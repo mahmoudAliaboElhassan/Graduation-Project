@@ -53,7 +53,7 @@ function UseHeaderElements() {
   ];
 
   const headerElements =
-    token && role === "Student" ? header : header.slice(0, -1);
+    token && role === "Student" ? header : header.slice(0, -2);
 
   return { userAuth, notUserAuth, headerElements };
 }

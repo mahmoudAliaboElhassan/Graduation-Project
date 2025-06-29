@@ -8,7 +8,13 @@ export const getEducationQuestions = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const res = await axiosInstance.get("/api/Admin/educational-questions");
+      const res = await axiosInstance.get("/api/Admin/educational-questions", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+          // Add any other headers you need here
+          "Content-Type": "application/json",
+        },
+      });
       console.log("from slice res is");
       console.log(res);
       return res.data;
@@ -28,7 +34,16 @@ export const getEntertainmentQuestions = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const res = await axiosInstance.get("/api/Admin/entertainment-questions");
+      const res = await axiosInstance.get(
+        "/api/Admin/entertainment-questions",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+            // Add any other headers you need here
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log("from slice res is");
       console.log(res);
       return res.data;
@@ -48,7 +63,13 @@ export const approveQuestion = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const res = await axiosInstance.get(`/api/Admin/approve/${questionId}`);
+      const res = await axiosInstance.get(`/api/Admin/approve/${questionId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+          // Add any other headers you need here
+          "Content-Type": "application/json",
+        },
+      });
       console.log("from slice res is");
       console.log(res);
       return res.data;
@@ -68,7 +89,13 @@ export const rejectQuestion = createAsyncThunk(
     const { rejectWithValue } = thunkAPI;
 
     try {
-      const res = await axiosInstance.get(`/api/Admin/reject/${questionId}`);
+      const res = await axiosInstance.get(`/api/Admin/reject/${questionId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+          // Add any other headers you need here
+          "Content-Type": "application/json",
+        },
+      });
       console.log("from slice res is");
       console.log(res);
       return res.data;
