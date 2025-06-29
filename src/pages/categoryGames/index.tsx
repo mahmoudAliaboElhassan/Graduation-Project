@@ -131,8 +131,11 @@ const CategoriesPage = () => {
   const { categoryQuestionMaking } = UseQuestionCategories();
   const { role } = useAppSelector((state) => state.auth);
   let categoryRole;
-  categoryRole = role === "Teacher"||role==="Admin" ? categoryQuestionMaking : categories;
-  if (role !== "Teacher" && role !== "Student"&&role!=="Admin") {
+  categoryRole =
+    role === "Teacher" || role === "Admin"
+      ? categoryQuestionMaking
+      : categories;
+  if (role !== "Teacher" && role !== "Student" && role !== "Admin") {
     categoryRole = [categoryQuestionMaking[0], categories[0]];
   }
   console.log("catergoryRole", categoryRole);

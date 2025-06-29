@@ -211,7 +211,7 @@ function CardGame({ to, data }: Props) {
             component={Link}
             to={getPlayLink()}
             size="large"
-            variant="outlined"
+            variant="contained"
             sx={{
               borderColor: data.color,
               color: data.color,
