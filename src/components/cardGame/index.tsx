@@ -222,10 +222,6 @@ function CardGame({ to, data }: Props) {
               textTransform: "none",
               flex: 1,
               transition: "all 0.3s ease",
-              "&:hover": {
-                borderColor: data.color,
-                backgroundColor: `${data.color}10`,
-              },
             }}
           >
             {t("start-playing")}
