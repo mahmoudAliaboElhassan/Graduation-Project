@@ -14,6 +14,7 @@ import {
   getAllSubjects,
   getAllGrades,
   getTeacherGrades,
+  getِAnsweredQuestions,
 } from "../act/actAuth";
 const { initialStateAuth } = UseInitialStates();
 
@@ -194,6 +195,16 @@ export const authSlice = createSlice({
       })
       .addCase(getTeacherGrades.rejected, (state, action) => {
         state.loadingGetTeacherGrades = false;
+      })
+      .addCase(getِAnsweredQuestions.pending, (state, action) => {
+        state.loadingAnsweredQuestions = true;
+      })
+      .addCase(getِAnsweredQuestions.fulfilled, (state, action) => {
+        state.loadingAnsweredQuestions = false;
+        state.answeredQuestions = action.payload;
+      })
+      .addCase(getِAnsweredQuestions.rejected, (state, action) => {
+        state.loadingAnsweredQuestions = false;
       });
   },
 });

@@ -10,6 +10,7 @@ import {
   TopTenR,
   Subjects,
   Grades,
+  AnsweredQuestions,
 } from "../../utils/dataResponse";
 
 interface ResponseCreate {
@@ -317,6 +318,39 @@ export const getTeacherGrades = createAsyncThunk(
           "Content-Type": "application/json",
         },
       });
+      console.log("from slice res is");
+      console.log(res);
+      return res.data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
+        // Handle 403 error here
+        // Example: setConfirmed(true);
+        console.log("400 Forbidden - User not authorized from slice");
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getِAnsweredQuestions = createAsyncThunk(
+  "authSlice/getِAnsweredQuestions",
+  async (
+    { subject, chapter }: { subject: string; chapter: string },
+    thunkAPI
+  ) => {
+    const { rejectWithValue } = thunkAPI;
+
+    try {
+      const res = await axiosInstance.get<AnsweredQuestions>(
+        `/api/Accounts/questions-answered?subject=${subject}&chapter=${chapter}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // example
+            // Add any other headers you need here
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log("from slice res is");
       console.log(res);
       return res.data;

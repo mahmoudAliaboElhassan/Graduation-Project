@@ -586,5 +586,17 @@
     "leaderboard": "لوحة الصدارة",
     "quick-quiz": "اختبار سريع"
   },
-  "manage-game-content": "إدارة محتوى اللعبة وإنشاء أسئلة جديدة"
+  "manage-game-content": "إدارة محتوى اللعبة وإنشاء أسئلة جديدة",
+  "answered-questions": "الأسئلة المجابة",
+  "filters": "المرشحات",
+  "all-subjects": "جميع المواد",
+  "all-chapters": "جميع الفصول",
+  "loading-questions": "جاري تحميل الأسئلة...",
+  "total-questions": "إجمالي الأسئلة",
+  "correct-answer": "الإجابة الصحيحة",
+  "game": "اللعبة",
+  "chapter": "الفصل",
+  "hints": "التلميحات",
+  "no-questions-found": "لم يتم العثور على أسئلة",
+  "try-adjusting-filters": "جرب تعديل المرشحات لرؤية المزيد من النتائج"
 }

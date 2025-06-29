@@ -1,5 +1,5 @@
 import { string } from "yup";
-import { TopTenR } from "../dataResponse";
+import { AnswerdQuestion, TopTenR } from "../dataResponse";
 
 export interface InitialStateMode {
   mymode: "dark" | "light";
@@ -22,7 +22,7 @@ export interface InitialStateAuth {
   token: forLocalStorage;
   Uid: forLocalStorage;
   error: string;
-  subjects: string[];
+  subjects: { subjectImage: string; subjectName: string }[];
   chapters: { name: string; number: number }[];
   role: forLocalStorage;
   subjectTeaching: forLocalStorage;
@@ -38,6 +38,8 @@ export interface InitialStateAuth {
   loadingGetTeacherGrades: boolean;
   allGrades: { gradeId: number; gradeName: string }[];
   teacherGrades: { gradeId: number; gradeName: string }[];
+  loadingAnsweredQuestions: boolean;
+  answeredQuestions: AnswerdQuestion[];
 }
 
 type DifficultyDataQuestion = {

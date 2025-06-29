@@ -605,5 +605,20 @@
   "leaderboard": "Leaderboard",
   "quick-quiz": "Quick Quiz",
   "start-playing": "Start Playing",
-  "manage-game-content": "Manage game content and create new questions"
+  "manage-game-content": "Manage game content and create new questions",
+  "answered-questions": "Answered Questions",
+  "filters": "Filters",
+
+  "all-subjects": "All Subjects",
+  "all-chapters": "All Chapters",
+  "loading-questions": "Loading questions...",
+  "total-questions": "Total Questions",
+
+  "correct-answer": "Correct Answer",
+  "game": "Game",
+
+  "chapter": "Chapter",
+  "hints": "Hints",
+  "no-questions-found": "No questions found",
+  "try-adjusting-filters": "Try adjusting the filters to see more results"
 }

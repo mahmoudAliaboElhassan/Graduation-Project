@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import RootLayout from "../pages/rootLayout";
 import ErrorPage from "../pages/error";
+const AnswredQuestions = React.lazy(() => import("../pages/game/answerd"));
 const AddGradeSubjects = React.lazy(
   () => import("../pages/admin/addGradeSubjects")
 );
@@ -265,6 +266,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <LeaderboardPage />{" "}
+          </Suspense>
+        ),
+      },
+      {
+        path: "/answered-questions",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <AnswredQuestions />{" "}
           </Suspense>
         ),
       },

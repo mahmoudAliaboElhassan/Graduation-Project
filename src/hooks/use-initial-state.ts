@@ -49,6 +49,8 @@ function UseInitialStates() {
     loadingGetTeacherGrades: false,
     allGrades: [{ gradeId: 0, gradeName: "" }],
     teacherGrades: [{ gradeId: 0, gradeName: "" }],
+    loadingAnsweredQuestions: false,
+    answeredQuestions: [],
   };
 
   const initialStateGame: InitialStateGame = {

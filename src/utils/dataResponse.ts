@@ -23,7 +23,7 @@ export interface getOffsideHints {
   summary: string;
 }
 export interface ResponseSubject {
-  subjects: string[];
+  subjects: { subjectName: string; subjectImage: string }[];
 }
 export interface ResponsePoints {
   totalpoints: number;
@@ -53,3 +53,13 @@ export interface TopTenR {
 export type Subjects = string[];
 
 export type Grades = { gradeId: number; gradeName: string }[];
+
+export interface AnswerdQuestion {
+  questionText: string;
+  correctAnswer: string;
+  subject: string;
+  chapter: string;
+  hints: string[];
+  game: string;
+}
+export type AnsweredQuestions = AnswerdQuestion[];

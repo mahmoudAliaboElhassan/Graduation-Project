@@ -46,6 +46,10 @@ function UseHeaderElements() {
       label: t("top10.title"),
       href: "/top-10",
     },
+    {
+      label: t("answered-questions"),
+      href: "/answered-questions",
+    },
   ];
 
   const headerElements =
