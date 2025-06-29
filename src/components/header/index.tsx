@@ -22,6 +22,8 @@ import { useAppSelector } from "../../hooks/redux";
 import logoImg from "../../assets/logo.jpg";
 import Languages from "../lngs";
 import Mode from "../mode";
+import UseDebounce from "../../hooks/use-debounce";
+import styles from "./style.module.css";
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -47,8 +49,11 @@ function Header() {
   const authElements = token ? userAuth : notUserAuth;
   const { mymode } = useAppSelector((state) => state.mode);
   const location = useLocation();
+  const [isAnimate, setIsAnimate] = UseDebounce(500);
+  const { pumpCartQuantity, cgBgcolor, sizeFavorite } = styles;
 
-  const { name, totalPoints } = useAppSelector((state) => state.auth);
+  const quantityStyle = `${isAnimate ? pumpCartQuantity : ""}`;
+  const { name, totalPoints, role } = useAppSelector((state) => state.auth);
   return (
     <AppBar position="fixed">
       <Container maxWidth="xl">
@@ -224,7 +229,7 @@ function Header() {
                   {name}
                 </Typography>
               )}
-              {totalPoints !== undefined && (
+              {totalPoints && role === "Student" && (
                 <Box
                   sx={{
                     display: "flex",
@@ -238,6 +243,7 @@ function Header() {
                 >
                   <Typography
                     variant="body2"
+                    className={quantityStyle}
                     sx={{
                       color: "white",
                       fontWeight: 600,
