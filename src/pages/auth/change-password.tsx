@@ -82,7 +82,6 @@ function ChangePassword() {
           </Formik>
         </ContainerFormWrapper>
       </div>
-      <Footer />
     </>
   );
 }
