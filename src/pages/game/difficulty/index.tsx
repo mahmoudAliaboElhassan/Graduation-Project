@@ -39,6 +39,7 @@ import {
 import { clearDifficultyData } from "../../../state/slices/game";
 import { addPoints } from "../../../state/act/actAuth";
 import Swal from "sweetalert2";
+import withGuard from "../../../utils/withGuard";
 
 // Types
 interface DifficultyQuestion {
@@ -1090,4 +1091,4 @@ const Difficulty: React.FC<DifficultyProps> = () => {
   );
 };
 
-export default Difficulty;
+export default withGuard(Difficulty);

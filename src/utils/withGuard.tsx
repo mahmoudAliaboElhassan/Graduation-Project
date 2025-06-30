@@ -55,11 +55,15 @@ function withGuard<T extends object>(
         }
       }
 
-      // if (!token || role !== "Teacher") {
-      //   if (pathname.startsWith("/games/education")) {
-      //     navigate("/");
-      //   }
-      // }
+      if (!token || role !== "Student") {
+        if (
+          pathname.startsWith("/games/education/five-hints") ||
+          pathname.startsWith("/games/education/difficulty") ||
+          pathname.startsWith("/games/education/offside")
+        ) {
+          navigate("/");
+        }
+      }
 
       if (!token || role !== "Admin") {
         if (pathname.startsWith("/admin")) {
