@@ -34,6 +34,7 @@ function FiveHints() {
     loadingAnswerQuestion,
     question,
     summary,
+    errorGetQuestions,
   } = useAppSelector((state) => state.game);
   const [second, setSecond] = useState<number>(0);
   const HINTTIME = 10;
@@ -185,11 +186,13 @@ function FiveHints() {
               color="black"
               gutterBottom
             >
-              {question
-                ? question
-                : loadingGetQuestions
+              {loadingGetQuestions
                 ? t("wait-question")
-                : t("noQuestion", "No question available")}
+                : errorGetQuestions
+                ? t("noQuestion")
+                : questionData.hints?.length > 0
+                ? question
+                : t("call-new-question")}
             </Typography>
           </CardContent>
         </Card>

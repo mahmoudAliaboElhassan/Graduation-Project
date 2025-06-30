@@ -53,7 +53,7 @@ const About: React.FC = () => {
   const { mymode } = useAppSelector((state: any) => state.mode);
   const isRTL: boolean = i18n.language === "ar";
   const isSmallScreen = UseMediaQuery({ query: "(max-width: 898px)" });
-
+  const { token } = useAppSelector((state) => state.auth);
   // Theme-aware colors
   const colors: Colors = {
     primary: mymode === "light" ? "#ec4899" : "#f472b6",
@@ -198,6 +198,9 @@ const About: React.FC = () => {
                   color: "white",
                   px: 4,
                   py: 1.5,
+                  "& .MuiButton-startIcon": {
+                    [direction.marginRight]: "6px", // or any value you prefer
+                  },
                   fontSize: "1.1rem",
                   "&:hover": {
                     backgroundColor: mymode === "light" ? "#f472b6" : "#ec4899",
@@ -215,7 +218,9 @@ const About: React.FC = () => {
                   color: "white",
                   px: 4,
                   py: 1.5,
-
+                  "& .MuiButton-startIcon": {
+                    [direction.marginRight]: "6px", // or any value you prefer
+                  },
                   fontSize: "1.1rem",
                   "&:hover": {
                     backgroundColor: "white",
@@ -659,52 +664,65 @@ const About: React.FC = () => {
             >
               {t("joinThousands")}
             </Typography>
-            <Stack
-              direction={{ xs: "column", sm: "row" }}
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button
-                component={Link}
-                to="/signup"
-                variant="contained"
-                size="large"
-                startIcon={<MenuBook />}
-                sx={{
-                  backgroundColor: colors.primary,
-                  color: "white",
-                  px: 4,
-                  py: 1.5,
-                  fontSize: "1.1rem",
-                  "&:hover": {
-                    backgroundColor: mymode === "light" ? "#f472b6" : "#ec4899",
-                  },
-                }}
+            {!token && (
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={2}
+                justifyContent="center"
+                sx={{ gap: "8px" }}
               >
-                {t("getStartedStudent")}
-              </Button>
-              <Button
-                component={Link}
-                to="/signup"
-                variant="outlined"
-                size="large"
-                startIcon={<AddCircle />}
-                sx={{
-                  borderColor: "white",
-                  color: "white",
-                  px: 4,
-                  py: 1.5,
-                  fontSize: "1.1rem",
-                  "&:hover": {
-                    backgroundColor: "white",
-                    color: mymode === "light" ? "#7c2d92" : "#1a1a2e",
+                <Button
+                  component={Link}
+                  to="/signup"
+                  variant="contained"
+                  size="large"
+                  startIcon={<MenuBook />}
+                  sx={{
+                    backgroundColor: colors.primary,
+                    color: "white",
+                    px: 4,
+                    py: 1.5,
+                    "& .MuiButton-startIcon": {
+                      [direction.marginRight]: "6px", // or any value you prefer
+                    },
+                    fontSize: "1.1rem",
+                    "&:hover": {
+                      backgroundColor:
+                        mymode === "light" ? "#f472b6" : "#ec4899",
+                    },
+                  }}
+                >
+                  {t("getStartedStudent")}
+                </Button>
+                <Button
+                  component={Link}
+                  to="/signup"
+                  variant="outlined"
+                  size="large"
+                  startIcon={<AddCircle />}
+                  sx={{
                     borderColor: "white",
-                  },
-                }}
-              >
-                {t("joinAsTeacher")}
-              </Button>
-            </Stack>
+                    color: "white",
+                    px: 4,
+                    py: 1.5,
+                    "& .MuiButton-startIcon": {
+                      [direction.marginRight]: "6px", // or any value you prefer
+                    },
+                    fontSize: "1.1rem",
+                    "&:hover": {
+                      backgroundColor: "white",
+                      color:
+                        mymode === "light"
+                          ? "#7c2d92 !important"
+                          : "#1a1a2e !important",
+                      borderColor: "white",
+                    },
+                  }}
+                >
+                  {t("joinAsTeacher")}
+                </Button>
+              </Stack>
+            )}
           </Box>
         </Grid>
       </Grid>

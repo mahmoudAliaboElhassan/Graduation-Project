@@ -51,9 +51,12 @@ export const gameSlice = createSlice({
     builder
       .addCase(getHintsQuestions.pending, (state, action) => {
         state.loadingGetQuestions = true;
+        state.errorGetQuestions = "";
       })
       .addCase(getHintsQuestions.fulfilled, (state, action) => {
         state.question = action.payload.question;
+        state.errorGetQuestions = "";
+
         state.summary = action.payload.summary;
         state.loadingGetQuestions = false;
         state.questionData = action.payload as {} as QuestionData;
@@ -70,12 +73,19 @@ export const gameSlice = createSlice({
       })
       .addCase(getHintsQuestions.rejected, (state, action) => {
         state.loadingGetQuestions = false;
+        state.errorGetQuestions =
+          (typeof action.payload === "string"
+            ? action.payload
+            : action.error?.message) || "An unknown error occurred";
       })
       .addCase(getHintsEntertainment.pending, (state, action) => {
         state.loadingGetQuestions = true;
+        state.errorGetQuestions = "";
       })
       .addCase(getHintsEntertainment.fulfilled, (state, action) => {
         state.question = action.payload.question;
+        state.errorGetQuestions = "";
+
         state.summary = action.payload.summary;
         state.loadingGetQuestions = false;
         state.questionData = action.payload as {} as QuestionData;
@@ -92,6 +102,10 @@ export const gameSlice = createSlice({
       })
       .addCase(getHintsEntertainment.rejected, (state, action) => {
         state.loadingGetQuestions = false;
+        state.errorGetQuestions =
+          (typeof action.payload === "string"
+            ? action.payload
+            : action.error?.message) || "An unknown error occurred";
       })
 
       .addCase(getOffSideQuestions.pending, (state, action) => {
