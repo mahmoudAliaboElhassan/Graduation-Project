@@ -26,7 +26,7 @@ function MakeOffsideQuestion() {
         <Typography variant="h3" component="h1" gutterBottom>
           {t("offsideCreation.pageTitle") || "Create Offside Question"}
         </Typography>
-        <Typography variant="body1" color="text.secondary" mb={4}>
+        <Typography variant="body1" mb={4}>
           {t("offsideCreation.pageDescription") ||
             "Create engaging offside questions with 6 pieces of information and mark which ones are correct."}
         </Typography>

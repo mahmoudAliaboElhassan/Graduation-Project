@@ -26,7 +26,7 @@ function MakeHintsQuestion() {
         <Typography variant="h3" component="h1" gutterBottom>
           {t("questionCreation.pageTitle")}
         </Typography>
-        <Typography variant="body1" color="text.secondary" mb={4}>
+        <Typography variant="body1" mb={4}>
           {t("questionCreation.pageDescription")}
         </Typography>
         <Button

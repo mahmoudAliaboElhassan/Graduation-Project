@@ -47,19 +47,19 @@ function withGuard<T extends object>(
         category === "education"
       ) {
         if (
-          pathname.startsWith("/make-offside") ||
-          pathname.startsWith("/make-five-hints") ||
-          pathname.startsWith("/make-difficulty")
+          pathname.startsWith("/make-offside/") ||
+          pathname.startsWith("/make-five-hints/") ||
+          pathname.startsWith("/make-difficulty/")
         ) {
           navigate("/");
         }
       }
 
-      if (!token || role !== "Teacher") {
-        if (pathname.startsWith("/games/education")) {
-          navigate("/");
-        }
-      }
+      // if (!token || role !== "Teacher") {
+      //   if (pathname.startsWith("/games/education")) {
+      //     navigate("/");
+      //   }
+      // }
 
       if (!token || role !== "Admin") {
         if (pathname.startsWith("/admin")) {

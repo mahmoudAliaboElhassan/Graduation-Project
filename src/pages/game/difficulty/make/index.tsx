@@ -27,7 +27,7 @@ function MakeDifficulty() {
         <Typography variant="h3" component="h1" gutterBottom>
           {t("difficulty.pageTitle")}
         </Typography>
-        <Typography variant="body1" color="text.secondary" mb={4}>
+        <Typography variant="body1" mb={4}>
           {t("difficulty.pageDescription")}
         </Typography>
         <Button
