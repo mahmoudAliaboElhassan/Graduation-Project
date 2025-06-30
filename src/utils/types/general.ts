@@ -7,7 +7,7 @@ export interface Header {
 }
 export interface DirectionType {
   direction: "ltr" | "rtl";
-  left: string;
+  left: "left" | "right";
   right: string;
   marginLeft: string;
   marginRight: string;

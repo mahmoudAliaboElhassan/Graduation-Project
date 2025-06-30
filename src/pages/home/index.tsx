@@ -271,7 +271,7 @@ function HomePage() {
             </motion.div>
 
             {/* Additional Quick Actions for Admin */}
-            {role === "Admin" && (
+            {/* {role === "Admin" && (
               <motion.div variants={itemVariants} style={{ marginTop: "2rem" }}>
                 <Link to={"games"}>
                   <Card
@@ -310,7 +310,7 @@ function HomePage() {
                   </Card>
                 </Link>
               </motion.div>
-            )}
+            )} */}
 
             {/* Additional Quick Actions for Students */}
             {role === "Student" && (
