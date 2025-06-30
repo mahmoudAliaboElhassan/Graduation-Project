@@ -55,7 +55,7 @@ function withGuard<T extends object>(
         }
       }
 
-      if (!token || role !== "Student") {
+      if (!token || role !== "Teacher") {
         if (pathname.startsWith("/games/education")) {
           navigate("/");
         }
