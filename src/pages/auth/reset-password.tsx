@@ -63,7 +63,7 @@ function ResetPassword() {
                       progress: undefined,
                     });
                   }
-                  navigate("/");
+                  navigate("/login");
                 })
                 .catch((error: AxiosError) => {
                   Swal.fire({
