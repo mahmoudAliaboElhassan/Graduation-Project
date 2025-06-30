@@ -57,6 +57,7 @@ import withGuard from "../../../utils/withGuard";
 interface Question {
   questionID: number;
   chapterName: string;
+  question: string;
   gradeName: string;
   subjectName: string;
   answer: string;
@@ -888,6 +889,38 @@ const EducationalQuestions = () => {
                         : "rgba(255, 255, 255, 0.6)",
                   }}
                 >
+                  {t("question")}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    mb: 2,
+                    p: 2,
+                    backgroundColor:
+                      mymode === "light"
+                        ? "rgba(195, 20, 50, 0.1)"
+                        : "rgba(26, 26, 46, 0.5)",
+                    borderRadius: 1,
+                    border: `1px solid ${
+                      mymode === "light"
+                        ? "rgba(195, 20, 50, 0.2)"
+                        : "rgba(255, 107, 157, 0.2)"
+                    }`,
+                  }}
+                >
+                  {selectedQuestion.question}
+                </Typography>
+
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  sx={{
+                    color:
+                      mymode === "light"
+                        ? "rgba(0, 0, 0, 0.6)"
+                        : "rgba(255, 255, 255, 0.6)",
+                  }}
+                >
                   {t("admin.answer")}
                 </Typography>
                 <Typography
@@ -943,38 +976,43 @@ const EducationalQuestions = () => {
                 </Typography>
               </Box>
 
-              <Typography
-                variant="h6"
-                gutterBottom
-                sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
-              >
-                {t("admin.hints")}
-              </Typography>
-              <List dense>
-                {selectedQuestion.hints.map((hint, index) => (
-                  <ListItem
-                    key={index}
-                    sx={{
-                      py: 0.5,
-                      backgroundColor:
-                        mymode === "light"
-                          ? "rgba(195, 20, 50, 0.05)"
-                          : "rgba(255, 107, 157, 0.05)",
-                      mb: 1,
-                      borderRadius: 1,
-                      border: `1px solid ${
-                        mymode === "light"
-                          ? "rgba(195, 20, 50, 0.1)"
-                          : "rgba(255, 107, 157, 0.1)"
-                      }`,
-                    }}
+              {selectedQuestion.hints.length > 0 && (
+                <>
+                  {" "}
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{ color: mymode === "light" ? "#c31432" : "#ff6b9d" }}
                   >
-                    <ListItemText
-                      primary={`${t("admin.hint")} ${index + 1}: ${hint}`}
-                    />
-                  </ListItem>
-                ))}
-              </List>
+                    {t("admin.hints")}
+                  </Typography>
+                  <List dense>
+                    {selectedQuestion.hints.map((hint, index) => (
+                      <ListItem
+                        key={index}
+                        sx={{
+                          py: 0.5,
+                          backgroundColor:
+                            mymode === "light"
+                              ? "rgba(195, 20, 50, 0.05)"
+                              : "rgba(255, 107, 157, 0.05)",
+                          mb: 1,
+                          borderRadius: 1,
+                          border: `1px solid ${
+                            mymode === "light"
+                              ? "rgba(195, 20, 50, 0.1)"
+                              : "rgba(255, 107, 157, 0.1)"
+                          }`,
+                        }}
+                      >
+                        <ListItemText
+                          primary={`${t("admin.hint")} ${index + 1}: ${hint}`}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </>
+              )}
             </Box>
           )}
         </DialogContent>
@@ -1003,7 +1041,6 @@ const EducationalQuestions = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
       {/* Confirmation Dialog */}
       <Dialog
         open={confirmDialogOpen}

@@ -63,6 +63,7 @@ export interface InitialStateGame {
 export type Question = {
   questionID: number;
   chapterName: string;
+  question:string;
   gradeName: string;
   subjectName: string;
   answer: string;
