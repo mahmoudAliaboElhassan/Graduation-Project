@@ -25,8 +25,9 @@ import { toast } from "react-toastify";
 // Import your existing components
 import TextFieldWrapper from "../textField";
 import SelectComponent from "../select";
-import { useAppSelector } from "../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
 import UseCategoryEntertainment from "../../../hooks/use-category-entertainment";
+import { makeEntertainmentQuestions } from "../../../state/act/actGame";
 
 interface FormValues {
   question: string;
@@ -108,6 +109,8 @@ function MultipleStepOfsideEntertainment({
         ? "0 8px 32px rgba(195, 20, 50, 0.2)"
         : "0 8px 32px rgba(26, 26, 46, 0.4)",
   };
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (open) {
@@ -217,35 +220,54 @@ function MultipleStepOfsideEntertainment({
 
       console.log("Submitting entertainment question data:", questionData);
 
-      // Simulate API call - replace with your actual API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Dispatch the makeFiveHintsQuestion action
+      const result = await dispatch(makeEntertainmentQuestions(questionData));
 
-      // Show success toast
-      toast.success(
-        t("questionCreation.toast.success") || "Question created successfully!",
-        {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        }
-      );
+      if (makeEntertainmentQuestions.fulfilled.match(result)) {
+        console.log("Question created successfully:", result.payload);
 
-      // Reset form and close modal after a short delay
-      setTimeout(() => {
-        resetForm();
-        setActiveStep(0);
-        onClose();
-      }, 1000);
+        // Show success toast
+        toast.success(
+          t("offsideCreation.toast.success") ||
+            "Question created successfully!",
+          {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          }
+        );
+
+        // Reset form and close modal after a short delay
+        setTimeout(() => {
+          resetForm();
+          setActiveStep(0);
+          onClose();
+        }, 1000);
+      } else {
+        console.error("Failed to create question:", result.payload);
+
+        // Show error toast
+        toast.error(
+          t("offsideCreation.toast.error") || "Failed to create question",
+          {
+            position: "top-center",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          }
+        );
+      }
     } catch (error) {
-      console.error("Error creating entertainment question:", error);
+      console.error("Error creating question:", error);
 
       // Show error toast
       toast.error(
-        t("questionCreation.toast.error") ||
-          "Failed to create question. Please try again.",
+        t("offsideCreation.toast.error") || "Error creating question",
         {
           position: "top-center",
           autoClose: 4000,
@@ -259,7 +281,6 @@ function MultipleStepOfsideEntertainment({
       setIsSubmitting(false);
     }
   };
-
   return (
     <Modal
       open={open}
