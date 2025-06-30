@@ -24,7 +24,7 @@ function RootLayout() {
 
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-
+  const { role } = useAppSelector((state) => state.auth);
   const handleTokenExpiration = useCallback(() => {
     dispatch(logOut());
     toast.error(
@@ -150,7 +150,11 @@ function RootLayout() {
             pauseOnHover
             theme={mymode}
           />
-          <div style={{ height: isVerySmallScreen ? "92px" : "56px" }}></div>
+          <div
+            style={{
+              height: isVerySmallScreen && role === "Student" ? "92px" : "56px",
+            }}
+          ></div>
 
           {/* AnimatePresence with unique key for page transitions */}
           {location.pathname !== "/" ? (
