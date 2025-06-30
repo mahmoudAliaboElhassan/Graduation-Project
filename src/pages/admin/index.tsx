@@ -19,6 +19,7 @@ import {
   Avatar,
   Paper,
   alpha,
+  Container,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
@@ -83,6 +84,10 @@ const ContentArea = styled(Box)(({ theme }) => ({
   marginTop: theme.mixins.toolbar.minHeight,
   display: "flex",
   flexDirection: "column",
+  position: "absolute",
+  left: "50%",
+  top: "50%",
+  transform: "translate(-50%, -50%)",
   width: "100%",
   minHeight: `calc(100vh - ${theme.mixins.toolbar.minHeight}px)`,
   overflow: "auto",
@@ -406,45 +411,47 @@ const AdminDashboard: React.FC = () => {
           {location.pathname === "/admin" ? (
             <WelcomeContainer>
               <WelcomeCard elevation={0}>
-                <Avatar
-                  sx={{
-                    width: 80,
-                    height: 80,
-                    bgcolor: "primary.main",
-                    mx: "auto",
-                    mb: 3,
-                  }}
-                >
-                  <DashboardIcon sx={{ fontSize: 40 }} />
-                </Avatar>
-                <Typography
-                  variant="h3"
-                  gutterBottom
-                  sx={{
-                    fontWeight: 700,
-                    background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                    backgroundClip: "text",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    mb: 2,
-                  }}
-                >
-                  {t("welcome.title")}
-                </Typography>
-                <Typography
-                  variant="h6"
-                  color="text.secondary"
-                  sx={{
-                    mb: 4,
-                    fontWeight: 400,
-                    opacity: 0.8,
-                  }}
-                >
-                  {t("welcome.subtitle")}
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  {t("welcome.description")}
-                </Typography>
+                <Container maxWidth="sm">
+                  <Avatar
+                    sx={{
+                      width: 80,
+                      height: 80,
+                      bgcolor: "primary.main",
+                      mx: "auto",
+                      mb: 3,
+                    }}
+                  >
+                    <DashboardIcon sx={{ fontSize: 40 }} />
+                  </Avatar>
+                  <Typography
+                    variant="h3"
+                    gutterBottom
+                    sx={{
+                      fontWeight: 700,
+                      background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+                      backgroundClip: "text",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      mb: 2,
+                    }}
+                  >
+                    {t("welcome.title")}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    color="text.secondary"
+                    sx={{
+                      mb: 4,
+                      fontWeight: 400,
+                      opacity: 0.8,
+                    }}
+                  >
+                    {t("welcome.subtitle")}
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    {t("welcome.description")}
+                  </Typography>
+                </Container>{" "}
               </WelcomeCard>
             </WelcomeContainer>
           ) : (
