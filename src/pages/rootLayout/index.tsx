@@ -14,6 +14,7 @@ import UseMediaQuery from "../../hooks/use-media-query";
 import Scroll from "../../components/scroll";
 import { MainContent, PageWrapper } from "../../styles/footer";
 import { logOut } from "../../state/slices/auth";
+import { useMediaQuery } from "@mui/material";
 
 function RootLayout() {
   const { mymode } = useAppSelector((state) => state.mode);
@@ -67,6 +68,7 @@ function RootLayout() {
       );
     }
   }, [token, expirationToken, handleTokenExpiration, t]);
+  const isVerySmallScreen = useMediaQuery("(max-width:400px)");
 
   useEffect(() => {
     // Only check if user is logged in
@@ -148,7 +150,7 @@ function RootLayout() {
             pauseOnHover
             theme={mymode}
           />
-          <div style={{ height: "56px" }}></div>
+          <div style={{ height: isVerySmallScreen ? "92px" : "56px" }}></div>
 
           {/* AnimatePresence with unique key for page transitions */}
           {location.pathname !== "/" ? (
