@@ -11,7 +11,7 @@ function UseQuestionCategories() {
       description: t("questionCategories.entertainment.description"),
       icon: "Theaters",
       color: "#06B6D4", // Cyan
-      route: role !== "Teacher" ? "/entertainment-sections" : "entertainment",
+      route: role === "Student" ? "/entertainment-sections" : "entertainment",
       state: "make",
     },
     {
