@@ -115,7 +115,7 @@ function FiveHints() {
     if (!loadingGetQuestions && !loadingAnswerQuestion && hasQuestionData) {
       const interval = setInterval(() => {
         setSecond((prevSecond) => {
-          if (prevSecond >= 4 * HINTTIME + 1) {
+          if (prevSecond > 4 * HINTTIME + 1) {
             clearInterval(interval);
             return prevSecond;
           }
