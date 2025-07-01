@@ -239,6 +239,8 @@ const EducationalQuestions = () => {
           justifyContent="center"
           alignItems="center"
           minHeight="400px"
+          flexDirection="column"
+          
         >
           <CircularProgress
             size={60}
@@ -246,14 +248,14 @@ const EducationalQuestions = () => {
               color: mymode === "light" ? "#c31432" : "#ff6b9d",
             }}
           />{" "}
-          <Typography
-            variant="body1"
-            sx={{
-              color: mymode === "light" ? "#c31432" : "#ff6b9d",
-              fontWeight: "bold",
-            }}
-          >
-            {t("loading-education")}
+    <Typography
+          variant="h6"
+          sx={{
+            color: mymode === "light" ? "#c31432" : "#ff6b9d",
+            fontWeight: "bold",
+          }}
+        >
+           {t("loading-education")}
           </Typography>
         </Box>
       </Container>

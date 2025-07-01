@@ -38,6 +38,7 @@ function FiveHints() {
   } = useAppSelector((state) => state.game);
   const [second, setSecond] = useState<number>(0);
   const HINTTIME = 10;
+  const MAX_TIME = 40; // Maximum time limit
   const [noOfHints, setNoOfHints] = useState<number>(0);
   const { t } = useTranslation();
   const { grade } = useAppSelector((state) => state.auth);
@@ -115,12 +116,20 @@ function FiveHints() {
     if (!loadingGetQuestions && !loadingAnswerQuestion && hasQuestionData) {
       const interval = setInterval(() => {
         setSecond((prevSecond) => {
-          if (prevSecond > 4 * HINTTIME + 1) {
+          // Stop timer at MAX_TIME (40 seconds)
+          if (prevSecond + 1 >= MAX_TIME) {
+            console.log("prev", prevSecond);
+            console.log("cleared");
             clearInterval(interval);
-            return prevSecond;
+            setNoOfHints(5); // Set hints to 4 when timer stops
+            return MAX_TIME;
           }
-          setNoOfHints(Math.ceil(second / HINTTIME));
-          console.log("no.hints", noOfHints);
+
+          // Calculate hints based on current time, but cap at 4
+          const calculatedHints = Math.ceil((prevSecond + 1) / HINTTIME);
+          setNoOfHints(calculatedHints);
+          console.log("no.hints", calculatedHints);
+
           return prevSecond + 1;
         });
       }, 1000);
@@ -165,7 +174,7 @@ function FiveHints() {
           </Button>
         </Box>
 
-        <Timer timeExceeded={second > 4 * HINTTIME}>{second}</Timer>
+        <Timer timeExceeded={second >= MAX_TIME}>{second}</Timer>
         <Card
           elevation={4}
           sx={{
@@ -255,7 +264,7 @@ function FiveHints() {
           ) : (
             // Show hints when question data exists
             questionData.hints.map((hint, index) => {
-              const isFlipping = second / HINTTIME > index;
+              const isFlipping = second / HINTTIME >= index;
               return (
                 <Hint size={{ xs: index === 4 ? 12 : 6 }} key={index}>
                   <motion.div

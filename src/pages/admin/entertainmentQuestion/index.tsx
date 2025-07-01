@@ -287,7 +287,8 @@ const EntertainmentQuestions = () => {
           display="flex"
           justifyContent="center"
           alignItems="center"
-          minHeight="400px"
+          minHeight="400px"          flexDirection="column"
+
         >
           <CircularProgress
             size={60}
@@ -302,7 +303,7 @@ const EntertainmentQuestions = () => {
               fontWeight: "bold",
             }}
           >
-            {t("loading-entertainment")}
+           {t("loading-entertainment")} 
           </Typography>
         </Box>
       </Container>
