@@ -63,7 +63,12 @@ const INITIAL_FORM_STATE: FormValues = {
 const VALIDATION_SCHEMA = Yup.object({
   question: Yup.string().required("Question is required"),
   section: Yup.string().required("Section is required"),
-  information1: Yup.string().required("At least one information is required"),
+  information1: Yup.string().required("Information 1 is required"),
+  information2: Yup.string().required("Information 2 is required"),
+  information3: Yup.string().required("Information 3 is required"),
+  information4: Yup.string().required("Information 4 is required"),
+  information5: Yup.string().required("Information 5 is required"),
+  information6: Yup.string().required("Information 6 is required"),
   correctInformations: Yup.array().min(
     1,
     "At least one correct information is required"
@@ -148,14 +153,44 @@ function MultipleStepOfsideEntertainment({
     }
 
     // Step 2: Hints validation
-    if (activeStep === 2 && !values.information1.trim()) {
-      setTouched({ information1: true });
-      setErrors({
-        information1:
-          t("questionCreation.errors.informationRequired") ||
-          "At least one information is required",
-      });
-      return;
+    if (activeStep === 2) {
+      // Check if at least 6 hints are provided (all 5 hints must be filled)
+      const informations = [
+        values.information1,
+        values.information2,
+        values.information3,
+        values.information4,
+        values.information5,
+        values.information6,
+      ];
+
+      const filledHints = informations.filter(
+        (information) => information.trim() !== ""
+      );
+
+      if (filledHints.length < 5) {
+        // Set touched for all hint fields
+        setTouched({
+          information1: true,
+          information2: true,
+          information3: true,
+          information4: true,
+          information5: true,
+          information6: true,
+        });
+
+        // Set errors for empty hint fields
+        const informationErrors: Partial<FormikErrors<FormValues>> = {};
+        informations.forEach((information, index) => {
+          if (!information.trim()) {
+            informationErrors[`information${index + 1}` as keyof FormValues] =
+              t("questionCreation.errors.hintsRequired");
+          }
+        });
+
+        setErrors(informationErrors);
+        return;
+      }
     }
 
     // Step 3: Correct hints validation

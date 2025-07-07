@@ -194,6 +194,7 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
     }
 
     if (activeStep === 3) {
+      // Check if at least 6 hints are provided (all 5 hints must be filled)
       const informations = [
         values.information1,
         values.information2,
@@ -202,14 +203,32 @@ function MultiStepOffsideModal({ open, onClose }: MultiStepOffsideModalProps) {
         values.information5,
         values.information6,
       ];
-      const emptyInfo = informations.findIndex((info) => !info.trim());
-      if (emptyInfo !== -1) {
-        setTouched({ [`information${emptyInfo + 1}`]: true } as any);
-        setErrors({
-          [`information${emptyInfo + 1}`]: `Information ${
-            emptyInfo + 1
-          } is required`,
-        } as any);
+
+      const filledHints = informations.filter(
+        (information) => information.trim() !== ""
+      );
+
+      if (filledHints.length < 5) {
+        // Set touched for all hint fields
+        setTouched({
+          information1: true,
+          information2: true,
+          information3: true,
+          information4: true,
+          information5: true,
+          information6: true,
+        });
+
+        // Set errors for empty hint fields
+        const informationErrors: Partial<FormikErrors<FormValues>> = {};
+        informations.forEach((information, index) => {
+          if (!information.trim()) {
+            informationErrors[`information${index + 1}` as keyof FormValues] =
+              t("questionCreation.errors.hintsRequired");
+          }
+        });
+
+        setErrors(informationErrors);
         return;
       }
     }

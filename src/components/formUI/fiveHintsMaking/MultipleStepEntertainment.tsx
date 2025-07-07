@@ -60,7 +60,11 @@ const VALIDATION_SCHEMA = Yup.object({
   question: Yup.string().required("Question is required"),
   answer: Yup.string().required("Answer is required"),
   section: Yup.string().required("Section is required"),
-  hint1: Yup.string().required("At least one hint is required"),
+  hint1: Yup.string().required("hint One is required"),
+  hint2: Yup.string().required("hint Two is required"),
+  hint3: Yup.string().required("hint Three is required"),
+  hint4: Yup.string().required("hint Four is required"),
+  hint5: Yup.string().required("hint Five is required"),
   summary: Yup.string().required("Summary is required"),
 });
 
@@ -147,14 +151,41 @@ function MultipleStepEntertainment({
       return;
     }
 
-    if (activeStep === 3 && !values.hint1.trim()) {
-      setTouched({ hint1: true });
-      setErrors({
-        hint1:
-          t("questionCreation.errors.hintsRequired") ||
-          "At least one hint is required",
-      });
-      return;
+    if (activeStep === 3) {
+      // Check if at least 6 hints are provided (all 5 hints must be filled)
+      const hints = [
+        values.hint1,
+        values.hint2,
+        values.hint3,
+        values.hint4,
+        values.hint5,
+      ];
+
+      const filledHints = hints.filter((hint) => hint.trim() !== "");
+
+      if (filledHints.length < 5) {
+        // Set touched for all hint fields
+        setTouched({
+          hint1: true,
+          hint2: true,
+          hint3: true,
+          hint4: true,
+          hint5: true,
+        });
+
+        // Set errors for empty hint fields
+        const hintErrors: Partial<FormikErrors<FormValues>> = {};
+        hints.forEach((hint, index) => {
+          if (!hint.trim()) {
+            hintErrors[`hint${index + 1}` as keyof FormValues] = t(
+              "questionCreation.errors.hintsRequired"
+            );
+          }
+        });
+
+        setErrors(hintErrors);
+        return;
+      }
     }
 
     if (activeStep === 4 && !values.summary.trim()) {
