@@ -17,12 +17,12 @@ function useSocialMedia() {
   const socialLinks: SocialMediaTypes[] = [
     {
       icon: <Facebook fontSize="large" />,
-      url: "https://www.facebook.com/MahmoudAliSoftwareDeveloper/",
+      url: "https://www.facebook.com/MahmoudCodeSphere",
       title: t("facebook"),
     },
     {
       icon: <AccountBox fontSize="large" />,
-      url: "https://mahmoudaliaboelhassan.github.io/Portfolio-Website/",
+      url: "https://mahmoud-ali-ze8h.vercel.app/",
       title: t("portfolio"),
     },
     {
@@ -32,7 +32,7 @@ function useSocialMedia() {
     },
     {
       icon: <LinkedIn fontSize="large" />,
-      url: "https://www.linkedin.com/in/mahmoudfrontenddeveloper/",
+      url: "https://www.linkedin.com/in/mahmoudali-webdev/",
       title: t("linkedin"),
     },
   ];
