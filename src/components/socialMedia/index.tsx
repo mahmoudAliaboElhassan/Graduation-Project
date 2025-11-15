@@ -1,14 +1,14 @@
-import { Grid, IconButton } from "@mui/material";
-import Tooltip from "@mui/material/Tooltip";
+import { Grid, IconButton } from "@mui/material"
+import Tooltip from "@mui/material/Tooltip"
 
-import { motion } from "framer-motion";
-import useSocialMedia from "../../hooks/use-social-media";
-import UseMediaQuery from "../../hooks/use-media-query";
-import { useTheme } from "@emotion/react";
+import { motion } from "framer-motion"
+import useSocialMedia from "../../hooks/use-social-media"
+import UseMediaQuery from "../../hooks/use-media-query"
+import { useTheme } from "@emotion/react"
 
 function SocialMedia() {
-  const { socialLinks } = useSocialMedia();
-  const theme = useTheme();
+  const { socialLinks } = useSocialMedia()
+  const theme = useTheme()
 
   return (
     <Grid container spacing={4} style={{ justifyContent: "space-evenly" }}>
@@ -39,7 +39,7 @@ function SocialMedia() {
         </Grid>
       ))}
     </Grid>
-  );
+  )
 }
 
-export default SocialMedia;
+export default SocialMedia

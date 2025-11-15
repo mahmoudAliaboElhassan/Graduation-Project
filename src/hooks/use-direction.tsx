@@ -20,5 +20,4 @@ function UseDirection() {
 }
 
 export default UseDirection;
-// Capitalization of Direction: In JavaScript/TypeScript, variables typically use camelCase. Using Direction (with uppercase "D") might cause confusion as it's treated more like a class or constructor by convention.
-//  It would be better to rename it to direction to follow common
+ 
