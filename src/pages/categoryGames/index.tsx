@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 import {
   Card,
@@ -9,25 +9,25 @@ import {
   CardActionArea,
   useTheme,
   useMediaQuery,
-} from "@mui/material";
-import { Link, Outlet } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import TheatersIcon from "@mui/icons-material/Theaters";
-import SchoolIcon from "@mui/icons-material/School";
-import UseDirection from "../../hooks/use-direction";
-import UseGamesCategories from "../../hooks/use-games-catories";
-import { HeadingElement } from "../../styles/heading";
-import UseQuestionCategories from "../../hooks/use-game-categories-make";
-import { useAppSelector } from "../../hooks/redux";
-import withGuard from "../../utils/withGuard";
+} from "@mui/material"
+import { Link, Outlet } from "react-router-dom"
+import { useTranslation } from "react-i18next"
+import TheatersIcon from "@mui/icons-material/Theaters"
+import SchoolIcon from "@mui/icons-material/School"
+import UseDirection from "../../hooks/use-direction"
+import UseGamesCategories from "../../hooks/use-games-catories"
+import { HeadingElement } from "../../styles/heading"
+import UseQuestionCategories from "../../hooks/use-game-categories-make"
+import { useAppSelector } from "../../hooks/redux"
+import withGuard from "../../utils/withGuard"
 
 interface CategoryCardProps {
-  title: string;
-  description: string;
-  icon: string;
-  color: string;
-  route: string;
-  state: string | undefined;
+  title: string
+  description: string
+  icon: string
+  color: string
+  route: string
+  state: string | undefined
 }
 
 export const CategoryCard = ({
@@ -38,18 +38,18 @@ export const CategoryCard = ({
   route,
   state,
 }: CategoryCardProps) => {
-  const { direction } = UseDirection();
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const { direction } = UseDirection()
+  const theme = useTheme()
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
 
   // Map icon names to components
   const iconMap = {
     Theaters: <TheatersIcon />,
     School: <SchoolIcon />,
-  };
+  }
 
-  const iconComponent = iconMap[icon as keyof typeof iconMap] || <SchoolIcon />;
-  const { mymode } = useAppSelector((state) => state.mode);
+  const iconComponent = iconMap[icon as keyof typeof iconMap] || <SchoolIcon />
+  const { mymode } = useAppSelector((state) => state.mode)
   return (
     <Card
       sx={{
@@ -67,7 +67,7 @@ export const CategoryCard = ({
         component={Link}
         onClick={() => {
           if (state) {
-            localStorage.setItem("gameState", state);
+            localStorage.setItem("gameState", state)
           }
         }}
         to={route}
@@ -121,24 +121,22 @@ export const CategoryCard = ({
         </CardContent>
       </CardActionArea>
     </Card>
-  );
-};
+  )
+}
 
 const CategoriesPage = () => {
-  const { direction } = UseDirection();
-  const { t } = useTranslation();
-  const { categories } = UseGamesCategories();
-  const { categoryQuestionMaking } = UseQuestionCategories();
-  const { role } = useAppSelector((state) => state.auth);
-  let categoryRole;
+  const { direction } = UseDirection()
+  const { t } = useTranslation()
+  const { categories } = UseGamesCategories()
+  const { categoryQuestionMaking } = UseQuestionCategories()
+  const { role } = useAppSelector((state) => state.auth)
+  let categoryRole
   categoryRole =
-    role === "Teacher" || role === "Admin"
-      ? categoryQuestionMaking
-      : categories;
+    role === "Teacher" || role === "Admin" ? categoryQuestionMaking : categories
   if (role !== "Teacher" && role !== "Student" && role !== "Admin") {
-    categoryRole = [categoryQuestionMaking[0], categories[0]];
+    categoryRole = [categoryQuestionMaking[0], categories[0]]
   }
-  console.log("catergoryRole", categoryRole);
+  console.log("catergoryRole", categoryRole)
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
       <Box
@@ -174,7 +172,7 @@ const CategoriesPage = () => {
         <Outlet />
       </Box>
     </div>
-  );
-};
+  )
+}
 
-export default withGuard(CategoriesPage);
+export default withGuard(CategoriesPage)

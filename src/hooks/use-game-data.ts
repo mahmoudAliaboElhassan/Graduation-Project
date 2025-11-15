@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
-import { GameData } from "../utils/types/general";
+import { useTranslation } from "react-i18next"
+import { GameData } from "../utils/types/general"
 
 function UseGamesData() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const gamesData: GameData[] = [
     {
@@ -26,8 +26,8 @@ function UseGamesData() {
       color: "#F59E0B", // Amber
       category: "educational",
     },
-  ];
+  ]
 
-  return { gamesData };
+  return { gamesData }
 }
-export default UseGamesData;
+export default UseGamesData

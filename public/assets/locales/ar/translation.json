@@ -584,5 +584,7 @@
   "try-adjusting-filters": "جرب تعديل المرشحات لرؤية المزيد من النتائج",
   "get-started": "ابدأ الآن",
   "loading-education": "جارٍ تحميل الأسئلة التعليمية...",
-  "loading-entertainment": "جارٍ تحميل الأسئلة الترفيهية..."
+  "loading-entertainment": "جارٍ تحميل الأسئلة الترفيهية...",
+  "create-or-play": "إنشاء أسئله أو لعب",
+  "clear-filters": "حذف المرشحات"
 }

@@ -1,90 +1,90 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import { Link, useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import type { GameData } from "../../utils/types/general";
-import UseMediaQuery from "../../hooks/use-media-query";
-import UseDirection from "../../hooks/use-direction";
+import * as React from "react"
+import Card from "@mui/material/Card"
+import CardActions from "@mui/material/CardActions"
+import CardContent from "@mui/material/CardContent"
+import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
+import Box from "@mui/material/Box"
+import { Link, useParams } from "react-router-dom"
+import { useTranslation } from "react-i18next"
+import type { GameData } from "../../utils/types/general"
+import UseMediaQuery from "../../hooks/use-media-query"
+import UseDirection from "../../hooks/use-direction"
 
 // Import the icons we need
-import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects";
-import SportsFootballIcon from "@mui/icons-material/SportsFootball";
-import { useAppSelector } from "../../hooks/redux";
+import EmojiObjectsIcon from "@mui/icons-material/EmojiObjects"
+import SportsFootballIcon from "@mui/icons-material/SportsFootball"
+import { useAppSelector } from "../../hooks/redux"
 
 interface Props {
-  to: string;
-  data: GameData;
+  to: string
+  data: GameData
 }
 
 function CardGame({ to, data }: Props) {
-  const { t } = useTranslation();
-  const { direction } = UseDirection();
-  const isSmallScreen = UseMediaQuery({ query: "(max-width: 600px)" });
-  const [isHovered, setIsHovered] = React.useState(false);
-  const { categoryGame } = useParams();
+  const { t } = useTranslation()
+  const { direction } = UseDirection()
+  const isSmallScreen = UseMediaQuery({ query: "(max-width: 600px)" })
+  const [isHovered, setIsHovered] = React.useState(false)
+  const { categoryGame } = useParams()
 
   // Map icon names to components
   const iconMap = {
     EmojiObjects: <EmojiObjectsIcon />,
     SportsFootball: <SportsFootballIcon />,
-  };
+  }
 
   const iconComponent = iconMap[data.icon as keyof typeof iconMap] || (
     <EmojiObjectsIcon />
-  );
-  const { role } = useAppSelector((state) => state.auth);
+  )
+  const { role } = useAppSelector((state) => state.auth)
 
   // Check if we should show two buttons - Admin acts as Teacher
   const showTwoButtons =
     categoryGame === "entertainment" &&
-    (role === "Teacher" || role === "Student" || role === "Admin");
+    (role === "Teacher" || role === "Student" || role === "Admin")
 
   // Generate the appropriate links - Admin acts as Teacher
   const getMakeLink = () => {
     if (role === "Teacher" || role === "Admin") {
       return categoryGame === "education"
         ? `${to}/education`
-        : `${to}/entertainment`;
+        : `${to}/entertainment`
     } else if (role === "Student") {
-      return categoryGame === "education" ? to : `/make-${to}/entertainment`;
+      return categoryGame === "education" ? to : `/make-${to}/entertainment`
     }
-    return `/make-${to}/entertainment`;
-  };
+    return `/make-${to}/entertainment`
+  }
 
   const getPlayLink = () => {
     // Extract game name from the 'to' prop (e.g., "offside" from "/make-offside")
-    const gameName = to.replace("/make-", "").replace("/", "");
+    const gameName = to.replace("/make-", "").replace("/", "")
 
     if (role === "Teacher" || role === "Admin") {
       return categoryGame === "education"
         ? `${to}/education`
-        : `/games/${categoryGame}/${gameName}/play-${gameName}`;
+        : `/games/${categoryGame}/${gameName}/play-${gameName}`
     } else if (role === "Student") {
       return categoryGame === "education"
         ? to
-        : `/games/${categoryGame}/${gameName}/play-${gameName}`;
+        : `/games/${categoryGame}/${gameName}/play-${gameName}`
     }
-    return `/games/${categoryGame}/${gameName}/play-${gameName}`;
-  };
+    return `/games/${categoryGame}/${gameName}/play-${gameName}`
+  }
 
   const getSingleButtonLink = () => {
     if (role === "Teacher" || role === "Admin") {
       return categoryGame === "education"
         ? `${to}/education`
-        : `${to}/entertainment`;
+        : `${to}/entertainment`
     } else if (role === "Student") {
-      return categoryGame === "education" ? to : `${to}/play-${to}`;
+      return categoryGame === "education" ? to : `${to}/play-${to}`
     }
     // For roles that are neither Student nor Teacher nor Admin
     return localStorage.getItem("gameState") === "play"
       ? `${to}/play-${to}`
-      : `/make-${to}/entertainment`;
-  };
+      : `/make-${to}/entertainment`
+  }
 
   if (showTwoButtons) {
     // Render card without Link wrapper when showing two buttons
@@ -228,7 +228,7 @@ function CardGame({ to, data }: Props) {
           </Button>
         </CardActions>
       </Card>
-    );
+    )
   }
 
   // Original single button card with Link wrapper
@@ -362,7 +362,7 @@ function CardGame({ to, data }: Props) {
         </Button>
       </CardActions>
     </Card>
-  );
+  )
 }
 
-export default CardGame;
+export default CardGame

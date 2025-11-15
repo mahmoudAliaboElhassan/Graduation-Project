@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import {
   Modal,
   Box,
@@ -15,41 +15,41 @@ import {
   CircularProgress,
   FormControlLabel,
   Checkbox,
-} from "@mui/material";
-import { Formik, Form, type FormikTouched, type FormikErrors } from "formik";
-import CloseIcon from "@mui/icons-material/Close";
-import { useTranslation } from "react-i18next";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
+} from "@mui/material"
+import { Formik, Form, type FormikTouched, type FormikErrors } from "formik"
+import CloseIcon from "@mui/icons-material/Close"
+import { useTranslation } from "react-i18next"
+import * as Yup from "yup"
+import { toast } from "react-toastify"
 
 // Import your existing components
-import TextFieldWrapper from "../textField";
-import SelectComponent from "../select";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import UseCategoryEntertainment from "../../../hooks/use-category-entertainment";
-import { makeEntertainmentQuestions } from "../../../state/act/actGame";
+import TextFieldWrapper from "../textField"
+import SelectComponent from "../select"
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
+import UseCategoryEntertainment from "../../../hooks/use-category-entertainment"
+import { makeEntertainmentQuestions } from "../../../state/act/actGame"
 
 interface FormValues {
-  question: string;
-  section: string;
-  information1: string;
-  information2: string;
-  information3: string;
-  information4: string;
-  information5: string;
-  information6: string;
-  correctInformations: number[];
-  summary: string;
+  question: string
+  // section: string;
+  information1: string
+  information2: string
+  information3: string
+  information4: string
+  information5: string
+  information6: string
+  correctInformations: number[]
+  summary: string
 }
 
 interface MultiStepEntertainmentModalProps {
-  open: boolean;
-  onClose: () => void;
+  open: boolean
+  onClose: () => void
 }
 
 const INITIAL_FORM_STATE: FormValues = {
   question: "",
-  section: "",
+  // section: "",
   information1: "",
   information2: "",
   information3: "",
@@ -58,11 +58,11 @@ const INITIAL_FORM_STATE: FormValues = {
   information6: "",
   correctInformations: [],
   summary: "",
-};
+}
 
 const VALIDATION_SCHEMA = Yup.object({
   question: Yup.string().required("Question is required"),
-  section: Yup.string().required("Section is required"),
+  // section: Yup.string().required("Section is required"),
   information1: Yup.string().required("Information 1 is required"),
   information2: Yup.string().required("Information 2 is required"),
   information3: Yup.string().required("Information 3 is required"),
@@ -74,29 +74,29 @@ const VALIDATION_SCHEMA = Yup.object({
     "At least one correct information is required"
   ),
   summary: Yup.string().required("Summary is required"),
-});
+})
 
 function MultipleStepOfsideEntertainment({
   open,
   onClose,
 }: MultiStepEntertainmentModalProps) {
-  const { t } = useTranslation();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [activeStep, setActiveStep] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useTranslation()
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const [activeStep, setActiveStep] = useState(0)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const { categoriesEntertainment } = UseCategoryEntertainment();
-  const { mymode } = useAppSelector((state) => state.mode);
+  const { categoriesEntertainment } = UseCategoryEntertainment()
+  const { mymode } = useAppSelector((state) => state.mode)
 
   const steps = [
     t("questionCreation.steps.question") || "Enter Question",
-    t("questionCreation.steps.section") || "Select Section",
+    // t("questionCreation.steps.section") || "Select Section",
     t("questionCreation.steps.enterInformations") || "Enter Informations",
     t("entertainmentCreation.steps.selectCorrectInformations") ||
       "Select Correct Informations",
     t("questionCreation.steps.summary") || "Enter Summary",
-  ];
+  ]
 
   // Theme-based styling
   const modalStyle = {
@@ -113,15 +113,15 @@ function MultipleStepOfsideEntertainment({
       mymode === "light"
         ? "0 8px 32px rgba(195, 20, 50, 0.2)"
         : "0 8px 32px rgba(26, 26, 46, 0.4)",
-  };
+  }
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (open) {
-      console.log("Entertainment Question Modal opened...");
+      console.log("Entertainment Question Modal opened...")
     }
-  }, [open]);
+  }, [open])
 
   const handleNext = async (
     values: FormValues,
@@ -133,27 +133,27 @@ function MultipleStepOfsideEntertainment({
   ) => {
     // Step 0: Question validation
     if (activeStep === 0 && !values.question.trim()) {
-      setTouched({ question: true });
+      setTouched({ question: true })
       setErrors({
         question:
           t("questionCreation.errors.questionRequired") ||
           "Question is required",
-      });
-      return;
+      })
+      return
     }
 
     // Step 1: Section validation
-    if (activeStep === 1 && !values.section) {
-      setTouched({ section: true });
-      setErrors({
-        section:
-          t("questionCreation.errors.sectionRequired") || "Section is required",
-      });
-      return;
-    }
+    // if (activeStep === 1 && !values.section) {
+    //   setTouched({ section: true });
+    //   setErrors({
+    //     section:
+    //       t("questionCreation.errors.sectionRequired") || "Section is required",
+    //   });
+    //   return;
+    // }
 
     // Step 2: Hints validation
-    if (activeStep === 2) {
+    if (activeStep === 1) {
       // Check if at least 6 hints are provided (all 5 hints must be filled)
       const informations = [
         values.information1,
@@ -162,11 +162,11 @@ function MultipleStepOfsideEntertainment({
         values.information4,
         values.information5,
         values.information6,
-      ];
+      ]
 
       const filledHints = informations.filter(
         (information) => information.trim() !== ""
-      );
+      )
 
       if (filledHints.length < 5) {
         // Set touched for all hint fields
@@ -177,46 +177,46 @@ function MultipleStepOfsideEntertainment({
           information4: true,
           information5: true,
           information6: true,
-        });
+        })
 
         // Set errors for empty hint fields
-        const informationErrors: Partial<FormikErrors<FormValues>> = {};
+        const informationErrors: Partial<FormikErrors<FormValues>> = {}
         informations.forEach((information, index) => {
           if (!information.trim()) {
             informationErrors[`information${index + 1}` as keyof FormValues] =
-              t("questionCreation.errors.hintsRequired");
+              t("questionCreation.errors.hintsRequired")
           }
-        });
+        })
 
-        setErrors(informationErrors);
-        return;
+        setErrors(informationErrors)
+        return
       }
     }
 
     // Step 3: Correct hints validation
-    if (activeStep === 3 && values.correctInformations.length === 0) {
+    if (activeStep === 2 && values.correctInformations.length === 0) {
       setErrors({
         correctInformations: "At least one correct information is required",
-      });
-      return;
+      })
+      return
     }
 
     // Step 4: Summary validation
-    if (activeStep === 4 && !values.summary.trim()) {
-      setTouched({ summary: true });
+    if (activeStep === 3 && !values.summary.trim()) {
+      setTouched({ summary: true })
       setErrors({
         summary:
           t("questionCreation.errors.summaryRequired") || "Summary is required",
-      });
-      return;
+      })
+      return
     }
 
-    setActiveStep((prevStep) => prevStep + 1);
-  };
+    setActiveStep((prevStep) => prevStep + 1)
+  }
 
   const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
-  };
+    setActiveStep((prevStep) => prevStep - 1)
+  }
 
   const handleCorrectInformationChange = (
     index: number,
@@ -226,13 +226,13 @@ function MultipleStepOfsideEntertainment({
   ) => {
     const newCorrectInformations = checked
       ? [...values.correctInformations, index] // Remove the + 1 here
-      : values.correctInformations.filter((info) => info !== index); // Remove the + 1 here
+      : values.correctInformations.filter((info) => info !== index) // Remove the + 1 here
 
-    setFieldValue("correctInformations", newCorrectInformations.sort());
-  };
+    setFieldValue("correctInformations", newCorrectInformations.sort())
+  }
 
   const handleSubmit = async (values: FormValues, { resetForm }: any) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
 
     try {
       const informations = [
@@ -242,24 +242,26 @@ function MultipleStepOfsideEntertainment({
         values.information4,
         values.information5,
         values.information6,
-      ].filter((info) => info.trim() !== "");
+      ].filter((info) => info.trim() !== "")
 
       const questionData = {
         question: values.question,
         game: "offside",
-        section: Number.parseInt(values.section),
+        section: Number.parseInt(
+          localStorage.getItem("entertainmentGameId") || "0"
+        ),
         hints: informations, // Keep as 'hints' for API compatibility
         answer: values.correctInformations.join(""),
         summary: values.summary,
-      };
+      }
 
-      console.log("Submitting entertainment question data:", questionData);
+      console.log("Submitting entertainment question data:", questionData)
 
       // Dispatch the makeFiveHintsQuestion action
-      const result = await dispatch(makeEntertainmentQuestions(questionData));
+      const result = await dispatch(makeEntertainmentQuestions(questionData))
 
       if (makeEntertainmentQuestions.fulfilled.match(result)) {
-        console.log("Question created successfully:", result.payload);
+        console.log("Question created successfully:", result.payload)
 
         // Show success toast
         toast.success(
@@ -273,16 +275,16 @@ function MultipleStepOfsideEntertainment({
             pauseOnHover: true,
             draggable: true,
           }
-        );
+        )
 
         // Reset form and close modal after a short delay
         setTimeout(() => {
-          resetForm();
-          setActiveStep(0);
-          onClose();
-        }, 1000);
+          resetForm()
+          setActiveStep(0)
+          onClose()
+        }, 1000)
       } else {
-        console.error("Failed to create question:", result.payload);
+        console.error("Failed to create question:", result.payload)
 
         // Show error toast
         toast.error(
@@ -295,10 +297,10 @@ function MultipleStepOfsideEntertainment({
             pauseOnHover: true,
             draggable: true,
           }
-        );
+        )
       }
     } catch (error) {
-      console.error("Error creating question:", error);
+      console.error("Error creating question:", error)
 
       // Show error toast
       toast.error(
@@ -311,11 +313,11 @@ function MultipleStepOfsideEntertainment({
           pauseOnHover: true,
           draggable: true,
         }
-      );
+      )
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
   return (
     <Modal
       open={open}
@@ -529,7 +531,7 @@ function MultipleStepOfsideEntertainment({
                   </Box>
                 )}
 
-                {/* Step 1: Select Section */}
+                {/* Step 1: Select Section
                 {activeStep === 1 && (
                   <Box>
                     <Typography
@@ -561,10 +563,10 @@ function MultipleStepOfsideEntertainment({
                       label={t("questionCreation.labels.section") || "Section"}
                     />
                   </Box>
-                )}
+                )} */}
 
                 {/* Step 2: Enter Hints */}
-                {activeStep === 2 && (
+                {activeStep === 1 && (
                   <Box>
                     <Typography
                       variant="h6"
@@ -574,7 +576,7 @@ function MultipleStepOfsideEntertainment({
                         fontWeight: "bold",
                       }}
                     >
-                      {steps[2]}
+                      {steps[1]}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -607,7 +609,7 @@ function MultipleStepOfsideEntertainment({
                 )}
 
                 {/* Step 3: Select Correct Hints */}
-                {activeStep === 3 && (
+                {activeStep === 2 && (
                   <Box>
                     <Typography
                       variant="h6"
@@ -617,7 +619,7 @@ function MultipleStepOfsideEntertainment({
                         fontWeight: "bold",
                       }}
                     >
-                      {steps[3]}
+                      {steps[2]}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -637,8 +639,8 @@ function MultipleStepOfsideEntertainment({
                       {[1, 2, 3, 4, 5, 6].map((num) => {
                         const informationValue = values[
                           `information${num}` as keyof FormValues
-                        ] as string;
-                        if (!informationValue.trim()) return null;
+                        ] as string
+                        if (!informationValue.trim()) return null
 
                         return (
                           <Box
@@ -696,14 +698,14 @@ function MultipleStepOfsideEntertainment({
                               }
                             />
                           </Box>
-                        );
+                        )
                       })}
                     </Box>
                   </Box>
                 )}
 
                 {/* Step 4: Enter Summary */}
-                {activeStep === 4 && (
+                {activeStep === 3 && (
                   <Box>
                     <Typography
                       variant="h6"
@@ -713,7 +715,7 @@ function MultipleStepOfsideEntertainment({
                         fontWeight: "bold",
                       }}
                     >
-                      {steps[4]}
+                      {steps[3]}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -833,7 +835,7 @@ function MultipleStepOfsideEntertainment({
         </Formik>
       </Paper>
     </Modal>
-  );
+  )
 }
 
-export default MultipleStepOfsideEntertainment;
+export default MultipleStepOfsideEntertainment

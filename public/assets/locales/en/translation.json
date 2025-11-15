@@ -3,7 +3,7 @@
   "go-back": "Go Back",
   "signup": "Sign Up",
   "login": "Login",
-  "logout": "LogOut",
+  "logout": "Log Out",
   "education-platform": "Education Platform",
   "email": "Email",
   "firstname": "First Name",
@@ -605,5 +605,7 @@
   "no-questions-found": "No questions found",
   "try-adjusting-filters": "Try adjusting the filters to see more results",
   "loading-education": "Loading educational questions...",
-  "loading-entertainment": "Loading entertainment questions..."
+  "loading-entertainment": "Loading entertainment questions...",
+  "create-or-play": "Create questions or Play ",
+  "clear-filters": "Clear Filters"
 }

@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
-import { CategoryEntertainmentGame } from "../utils/types/general";
+import { useTranslation } from "react-i18next"
+import { CategoryEntertainmentGame } from "../utils/types/general"
 
 function UseCategoryEntertainment() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const categoriesEntertainment: CategoryEntertainmentGame[] = [
     {
@@ -45,9 +45,9 @@ function UseCategoryEntertainment() {
       color: "#3B82F6", // Blue
       route: "/sports-games",
     },
-  ];
+  ]
 
-  return { categoriesEntertainment };
+  return { categoriesEntertainment }
 }
 
-export default UseCategoryEntertainment;
+export default UseCategoryEntertainment

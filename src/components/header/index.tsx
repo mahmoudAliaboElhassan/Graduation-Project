@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 import {
   AppBar,
   Box,
@@ -18,71 +18,72 @@ import {
   ListItemText,
   Divider,
   Chip,
-} from "@mui/material";
+} from "@mui/material"
 import {
   Menu as MenuIcon,
   AccountCircle as AccountCircleIcon,
   Close as CloseIcon,
-} from "@mui/icons-material";
-import { Link, useLocation } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+} from "@mui/icons-material"
+import { Link, useLocation } from "react-router-dom"
+import { useTranslation } from "react-i18next"
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 
-import UseHeaderElements from "../../hooks/use-header-elements";
-import { useAppSelector } from "../../hooks/redux";
-import logoImg from "../../assets/logo.jpg";
-import Languages from "../lngs";
-import Mode from "../mode";
-import UseDebounce from "../../hooks/use-debounce";
-import UseDirection from "../../hooks/use-direction";
-import styles from "./style.module.css";
+import UseHeaderElements from "../../hooks/use-header-elements"
+import { useAppSelector } from "../../hooks/redux"
+import logoImg from "../../assets/logo.jpg"
+import Languages from "../lngs"
+import Mode from "../mode"
+import UseDebounce from "../../hooks/use-debounce"
+import UseDirection from "../../hooks/use-direction"
+import styles from "./style.module.css"
 
 function Header() {
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const isSmallScreen = useMediaQuery("(max-width:600px)");
-  const isVerySmallScreen = useMediaQuery("(max-width:400px)");
-  const { direction } = UseDirection();
-  const { t } = useTranslation();
-  const { userAuth, notUserAuth, headerElements } = UseHeaderElements();
-  const { token } = useAppSelector((state) => state.auth);
-  const authElements = token ? userAuth : notUserAuth;
-  const { mymode } = useAppSelector((state) => state.mode);
-  const location = useLocation();
-  const [isAnimate, setIsAnimate] = UseDebounce(500);
-  const { pumpCartQuantity } = styles;
-  const { name, totalPoints, role } = useAppSelector((state) => state.auth);
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"))
+  const isSmallScreen = useMediaQuery("(max-width:600px)")
+  const isVerySmallScreen = useMediaQuery("(max-width:400px)")
+  const { direction } = UseDirection()
+  const { t } = useTranslation()
+  const { userAuth, notUserAuth, headerElements } = UseHeaderElements()
+  const { token } = useAppSelector((state) => state.auth)
+  const authElements = token ? userAuth : notUserAuth
+  const { mymode } = useAppSelector((state) => state.mode)
+  const location = useLocation()
+  const [isAnimate, setIsAnimate] = UseDebounce(500)
+  const { pumpCartQuantity } = styles
+  const { name, totalPoints, role } = useAppSelector((state) => state.auth)
 
-  const quantityStyle = `${isAnimate ? pumpCartQuantity : ""}`;
-  const isStudent = role === "Student";
+  const quantityStyle = `${isAnimate ? pumpCartQuantity : ""}`
+  const isStudent = role === "Student"
 
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+      setIsScrolled(window.scrollY > 0)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
+    setAnchorElUser(event.currentTarget)
+  }
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+    setAnchorElUser(null)
+  }
 
   const handleDrawerToggle = () => {
-    setMobileDrawerOpen(!mobileDrawerOpen);
-  };
+    setMobileDrawerOpen(!mobileDrawerOpen)
+  }
 
   const handleDrawerClose = () => {
-    setMobileDrawerOpen(false);
-  };
+    setMobileDrawerOpen(false)
+  }
 
   // Logo component
   const LogoComponent = ({ size = 40 }: { size?: number }) => (
@@ -110,23 +111,23 @@ function Header() {
         }}
       />
     </Box>
-  );
+  )
 
   // User info component
   const UserInfoComponent = ({
     compact = false,
     inDrawer = false,
   }: {
-    compact?: boolean;
-    inDrawer?: boolean;
+    compact?: boolean
+    inDrawer?: boolean
   }) => {
-    if (!token) return null;
+    if (!token) return null
 
     const textColor = inDrawer
       ? mymode === "light"
         ? "black  !important"
         : "white !important"
-      : "white";
+      : "white"
 
     return (
       <Box
@@ -194,8 +195,8 @@ function Header() {
           />
         )}
       </Box>
-    );
-  };
+    )
+  }
 
   // Mobile drawer content
   const DrawerContent = () => (
@@ -294,8 +295,8 @@ function Header() {
             key={label}
             {...(href ? { component: Link, to: href } : {})}
             onClick={() => {
-              if (click) click();
-              handleDrawerClose();
+              if (click) click()
+              handleDrawerClose()
             }}
             sx={{
               py: 1,
@@ -321,7 +322,7 @@ function Header() {
         ))}
       </List>
     </Box>
-  );
+  )
 
   return (
     <>
@@ -472,6 +473,9 @@ function Header() {
                     <AccountCircleIcon
                       fontSize={isSmallScreen ? "small" : "medium"}
                     />
+                    <ArrowDropDownIcon
+                      fontSize={isSmallScreen ? "small" : "medium"}
+                    />
                   </IconButton>
                 </Tooltip>
 
@@ -532,8 +536,8 @@ function Header() {
           <MenuItem
             key={label}
             onClick={() => {
-              if (click) click();
-              handleCloseUserMenu();
+              if (click) click()
+              handleCloseUserMenu()
             }}
             {...(href ? { component: Link, to: href } : {})}
             sx={{
@@ -573,7 +577,7 @@ function Header() {
         <DrawerContent />
       </Drawer>
     </>
-  );
+  )
 }
 
-export default Header;
+export default Header

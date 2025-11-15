@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 import {
   Box,
   Card,
@@ -17,20 +17,22 @@ import {
   Container,
   Paper,
   Divider,
-} from "@mui/material";
-import { SelectChangeEvent } from "@mui/material/Select";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+  Button,
+} from "@mui/material"
+import ClearIcon from "@mui/icons-material/Clear"
+import { SelectChangeEvent } from "@mui/material/Select"
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
 import {
   getChapters,
   getSubjects,
   getِAnsweredQuestions,
-} from "../../../state/act/actAuth";
-import { useTranslation } from "react-i18next";
-import { HeadingElement } from "../../../styles/heading";
+} from "../../../state/act/actAuth"
+import { useTranslation } from "react-i18next"
+import { HeadingElement } from "../../../styles/heading"
 
 function AnsweredQuestions() {
-  const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const dispatch = useAppDispatch()
+  const { t } = useTranslation()
 
   const {
     answeredQuestions,
@@ -39,53 +41,61 @@ function AnsweredQuestions() {
     subjects,
     chapters,
     loadingGetSubjects,
-  } = useAppSelector((state) => state.auth);
+  } = useAppSelector((state) => state.auth)
 
-  const [selectedSubject, setSelectedSubject] = useState("");
-  const [selectedChapter, setSelectedChapter] = useState("");
-  const [loadingGetChapters, setLoadingChapters] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState("")
+  const [selectedChapter, setSelectedChapter] = useState("")
+  const [loadingGetChapters, setLoadingChapters] = useState(false)
   // Initial load
   useEffect(() => {
     if (grade) {
-      dispatch(getSubjects({ grade: Number(grade) }));
+      dispatch(getSubjects({ grade: Number(grade) }))
     }
     // Load all answered questions initially
-    dispatch(getِAnsweredQuestions({ subject: "", chapter: "" }));
-  }, [dispatch, grade]);
+    dispatch(getِAnsweredQuestions({ subject: "", chapter: "" }))
+  }, [dispatch, grade])
 
   // Handle subject change
   const handleSubjectChange = (event: SelectChangeEvent<string>) => {
-    const subject = event.target.value;
-    setSelectedSubject(subject);
-    setSelectedChapter(""); // Reset chapter when subject changes
-    setLoadingChapters(true);
+    const subject = event.target.value
+    setSelectedSubject(subject)
+    setSelectedChapter("") // Reset chapter when subject changes
+    setLoadingChapters(true)
     // Get chapters for the selected subject
     if (subject && grade) {
       dispatch(getChapters({ grade: Number(grade), subject }))
         .unwrap()
         .then(() => {
-          setLoadingChapters(false);
+          setLoadingChapters(false)
         })
-        .catch(() => setLoadingChapters(false));
+        .catch(() => setLoadingChapters(false))
     }
 
     // Get answered questions for the selected subject
-    dispatch(getِAnsweredQuestions({ subject, chapter: "" }));
-  };
+    dispatch(getِAnsweredQuestions({ subject, chapter: "" }))
+  }
 
   // Handle chapter change
   const handleChapterChange = (event: SelectChangeEvent<string>) => {
-    const chapter = event.target.value;
-    setSelectedChapter(chapter);
-    setLoadingChapters(true);
+    const chapter = event.target.value
+    setSelectedChapter(chapter)
+    setLoadingChapters(true)
     // Get answered questions for the selected subject and chapter
     dispatch(getِAnsweredQuestions({ subject: selectedSubject, chapter }))
       .unwrap()
       .then(() => {
-        setLoadingChapters(false);
+        setLoadingChapters(false)
       })
-      .catch(() => setLoadingChapters(false));
-  };
+      .catch(() => setLoadingChapters(false))
+  }
+  // Handle clear filters
+  const handleClearFilters = () => {
+    setSelectedSubject("")
+    setSelectedChapter("")
+    // Load all answered questions
+    dispatch(getِAnsweredQuestions({ subject: "", chapter: "" }))
+  }
+  const hasActiveFilters = selectedSubject || selectedChapter
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -95,7 +105,19 @@ function AnsweredQuestions() {
       <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
         <Typography variant="h6" gutterBottom sx={{ mb: 3 }}>
           {t("filters")}
-        </Typography>
+        </Typography>{" "}
+        {hasActiveFilters && (
+          <Button
+            variant="outlined"
+            color="secondary"
+            startIcon={<ClearIcon />}
+            onClick={handleClearFilters}
+            size="small"
+            style={{ marginBottom: "19px" }}
+          >
+            {t("clear-filters")}
+          </Button>
+        )}
         <Grid container spacing={3}>
           <Grid item xs={12} md={selectedSubject ? 6 : 12}>
             <FormControl fullWidth>
@@ -316,7 +338,7 @@ function AnsweredQuestions() {
         </>
       )}
     </Container>
-  );
+  )
 }
 
-export default AnsweredQuestions;
+export default AnsweredQuestions

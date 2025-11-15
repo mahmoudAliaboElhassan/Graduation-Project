@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import {
   Modal,
   Box,
@@ -15,40 +15,39 @@ import {
   CircularProgress,
   TextField,
   MenuItem,
-} from "@mui/material";
-import { Formik, Form, type FormikTouched, type FormikErrors } from "formik";
-import CloseIcon from "@mui/icons-material/Close";
-import { useTranslation } from "react-i18next";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
+} from "@mui/material"
+import { Formik, Form, type FormikTouched, type FormikErrors } from "formik"
+import CloseIcon from "@mui/icons-material/Close"
+import { useTranslation } from "react-i18next"
+import * as Yup from "yup"
+import { toast } from "react-toastify"
 
 // Import your existing components and hooks
-import SelectComponent from "../select";
-import TextFieldWrapper from "../../formUI/textField";
-import UseCategoryEntertainment from "../../../hooks/use-category-entertainment";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { makeEntertainmentDifficulty } from "../../../state/act/actGame";
+import SelectComponent from "../select"
+import TextFieldWrapper from "../../formUI/textField"
+import UseCategoryEntertainment from "../../../hooks/use-category-entertainment"
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
+import { makeEntertainmentDifficulty } from "../../../state/act/actGame"
 
 interface Question {
-  question: string;
-  answer: string;
-  summary: string;
-  difficultyLevel: number;
+  question: string
+  answer: string
+  summary: string
+  difficultyLevel: number
 }
 
 interface FormValues {
-  section: string;
-  questions: Question[];
+  questions: Question[]
 }
 
 interface MultipleStepEntertainmentDifficultyProps {
-  open: boolean;
-  onClose: () => void;
+  open: boolean
+  onClose: () => void
 }
 
 // Static 6 questions initial state
 const INITIAL_FORM_STATE: FormValues = {
-  section: "",
+  // section: "",
   questions: Array(6)
     .fill({
       question: "",
@@ -62,10 +61,10 @@ const INITIAL_FORM_STATE: FormValues = {
       summary: "",
       difficultyLevel: 0,
     })),
-};
+}
 
 const VALIDATION_SCHEMA = Yup.object({
-  section: Yup.string().required("Section is required"),
+  // section: Yup.string().required("Section is required"),
   questions: Yup.array()
     .of(
       Yup.object().shape({
@@ -79,28 +78,28 @@ const VALIDATION_SCHEMA = Yup.object({
       })
     )
     .length(6, "Exactly 6 questions are required"),
-});
+})
 
 function MultipleStepEntertainmentDifficulty({
   open,
   onClose,
 }: MultipleStepEntertainmentDifficultyProps) {
-  const { t } = useTranslation("translation");
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [activeStep, setActiveStep] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useTranslation("translation")
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const [activeStep, setActiveStep] = useState(0)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Redux state and dispatch
-  const { mymode } = useAppSelector((state) => state.mode);
-  const { categoriesEntertainment } = UseCategoryEntertainment();
-  const dispatch = useAppDispatch();
+  const { mymode } = useAppSelector((state) => state.mode)
+  const { categoriesEntertainment } = UseCategoryEntertainment()
+  const dispatch = useAppDispatch()
 
   // Two steps only
   const steps = [
-    t("questionCreation.steps.section") || "Select Section",
+    // t("questionCreation.steps.section") || "Select Section",
     t("questionCreation.steps.enterQuestions") || "Enter Questions",
-  ];
+  ]
 
   const difficultyLevels = [
     { value: 0, label: t("difficulty.levels.veryEasy") || "Very Easy" },
@@ -108,7 +107,7 @@ function MultipleStepEntertainmentDifficulty({
     { value: 2, label: t("difficulty.levels.medium") || "Medium" },
     { value: 3, label: t("difficulty.levels.hard") || "Hard" },
     { value: 4, label: t("difficulty.levels.veryHard") || "Very Hard" },
-  ];
+  ]
 
   // Theme-based styling
   const modalStyle = {
@@ -125,14 +124,14 @@ function MultipleStepEntertainmentDifficulty({
       mymode === "light"
         ? "0 8px 32px rgba(195, 20, 50, 0.2)"
         : "0 8px 32px rgba(26, 26, 46, 0.4)",
-  };
+  }
 
   // Initialize when modal opens
   useEffect(() => {
     if (open) {
-      console.log("Modal opened, ready to create questions...");
+      console.log("Modal opened, ready to create questions...")
     }
-  }, [open]);
+  }, [open])
 
   const handleNext = async (
     values: FormValues,
@@ -143,48 +142,48 @@ function MultipleStepEntertainmentDifficulty({
     setErrors: (errors: Partial<FormikErrors<FormValues>>) => void
   ) => {
     // Validation for each step
-    if (activeStep === 0 && !values.section) {
-      setTouched({ section: true });
-      setErrors({
-        section:
-          t("questionCreation.errors.sectionRequired") || "Section is required",
-      });
-      return;
-    }
+    // if (activeStep === 0 && !values.section) {
+    //   setTouched({ section: true })
+    //   setErrors({
+    //     section:
+    //       t("questionCreation.errors.sectionRequired") || "Section is required",
+    //   })
+    //   return
+    // }
 
-    if (activeStep === 1) {
+    if (activeStep === 0) {
       // Validate all 6 questions on the last step
       const hasEmptyQuestions = values.questions.some(
         (q) => !q.question.trim() || !q.answer.trim() || !q.summary.trim()
-      );
+      )
       if (hasEmptyQuestions) {
-        toast.error("Please fill in all fields for all 6 questions");
-        return;
+        toast.error("Please fill in all fields for all 6 questions")
+        return
       }
     }
 
-    setActiveStep((prevStep) => prevStep + 1);
-  };
+    setActiveStep((prevStep) => prevStep + 1)
+  }
 
   const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
-  };
+    setActiveStep((prevStep) => prevStep - 1)
+  }
 
   const handleSubmit = async (values: FormValues, { resetForm }: any) => {
-    console.log("Form submitted with values:", values);
+    console.log("Form submitted with values:", values)
 
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     try {
       // Log the exact structure being submitted
-      console.log("Questions array:", values.questions);
+      console.log("Questions array:", values.questions)
 
       // Prepare data for submission
       const questionData = {
-        section: Number(values.section),
+        section: Number(localStorage.getItem("entertainmentGameId") || "0"),
         questions: values.questions,
         game: "DifficultyLevel",
-      };
-      const result = await dispatch(makeEntertainmentDifficulty(questionData));
+      }
+      const result = await dispatch(makeEntertainmentDifficulty(questionData))
 
       if (makeEntertainmentDifficulty.fulfilled.match(result)) {
         // Show success toast
@@ -199,16 +198,16 @@ function MultipleStepEntertainmentDifficulty({
             pauseOnHover: true,
             draggable: true,
           }
-        );
+        )
 
         // Reset form and close modal after a short delay
         setTimeout(() => {
-          resetForm();
-          setActiveStep(0);
-          onClose();
-        }, 1000);
+          resetForm()
+          setActiveStep(0)
+          onClose()
+        }, 1000)
       } else {
-        console.error("Failed to create question:", result.payload);
+        console.error("Failed to create question:", result.payload)
 
         // Show error toast
         toast.error(
@@ -221,10 +220,10 @@ function MultipleStepEntertainmentDifficulty({
             pauseOnHover: true,
             draggable: true,
           }
-        );
+        )
       }
     } catch (error) {
-      console.error("Error creating question:", error);
+      console.error("Error creating question:", error)
 
       // Show error toast
       toast.error(
@@ -237,11 +236,11 @@ function MultipleStepEntertainmentDifficulty({
           pauseOnHover: true,
           draggable: true,
         }
-      );
+      )
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <Modal
@@ -422,7 +421,7 @@ function MultipleStepEntertainmentDifficulty({
             <Form>
               <Box sx={{ minHeight: "400px", mb: 3 }}>
                 {/* Step 1: Select Section */}
-                {activeStep === 0 && (
+                {/* {activeStep === 0 && (
                   <Box>
                     <Typography
                       variant="h6"
@@ -453,10 +452,10 @@ function MultipleStepEntertainmentDifficulty({
                       label={t("questionCreation.labels.section") || "Section"}
                     />
                   </Box>
-                )}
+                )} */}
 
                 {/* Step 2: Enter 6 Static Questions */}
-                {activeStep === 1 && (
+                {activeStep === 0 && (
                   <Box>
                     <Typography
                       variant="h6"
@@ -466,7 +465,7 @@ function MultipleStepEntertainmentDifficulty({
                         fontWeight: "bold",
                       }}
                     >
-                      {steps[1]}
+                      {steps[0]}
                     </Typography>
                     <Typography
                       variant="body2"
@@ -692,7 +691,7 @@ function MultipleStepEntertainmentDifficulty({
         </Formik>
       </Paper>
     </Modal>
-  );
+  )
 }
 
-export default MultipleStepEntertainmentDifficulty;
+export default MultipleStepEntertainmentDifficulty

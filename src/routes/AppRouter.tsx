@@ -1,58 +1,52 @@
-import React, { Suspense } from "react";
+import React, { Suspense } from "react"
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
-import RootLayout from "../pages/rootLayout";
-import ErrorPage from "../pages/error";
-const AnswredQuestions = React.lazy(() => import("../pages/game/answerd"));
+import RootLayout from "../pages/rootLayout"
+import ErrorPage from "../pages/error"
+const AnswredQuestions = React.lazy(() => import("../pages/game/answerd"))
 const AddGradeSubjects = React.lazy(
   () => import("../pages/admin/addGradeSubjects")
-);
-const AddSubject = React.lazy(() => import("../pages/admin/addSubject"));
-const AddChapter = React.lazy(() => import("../pages/admin/addChapter"));
+)
+const AddSubject = React.lazy(() => import("../pages/admin/addSubject"))
+const AddChapter = React.lazy(() => import("../pages/admin/addChapter"))
 
-const MakeDifficulty = React.lazy(
-  () => import("../pages/game/difficulty/make")
-);
-const Difficulty = React.lazy(() => import("../pages/game/difficulty"));
+const MakeDifficulty = React.lazy(() => import("../pages/game/difficulty/make"))
+const Difficulty = React.lazy(() => import("../pages/game/difficulty"))
 
-const HomePage = React.lazy(() => import("../pages/home"));
-const Loader = React.lazy(() => import("../components/loader"));
-const CategoriesPage = React.lazy(() => import("../pages/categoryGames"));
+const HomePage = React.lazy(() => import("../pages/home"))
+const Loader = React.lazy(() => import("../components/loader"))
+const CategoriesPage = React.lazy(() => import("../pages/categoryGames"))
 const CategoryEntertainment = React.lazy(
   () => import("../pages/categoryGames/entertainment")
-);
+)
 const MakeHintsQuestion = React.lazy(
   () => import("../pages/game/fiveHints/make")
-);
-const AdminDashboard = React.lazy(() => import("../pages/admin"));
+)
+const AdminDashboard = React.lazy(() => import("../pages/admin"))
 const EducationalQuestions = React.lazy(
   () => import("../pages/admin/educationQuestion")
-);
+)
 const EntertainmentQuestions = React.lazy(
   () => import("../pages/admin/entertainmentQuestion")
-);
-const AddGrade = React.lazy(() => import("../pages/admin/addGrade"));
-const ResetPassword = React.lazy(() => import("../pages/auth/reset-password"));
+)
+const AddGrade = React.lazy(() => import("../pages/admin/addGrade"))
+const ResetPassword = React.lazy(() => import("../pages/auth/reset-password"))
 
 const MakeOffsideQuestion = React.lazy(
   () => import("../pages/game/offside/make")
-);
-const Login = React.lazy(() => import("../pages/auth/login"));
-const Signup = React.lazy(() => import("../pages/auth/signup"));
-const ForgetPassword = React.lazy(
-  () => import("../pages/auth/forget-password")
-);
-const ChangePassword = React.lazy(
-  () => import("../pages/auth/change-password")
-);
-const Contacts = React.lazy(() => import("../pages/contacts"));
-const About = React.lazy(() => import("../pages/about"));
-const FiveHints = React.lazy(() => import("../pages/game/fiveHints"));
-const Games = React.lazy(() => import("../pages/game"));
-const Offside = React.lazy(() => import("../pages/game/offside"));
-const GetQuestions = React.lazy(() => import("../pages/game/get-questions"));
-const LeaderboardPage = React.lazy(() => import("../pages/top10"));
+)
+const Login = React.lazy(() => import("../pages/auth/login"))
+const Signup = React.lazy(() => import("../pages/auth/signup"))
+const ForgetPassword = React.lazy(() => import("../pages/auth/forget-password"))
+const ChangePassword = React.lazy(() => import("../pages/auth/change-password"))
+const Contacts = React.lazy(() => import("../pages/contacts"))
+const About = React.lazy(() => import("../pages/about"))
+const FiveHints = React.lazy(() => import("../pages/game/fiveHints"))
+const Games = React.lazy(() => import("../pages/game"))
+const Offside = React.lazy(() => import("../pages/game/offside"))
+const GetQuestions = React.lazy(() => import("../pages/game/get-questions"))
+const LeaderboardPage = React.lazy(() => import("../pages/top10"))
 const router = createBrowserRouter([
   {
     path: "/",
@@ -279,8 +273,8 @@ const router = createBrowserRouter([
       },
     ],
   },
-]);
+])
 const AppRouter = () => {
-  return <RouterProvider router={router} />;
-};
-export default AppRouter;
+  return <RouterProvider router={router} />
+}
+export default AppRouter

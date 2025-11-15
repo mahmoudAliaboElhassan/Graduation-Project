@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
-import type { CtegoryGames } from "../utils/types/general";
+import { useTranslation } from "react-i18next"
+import type { CtegoryGames } from "../utils/types/general"
 
 function UseGamesCategories() {
-  const { t } = useTranslation("translation");
+  const { t } = useTranslation("translation")
 
   const categories: CtegoryGames[] = [
     {
@@ -20,9 +20,9 @@ function UseGamesCategories() {
       color: "#3B82F6", // Blue
       route: "education",
     },
-  ];
+  ]
 
-  return { categories };
+  return { categories }
 }
 
-export default UseGamesCategories;
+export default UseGamesCategories
