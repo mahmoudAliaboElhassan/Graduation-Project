@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   Box,
   Card,
@@ -9,30 +9,31 @@ import {
   Typography,
   useTheme,
   useMediaQuery,
-} from "@mui/material";
-import MusicNoteIcon from "@mui/icons-material/MusicNote";
-import MovieIcon from "@mui/icons-material/Movie";
-import PaletteIcon from "@mui/icons-material/Palette";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import { useTranslation } from "react-i18next";
-import UseDirection from "../../../hooks/use-direction";
-import UseCategoryEntertainment from "../../../hooks/use-category-entertainment";
-import { HeadingElement } from "../../../styles/heading";
-import { Link } from "react-router-dom";
-import withGuard from "../../../utils/withGuard";
+} from "@mui/material"
+import MusicNoteIcon from "@mui/icons-material/MusicNote"
+import MovieIcon from "@mui/icons-material/Movie"
+import PaletteIcon from "@mui/icons-material/Palette"
+import MenuBookIcon from "@mui/icons-material/MenuBook"
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents"
+import { useTranslation } from "react-i18next"
+import UseDirection from "../../../hooks/use-direction"
+import UseCategoryEntertainment from "../../../hooks/use-category-entertainment"
+import { HeadingElement } from "../../../styles/heading"
+import { Link } from "react-router-dom"
+import withGuard from "../../../utils/withGuard"
+import { CustomeCard } from "../../../styles/games/five-hints"
 
 const CategoryEntertainmentCard: React.FC<{
-  id: string;
-  title: string;
-  description: string;
-  iconName: string;
-  color: string;
-  route: string;
+  id: string
+  title: string
+  description: string
+  iconName: string
+  color: string
+  route: string
 }> = ({ id, title, description, iconName, color, route }) => {
-  const { direction } = UseDirection();
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const { direction } = UseDirection()
+  const theme = useTheme()
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
   // Map icon names to components
   const iconMap = {
     MusicNote: <MusicNoteIcon />,
@@ -40,26 +41,12 @@ const CategoryEntertainmentCard: React.FC<{
     Palette: <PaletteIcon />,
     MenuBook: <MenuBookIcon />,
     EmojiEvents: <EmojiEventsIcon />,
-  };
+  }
 
-  const icon = iconMap[iconName as keyof typeof iconMap] || <MenuBookIcon />;
+  const icon = iconMap[iconName as keyof typeof iconMap] || <MenuBookIcon />
 
   return (
-    <Card
-      sx={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: 2,
-        transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-        "&:hover": {
-          transform: "translateY(-8px)",
-          boxShadow: "0 12px 20px rgba(0, 0, 0, 0.15)",
-        },
-        overflow: "hidden",
-        border: `1px solid ${theme.palette.divider}`,
-      }}
-    >
+    <CustomeCard>
       <CardActionArea
         component={Link}
         to="/games/entertainment/"
@@ -123,15 +110,15 @@ const CategoryEntertainmentCard: React.FC<{
           </Typography>
         </CardContent>
       </CardActionArea>
-    </Card>
-  );
-};
+    </CustomeCard>
+  )
+}
 
 const CategoryEntertainment: React.FC = () => {
-  const { direction } = UseDirection();
-  const theme = useTheme();
-  const { t } = useTranslation();
-  const { categoriesEntertainment } = UseCategoryEntertainment();
+  const { direction } = UseDirection()
+  const theme = useTheme()
+  const { t } = useTranslation()
+  const { categoriesEntertainment } = UseCategoryEntertainment()
 
   return (
     <Box
@@ -141,7 +128,7 @@ const CategoryEntertainment: React.FC = () => {
         px: { xs: 2, md: 4 },
         minHeight: "100vh",
         direction: direction.direction,
-       }}
+      }}
     >
       <Container maxWidth="lg">
         <HeadingElement>{t("categories.pageTitle")}</HeadingElement>
@@ -166,7 +153,7 @@ const CategoryEntertainment: React.FC = () => {
         </Grid>
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default withGuard(CategoryEntertainment);
+export default withGuard(CategoryEntertainment)

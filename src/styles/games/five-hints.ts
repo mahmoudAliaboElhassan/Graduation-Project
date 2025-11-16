@@ -1,6 +1,7 @@
-import Grid from "@mui/material/Grid2";
-import { styled } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Card } from "@mui/material"
+import Grid from "@mui/material/Grid2"
+import { styled } from "@mui/material/styles"
+import { Link } from "react-router-dom"
 
 export const Hint = styled(Grid)({
   border: "3px solid white",
@@ -9,7 +10,73 @@ export const Hint = styled(Grid)({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-});
+})
+export const getGradient = (isDarkMode: boolean) =>
+  ({
+    light: "linear-gradient(to top, #c31432, #240b36)",
+    dark: "linear-gradient(0deg, #1a1a2e, #4b000f)",
+  }[isDarkMode ? "dark" : "light"])
+
+export const CustomeCard = styled(Card)(({ theme }) => {
+  const isDarkMode = theme.palette.mode === "dark"
+
+  return {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    color: "white",
+    transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+    backgroundImage: getGradient(isDarkMode),
+    boxShadow: isDarkMode
+      ? "0 12px 20px rgba(0, 0, 0, 0.3)"
+      : "0 12px 20px rgba(0, 0, 0, 0.2)",
+    borderRadius: theme.spacing(1),
+    overflow: "hidden",
+
+    "&:hover": {
+      transform: "translateY(-8px) scale(1.02)",
+      boxShadow: isDarkMode
+        ? "0 16px 28px rgba(0, 0, 0, 0.4)"
+        : "0 16px 28px rgba(0, 0, 0, 0.3)",
+    },
+
+    // Ensure all text content is white
+    "& *": {
+      color: "white !important",
+    },
+
+    // Specific overrides for MUI components
+    "& .MuiTypography-root": {
+      color: "white",
+    },
+    "& .MuiCardContent-root": {
+      color: "white",
+      flexGrow: 1,
+    },
+    "& .MuiCardActionArea-root": {
+      color: "white",
+      height: "100%",
+    },
+    "& .MuiCardActions-root": {
+      color: "white",
+    },
+
+    // Override button colors if needed
+    "& .MuiButton-root": {
+      color: "white",
+      borderColor: "white",
+      "&:hover": {
+        backgroundColor: "rgba(255, 255, 255, 0.1)",
+      },
+    },
+
+    // Override icon colors
+    "& .MuiSvgIcon-root": {
+      color: "white",
+    },
+  }
+})
+
 export const Timer = styled(Grid)<{ timeExceeded: boolean }>(
   ({ timeExceeded }) => ({
     width: "fit-content",
@@ -23,7 +90,7 @@ export const Timer = styled(Grid)<{ timeExceeded: boolean }>(
     fontSize: "18px",
     marginTop: "1rem",
   })
-);
+)
 
 export const LinkPlay = styled(Link)<{ dir: string }>(({ theme, dir }) => ({
   display: "flex",
@@ -79,4 +146,4 @@ export const LinkPlay = styled(Link)<{ dir: string }>(({ theme, dir }) => ({
     outline: "2px solid rgba(255, 255, 255, 0.8)",
     outlineOffset: "2px",
   },
-}));
+}))

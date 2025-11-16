@@ -29,6 +29,7 @@ import {
 } from "../../../state/act/actAuth"
 import { useTranslation } from "react-i18next"
 import { HeadingElement } from "../../../styles/heading"
+import { CustomeCard } from "../../../styles/games/five-hints"
 
 function AnsweredQuestions() {
   const dispatch = useAppDispatch()
@@ -98,11 +99,11 @@ function AnsweredQuestions() {
   const hasActiveFilters = selectedSubject || selectedChapter
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="md" sx={{ py: 4 }}>
       <HeadingElement>{t("answered-questions")}</HeadingElement>
 
       {/* Filters Section */}
-      <Paper elevation={2} sx={{ p: 3, mb: 4 }}>
+      <CustomeCard sx={{ p: 3, mb: 4 }}>
         <Typography variant="h6" gutterBottom sx={{ mb: 3 }}>
           {t("filters")}
         </Typography>{" "}
@@ -177,7 +178,7 @@ function AnsweredQuestions() {
             </Grid>
           )}
         </Grid>
-      </Paper>
+      </CustomeCard>
 
       {/* Loading State */}
       {loadingAnsweredQuestions && (
@@ -200,13 +201,7 @@ function AnsweredQuestions() {
               <Grid container spacing={3}>
                 {answeredQuestions.map((question, index) => (
                   <Grid item xs={12} key={index}>
-                    <Card
-                      elevation={3}
-                      sx={{
-                        transition: "transform 0.2s",
-                        "&:hover": { transform: "translateY(-2px)" },
-                      }}
-                    >
+                    <CustomeCard>
                       <CardContent>
                         <Box sx={{ mb: 2 }}>
                           <Typography variant="h6" component="h3" gutterBottom>
@@ -320,7 +315,7 @@ function AnsweredQuestions() {
                           </Box>
                         )}
                       </CardContent>
-                    </Card>
+                    </CustomeCard>
                   </Grid>
                 ))}
               </Grid>

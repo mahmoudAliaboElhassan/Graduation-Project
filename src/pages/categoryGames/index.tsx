@@ -20,6 +20,7 @@ import { HeadingElement } from "../../styles/heading"
 import UseQuestionCategories from "../../hooks/use-game-categories-make"
 import { useAppSelector } from "../../hooks/redux"
 import withGuard from "../../utils/withGuard"
+import { CustomeCard } from "../../styles/games/five-hints"
 
 interface CategoryCardProps {
   title: string
@@ -51,18 +52,7 @@ export const CategoryCard = ({
   const iconComponent = iconMap[icon as keyof typeof iconMap] || <SchoolIcon />
   const { mymode } = useAppSelector((state) => state.mode)
   return (
-    <Card
-      sx={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-        "&:hover": {
-          transform: "translateY(-8px)",
-          boxShadow: "0 12px 20px rgba(0, 0, 0, 0.2)",
-        },
-      }}
-    >
+    <CustomeCard>
       <CardActionArea
         component={Link}
         onClick={() => {
@@ -120,7 +110,7 @@ export const CategoryCard = ({
           </Typography>
         </CardContent>
       </CardActionArea>
-    </Card>
+    </CustomeCard>
   )
 }
 
