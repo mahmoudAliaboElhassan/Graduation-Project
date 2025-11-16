@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Box,
-  Card,
   CardContent,
   Typography,
   FormControl,
@@ -15,7 +14,6 @@ import {
   ListItem,
   ListItemText,
   Container,
-  Paper,
   Divider,
   Button,
 } from "@mui/material"
@@ -100,86 +98,100 @@ function AnsweredQuestions() {
 
   return (
     <Container maxWidth="md" sx={{ py: 4 }}>
-      <HeadingElement>{t("answered-questions")}</HeadingElement>
-
-      {/* Filters Section */}
-      <CustomeCard sx={{ p: 3, mb: 4 }}>
-        <Typography variant="h6" gutterBottom sx={{ mb: 3 }}>
-          {t("filters")}
-        </Typography>{" "}
-        {hasActiveFilters && (
-          <Button
-            variant="outlined"
-            color="secondary"
-            startIcon={<ClearIcon />}
-            onClick={handleClearFilters}
-            size="small"
-            style={{ marginBottom: "19px" }}
+      {/* Filters Section */}{" "}
+      <Box
+        sx={{
+          position: "sticky",
+          top: 0,
+          zIndex: 10,
+          pb: 2,
+          mb: 2,
+        }}
+      >
+        <HeadingElement>{t("answered-questions")}</HeadingElement>
+        <CustomeCard sx={{ p: 3, mb: 4 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 3,
+            }}
           >
-            {t("clear-filters")}
-          </Button>
-        )}
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={selectedSubject ? 6 : 12}>
-            <FormControl fullWidth>
-              <InputLabel id="subject-select-label">
-                {t("select-subject")}
-              </InputLabel>
-              <Select
-                labelId="subject-select-label"
-                value={selectedSubject}
-                label={t("select-subject")}
-                onChange={handleSubjectChange}
-                disabled={loadingGetSubjects}
+            <Typography variant="h6">{t("filters")}</Typography>
+            {hasActiveFilters && (
+              <Button
+                variant="outlined"
+                color="secondary"
+                startIcon={<ClearIcon />}
+                onClick={handleClearFilters}
+                size="small"
               >
-                <MenuItem value="">
-                  <em>{t("all-subjects")}</em>
-                </MenuItem>
-                {subjects?.map((subject) => (
-                  <MenuItem
-                    key={subject.subjectName}
-                    value={subject.subjectName}
-                  >
-                    {subject.subjectName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-
-          {selectedSubject && (
-            <Grid item xs={12} md={6}>
+                {t("clear-filters")}
+              </Button>
+            )}
+          </Box>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={selectedSubject ? 6 : 12}>
               <FormControl fullWidth>
-                <InputLabel id="chapter-select-label">
-                  {t("select-chapter")}
+                <InputLabel id="subject-select-label">
+                  {t("select-subject")}
                 </InputLabel>
                 <Select
-                  labelId="chapter-select-label"
-                  value={selectedChapter}
-                  label={t("select-chapter")}
-                  onChange={handleChapterChange}
-                  disabled={loadingGetChapters || !selectedSubject}
-                  startAdornment={
-                    loadingGetChapters && (
-                      <CircularProgress size={20} sx={{ mr: 1 }} />
-                    )
-                  }
+                  labelId="subject-select-label"
+                  value={selectedSubject}
+                  label={t("select-subject")}
+                  onChange={handleSubjectChange}
+                  disabled={loadingGetSubjects}
                 >
                   <MenuItem value="">
-                    <em>{t("all-chapters")}</em>
+                    <em>{t("all-subjects")}</em>
                   </MenuItem>
-                  {chapters?.map((chapter) => (
-                    <MenuItem key={chapter.number} value={chapter.name}>
-                      {chapter.name}
+                  {subjects?.map((subject) => (
+                    <MenuItem
+                      key={subject.subjectName}
+                      value={subject.subjectName}
+                    >
+                      {subject.subjectName}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
             </Grid>
-          )}
-        </Grid>
-      </CustomeCard>
 
+            {selectedSubject && (
+              <Grid item xs={12} md={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="chapter-select-label">
+                    {t("select-chapter")}
+                  </InputLabel>
+                  <Select
+                    labelId="chapter-select-label"
+                    value={selectedChapter}
+                    label={t("select-chapter")}
+                    onChange={handleChapterChange}
+                    disabled={loadingGetChapters || !selectedSubject}
+                    startAdornment={
+                      loadingGetChapters && (
+                        <CircularProgress size={20} sx={{ mr: 1 }} />
+                      )
+                    }
+                  >
+                    <MenuItem value="">
+                      <em>{t("all-chapters")}</em>
+                    </MenuItem>
+                    {chapters?.map((chapter) => (
+                      <MenuItem key={chapter.number} value={chapter.name}>
+                        {chapter.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            )}
+          </Grid>
+        </CustomeCard>
+      </Box>
       {/* Loading State */}
       {loadingAnsweredQuestions && (
         <Box display="flex" justifyContent="center" alignItems="center" py={4}>
@@ -189,12 +201,11 @@ function AnsweredQuestions() {
           </Typography>
         </Box>
       )}
-
       {/* Questions Display */}
       {!loadingAnsweredQuestions && (
         <>
           {answeredQuestions && answeredQuestions.length > 0 ? (
-            <>
+            <div style={{ maxHeight: "100vh", overflowY: "auto" }}>
               <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
                 {t("total-questions")}: {answeredQuestions.length}
               </Typography>
@@ -319,16 +330,16 @@ function AnsweredQuestions() {
                   </Grid>
                 ))}
               </Grid>
-            </>
+            </div>
           ) : (
-            <Paper elevation={1} sx={{ p: 4, textAlign: "center" }}>
+            <CustomeCard elevation={1} sx={{ p: 4, textAlign: "center" }}>
               <Typography variant="h6" color="text.secondary">
                 {t("no-questions-found")}
               </Typography>
               <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
                 {t("try-adjusting-filters")}
               </Typography>
-            </Paper>
+            </CustomeCard>
           )}
         </>
       )}

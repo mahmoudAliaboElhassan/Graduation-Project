@@ -239,6 +239,10 @@
       "title": "Educational Questions",
       "description": "Manage and review educational questions submitted by users."
     },
+    "search": "Search",
+    "noQuestionsFound": "No questions found",
+    "noQuestionsDescription": "There are no questions available at the moment.",
+    "filteredFrom": "Filtered from {{count}}",
     "entertainment": {
       "title": "Entertainment Questions",
       "description": "Manage and review entertainment questions submitted by users."
@@ -252,6 +256,7 @@
     "grade": "Grade",
     "subject": "Subject",
     "gameType": "Game Type",
+    "activeFilters": "Active filters:",
     "answer": "Answer",
     "summary": "Summary",
     "hints": "Hints",

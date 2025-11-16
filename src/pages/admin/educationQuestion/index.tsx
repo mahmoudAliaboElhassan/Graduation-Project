@@ -1,8 +1,6 @@
-"use client";
+import type React from "react"
 
-import type React from "react";
-
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import {
   Box,
   Paper,
@@ -36,72 +34,73 @@ import {
   Toolbar,
   Tooltip,
   useTheme,
-} from "@mui/material";
+} from "@mui/material"
 import {
   CheckCircle as ApproveIcon,
   Cancel as RejectIcon,
   Visibility as ViewIcon,
   Search as SearchIcon,
   FilterList as FilterIcon,
-} from "@mui/icons-material";
-import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+  Inbox,
+} from "@mui/icons-material"
+import { useTranslation } from "react-i18next"
+import { toast } from "react-toastify"
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
 import {
   approveQuestion,
   getEducationQuestions,
   rejectQuestion,
-} from "../../../state/act/actAdmin";
-import withGuard from "../../../utils/withGuard";
+} from "../../../state/act/actAdmin"
+import withGuard from "../../../utils/withGuard"
 
 interface Question {
-  questionID: number;
-  chapterName: string;
-  question: string;
-  gradeName: string;
-  subjectName: string;
-  answer: string;
-  summary: string;
-  game: string;
-  hints: string[];
+  questionID: number
+  chapterName: string
+  question: string
+  gradeName: string
+  subjectName: string
+  answer: string
+  summary: string
+  game: string
+  hints: string[]
 }
 
 const EducationalQuestions = () => {
-  const { t } = useTranslation("translation");
-  const dispatch = useAppDispatch();
-  const theme = useTheme();
+  const { t } = useTranslation("translation")
+  const dispatch = useAppDispatch()
+  const theme = useTheme()
 
   // Redux state
   const { questions, loadinGetQuestions, error } = useAppSelector(
     (state) => state.admin
-  );
-  const { mymode } = useAppSelector((state) => state.mode);
+  )
+  const { mymode } = useAppSelector((state) => state.mode)
 
   // Local state
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(
     null
-  );
-  const [viewDialogOpen, setViewDialogOpen] = useState(false);
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  )
+  const [viewDialogOpen, setViewDialogOpen] = useState(false)
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
   const [actionType, setActionType] = useState<"approve" | "reject" | null>(
     null
-  );
-  const [actionLoading, setActionLoading] = useState<number | null>(null);
+  )
+  const [actionLoading, setActionLoading] = useState<number | null>(null)
 
   // Pagination state
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
 
   // Filter state
-  const [searchTerm, setSearchTerm] = useState("");
-  const [gradeFilter, setGradeFilter] = useState("");
-  const [subjectFilter, setSubjectFilter] = useState("");
-  const [gameFilter, setGameFilter] = useState("");
+  const [searchTerm, setSearchTerm] = useState("")
+  const [gradeFilter, setGradeFilter] = useState("")
+  const [subjectFilter, setSubjectFilter] = useState("")
+  const [gameFilter, setGameFilter] = useState("")
 
   // Fetch questions on component mount
   useEffect(() => {
-    dispatch(getEducationQuestions());
-  }, [dispatch]);
+    dispatch(getEducationQuestions())
+  }, [dispatch])
 
   // Filter questions based on search and filters
   const filteredQuestions =
@@ -109,96 +108,96 @@ const EducationalQuestions = () => {
       const matchesSearch =
         question.answer.toLowerCase().includes(searchTerm.toLowerCase()) ||
         question.summary.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        question.chapterName.toLowerCase().includes(searchTerm.toLowerCase());
+        question.chapterName.toLowerCase().includes(searchTerm.toLowerCase())
 
-      const matchesGrade = !gradeFilter || question.gradeName === gradeFilter;
+      const matchesGrade = !gradeFilter || question.gradeName === gradeFilter
       const matchesSubject =
-        !subjectFilter || question.subjectName === subjectFilter;
-      const matchesGame = !gameFilter || question.game === gameFilter;
+        !subjectFilter || question.subjectName === subjectFilter
+      const matchesGame = !gameFilter || question.game === gameFilter
 
-      return matchesSearch && matchesGrade && matchesSubject && matchesGame;
-    }) || [];
+      return matchesSearch && matchesGrade && matchesSubject && matchesGame
+    }) || []
 
   // Get unique values for filters
   const uniqueGrades = Array.from(
     new Set(questions?.map((q: Question) => q.gradeName) || [])
-  );
+  )
   const uniqueSubjects = Array.from(
     new Set(questions?.map((q: Question) => q.subjectName) || [])
-  );
+  )
   const uniqueGames = Array.from(
     new Set(questions?.map((q: Question) => q.game) || [])
-  );
+  )
 
   // Handle view question details
   const handleViewQuestion = (question: Question) => {
-    setSelectedQuestion(question);
-    setViewDialogOpen(true);
-  };
+    setSelectedQuestion(question)
+    setViewDialogOpen(true)
+  }
 
   // Handle approve/reject confirmation
   const handleActionClick = (
     question: Question,
     action: "approve" | "reject"
   ) => {
-    setSelectedQuestion(question);
-    setActionType(action);
-    setConfirmDialogOpen(true);
-  };
+    setSelectedQuestion(question)
+    setActionType(action)
+    setConfirmDialogOpen(true)
+  }
 
   // Execute approve/reject action
   const handleConfirmAction = async () => {
-    if (!selectedQuestion || !actionType) return;
+    if (!selectedQuestion || !actionType) return
 
-    setActionLoading(selectedQuestion.questionID);
+    setActionLoading(selectedQuestion.questionID)
 
     try {
-      setConfirmDialogOpen(false);
+      setConfirmDialogOpen(false)
       if (actionType === "approve") {
         await dispatch(
           approveQuestion({ questionId: selectedQuestion.questionID })
-        ).unwrap();
-        toast.success(t("admin.questionApproved"));
+        ).unwrap()
+        toast.success(t("admin.questionApproved"))
       } else {
         await dispatch(
           rejectQuestion({ questionId: selectedQuestion.questionID })
-        ).unwrap();
-        toast.success(t("admin.questionRejected"));
+        ).unwrap()
+        toast.success(t("admin.questionRejected"))
       }
 
       // Refresh questions list
-      dispatch(getEducationQuestions());
+      dispatch(getEducationQuestions())
     } catch (error: any) {
-      toast.error(t("admin.actionFailed"));
-      console.error("Action failed:", error);
+      toast.error(t("admin.actionFailed"))
+      console.error("Action failed:", error)
     } finally {
-      setActionLoading(null);
-      setConfirmDialogOpen(false);
-      setSelectedQuestion(null);
-      setActionType(null);
+      setActionLoading(null)
+      setConfirmDialogOpen(false)
+      setSelectedQuestion(null)
+      setActionType(null)
     }
-  };
+  }
 
   // Handle pagination
   const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setRowsPerPage(Number.parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    setRowsPerPage(Number.parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
   // Clear all filters
   const handleClearFilters = () => {
-    setSearchTerm("");
-    setGradeFilter("");
-    setSubjectFilter("");
-    setGameFilter("");
-    setPage(0);
-  };
+    setSearchTerm("")
+    setGradeFilter("")
+    setSubjectFilter("")
+    setGameFilter("")
+    setPage(0)
+  }
 
   // Theme-based styling
   // Theme-based styling
@@ -216,7 +215,7 @@ const EducationalQuestions = () => {
       mymode === "light"
         ? "0 8px 32px rgba(195, 20, 50, 0.1)"
         : "0 8px 32px rgba(26, 26, 46, 0.3)",
-  };
+  }
 
   const dialogStyle = {
     "& .MuiDialog-paper": {
@@ -230,7 +229,7 @@ const EducationalQuestions = () => {
           ? "1px solid rgba(195, 20, 50, 0.2)"
           : "1px solid rgba(75, 0, 15, 0.3)",
     },
-  };
+  }
   if (loadinGetQuestions && !questions?.length) {
     return (
       <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -240,7 +239,6 @@ const EducationalQuestions = () => {
           alignItems="center"
           minHeight="400px"
           flexDirection="column"
-          
         >
           <CircularProgress
             size={60}
@@ -248,18 +246,18 @@ const EducationalQuestions = () => {
               color: mymode === "light" ? "#c31432" : "#ff6b9d",
             }}
           />{" "}
-    <Typography
-          variant="h6"
-          sx={{
-            color: mymode === "light" ? "#c31432" : "#ff6b9d",
-            fontWeight: "bold",
-          }}
-        >
-           {t("loading-education")}
+          <Typography
+            variant="h6"
+            sx={{
+              color: mymode === "light" ? "#c31432" : "#ff6b9d",
+              fontWeight: "bold",
+            }}
+          >
+            {t("loading-education")}
           </Typography>
         </Box>
       </Container>
-    );
+    )
   }
 
   return (
@@ -489,285 +487,318 @@ const EducationalQuestions = () => {
       </Paper>
 
       {/* Questions Table */}
-      <Paper sx={paperStyle}>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  sx={{
-                    fontWeight: "bold",
-                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
-                    borderBottom: `2px solid ${
-                      mymode === "light" ? "#c31432" : "#ff6b9d"
-                    }`,
-                  }}
-                >
-                  {t("admin.questionId")}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "bold",
-                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
-                    borderBottom: `2px solid ${
-                      mymode === "light" ? "#c31432" : "#ff6b9d"
-                    }`,
-                  }}
-                >
-                  {t("admin.chapter")}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "bold",
-                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
-                    borderBottom: `2px solid ${
-                      mymode === "light" ? "#c31432" : "#ff6b9d"
-                    }`,
-                  }}
-                >
-                  {t("admin.grade")}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "bold",
-                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
-                    borderBottom: `2px solid ${
-                      mymode === "light" ? "#c31432" : "#ff6b9d"
-                    }`,
-                  }}
-                >
-                  {t("admin.subject")}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "bold",
-                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
-                    borderBottom: `2px solid ${
-                      mymode === "light" ? "#c31432" : "#ff6b9d"
-                    }`,
-                  }}
-                >
-                  {t("admin.gameType")}
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: "bold",
-                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
-                    borderBottom: `2px solid ${
-                      mymode === "light" ? "#c31432" : "#ff6b9d"
-                    }`,
-                  }}
-                >
-                  {t("admin.answer")}
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    fontWeight: "bold",
-                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
-                    borderBottom: `2px solid ${
-                      mymode === "light" ? "#c31432" : "#ff6b9d"
-                    }`,
-                  }}
-                >
-                  {t("admin.actions")}
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredQuestions
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((question: Question) => (
-                  <TableRow
-                    key={question.questionID}
-                    hover
+      {filteredQuestions.length > 0 ? (
+        <Paper sx={paperStyle}>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell
                     sx={{
-                      "&:hover": {
-                        backgroundColor:
-                          mymode === "light"
-                            ? "rgba(195, 20, 50, 0.05)"
-                            : "rgba(255, 107, 157, 0.05)",
-                      },
+                      fontWeight: "bold",
+                      color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                      borderBottom: `2px solid ${
+                        mymode === "light" ? "#c31432" : "#ff6b9d"
+                      }`,
                     }}
                   >
-                    <TableCell>
-                      <Typography variant="body2" fontWeight="medium">
-                        #{question.questionID}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography variant="body2">
-                        {question.chapterName}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={question.gradeName}
-                        size="small"
-                        sx={{
+                    {t("admin.chapter")}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                      borderBottom: `2px solid ${
+                        mymode === "light" ? "#c31432" : "#ff6b9d"
+                      }`,
+                    }}
+                  >
+                    {t("admin.grade")}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                      borderBottom: `2px solid ${
+                        mymode === "light" ? "#c31432" : "#ff6b9d"
+                      }`,
+                    }}
+                  >
+                    {t("admin.subject")}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                      borderBottom: `2px solid ${
+                        mymode === "light" ? "#c31432" : "#ff6b9d"
+                      }`,
+                    }}
+                  >
+                    {t("admin.gameType")}
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                      borderBottom: `2px solid ${
+                        mymode === "light" ? "#c31432" : "#ff6b9d"
+                      }`,
+                    }}
+                  >
+                    {t("admin.answer")}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{
+                      fontWeight: "bold",
+                      color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                      borderBottom: `2px solid ${
+                        mymode === "light" ? "#c31432" : "#ff6b9d"
+                      }`,
+                    }}
+                  >
+                    {t("admin.actions")}
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredQuestions
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((question: Question) => (
+                    <TableRow
+                      key={question.questionID}
+                      hover
+                      sx={{
+                        "&:hover": {
                           backgroundColor:
                             mymode === "light"
-                              ? "rgba(195, 20, 50, 0.1)"
-                              : "rgba(255, 107, 157, 0.1)",
-                          color: mymode === "light" ? "#c31432" : "#ff6b9d",
-                          border: `1px solid ${
-                            mymode === "light" ? "#c31432" : "#ff6b9d"
-                          }`,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={question.subjectName}
-                        size="small"
-                        sx={{
-                          backgroundColor:
-                            mymode === "light"
-                              ? "rgba(36, 11, 54, 0.1)"
-                              : "rgba(26, 26, 46, 0.3)",
-                          color: mymode === "light" ? "#240b36" : "#ffffff",
-                          border: `1px solid ${
-                            mymode === "light" ? "#240b36" : "#ffffff"
-                          }`,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        label={question.game}
-                        size="small"
-                        sx={{
-                          backgroundColor:
-                            mymode === "light"
-                              ? "rgba(75, 0, 15, 0.1)"
-                              : "rgba(75, 0, 15, 0.3)",
-                          color: mymode === "light" ? "#4b000f" : "#ff9999",
-                          border: `1px solid ${
-                            mymode === "light" ? "#4b000f" : "#ff9999"
-                          }`,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          maxWidth: 150,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {question.answer}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="center">
-                      <Box
-                        sx={{
-                          display: "flex",
-                          gap: 1,
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Tooltip title={t("admin.viewDetails")}>
-                          <IconButton
-                            size="small"
-                            onClick={() => handleViewQuestion(question)}
-                            sx={{
-                              color: mymode === "light" ? "#c31432" : "#ff6b9d",
-                              "&:hover": {
-                                backgroundColor:
-                                  mymode === "light"
-                                    ? "rgba(195, 20, 50, 0.1)"
-                                    : "rgba(255, 107, 157, 0.1)",
-                              },
-                            }}
-                          >
-                            <ViewIcon />
-                          </IconButton>
-                        </Tooltip>
+                              ? "rgba(195, 20, 50, 0.05)"
+                              : "rgba(255, 107, 157, 0.05)",
+                        },
+                      }}
+                    >
+                      <TableCell>
+                        <Typography variant="body2">
+                          {question.chapterName}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Chip
+                          label={question.gradeName}
+                          size="small"
+                          sx={{
+                            backgroundColor:
+                              mymode === "light"
+                                ? "rgba(195, 20, 50, 0.1)"
+                                : "rgba(255, 107, 157, 0.1)",
+                            color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                            border: `1px solid ${
+                              mymode === "light" ? "#c31432" : "#ff6b9d"
+                            }`,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Chip
+                          label={question.subjectName}
+                          size="small"
+                          sx={{
+                            backgroundColor:
+                              mymode === "light"
+                                ? "rgba(36, 11, 54, 0.1)"
+                                : "rgba(26, 26, 46, 0.3)",
+                            color: mymode === "light" ? "#240b36" : "#ffffff",
+                            border: `1px solid ${
+                              mymode === "light" ? "#240b36" : "#ffffff"
+                            }`,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Chip
+                          label={question.game}
+                          size="small"
+                          sx={{
+                            backgroundColor:
+                              mymode === "light"
+                                ? "rgba(75, 0, 15, 0.1)"
+                                : "rgba(75, 0, 15, 0.3)",
+                            color: mymode === "light" ? "#4b000f" : "#ff9999",
+                            border: `1px solid ${
+                              mymode === "light" ? "#4b000f" : "#ff9999"
+                            }`,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            maxWidth: 150,
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {question.answer}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="center">
+                        <Box
+                          sx={{
+                            display: "flex",
+                            gap: 1,
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Tooltip title={t("admin.viewDetails")}>
+                            <IconButton
+                              size="small"
+                              onClick={() => handleViewQuestion(question)}
+                              sx={{
+                                color:
+                                  mymode === "light" ? "#c31432" : "#ff6b9d",
+                                "&:hover": {
+                                  backgroundColor:
+                                    mymode === "light"
+                                      ? "rgba(195, 20, 50, 0.1)"
+                                      : "rgba(255, 107, 157, 0.1)",
+                                },
+                              }}
+                            >
+                              <ViewIcon />
+                            </IconButton>
+                          </Tooltip>
 
-                        <Tooltip title={t("admin.approve")}>
-                          <IconButton
-                            size="small"
-                            onClick={() =>
-                              handleActionClick(question, "approve")
-                            }
-                            disabled={actionLoading === question.questionID}
-                            sx={{
-                              color: "#4caf50",
-                              "&:hover": {
-                                backgroundColor: "rgba(76, 175, 80, 0.1)",
-                              },
-                            }}
-                          >
-                            {actionLoading === question.questionID ? (
-                              <CircularProgress
-                                size={20}
-                                sx={{ color: "#4caf50" }}
-                              />
-                            ) : (
-                              <ApproveIcon />
-                            )}
-                          </IconButton>
-                        </Tooltip>
+                          <Tooltip title={t("admin.approve")}>
+                            <IconButton
+                              size="small"
+                              onClick={() =>
+                                handleActionClick(question, "approve")
+                              }
+                              disabled={actionLoading === question.questionID}
+                              sx={{
+                                color: "#4caf50",
+                                "&:hover": {
+                                  backgroundColor: "rgba(76, 175, 80, 0.1)",
+                                },
+                              }}
+                            >
+                              {actionLoading === question.questionID ? (
+                                <CircularProgress
+                                  size={20}
+                                  sx={{ color: "#4caf50" }}
+                                />
+                              ) : (
+                                <ApproveIcon />
+                              )}
+                            </IconButton>
+                          </Tooltip>
 
-                        <Tooltip title={t("admin.reject")}>
-                          <IconButton
-                            size="small"
-                            onClick={() =>
-                              handleActionClick(question, "reject")
-                            }
-                            disabled={actionLoading === question.questionID}
-                            sx={{
-                              color: "#f44336",
-                              "&:hover": {
-                                backgroundColor: "rgba(244, 67, 54, 0.1)",
-                              },
-                            }}
-                          >
-                            {actionLoading === question.questionID ? (
-                              <CircularProgress
-                                size={20}
-                                sx={{ color: "#f44336" }}
-                              />
-                            ) : (
-                              <RejectIcon />
-                            )}
-                          </IconButton>
-                        </Tooltip>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                          <Tooltip title={t("admin.reject")}>
+                            <IconButton
+                              size="small"
+                              onClick={() =>
+                                handleActionClick(question, "reject")
+                              }
+                              disabled={actionLoading === question.questionID}
+                              sx={{
+                                color: "#f44336",
+                                "&:hover": {
+                                  backgroundColor: "rgba(244, 67, 54, 0.1)",
+                                },
+                              }}
+                            >
+                              {actionLoading === question.questionID ? (
+                                <CircularProgress
+                                  size={20}
+                                  sx={{ color: "#f44336" }}
+                                />
+                              ) : (
+                                <RejectIcon />
+                              )}
+                            </IconButton>
+                          </Tooltip>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25, 50]}
-          component="div"
-          count={filteredQuestions.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25, 50]}
+            component="div"
+            count={filteredQuestions.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            sx={{
+              borderTop: `1px solid ${
+                mymode === "light"
+                  ? "rgba(195, 20, 50, 0.2)"
+                  : "rgba(255, 107, 157, 0.2)"
+              }`,
+              "& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows":
+                {
+                  color:
+                    mymode === "light"
+                      ? "rgba(0, 0, 0, 0.7)"
+                      : "rgba(255, 255, 255, 0.7)",
+                },
+            }}
+          />
+        </Paper>
+      ) : (
+        <Paper
           sx={{
-            borderTop: `1px solid ${
-              mymode === "light"
-                ? "rgba(195, 20, 50, 0.2)"
-                : "rgba(255, 107, 157, 0.2)"
-            }`,
-            "& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows":
-              {
-                color:
-                  mymode === "light"
-                    ? "rgba(0, 0, 0, 0.7)"
-                    : "rgba(255, 255, 255, 0.7)",
-              },
+            ...paperStyle,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: 400,
+            textAlign: "center",
+            padding: 4,
           }}
-        />
-      </Paper>
+        >
+          <Inbox
+            sx={{
+              fontSize: 80,
+              color:
+                mymode === "light"
+                  ? "rgba(195, 20, 50, 0.3)"
+                  : "rgba(255, 107, 157, 0.3)",
+              marginBottom: 2,
+            }}
+          />
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: "bold",
+              color: mymode === "light" ? "#c31432" : "#ff6b9d",
+              marginBottom: 1,
+            }}
+          >
+            {t("admin.noQuestionsFound")}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color:
+                mymode === "light"
+                  ? "rgba(0, 0, 0, 0.6)"
+                  : "rgba(255, 255, 255, 0.6)",
+              maxWidth: 400,
+            }}
+          >
+            {t("admin.noQuestionsDescription")}
+          </Typography>
+        </Paper>
+      )}
 
       {/* View Question Dialog */}
       <Dialog
@@ -1112,7 +1143,7 @@ const EducationalQuestions = () => {
         </DialogActions>
       </Dialog>
     </Container>
-  );
-};
+  )
+}
 
-export default withGuard(EducationalQuestions);
+export default withGuard(EducationalQuestions)
