@@ -16,7 +16,7 @@ import {
   TextField,
   MenuItem,
 } from "@mui/material"
-import { Formik, Form, type FormikTouched, type FormikErrors } from "formik"
+import { Formik, Form } from "formik"
 import CloseIcon from "@mui/icons-material/Close"
 import { useTranslation } from "react-i18next"
 import * as Yup from "yup"
@@ -129,42 +129,6 @@ function MultipleStepEntertainmentDifficulty({
       console.log("Modal opened, ready to create questions...")
     }
   }, [open])
-
-  const handleNext = async (
-    values: FormValues,
-    setTouched: (
-      touched: Partial<FormikTouched<FormValues>>,
-      shouldValidate?: boolean
-    ) => void,
-    setErrors: (errors: Partial<FormikErrors<FormValues>>) => void
-  ) => {
-    // Validation for each step
-    // if (activeStep === 0 && !values.section) {
-    //   setTouched({ section: true })
-    //   setErrors({
-    //     section:
-    //       t("questionCreation.errors.sectionRequired") || "Section is required",
-    //   })
-    //   return
-    // }
-
-    if (activeStep === 0) {
-      // Validate all 6 questions on the last step
-      const hasEmptyQuestions = values.questions.some(
-        (q) => !q.question.trim() || !q.answer.trim() || !q.summary.trim()
-      )
-      if (hasEmptyQuestions) {
-        toast.error("Please fill in all fields for all 6 questions")
-        return
-      }
-    }
-
-    setActiveStep((prevStep) => prevStep + 1)
-  }
-
-  const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1)
-  }
 
   const handleSubmit = async (values: FormValues, { resetForm }: any) => {
     console.log("Form submitted with values:", values)
@@ -414,7 +378,7 @@ function MultipleStepEntertainmentDifficulty({
           onSubmit={handleSubmit}
           enableReinitialize
         >
-          {({ values, setTouched, setErrors, setFieldValue }) => (
+          {({ values, setFieldValue }) => (
             <Form>
               <Box sx={{ minHeight: "400px", mb: 3 }}>
                 {/* Step 1: Select Section */}
@@ -607,81 +571,30 @@ function MultipleStepEntertainmentDifficulty({
                 }}
               >
                 <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  variant="outlined"
+                  type="submit"
+                  variant="contained"
                   fullWidth={isMobile}
                   sx={{
-                    order: isMobile ? 2 : 1,
-                    borderColor: mymode === "light" ? "#c31432" : "#ff6b9d",
-                    color: mymode === "light" ? "#c31432" : "#ff6b9d",
+                    order: isMobile ? 1 : 2,
+                    backgroundColor: mymode === "light" ? "#c31432" : "#ff6b9d",
                     "&:hover": {
-                      borderColor: mymode === "light" ? "#a01729" : "#ff4081",
                       backgroundColor:
-                        mymode === "light"
-                          ? "rgba(195, 20, 50, 0.1)"
-                          : "rgba(255, 107, 157, 0.1)",
+                        mymode === "light" ? "#a01729" : "#ff4081",
                     },
                     "&:disabled": {
-                      borderColor:
+                      backgroundColor:
                         mymode === "light"
                           ? "rgba(0, 0, 0, 0.12)"
                           : "rgba(255, 255, 255, 0.12)",
-                      color:
-                        mymode === "light"
-                          ? "rgba(0, 0, 0, 0.26)"
-                          : "rgba(255, 255, 255, 0.26)",
                     },
                   }}
+                  disabled={isSubmitting}
                 >
-                  {t("questionCreation.buttons.back") || "Back"}
+                  {isSubmitting
+                    ? t("questionCreation.buttons.creating") || "Creating..."
+                    : t("questionCreation.buttons.create") ||
+                      "Create Questions"}
                 </Button>
-
-                {activeStep === steps.length - 1 ? (
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth={isMobile}
-                    sx={{
-                      order: isMobile ? 1 : 2,
-                      backgroundColor:
-                        mymode === "light" ? "#c31432" : "#ff6b9d",
-                      "&:hover": {
-                        backgroundColor:
-                          mymode === "light" ? "#a01729" : "#ff4081",
-                      },
-                      "&:disabled": {
-                        backgroundColor:
-                          mymode === "light"
-                            ? "rgba(0, 0, 0, 0.12)"
-                            : "rgba(255, 255, 255, 0.12)",
-                      },
-                    }}
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting
-                      ? t("questionCreation.buttons.creating") || "Creating..."
-                      : t("questionCreation.buttons.create") ||
-                        "Create Questions"}
-                  </Button>
-                ) : (
-                  <Button
-                    variant="contained"
-                    onClick={() => handleNext(values, setTouched, setErrors)}
-                    fullWidth={isMobile}
-                    sx={{
-                      order: isMobile ? 1 : 2,
-                      backgroundColor:
-                        mymode === "light" ? "#c31432" : "#ff6b9d",
-                      "&:hover": {
-                        backgroundColor:
-                          mymode === "light" ? "#a01729" : "#ff4081",
-                      },
-                    }}
-                  >
-                    {t("questionCreation.buttons.next") || "Next"}
-                  </Button>
-                )}
               </Box>
             </Form>
           )}

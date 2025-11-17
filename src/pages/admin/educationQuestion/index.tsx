@@ -177,7 +177,7 @@ const EducationalQuestions = () => {
   }
 
   // Handle pagination
-  const handleChangePage = (event: unknown, newPage: number) => {
+  const handleChangePage = (_event: any, newPage: number) => {
     setPage(newPage)
   }
 

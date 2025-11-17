@@ -1,45 +1,7 @@
 {
-  "compilerOptions": {
-    /* File Layout */
-    "rootDir": ".",
-    "outDir": "./dist",
-    "typeRoots": ["./node_modules/@types", "./src/appTypes/"],
-    /* Environment Settings */
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    /* Other Outputs */
-    "sourceMap": true,
-    "declaration": false,
-
-    /* Type Checking */
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-
-    /* React Specific */
-    "jsx": "react-jsx",
-    "isolatedModules": true,
-
-    /* Aliases */
-    "baseUrl": ".",
-    "paths": {
-      "@components/*": ["src/components/*"],
-      "@pages/*": ["src/pages/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@utils/*": ["src/utils/*"],
-      "@appType/*": ["src/appTypes/*"],
-      "@assets/*": ["./public/imgs/*"],
-      "@state/*": ["src/state/*"]
-    }
-  },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }
