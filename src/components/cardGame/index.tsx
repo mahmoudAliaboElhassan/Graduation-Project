@@ -126,7 +126,14 @@ function CardGame({ to, data }: Props) {
               transition: "opacity 0.4s ease",
             }}
           />
-          {React.cloneElement(iconComponent as React.ReactElement, {})}
+          {React.cloneElement(iconComponent as React.ReactElement<any>, {
+            sx: {
+              fontSize: isSmallScreen ? 100 : 140,
+              color: data.color,
+              transform: isHovered ? "scale(1.1)" : "scale(1)",
+              transition: "transform 0.4s ease",
+            },
+          })}
         </Box>
         <CardContent
           sx={{
@@ -268,7 +275,14 @@ function CardGame({ to, data }: Props) {
             transition: "opacity 0.4s ease",
           }}
         />
-        {React.cloneElement(iconComponent as React.ReactElement, {})}
+        {React.cloneElement(iconComponent as React.ReactElement<any>, {
+          sx: {
+            fontSize: isSmallScreen ? 100 : 140,
+            color: data.color,
+            transform: isHovered ? "scale(1.1)" : "scale(1)",
+            transition: "transform 0.4s ease",
+          },
+        })}
       </Box>
       <CardContent
         sx={{

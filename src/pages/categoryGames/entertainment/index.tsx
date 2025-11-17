@@ -70,7 +70,12 @@ const CategoryEntertainmentCard: React.FC<{
             mb: 2,
           }}
         >
-          {React.cloneElement(icon as React.ReactElement, {})}
+          {React.cloneElement(icon as React.ReactElement<any>, {
+            sx: {
+              fontSize: isSmallScreen ? 40 : 50,
+              color: color,
+            },
+          })}
         </Box>
 
         <CardContent

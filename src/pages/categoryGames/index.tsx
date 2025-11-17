@@ -79,7 +79,12 @@ export const CategoryCard = ({
             mb: 2,
           }}
         >
-          {React.cloneElement(iconComponent as React.ReactElement, {})}
+          {React.cloneElement(iconComponent as React.ReactElement<any>, {
+            sx: {
+              fontSize: isSmallScreen ? 40 : 50,
+              color: color,
+            },
+          })}
         </Box>
         <CardContent
           sx={{
