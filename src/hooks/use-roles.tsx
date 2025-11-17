@@ -1,9 +1,9 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { RolesType } from "../utils/types/general";
+import React from "react"
+import { useTranslation } from "react-i18next"
+import type { RolesType } from "../utils/types/general"
 
 function UseRoles() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const Roles: RolesType[] = [
     {
       text: t("student"),
@@ -17,8 +17,8 @@ function UseRoles() {
       text: t("other"),
       value: "2",
     },
-  ];
-  return { Roles };
+  ]
+  return { Roles }
 }
 
-export default UseRoles;
+export default UseRoles

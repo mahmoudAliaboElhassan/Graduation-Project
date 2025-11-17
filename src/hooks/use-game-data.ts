@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { GameData } from "../utils/types/general"
+import type { GameData } from "../utils/types/general"
 
 function UseGamesData() {
   const { t } = useTranslation()

@@ -1,22 +1,22 @@
-import {
+import type {
   InitialStateAuth,
   InitialStateMode,
   InitialStateGame,
   initialStateAdmin,
   forLocalStorage,
-} from "../utils/types/initialState";
+} from "../utils/types/initialState"
 
 function UseInitialStates() {
   const initialStateMode: InitialStateMode = {
     mymode: (localStorage.getItem("mymode") as "dark" | "light") || "dark",
-  };
+  }
   const getExpirationToken = (): Date | null => {
-    const storedExpiration = localStorage.getItem("expirationToken");
-    if (!storedExpiration) return null;
+    const storedExpiration = localStorage.getItem("expirationToken")
+    if (!storedExpiration) return null
 
-    const parsedDate = new Date(storedExpiration);
-    return isNaN(parsedDate.getTime()) ? null : parsedDate;
-  };
+    const parsedDate = new Date(storedExpiration)
+    return isNaN(parsedDate.getTime()) ? null : parsedDate
+  }
 
   const initialStateAuth: InitialStateAuth = {
     loadingAuth: false,
@@ -51,7 +51,7 @@ function UseInitialStates() {
     teacherGrades: [{ gradeId: 0, gradeName: "" }],
     loadingAnsweredQuestions: false,
     answeredQuestions: [],
-  };
+  }
 
   const initialStateGame: InitialStateGame = {
     questionData: {
@@ -68,7 +68,7 @@ function UseInitialStates() {
     question: "",
     summary: "",
     errorGetQuestions: "",
-  };
+  }
 
   const initialStateAdmin: initialStateAdmin = {
     questions: [],
@@ -79,13 +79,13 @@ function UseInitialStates() {
     loadinAddGradeSubjects: false,
     error: null,
     EntertainmentQuestions: [],
-  };
+  }
   return {
     initialStateMode,
     initialStateAuth,
     initialStateGame,
     initialStateAdmin,
-  };
+  }
 }
 
-export default UseInitialStates;
+export default UseInitialStates

@@ -123,11 +123,7 @@ function Header() {
   }) => {
     if (!token) return null
 
-    const textColor = inDrawer
-      ? mymode === "light"
-        ? "black  !important"
-        : "white !important"
-      : "white"
+    const textColor = "white"
 
     return (
       <Box
@@ -165,11 +161,11 @@ function Header() {
             size="small"
             className={quantityStyle}
             sx={{
-              backgroundColor: inDrawer
-                ? mymode === "dark"
-                  ? "rgba(255, 255, 255, 0.15)"
-                  : "rgba(0, 0, 0, 0.08)"
-                : "rgba(255, 255, 255, 0.15)",
+              // backgroundColor: inDrawer
+              //   ? mymode === "dark"
+              //     ? "rgba(255, 255, 255, 0.15)"
+              //     : "rgba(0, 0, 0, 0.08)"
+              //   : "rgba(255, 255, 255, 0.15)",
               color: textColor,
               fontWeight: 600,
               fontSize: compact ? "0.65rem" : { xs: "0.7rem", sm: "0.75rem" },
@@ -204,8 +200,12 @@ function Header() {
       sx={{
         width: 280,
         height: "100%",
-        bgcolor: mymode === "dark" ? "grey.900" : "grey.50",
+        background:
+          mymode === "light"
+            ? "linear-gradient(to top, #c31432, #240b36)"
+            : "linear-gradient(0deg, #1a1a2e, #4b000f)",
         display: "flex",
+        color: "white",
         flexDirection: "column",
       }}
     >
@@ -216,7 +216,7 @@ function Header() {
           alignItems: "center",
           justifyContent: "space-between",
           p: 2,
-          bgcolor: mymode === "dark" ? "grey.800" : "primary.main",
+          // bgcolor: mymode === "dark" ? "grey.800" : "primary.main",
           color: "white",
         }}
       >
@@ -234,9 +234,7 @@ function Header() {
 
       {/* User Info in Drawer */}
       {token && (
-        <Box
-          sx={{ p: 2, bgcolor: mymode === "dark" ? "grey.800" : "grey.100" }}
-        >
+        <Box sx={{ p: 2 }}>
           <UserInfoComponent compact inDrawer />
         </Box>
       )}
@@ -253,8 +251,6 @@ function Header() {
             sx={{
               py: 1.5,
               px: 2,
-              color:
-                mymode === "dark" ? "white !important" : "black !important",
               textDecoration: "none",
               borderLeft:
                 location.pathname === href
@@ -271,7 +267,7 @@ function Header() {
                 backgroundColor:
                   mymode === "dark"
                     ? "rgba(255, 255, 255, 0.05)"
-                    : "rgba(0, 0, 0, 0.04)",
+                    : "rgba(8, 8, 8, 0.04)",
               },
             }}
           >
@@ -301,14 +297,13 @@ function Header() {
             sx={{
               py: 1,
               px: 2,
-              color:
-                mymode === "dark" ? "white !important" : "black !important",
+
               textDecoration: "none",
               "&:hover": {
                 backgroundColor:
                   mymode === "dark"
                     ? "rgba(255, 255, 255, 0.05)"
-                    : "rgba(0, 0, 0, 0.04)",
+                    : "rgba(8, 8, 8, 0.04)",
               },
             }}
           >
@@ -330,14 +325,14 @@ function Header() {
         position="fixed"
         elevation={isScrolled ? 4 : 1}
         sx={{
-          backgroundColor: isScrolled
-            ? mymode === "dark"
-              ? "rgba(18, 18, 18, 0.95)"
-              : "rgba(25, 118, 210, 0.95)"
-            : mymode === "dark"
-            ? "grey.900"
-            : "primary.main",
-          backdropFilter: isScrolled ? "blur(10px)" : "none",
+          background: isScrolled
+            ? mymode === "light"
+              ? "linear-gradient(to top, rgba(195, 20, 50, 0.95), rgba(36, 11, 54, 0.95))"
+              : "linear-gradient(0deg, rgba(26, 26, 46, 0.95), rgba(75, 0, 15, 0.95))"
+            : mymode === "light"
+            ? "linear-gradient(to top, #c31432, #240b36)"
+            : "linear-gradient(0deg, #1a1a2e, #4b000f)",
+          backdropFilter: isScrolled ? "blur(50px)" : "none",
           transition: "all 0.3s ease-in-out",
         }}
       >

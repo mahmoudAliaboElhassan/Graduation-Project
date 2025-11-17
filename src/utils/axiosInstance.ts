@@ -1,16 +1,18 @@
 import axios, {
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
   AxiosError,
-  InternalAxiosRequestConfig,
-} from "axios";
+  type AxiosInstance,
+  type AxiosResponse,
+  type InternalAxiosRequestConfig,
+} from "axios"
 
 // axios.defaults.withCredentials = true; // Enables cookies globally
 
 // Define your Axios instance
+
+const API = import.meta.env.VITE_API_URL
+
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: API,
   withCredentials: true,
 
   // withCredentials: true: This is a crucial setting for cookies. When set to true, Axios will send cookies along with each request. Cookies are often used for authentication (e.g., JWT tokens stored in cookies). This setting ensures that cookies set by your server are sent along with every request to that server.
@@ -25,7 +27,7 @@ const axiosInstance: AxiosInstance = axios.create({
   //   headers: {
   //     "Content-Type": "application/json",
   //   },
-});
+})
 
 // Define a function to handle request interception
 const handleRequest = (
@@ -36,36 +38,36 @@ const handleRequest = (
   //   if (token) {
   //     config.headers.Authorization = `Bearer ${token}`;
   //   }
-  console.log("config", config);
-  return config;
-};
+  console.log("config", config)
+  return config
+}
 
 // Define a function to handle request errors
 const handleRequestError = (error: AxiosError): Promise<AxiosError> => {
   // Handle the request error
-  console.log(error);
-  return Promise.reject(error);
-};
+  console.log(error)
+  return Promise.reject(error)
+}
 
 // Define a function to handle response interception
 const handleResponse = (response: AxiosResponse): AxiosResponse => {
   // any instead of  AxiosResponse as it returns only the data
   // not the full AxiosResponse object
-  console.log("response is", response);
-  return response;
-};
+  console.log("response is", response)
+  return response
+}
 
 // Define a function to handle response errors
 const handleResponseError = (error: AxiosError): Promise<AxiosError> => {
-  console.log(error);
+  console.log(error)
   if (error.response?.status === 401) {
     // Handle unauthorized errors (e.g., redirect to login)
   }
-  return Promise.reject(error);
-};
+  return Promise.reject(error)
+}
 
 // Add request and response interceptors
-axiosInstance.interceptors.request.use(handleRequest, handleRequestError);
-axiosInstance.interceptors.response.use(handleResponse, handleResponseError);
+axiosInstance.interceptors.request.use(handleRequest, handleRequestError)
+axiosInstance.interceptors.response.use(handleResponse, handleResponseError)
 
-export default axiosInstance;
+export default axiosInstance

@@ -1,4 +1,4 @@
-import { lang } from "../utils/types/general";
+import type { lang } from "../utils/types/general"
 
 function UseLanguages() {
   const Languages: lang[] = [
@@ -13,9 +13,9 @@ function UseLanguages() {
       country_code: "eg",
       dir: "rtl",
     },
-  ];
+  ]
 
-  return { Languages };
+  return { Languages }
 }
 
-export default UseLanguages;
+export default UseLanguages

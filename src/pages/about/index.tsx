@@ -134,11 +134,13 @@ const About: React.FC = () => {
                 backgroundColor: colors.chipBg,
                 color: "white",
                 border: `1px solid ${colors.chipBg}`,
+      transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
                 "&:hover": {
                   backgroundColor:
                     mymode === "light"
                       ? "rgba(255,255,255,0.3)"
                       : "rgba(255,255,255,0.2)",
+                      transform:"scale(1.1)"
                 },
               }}
             />

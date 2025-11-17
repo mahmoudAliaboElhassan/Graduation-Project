@@ -1,11 +1,11 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axiosInstance from "../../utils/axiosInstance";
-import { ChapterData, GradeSubjects } from "../../utils/types/DTO";
+import { createAsyncThunk } from "@reduxjs/toolkit"
+import axiosInstance from "../../utils/axiosInstance"
+import type { ChapterData, GradeSubjects } from "../../utils/types/DTO"
 
 export const getEducationQuestions = createAsyncThunk(
   "adminSlice/getEducationQuestions",
   async (_, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.get("/api/Admin/educational-questions", {
@@ -14,24 +14,24 @@ export const getEducationQuestions = createAsyncThunk(
           // Add any other headers you need here
           "Content-Type": "application/json",
         },
-      });
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      })
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data)
     }
   }
-);
+)
 export const getEntertainmentQuestions = createAsyncThunk(
   "adminSlice/getEntertainmentQuestions",
   async (_, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.get(
@@ -43,24 +43,24 @@ export const getEntertainmentQuestions = createAsyncThunk(
             "Content-Type": "application/json",
           },
         }
-      );
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      )
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data)
     }
   }
-);
+)
 export const approveQuestion = createAsyncThunk(
   "adminSlice/approveQuestion",
   async ({ questionId }: { questionId: number }, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.get(`/api/Admin/approve/${questionId}`, {
@@ -69,24 +69,24 @@ export const approveQuestion = createAsyncThunk(
           // Add any other headers you need here
           "Content-Type": "application/json",
         },
-      });
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      })
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data)
     }
   }
-);
+)
 export const rejectQuestion = createAsyncThunk(
   "adminSlice/rejectQuestion",
   async ({ questionId }: { questionId: number }, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.get(`/api/Admin/reject/${questionId}`, {
@@ -95,24 +95,24 @@ export const rejectQuestion = createAsyncThunk(
           // Add any other headers you need here
           "Content-Type": "application/json",
         },
-      });
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      })
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data)
     }
   }
-);
+)
 export const addGrade = createAsyncThunk(
   "adminSlice/addGrade",
   async ({ grade }: { grade: string }, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.post(
@@ -125,53 +125,53 @@ export const addGrade = createAsyncThunk(
             "Content-Type": "application/json",
           },
         }
-      );
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      )
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data)
     }
   }
-);
+)
 export const addSubject = createAsyncThunk(
   "adminSlice/addSubject",
   async ({ name, image }: { name: string; image: File }, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       // Create FormData for file upload
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("image", image);
+      const formData = new FormData()
+      formData.append("name", name)
+      formData.append("image", image)
 
       const res = await axiosInstance.post(`/api/Admin/add-subject`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           // Don't set Content-Type - let browser set it with boundary for multipart/form-data
         },
-      });
+      })
 
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
-        console.log("400 Bad Request from slice");
+        console.log("400 Bad Request from slice")
       }
-      return rejectWithValue(error.response?.data || "An error occurred");
+      return rejectWithValue(error.response?.data || "An error occurred")
     }
   }
-);
+)
 export const addChapter = createAsyncThunk(
   "adminSlice/addChapter",
   async (chapterData: ChapterData, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.post(
@@ -184,24 +184,24 @@ export const addChapter = createAsyncThunk(
             "Content-Type": "application/json",
           },
         }
-      );
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      )
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data)
     }
   }
-);
+)
 export const addGradeSujects = createAsyncThunk(
   "adminSlice/addGradeSujects",
   async (gradeSubjects: GradeSubjects, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.post(
@@ -214,17 +214,17 @@ export const addGradeSujects = createAsyncThunk(
             "Content-Type": "application/json",
           },
         }
-      );
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      )
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data)
     }
   }
-);
+)

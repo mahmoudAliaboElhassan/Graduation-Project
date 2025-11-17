@@ -1,93 +1,92 @@
-import { string } from "yup";
-import { AnswerdQuestion, TopTenR } from "../dataResponse";
+import type { AnswerdQuestion, TopTenR } from "../dataResponse"
 
 export interface InitialStateMode {
-  mymode: "dark" | "light";
+  mymode: "dark" | "light"
 }
-export type forLocalStorage = string | null;
+export type forLocalStorage = string | null
 
 export type QuestionData = {
-  correctAnswer: forLocalStorage;
-  hints: string[];
-};
+  correctAnswer: forLocalStorage
+  hints: string[]
+}
 
 export interface InitialStateAuth {
-  loadingAuth: boolean;
-  loadingGetSubjects: boolean;
-  loadingChangePassword: boolean;
-  loadingAddPoints: boolean;
-  name: forLocalStorage;
-  email: forLocalStorage;
-  grade: forLocalStorage;
-  token: forLocalStorage;
-  Uid: forLocalStorage;
-  error: string;
-  subjects: { subjectImage: string; subjectName: string }[];
-  chapters: { name: string; number: number }[];
-  role: forLocalStorage;
-  subjectTeaching: forLocalStorage;
-  expirationToken: Date | null;
-  totalPoints: forLocalStorage;
-  loadingForgetPassword: boolean;
-  loadingResetPassword: boolean;
-  loadingGetTopTen: boolean;
-  topTen: TopTenR;
-  allSubjects: string[];
-  loadingGetAllSubjects: boolean;
-  loadingGetAllGrades: boolean;
-  loadingGetTeacherGrades: boolean;
-  allGrades: { gradeId: number; gradeName: string }[];
-  teacherGrades: { gradeId: number; gradeName: string }[];
-  loadingAnsweredQuestions: boolean;
-  answeredQuestions: AnswerdQuestion[];
+  loadingAuth: boolean
+  loadingGetSubjects: boolean
+  loadingChangePassword: boolean
+  loadingAddPoints: boolean
+  name: forLocalStorage
+  email: forLocalStorage
+  grade: forLocalStorage
+  token: forLocalStorage
+  Uid: forLocalStorage
+  error: string
+  subjects: { subjectImage: string; subjectName: string }[]
+  chapters: { name: string; number: number }[]
+  role: forLocalStorage
+  subjectTeaching: forLocalStorage
+  expirationToken: Date | null
+  totalPoints: forLocalStorage
+  loadingForgetPassword: boolean
+  loadingResetPassword: boolean
+  loadingGetTopTen: boolean
+  topTen: TopTenR
+  allSubjects: string[]
+  loadingGetAllSubjects: boolean
+  loadingGetAllGrades: boolean
+  loadingGetTeacherGrades: boolean
+  allGrades: { gradeId: number; gradeName: string }[]
+  teacherGrades: { gradeId: number; gradeName: string }[]
+  loadingAnsweredQuestions: boolean
+  answeredQuestions: AnswerdQuestion[]
 }
 
 type DifficultyDataQuestion = {
-  question: string;
-  correctAnswer: string;
-  score: number;
-};
+  question: string
+  correctAnswer: string
+  score: number
+}
 export interface InitialStateGame {
-  questionData: QuestionData;
-  loadingGetQuestions: boolean;
-  loadingAnswerQuestion: boolean;
-  offsideInformation: string[];
-  offsideCorrectAnswer: number[];
-  rank: forLocalStorage;
-  correct: boolean;
-  difficultyData: DifficultyDataQuestion[];
-  question: string;
-  errorGetQuestions: string;
-  summary: string;
+  questionData: QuestionData
+  loadingGetQuestions: boolean
+  loadingAnswerQuestion: boolean
+  offsideInformation: string[]
+  offsideCorrectAnswer: number[]
+  rank: forLocalStorage
+  correct: boolean
+  difficultyData: DifficultyDataQuestion[]
+  question: string
+  errorGetQuestions: string
+  summary: string
 }
 export type Question = {
-  questionID: number;
-  chapterName: string;
-  question:string;
-  gradeName: string;
-  subjectName: string;
-  answer: string;
-  summary: string;
-  game: string;
-  hints: string[];
-};
+  questionID: number
+  chapterName: string
+  question: string
+  gradeName: string
+  subjectName: string
+  answer: string
+  summary: string
+  game: string
+  hints: string[]
+}
 export type EntertainmentQuestion = {
-  questionID: number;
-  question: string;
-  answer: string;
-  section: number;
-  summary: string;
-  game: string;
-  hints: string[];
-};
+  questionID: number
+  question: string
+  answer: string
+  section: number
+  summary: string
+  game: string
+  hints: string[]
+}
 
 export interface initialStateAdmin {
-  questions: Question[];
-  loadinGetQuestions: boolean;
-  loadingAddGrade: boolean;
-  loadingAddSubject: boolean;
-  loadingAddChapter: boolean;
-  loadinAddGradeSubjects: boolean;
-  error: string | null;
-  EntertainmentQuestions: EntertainmentQuestion[];
+  questions: Question[]
+  loadinGetQuestions: boolean
+  loadingAddGrade: boolean
+  loadingAddSubject: boolean
+  loadingAddChapter: boolean
+  loadinAddGradeSubjects: boolean
+  error: string | null
+  EntertainmentQuestions: EntertainmentQuestion[]
 }

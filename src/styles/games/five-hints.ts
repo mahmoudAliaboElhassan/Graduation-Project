@@ -1,4 +1,4 @@
-import { Card } from "@mui/material"
+import { alpha, Card } from "@mui/material"
 import Grid from "@mui/material/Grid2"
 import { styled } from "@mui/material/styles"
 import { Link } from "react-router-dom"
@@ -24,55 +24,175 @@ export const CustomeCard = styled(Card)(({ theme }) => {
     height: "100%",
     display: "flex",
     flexDirection: "column",
-    color: "white",
-    transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-    backgroundImage: getGradient(isDarkMode),
-    boxShadow: isDarkMode
-      ? "0 12px 20px rgba(0, 0, 0, 0.3)"
-      : "0 12px 20px rgba(0, 0, 0, 0.2)",
-    borderRadius: theme.spacing(1),
+    position: "relative",
     overflow: "hidden",
+    borderRadius: theme.spacing(3),
 
+    // Modern glass morphism effect
+    background: isDarkMode
+      ? alpha("#1e1e2e", 0.6)
+      : "linear-gradient(to top, #c31432, #240b36)",
+
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+
+    // Subtle border for depth
+    border: `1px solid ${alpha(isDarkMode ? "#fff" : "#000", 0.1)}`,
+
+    // Smooth transitions
+    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+
+    // Modern shadow system
+    boxShadow: isDarkMode
+      ? "0 8px 32px rgba(0, 0, 0, 0.4)"
+      : "0 8px 32px rgba(0, 0, 0, 0.1)",
+
+    // Hover effects
     "&:hover": {
-      transform: "translateY(-8px) scale(1.02)",
+      transform: "translateY(-4px)",
       boxShadow: isDarkMode
-        ? "0 16px 28px rgba(0, 0, 0, 0.4)"
-        : "0 16px 28px rgba(0, 0, 0, 0.3)",
+        ? "0 12px 40px rgba(0, 0, 0, 0.5)"
+        : "0 12px 40px rgba(0, 0, 0, 0.15)",
     },
 
-    // Ensure all text content is white
-    "& *": {
-      color: "white !important",
+    // Pseudo-element for gradient border effect on hover
+    "&::before": {
+      content: '""',
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderRadius: theme.spacing(3),
+      padding: "1px",
+      background: isDarkMode
+        ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+        : "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+      WebkitMask:
+        "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+      WebkitMaskComposite: "xor",
+      maskComposite: "exclude",
+      opacity: 0,
+      transition: "opacity 0.3s ease",
     },
 
-    // Specific overrides for MUI components
-    "& .MuiTypography-root": {
-      color: "white",
+    "&:hover::before": {
+      opacity: 0.6,
     },
+
+    // Content styling - inherit text color from theme
+    color: isDarkMode ? "white" : theme.palette.text.primary,
+
+    // Card content areas
     "& .MuiCardContent-root": {
-      color: "white",
       flexGrow: 1,
-    },
-    "& .MuiCardActionArea-root": {
-      color: "white",
-      height: "100%",
-    },
-    "& .MuiCardActions-root": {
-      color: "white",
+      padding: theme.spacing(3),
+      color: "inherit",
     },
 
-    // Override button colors if needed
+    "& .MuiCardActionArea-root": {
+      height: "100%",
+      color: "inherit",
+    },
+
+    "& .MuiCardActions-root": {
+      padding: theme.spacing(2, 3),
+      color: "inherit",
+    },
+
+    // Typography inherits color
+    "& .MuiTypography-root": {
+      color: "inherit",
+    },
+
+    // Buttons get modern styling
     "& .MuiButton-root": {
-      color: "white",
-      borderColor: "white",
+      borderRadius: theme.spacing(2),
+      textTransform: "none",
+      fontWeight: 600,
+      transition: "all 0.2s ease",
+
       "&:hover": {
-        backgroundColor: "rgba(255, 255, 255, 0.1)",
+        transform: "translateY(-2px)",
+        boxShadow: isDarkMode
+          ? "0 4px 12px rgba(255, 255, 255, 0.1)"
+          : "0 4px 12px rgba(0, 0, 0, 0.1)",
       },
     },
 
-    // Override icon colors
+    // Icon colors inherit
     "& .MuiSvgIcon-root": {
-      color: "white",
+      color: "inherit",
+    },
+
+    // Chip styling
+    "& .MuiChip-root": {
+      borderRadius: theme.spacing(1.5),
+      fontWeight: 600,
+      transition: "all 0.2s ease",
+
+      "&:hover": {
+        transform: "scale(1.05)",
+      },
+    },
+
+    // Divider with gradient
+    "& .MuiDivider-root": {
+      background: isDarkMode ? alpha("#fff", 0.1) : alpha("#000", 0.1),
+    },
+
+    // Form controls
+    "& .MuiOutlinedInput-root": {
+      borderRadius: theme.spacing(2),
+
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: alpha(isDarkMode ? "#fff" : "#000", 0.2),
+        transition: "all 0.3s ease",
+      },
+
+      "&:hover .MuiOutlinedInput-notchedOutline": {
+        borderColor: alpha(isDarkMode ? "#fff" : "#000", 0.3),
+      },
+
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: theme.palette.primary.main,
+        borderWidth: 2,
+      },
+    },
+
+    // List items
+    "& .MuiListItem-root": {
+      borderRadius: theme.spacing(1),
+      marginBottom: theme.spacing(0.5),
+      transition: "background-color 0.2s ease",
+
+      "&:hover": {
+        backgroundColor: alpha(isDarkMode ? "#fff" : "#000", 0.05),
+      },
+    },
+
+    // Paper elements inside card
+    "& .MuiPaper-root": {
+      borderRadius: theme.spacing(2),
+      transition: "all 0.2s ease",
+    },
+
+    // Loading states
+    "& .MuiCircularProgress-root": {
+      color: theme.palette.primary.main,
+    },
+
+    // Links
+    "& a": {
+      color: theme.palette.primary.main,
+      textDecoration: "none",
+      fontWeight: 600,
+      transition: "all 0.2s ease",
+
+      "&:hover": {
+        textDecoration: "underline",
+        opacity: 0.8,
+      },
     },
   }
 })

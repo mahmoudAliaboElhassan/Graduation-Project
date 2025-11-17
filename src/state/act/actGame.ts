@@ -1,42 +1,42 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit"
 
-import axiosInstance from "../../utils/axiosInstance";
-import {
-  UserDataGameGetQuestion,
-  UserDataHintGameAnswerQuestion,
-  UserDataEducationMakeQuestion,
-  UserDataEntertainmentMakeQuestion,
+import axiosInstance from "../../utils/axiosInstance"
+import type {
   AnswerDifficultyT,
   EducationDifficultyT,
   EntertainmentDifficultyT,
-} from "../../utils/types/DTO";
-import {
+  UserDataEducationMakeQuestion,
+  UserDataEntertainmentMakeQuestion,
+  UserDataGameGetQuestion,
+  UserDataHintGameAnswerQuestion,
+} from "../../utils/types/DTO"
+import type {
+  AnswerDifficultyR,
+  DifficultyResponse,
   getHintsResponse,
   getOffsideHints,
-  DifficultyResponse,
-  AnswerDifficultyR,
-} from "../../utils/dataResponse";
+} from "../../utils/dataResponse"
 
 export const getHintsQuestions = createAsyncThunk(
   "gameSlice/getHintsQuestions",
   async (userData: UserDataGameGetQuestion, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.post<getHintsResponse>(
         "/api/education/HintGame/question",
         userData
-      );
-      console.log("from slice res is", res);
-      return res.data;
+      )
+      console.log("from slice res is", res)
+      return res.data
     } catch (error: any) {
       if (error.response?.status === 400) {
-        console.log("400 Bad Request - Invalid input from slice");
+        console.log("400 Bad Request - Invalid input from slice")
       }
-      return rejectWithValue(error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || error.message)
     }
   }
-);
+)
 
 export const getHintsEntertainment = createAsyncThunk(
   "gameSlice/getHintsEntertainment",
@@ -44,7 +44,7 @@ export const getHintsEntertainment = createAsyncThunk(
     { entertainmentSection }: { entertainmentSection: Number },
     thunkAPI
   ) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.get<getOffsideHints>(
@@ -56,22 +56,22 @@ export const getHintsEntertainment = createAsyncThunk(
             "Content-Type": "application/json",
           },
         }
-      );
-      console.log("from slice res is", res);
-      return res.data;
+      )
+      console.log("from slice res is", res)
+      return res.data
     } catch (error: any) {
       if (error.response?.status === 400) {
-        console.log("400 Bad Request - Invalid input from slice");
+        console.log("400 Bad Request - Invalid input from slice")
       }
-      return rejectWithValue(error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || error.message)
     }
   }
-);
+)
 
 export const getOffSideQuestions = createAsyncThunk(
   "gameSlice/getOffSideQuestions",
   async (userData: UserDataGameGetQuestion, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.post<getOffsideHints>(
@@ -84,17 +84,17 @@ export const getOffSideQuestions = createAsyncThunk(
             "Content-Type": "application/json",
           },
         }
-      );
-      console.log("from slice res is", res);
-      return res.data;
+      )
+      console.log("from slice res is", res)
+      return res.data
     } catch (error: any) {
       if (error.response?.status === 400) {
-        console.log("400 Bad Request - Invalid input from slice");
+        console.log("400 Bad Request - Invalid input from slice")
       }
-      return rejectWithValue(error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || error.message)
     }
   }
-);
+)
 
 export const getOffsideEntertainment = createAsyncThunk(
   "gameSlice/getOffsideEntertainment",
@@ -102,7 +102,7 @@ export const getOffsideEntertainment = createAsyncThunk(
     { entertainmentSection }: { entertainmentSection: Number },
     thunkAPI
   ) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.get<getOffsideHints>(
@@ -114,22 +114,22 @@ export const getOffsideEntertainment = createAsyncThunk(
             "Content-Type": "application/json",
           },
         }
-      );
-      console.log("from slice res is", res);
-      return res.data;
+      )
+      console.log("from slice res is", res)
+      return res.data
     } catch (error: any) {
       if (error.response?.status === 400) {
-        console.log("400 Bad Request - Invalid input from slice");
+        console.log("400 Bad Request - Invalid input from slice")
       }
-      return rejectWithValue(error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || error.message)
     }
   }
-);
+)
 
 export const answerQuestion = createAsyncThunk(
   "gameSlice/answerQuestion",
   async (userData: UserDataHintGameAnswerQuestion, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.post(
@@ -138,24 +138,24 @@ export const answerQuestion = createAsyncThunk(
         {
           withCredentials: true, // ✅ Ensures cookies are sent
         }
-      );
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      )
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error);
+      return rejectWithValue(error)
     }
   }
-);
+)
 export const makeEducationQuestions = createAsyncThunk(
   "gameSlice/makeEducationQuestions",
   async (userData: UserDataEducationMakeQuestion, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.post(
@@ -164,24 +164,24 @@ export const makeEducationQuestions = createAsyncThunk(
         {
           withCredentials: true, // ✅ Ensures cookies are sent
         }
-      );
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      )
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error);
+      return rejectWithValue(error)
     }
   }
-);
+)
 export const makeEntertainmentQuestions = createAsyncThunk(
   "gameSlice/makeEntertainmentQuestions",
   async (userData: UserDataEntertainmentMakeQuestion, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.post(
@@ -190,24 +190,24 @@ export const makeEntertainmentQuestions = createAsyncThunk(
         {
           withCredentials: true, // ✅ Ensures cookies are sent
         }
-      );
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      )
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error);
+      return rejectWithValue(error)
     }
   }
-);
+)
 export const getEducationDifficulty = createAsyncThunk(
   "gameSlice/getEducationDifficulty",
   async (userData: UserDataGameGetQuestion, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.post<DifficultyResponse>(
@@ -216,27 +216,27 @@ export const getEducationDifficulty = createAsyncThunk(
         {
           withCredentials: true, // ✅ Ensures cookies are sent
         }
-      );
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      )
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error);
+      return rejectWithValue(error)
     }
   }
-);
+)
 export const getEntertainmentDifficulty = createAsyncThunk(
   "gameSlice/getEntertainmentDifficulty",
   async (
     { entertainmentSection }: { entertainmentSection: Number },
     thunkAPI
   ) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.get<DifficultyResponse>(
@@ -248,25 +248,25 @@ export const getEntertainmentDifficulty = createAsyncThunk(
             "Content-Type": "application/json",
           },
         }
-      );
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      )
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error);
+      return rejectWithValue(error)
     }
   }
-);
+)
 
 export const answerDifficulty = createAsyncThunk(
   "gameSlice/answerDifficulty",
   async (answer: AnswerDifficultyT, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.post<AnswerDifficultyR>(
@@ -275,24 +275,24 @@ export const answerDifficulty = createAsyncThunk(
         {
           withCredentials: true, // ✅ Ensures cookies are sent
         }
-      );
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      )
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error);
+      return rejectWithValue(error)
     }
   }
-);
+)
 export const makeEducationDifficulty = createAsyncThunk(
   "gameSlice/makeEducationDifficulty",
   async (educationDifficulty: EducationDifficultyT, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.post(
@@ -301,24 +301,24 @@ export const makeEducationDifficulty = createAsyncThunk(
         {
           withCredentials: true, // ✅ Ensures cookies are sent
         }
-      );
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      )
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error);
+      return rejectWithValue(error)
     }
   }
-);
+)
 export const makeEntertainmentDifficulty = createAsyncThunk(
   "gameSlice/makeEntertainmentDifficulty",
   async (entertainmentDifficulty: EntertainmentDifficultyT, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue } = thunkAPI
 
     try {
       const res = await axiosInstance.post(
@@ -331,17 +331,17 @@ export const makeEntertainmentDifficulty = createAsyncThunk(
             "Content-Type": "application/json",
           },
         }
-      );
-      console.log("from slice res is");
-      console.log(res);
-      return res.data;
+      )
+      console.log("from slice res is")
+      console.log(res)
+      return res.data
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         // Handle 403 error here
         // Example: setConfirmed(true);
-        console.log("400 Forbidden - User not authorized from slice");
+        console.log("400 Forbidden - User not authorized from slice")
       }
-      return rejectWithValue(error);
+      return rejectWithValue(error)
     }
   }
-);
+)

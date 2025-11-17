@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { CategoryEntertainmentGame } from "../utils/types/general"
+import type { CategoryEntertainmentGame } from "../utils/types/general"
 
 function UseCategoryEntertainment() {
   const { t } = useTranslation()

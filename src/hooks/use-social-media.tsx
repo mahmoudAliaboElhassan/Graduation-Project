@@ -1,18 +1,12 @@
-import React from "react";
+import React from "react"
 
-import { useTranslation } from "react-i18next";
-import {
-  Facebook,
-  GitHub,
-  Instagram,
-  LinkedIn,
-  AccountBox,
-} from "@mui/icons-material";
+import { useTranslation } from "react-i18next"
+import { Facebook, GitHub, LinkedIn, AccountBox } from "@mui/icons-material"
 
-import { SocialMediaTypes } from "../utils/types/general";
+import type { SocialMediaTypes } from "../utils/types/general"
 
 function useSocialMedia() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const socialLinks: SocialMediaTypes[] = [
     {
@@ -35,8 +29,8 @@ function useSocialMedia() {
       url: "https://www.linkedin.com/in/mahmoudali-webdev/",
       title: t("linkedin"),
     },
-  ];
-  return { socialLinks };
+  ]
+  return { socialLinks }
 }
 
-export default useSocialMedia;
+export default useSocialMedia

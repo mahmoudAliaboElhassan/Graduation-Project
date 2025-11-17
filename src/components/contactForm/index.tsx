@@ -1,57 +1,55 @@
-import { Formik } from "formik";
-import { useNavigate } from "react-router-dom";
-import Grid from "@mui/material/Grid2";
-import { toast } from "react-toastify";
-import { motion } from "framer-motion";
-import { useTranslation } from "react-i18next";
-import Swal from "sweetalert2";
-import emailjs from "emailjs-com";
+import { Formik } from "formik"
+import Grid from "@mui/material/Grid2"
+import { toast } from "react-toastify"
+import { motion } from "framer-motion"
+import { useTranslation } from "react-i18next"
+import Swal from "sweetalert2"
+import emailjs from "emailjs-com"
 
-import TextFieldWrapper from "../../components/formUI/textField";
-import ButtonWrapper from "../../components/formUI/submit";
+import TextFieldWrapper from "../../components/formUI/textField"
+import ButtonWrapper from "../../components/formUI/submit"
 
-import UseInitialValues from "../../hooks/use-initial-values";
-import UseFormValidation from "../../hooks/use-form-validation";
-import UseThemMode from "../../hooks/use-theme-mode";
+import UseInitialValues from "../../hooks/use-initial-values"
+import UseFormValidation from "../../hooks/use-form-validation"
+import UseThemMode from "../../hooks/use-theme-mode"
 
-import { HeadingElement } from "../../styles/heading";
-import { FormWrapper } from "../../styles/forms";
-import { useAppDispatch } from "../../hooks/redux";
-import { InitialValuesContacts } from "../../utils/types/initialValues";
-import { useState } from "react";
+import { HeadingElement } from "../../styles/heading"
+import { FormWrapper } from "../../styles/forms"
+import { useState } from "react"
+import type { InitialValuesContacts } from "../../utils/types/initialValues"
 
 function ContactForm() {
-  const { t } = useTranslation();
-  const { INITIAL_FORM_STATE_CONTACT } = UseInitialValues();
-  const { FORM_VALIDATION_SCHEMA_CONTACTS } = UseFormValidation();
-  const { themeMode } = UseThemMode();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useTranslation()
+  const { INITIAL_FORM_STATE_CONTACT } = UseInitialValues()
+  const { FORM_VALIDATION_SCHEMA_CONTACTS } = UseFormValidation()
+  const { themeMode } = UseThemMode()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const sendEmail = (formValues: InitialValuesContacts) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
 
     const templateParams = {
       email: formValues.email,
       title: formValues.title,
       message: formValues.message,
       name: formValues.name,
-    };
+    }
 
-    // console.log("Service ID:", process.env.REACT_APP_SERVICE_ID);
-    // console.log("Template ID:", process.env.REACT_APP_TEMPLATE_ID);
-    // console.log("User ID:", process.env.REACT_APP_USER_ID);
+    console.log("Service ID:", import.meta.env.VITE_APP_SERVICE_ID)
+    console.log("Template ID:", import.meta.env.VITE_APP_TEMPLATE_ID)
+    console.log("User ID:", import.meta.env.VITE_APP_USER_ID)
 
     return emailjs
       .send(
-        process.env.REACT_APP_SERVICE_ID || "",
-        process.env.REACT_APP_TEMPLATE_ID || "",
+        import.meta.env.VITE_APP_SERVICE_ID || "",
+        import.meta.env.VITE_APP_TEMPLATE_ID || "",
         templateParams,
-        process.env.REACT_APP_USER_ID || ""
+        import.meta.env.VITE_APP_USER_ID || ""
       )
       .then((response) => {
-        setIsSubmitting(false);
+        setIsSubmitting(false)
 
-        console.log("Email sent successfully:", response);
+        console.log("Email sent successfully:", response)
         toast.success(t("sent-success"), {
           position: "top-right",
           autoClose: 1000,
@@ -61,21 +59,21 @@ function ContactForm() {
           draggable: true,
           progress: undefined,
           theme: themeMode,
-        });
+        })
       })
       .catch((error) => {
-        setIsSubmitting(false);
+        setIsSubmitting(false)
 
-        console.error("Error sending email:", error);
+        console.error("Error sending email:", error)
         Swal.fire({
           title: t("error-sending-message"),
           icon: "error",
           confirmButtonText: t("ok"),
-        });
+        })
         // Rethrow error so that onSubmit can handle it if needed
-        throw error;
-      });
-  };
+        throw error
+      })
+  }
 
   return (
     <>
@@ -91,15 +89,15 @@ function ContactForm() {
           }}
           validationSchema={FORM_VALIDATION_SCHEMA_CONTACTS}
           onSubmit={async (values, { resetForm }) => {
-            console.log(values);
+            console.log(values)
 
             sendEmail(values)
               .then(() => {
-                resetForm(); // 👈 Reset the form after success
+                resetForm() // 👈 Reset the form after success
               })
               .catch(() => {
                 // Don’t reset on error
-              });
+              })
           }}
         >
           <motion.div
@@ -132,7 +130,7 @@ function ContactForm() {
         {/* </ContainerFormWrapper> */}
       </div>
     </>
-  );
+  )
 }
 
-export default ContactForm;
+export default ContactForm

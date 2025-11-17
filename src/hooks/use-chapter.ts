@@ -1,9 +1,8 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { chapterType } from "../utils/types/general";
+import { useTranslation } from "react-i18next"
+import type { chapterType } from "../utils/types/general"
 
 function UseChapter() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const Chapters: chapterType[] = [
     {
       text: t("one"),
@@ -42,8 +41,8 @@ function UseChapter() {
       text: t("eight"),
       value: "9",
     },
-  ];
-  return { Chapters };
+  ]
+  return { Chapters }
 }
 
-export default UseChapter;
+export default UseChapter

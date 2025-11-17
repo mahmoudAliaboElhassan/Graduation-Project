@@ -1,9 +1,8 @@
-import * as Yup from "yup";
-import parsePhoneNumberFromString from "libphonenumber-js";
-import { useTranslation } from "react-i18next";
+import * as Yup from "yup"
+import { useTranslation } from "react-i18next"
 
 function UseFormValidation() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const FORM_VALIDATION_SCHEMA_LOGIN = Yup.object({
     email: Yup.string()
       .email("Enter a Valid Email")
@@ -28,7 +27,7 @@ function UseFormValidation() {
         /[\W_]/,
         "Password must contain at least one special character (!@#$%^&*, etc.)"
       ),
-  });
+  })
 
   const FORM_VALIDATION_SCHEMA_SIGNUP = Yup.object({
     name: Yup.string()
@@ -73,7 +72,7 @@ function UseFormValidation() {
       then: (schema) => schema.required("Subject is required for teachers"),
       otherwise: (schema) => schema.notRequired(),
     }),
-  });
+  })
   const FORM_VALIDATION_SCHEMA_CHANGE_PASSWORD = Yup.object({
     currentPassword: Yup.string()
       .required("Password is required")
@@ -107,14 +106,14 @@ function UseFormValidation() {
         /[\W_]/,
         "Password must contain at least one special character (!@#$%^&*, etc.)"
       ),
-  });
+  })
   const FORM_VALIDATION_SCHEMA_ANSWER_QUESTION = Yup.object({
     answer: Yup.string().required("Question Answer is required"),
-  });
+  })
   const FORM_VALIDATION_SCHEMA_GET_QUESTIONS = Yup.object({
     subjectQetQuestions: Yup.string().required("Subject is required"),
     chapter: Yup.string().required("chapter is required"),
-  });
+  })
   const FORM_VALIDATION_SCHEMA_CONTACTS = Yup.object({
     email: Yup.string()
       .email("Enter a Valid Email")
@@ -126,7 +125,7 @@ function UseFormValidation() {
     title: Yup.string().required("title is required"),
     name: Yup.string().required("name is required"),
     message: Yup.string().required("title is required"),
-  });
+  })
   const FORM_VALIDATION_OFFSIDE_GAME = Yup.object({
     question1: Yup.string().required("Required"),
     question2: Yup.string().required("Required"),
@@ -134,7 +133,7 @@ function UseFormValidation() {
     question4: Yup.string().required("Required"),
     question5: Yup.string().required("Required"),
     question6: Yup.string().required("Required"),
-  });
+  })
   const FORM_VALIDATION_SCHEMA_FORGET_PASSWORD = Yup.object({
     email: Yup.string()
       .email("Enter a Valid Email")
@@ -143,7 +142,7 @@ function UseFormValidation() {
         /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
         "Email should have at least two characters after the last dot"
       ),
-  });
+  })
   const FORM_VALIDATION_SCHEMA_RESET_PASSWORD = Yup.object({
     password: Yup.string()
       .required("Password is required")
@@ -161,10 +160,10 @@ function UseFormValidation() {
         /[\W_]/,
         "Password must contain at least one special character (!@#$%^&*, etc.)"
       ),
-  });
+  })
   const FORM_VALIDATION_SCHEMA_ADD_GRADE = Yup.object({
     grade: Yup.string().required("grade is required"),
-  });
+  })
   const FORM_VALIDATION_SCHEMA_ADD_Subject = Yup.object().shape({
     name: Yup.string()
       .min(2, t("name-too-short") || "Name must be at least 2 characters")
@@ -175,29 +174,29 @@ function UseFormValidation() {
         "fileType",
         t("invalid-file-type") || "Please select a valid image file",
         (value) => {
-          if (!value) return false;
-          const file = value as File;
+          if (!value) return false
+          const file = value as File
           const allowedTypes = [
             "image/jpeg",
             "image/jpg",
             "image/png",
             "image/gif",
             "image/webp",
-          ];
-          return allowedTypes.includes(file.type);
+          ]
+          return allowedTypes.includes(file.type)
         }
       )
       .test(
         "fileSize",
         t("file-too-large") || "Image size should be less than 5MB",
         (value) => {
-          if (!value) return false;
-          const file = value as File;
-          const maxSize = 5 * 1024 * 1024; // 5MB
-          return file.size <= maxSize;
+          if (!value) return false
+          const file = value as File
+          const maxSize = 5 * 1024 * 1024 // 5MB
+          return file.size <= maxSize
         }
       ),
-  });
+  })
   const FORM_VALIDATION_SCHEMA_ADD_CHAPTER = Yup.object({
     gradesSelect: Yup.number()
       .required("grade is required")
@@ -211,7 +210,7 @@ function UseFormValidation() {
     chapterName: Yup.string()
       .required("Chapter Name is required")
       .min(2, "Chapter Name must be at least 2 characters long"),
-  });
+  })
   const FORM_VALIDATION_SCHEMA_ADD_SUBJECTS = Yup.object({
     gradesSelect: Yup.number()
       .required("grade is required")
@@ -221,7 +220,7 @@ function UseFormValidation() {
       .of(Yup.string().required("Each subject must be a string"))
       .min(1, "At least one subject is required")
       .required("Subjects are required"),
-  });
+  })
   return {
     FORM_VALIDATION_SCHEMA_LOGIN,
     FORM_VALIDATION_SCHEMA_SIGNUP,
@@ -236,7 +235,7 @@ function UseFormValidation() {
     FORM_VALIDATION_SCHEMA_ADD_Subject,
     FORM_VALIDATION_SCHEMA_ADD_CHAPTER,
     FORM_VALIDATION_SCHEMA_ADD_SUBJECTS,
-  };
+  }
 }
 
-export default UseFormValidation;
+export default UseFormValidation

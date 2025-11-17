@@ -1,9 +1,9 @@
-import { useTheme } from "@emotion/react";
+import { useTheme } from "@emotion/react"
 
 function UseThemMode() {
-  const theme = useTheme() as any;
-  const themeMode: "dark" | "light" = theme.palette.mode;
-  return { themeMode };
+  const theme = useTheme() as any
+  const themeMode: "dark" | "light" = theme.palette.mode
+  return { themeMode }
 }
 
-export default UseThemMode;
+export default UseThemMode

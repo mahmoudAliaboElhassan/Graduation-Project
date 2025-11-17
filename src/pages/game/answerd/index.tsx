@@ -16,8 +16,24 @@ import {
   Container,
   Divider,
   Button,
+  Paper,
+  Fade,
+  Zoom,
+  alpha,
+  Stack,
+  IconButton,
+  Collapse,
 } from "@mui/material"
-import ClearIcon from "@mui/icons-material/Clear"
+import {
+  Clear as ClearIcon,
+  FilterList as FilterListIcon,
+  EmojiObjects as HintsIcon,
+  CheckCircle as CheckCircleIcon,
+  School as SchoolIcon,
+  MenuBook as MenuBookIcon,
+  SportsEsports as GameIcon,
+  ExpandMore as ExpandMoreIcon,
+} from "@mui/icons-material"
 import { SelectChangeEvent } from "@mui/material/Select"
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
 import {
@@ -41,16 +57,18 @@ function AnsweredQuestions() {
     chapters,
     loadingGetSubjects,
   } = useAppSelector((state) => state.auth)
+  const { mymode } = useAppSelector((state) => state.mode)
 
   const [selectedSubject, setSelectedSubject] = useState("")
   const [selectedChapter, setSelectedChapter] = useState("")
   const [loadingGetChapters, setLoadingChapters] = useState(false)
+  const [expandedCards, setExpandedCards] = useState<Set<number>>(new Set())
+
   // Initial load
   useEffect(() => {
     if (grade) {
       dispatch(getSubjects({ grade: Number(grade) }))
     }
-    // Load all answered questions initially
     dispatch(getِAnsweredQuestions({ subject: "", chapter: "" }))
   }, [dispatch, grade])
 
@@ -58,19 +76,16 @@ function AnsweredQuestions() {
   const handleSubjectChange = (event: SelectChangeEvent<string>) => {
     const subject = event.target.value
     setSelectedSubject(subject)
-    setSelectedChapter("") // Reset chapter when subject changes
+    setSelectedChapter("")
     setLoadingChapters(true)
-    // Get chapters for the selected subject
+
     if (subject && grade) {
       dispatch(getChapters({ grade: Number(grade), subject }))
         .unwrap()
-        .then(() => {
-          setLoadingChapters(false)
-        })
+        .then(() => setLoadingChapters(false))
         .catch(() => setLoadingChapters(false))
     }
 
-    // Get answered questions for the selected subject
     dispatch(getِAnsweredQuestions({ subject, chapter: "" }))
   }
 
@@ -79,271 +94,649 @@ function AnsweredQuestions() {
     const chapter = event.target.value
     setSelectedChapter(chapter)
     setLoadingChapters(true)
-    // Get answered questions for the selected subject and chapter
+
     dispatch(getِAnsweredQuestions({ subject: selectedSubject, chapter }))
       .unwrap()
-      .then(() => {
-        setLoadingChapters(false)
-      })
+      .then(() => setLoadingChapters(false))
       .catch(() => setLoadingChapters(false))
   }
+
   // Handle clear filters
   const handleClearFilters = () => {
     setSelectedSubject("")
     setSelectedChapter("")
-    // Load all answered questions
     dispatch(getِAnsweredQuestions({ subject: "", chapter: "" }))
   }
+
+  // Toggle card expansion
+  const toggleCardExpansion = (index: number) => {
+    setExpandedCards((prev) => {
+      const newSet = new Set(prev)
+      if (newSet.has(index)) {
+        newSet.delete(index)
+      } else {
+        newSet.add(index)
+      }
+      return newSet
+    })
+  }
+
   const hasActiveFilters = selectedSubject || selectedChapter
+  const isDark = mymode === "dark"
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
-      {/* Filters Section */}{" "}
-      <Box
-        sx={{
-          position: "sticky",
-          top: 0,
-          zIndex: 10,
-          pb: 2,
-          mb: 2,
-        }}
-      >
-        <HeadingElement>{t("answered-questions")}</HeadingElement>
-        <CustomeCard sx={{ p: 3, mb: 4 }}>
-          <Box
+    <Box
+      sx={{
+        minHeight: "100vh",
+        // py: 4,
+      }}
+    >
+      <Container maxWidth="lg">
+        {/* Header with gradient */}
+        <Fade in timeout={800}>
+          <Box sx={{ mb: 4 }}>
+            <HeadingElement
+              sx={{
+                background: isDark
+                  ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                  : "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                mb: 1,
+              }}
+            >
+              {t("answered-questions")}
+            </HeadingElement>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                color: "text.secondary",
+                textAlign: "center",
+              }}
+            >
+              {t("review-your-progress")}
+            </Typography>
+          </Box>
+        </Fade>
+
+        {/* Filters Section with Glass Effect */}
+        <Zoom in timeout={600}>
+          <Paper
+            elevation={0}
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 3,
+              position: "sticky",
+              top: 80,
+              zIndex: 10,
+              mb: 4,
+              p: 3,
+              borderRadius: 3,
+              background: isDark
+                ? alpha("#1e1e2e", 0.8)
+                : alpha("#ffffff", 0.9),
+              backdropFilter: "blur(50px)",
+              border: `1px solid ${alpha(isDark ? "#fff" : "#000", 0.1)}`,
+              boxShadow: isDark
+                ? "0 8px 32px rgba(0, 0, 0, 0.4)"
+                : "0 8px 32px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <Typography variant="h6">{t("filters")}</Typography>
-            {hasActiveFilters && (
-              <Button
-                variant="outlined"
-                color="secondary"
-                startIcon={<ClearIcon />}
-                onClick={handleClearFilters}
-                size="small"
-              >
-                {t("clear-filters")}
-              </Button>
-            )}
-          </Box>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={selectedSubject ? 6 : 12}>
-              <FormControl fullWidth>
-                <InputLabel id="subject-select-label">
-                  {t("select-subject")}
-                </InputLabel>
-                <Select
-                  labelId="subject-select-label"
-                  value={selectedSubject}
-                  label={t("select-subject")}
-                  onChange={handleSubjectChange}
-                  disabled={loadingGetSubjects}
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              mb={3}
+            >
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <FilterListIcon color="primary" />
+                <Typography variant="h6" fontWeight={600}>
+                  {t("filters")}
+                </Typography>
+              </Stack>
+              {hasActiveFilters && (
+                <Button
+                  variant="outlined"
+                  color="error"
+                  startIcon={<ClearIcon />}
+                  onClick={handleClearFilters}
+                  size="small"
+                  sx={{
+                    borderRadius: 2,
+                    textTransform: "none",
+                    fontWeight: 600,
+                  }}
                 >
-                  <MenuItem value="">
-                    <em>{t("all-subjects")}</em>
-                  </MenuItem>
-                  {subjects?.map((subject) => (
-                    <MenuItem
-                      key={subject.subjectName}
-                      value={subject.subjectName}
-                    >
-                      {subject.subjectName}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+                  {t("clear-filters")}
+                </Button>
+              )}
+            </Stack>
 
-            {selectedSubject && (
-              <Grid item xs={12} md={6}>
-                <FormControl fullWidth>
-                  <InputLabel id="chapter-select-label">
-                    {t("select-chapter")}
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={selectedSubject ? 6 : 12}>
+                <FormControl fullWidth variant="outlined">
+                  <InputLabel id="subject-select-label">
+                    {t("select-subject")}
                   </InputLabel>
                   <Select
-                    labelId="chapter-select-label"
-                    value={selectedChapter}
-                    label={t("select-chapter")}
-                    onChange={handleChapterChange}
-                    disabled={loadingGetChapters || !selectedSubject}
-                    startAdornment={
-                      loadingGetChapters && (
-                        <CircularProgress size={20} sx={{ mr: 1 }} />
-                      )
-                    }
+                    labelId="subject-select-label"
+                    value={selectedSubject}
+                    label={t("select-subject")}
+                    onChange={handleSubjectChange}
+                    disabled={loadingGetSubjects}
+                    sx={{
+                      borderRadius: 2,
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: alpha(isDark ? "#fff" : "#000", 0.2),
+                      },
+                    }}
                   >
                     <MenuItem value="">
-                      <em>{t("all-chapters")}</em>
+                      <em>{t("all-subjects")}</em>
                     </MenuItem>
-                    {chapters?.map((chapter) => (
-                      <MenuItem key={chapter.number} value={chapter.name}>
-                        {chapter.name}
+                    {subjects?.map((subject) => (
+                      <MenuItem
+                        key={subject.subjectName}
+                        value={subject.subjectName}
+                      >
+                        {subject.subjectName}
                       </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
               </Grid>
+
+              {selectedSubject && (
+                <Grid item xs={12} md={6}>
+                  <FormControl fullWidth variant="outlined">
+                    <InputLabel id="chapter-select-label">
+                      {t("select-chapter")}
+                    </InputLabel>
+                    <Select
+                      labelId="chapter-select-label"
+                      value={selectedChapter}
+                      label={t("select-chapter")}
+                      onChange={handleChapterChange}
+                      disabled={loadingGetChapters || !selectedSubject}
+                      sx={{
+                        borderRadius: 2,
+                        "& .MuiOutlinedInput-notchedOutline": {
+                          borderColor: alpha(isDark ? "#fff" : "#000", 0.2),
+                        },
+                      }}
+                      startAdornment={
+                        loadingGetChapters && (
+                          <CircularProgress size={20} sx={{ mr: 1 }} />
+                        )
+                      }
+                    >
+                      <MenuItem value="">
+                        <em>{t("all-chapters")}</em>
+                      </MenuItem>
+                      {chapters?.map((chapter) => (
+                        <MenuItem key={chapter.number} value={chapter.name}>
+                          {chapter.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              )}
+            </Grid>
+
+            {/* Active Filters Display */}
+            {hasActiveFilters && (
+              <Box sx={{ mt: 2, display: "flex", gap: 1, flexWrap: "wrap" }}>
+                {selectedSubject && (
+                  <Chip
+                    icon={<SchoolIcon />}
+                    label={selectedSubject}
+                    color="primary"
+                    variant="filled"
+                    onDelete={() => {
+                      setSelectedSubject("")
+                      setSelectedChapter("")
+                      dispatch(
+                        getِAnsweredQuestions({ subject: "", chapter: "" })
+                      )
+                    }}
+                  />
+                )}
+                {selectedChapter && (
+                  <Chip
+                    icon={<MenuBookIcon />}
+                    label={selectedChapter}
+                    color="secondary"
+                    variant="filled"
+                    onDelete={() => {
+                      setSelectedChapter("")
+                      dispatch(
+                        getِAnsweredQuestions({
+                          subject: selectedSubject,
+                          chapter: "",
+                        })
+                      )
+                    }}
+                  />
+                )}
+              </Box>
             )}
-          </Grid>
-        </CustomeCard>
-      </Box>
-      {/* Loading State */}
-      {loadingAnsweredQuestions && (
-        <Box display="flex" justifyContent="center" alignItems="center" py={4}>
-          <CircularProgress size={60} />
-          <Typography variant="body1" sx={{ ml: 2 }}>
-            {t("loading-questions")}
-          </Typography>
-        </Box>
-      )}
-      {/* Questions Display */}
-      {!loadingAnsweredQuestions && (
-        <>
-          {answeredQuestions && answeredQuestions.length > 0 ? (
-            <div style={{ maxHeight: "100vh", overflowY: "auto" }}>
-              <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
-                {t("total-questions")}: {answeredQuestions.length}
-              </Typography>
-              <Grid container spacing={3}>
-                {answeredQuestions.map((question, index) => (
-                  <Grid item xs={12} key={index}>
-                    <CustomeCard>
-                      <CardContent>
-                        <Box sx={{ mb: 2 }}>
-                          <Typography variant="h6" component="h3" gutterBottom>
-                            {t("question")} {index + 1}
-                          </Typography>
-                          <Typography
-                            variant="body1"
-                            sx={{ mb: 2, lineHeight: 1.6 }}
+          </Paper>
+        </Zoom>
+
+        {/* Loading State */}
+        {loadingAnsweredQuestions && (
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            py={8}
+          >
+            <CircularProgress size={60} thickness={4} />
+            <Typography variant="body1" sx={{ mt: 3, fontWeight: 500 }}>
+              {t("loading-questions")}
+            </Typography>
+          </Box>
+        )}
+
+        {/* Questions Display */}
+        {!loadingAnsweredQuestions && (
+          <>
+            {answeredQuestions && answeredQuestions.length > 0 ? (
+              <Fade in timeout={1000}>
+                <Box>
+                  {/* Summary Stats */}
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 2,
+                      mb: 3,
+                      borderRadius: 2,
+                      background: isDark
+                        ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                        : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      color: "white",
+                    }}
+                  >
+                    <Stack
+                      direction="row"
+                      alignItems="center"
+                      justifyContent="center"
+                      spacing={1}
+                    >
+                      <CheckCircleIcon />
+                      <Typography variant="h6" fontWeight={600}>
+                        {t("total-questions")}: {answeredQuestions.length}
+                      </Typography>
+                    </Stack>
+                  </Paper>
+
+                  {/* Questions Grid */}
+                  <Grid container spacing={3}>
+                    {answeredQuestions.map((question, index) => (
+                      <Grid item xs={12} key={index}>
+                        <Zoom in timeout={300 + index * 50}>
+                          <Paper
+                            elevation={0}
+                            sx={{
+                              borderRadius: 3,
+                              overflow: "hidden",
+                              background: isDark
+                                ? alpha("#1e1e2e", 0.6)
+                                : alpha("#ffffff", 0.9),
+                              border: `1px solid ${alpha(
+                                isDark ? "#fff" : "#000",
+                                0.1
+                              )}`,
+                              transition: "all 0.3s ease",
+                              "&:hover": {
+                                transform: "translateY(-4px)",
+                                boxShadow: isDark
+                                  ? "0 12px 40px rgba(0, 0, 0, 0.5)"
+                                  : "0 12px 40px rgba(0, 0, 0, 0.15)",
+                              },
+                            }}
                           >
-                            {question.questionText}
-                          </Typography>
-                        </Box>
-
-                        <Divider sx={{ my: 2 }} />
-
-                        <Grid container spacing={2}>
-                          <Grid item xs={12} sm={6}>
-                            <Box sx={{ mb: 2 }}>
-                              <Typography
-                                variant="subtitle2"
-                                color="primary"
-                                gutterBottom
+                            <CardContent sx={{ p: 3 }}>
+                              {/* Question Header */}
+                              <Box
+                                sx={{
+                                  mb: 3,
+                                  pb: 2,
+                                  borderBottom: `2px solid ${alpha(
+                                    isDark ? "#fff" : "#000",
+                                    0.1
+                                  )}`,
+                                }}
                               >
-                                {t("correct-answer")}:
-                              </Typography>
-                              <Chip
-                                label={question.correctAnswer}
-                                color="success"
-                                variant="outlined"
-                                sx={{ fontWeight: 600 }}
-                              />
-                            </Box>
-                          </Grid>
+                                <Stack
+                                  direction="row"
+                                  justifyContent="space-between"
+                                  alignItems="flex-start"
+                                >
+                                  <Box>
+                                    <Chip
+                                      label={`${t("question")} ${index + 1}`}
+                                      size="small"
+                                      sx={{
+                                        mb: 2,
+                                        fontWeight: 700,
+                                        background: isDark
+                                          ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                                          : "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+                                        color: "white",
+                                      }}
+                                    />
+                                    <Typography
+                                      variant="h6"
+                                      sx={{
+                                        fontWeight: 600,
+                                        lineHeight: 1.6,
+                                        mb: 1,
+                                      }}
+                                    >
+                                      {question.questionText}
+                                    </Typography>
+                                  </Box>
+                                  {question.hints &&
+                                    question.hints.length > 0 && (
+                                      <IconButton
+                                        onClick={() =>
+                                          toggleCardExpansion(index)
+                                        }
+                                        sx={{
+                                          transform: expandedCards.has(index)
+                                            ? "rotate(180deg)"
+                                            : "rotate(0deg)",
+                                          transition: "transform 0.3s",
+                                        }}
+                                      >
+                                        <ExpandMoreIcon />
+                                      </IconButton>
+                                    )}
+                                </Stack>
+                              </Box>
 
-                          <Grid item xs={12} sm={6}>
-                            <Box sx={{ mb: 2 }}>
-                              <Typography
-                                variant="subtitle2"
-                                color="primary"
-                                gutterBottom
-                              >
-                                {t("game")}:
-                              </Typography>
-                              <Chip
-                                label={question.game}
-                                color="info"
-                                variant="outlined"
-                              />
-                            </Box>
-                          </Grid>
-
-                          <Grid item xs={12} sm={6}>
-                            <Box sx={{ mb: 2 }}>
-                              <Typography
-                                variant="subtitle2"
-                                color="primary"
-                                gutterBottom
-                              >
-                                {t("subject")}:
-                              </Typography>
-                              <Chip
-                                label={question.subject}
-                                color="primary"
-                                variant="filled"
-                              />
-                            </Box>
-                          </Grid>
-
-                          <Grid item xs={12} sm={6}>
-                            <Box sx={{ mb: 2 }}>
-                              <Typography
-                                variant="subtitle2"
-                                color="primary"
-                                gutterBottom
-                              >
-                                {t("chapter")}:
-                              </Typography>
-                              <Chip
-                                label={question.chapter}
-                                color="secondary"
-                                variant="filled"
-                              />
-                            </Box>
-                          </Grid>
-                        </Grid>
-
-                        {question.hints && question.hints.length > 0 && (
-                          <Box sx={{ mt: 2 }}>
-                            <Typography
-                              variant="subtitle2"
-                              color="primary"
-                              gutterBottom
-                            >
-                              {t("hints")}:
-                            </Typography>
-                            <List dense>
-                              {question.hints.map((hint, hintIndex) => (
-                                <ListItem key={hintIndex} disableGutters>
-                                  <ListItemText
-                                    primary={`${hintIndex + 1}. ${hint}`}
+                              {/* Info Grid */}
+                              <Grid container spacing={2} sx={{ mb: 2 }}>
+                                <Grid item xs={12} sm={6}>
+                                  <Paper
+                                    elevation={0}
                                     sx={{
-                                      "& .MuiListItemText-primary": {
-                                        fontSize: "0.875rem",
-                                        color: "text.secondary",
-                                      },
+                                      p: 2,
+                                      borderRadius: 2,
+                                      background: alpha("#4caf50", 0.1),
+                                      border: `1px solid ${alpha(
+                                        "#4caf50",
+                                        0.3
+                                      )}`,
                                     }}
-                                  />
-                                </ListItem>
-                              ))}
-                            </List>
-                          </Box>
-                        )}
-                      </CardContent>
-                    </CustomeCard>
+                                  >
+                                    <Stack
+                                      direction="row"
+                                      spacing={1}
+                                      alignItems="center"
+                                    >
+                                      <CheckCircleIcon
+                                        sx={{ color: "#4caf50", fontSize: 20 }}
+                                      />
+                                      <Box>
+                                        <Typography
+                                          variant="caption"
+                                          color="text.secondary"
+                                          fontWeight={600}
+                                        >
+                                          {t("correct-answer")}
+                                        </Typography>
+                                        <Typography
+                                          variant="body2"
+                                          fontWeight={700}
+                                        >
+                                          {question.correctAnswer}
+                                        </Typography>
+                                      </Box>
+                                    </Stack>
+                                  </Paper>
+                                </Grid>
+
+                                <Grid item xs={12} sm={6}>
+                                  <Paper
+                                    elevation={0}
+                                    sx={{
+                                      p: 2,
+                                      borderRadius: 2,
+                                      background: alpha("#2196f3", 0.1),
+                                      border: `1px solid ${alpha(
+                                        "#2196f3",
+                                        0.3
+                                      )}`,
+                                    }}
+                                  >
+                                    <Stack
+                                      direction="row"
+                                      spacing={1}
+                                      alignItems="center"
+                                    >
+                                      <GameIcon
+                                        sx={{ color: "#2196f3", fontSize: 20 }}
+                                      />
+                                      <Box>
+                                        <Typography
+                                          variant="caption"
+                                          color="text.secondary"
+                                          fontWeight={600}
+                                        >
+                                          {t("game")}
+                                        </Typography>
+                                        <Typography
+                                          variant="body2"
+                                          fontWeight={700}
+                                        >
+                                          {question.game}
+                                        </Typography>
+                                      </Box>
+                                    </Stack>
+                                  </Paper>
+                                </Grid>
+
+                                <Grid item xs={12} sm={6}>
+                                  <Paper
+                                    elevation={0}
+                                    sx={{
+                                      p: 2,
+                                      borderRadius: 2,
+                                      background: alpha("#9c27b0", 0.1),
+                                      border: `1px solid ${alpha(
+                                        "#9c27b0",
+                                        0.3
+                                      )}`,
+                                    }}
+                                  >
+                                    <Stack
+                                      direction="row"
+                                      spacing={1}
+                                      alignItems="center"
+                                    >
+                                      <SchoolIcon
+                                        sx={{ color: "#9c27b0", fontSize: 20 }}
+                                      />
+                                      <Box>
+                                        <Typography
+                                          variant="caption"
+                                          color="text.secondary"
+                                          fontWeight={600}
+                                        >
+                                          {t("subject")}
+                                        </Typography>
+                                        <Typography
+                                          variant="body2"
+                                          fontWeight={700}
+                                        >
+                                          {question.subject}
+                                        </Typography>
+                                      </Box>
+                                    </Stack>
+                                  </Paper>
+                                </Grid>
+
+                                <Grid item xs={12} sm={6}>
+                                  <Paper
+                                    elevation={0}
+                                    sx={{
+                                      p: 2,
+                                      borderRadius: 2,
+                                      background: alpha("#ff9800", 0.1),
+                                      border: `1px solid ${alpha(
+                                        "#ff9800",
+                                        0.3
+                                      )}`,
+                                    }}
+                                  >
+                                    <Stack
+                                      direction="row"
+                                      spacing={1}
+                                      alignItems="center"
+                                    >
+                                      <MenuBookIcon
+                                        sx={{ color: "#ff9800", fontSize: 20 }}
+                                      />
+                                      <Box>
+                                        <Typography
+                                          variant="caption"
+                                          color="text.secondary"
+                                          fontWeight={600}
+                                        >
+                                          {t("chapter")}
+                                        </Typography>
+                                        <Typography
+                                          variant="body2"
+                                          fontWeight={700}
+                                        >
+                                          {question.chapter}
+                                        </Typography>
+                                      </Box>
+                                    </Stack>
+                                  </Paper>
+                                </Grid>
+                              </Grid>
+
+                              {/* Hints Section */}
+                              {question.hints && question.hints.length > 0 && (
+                                <Collapse in={expandedCards.has(index)}>
+                                  <Paper
+                                    elevation={0}
+                                    sx={{
+                                      mt: 2,
+                                      p: 2,
+                                      borderRadius: 2,
+                                      background: alpha("#ffc107", 0.1),
+                                      border: `1px solid ${alpha(
+                                        "#ffc107",
+                                        0.3
+                                      )}`,
+                                    }}
+                                  >
+                                    <Stack
+                                      direction="row"
+                                      spacing={1}
+                                      alignItems="center"
+                                      mb={1}
+                                    >
+                                      <HintsIcon sx={{ color: "#ffc107" }} />
+                                      <Typography
+                                        variant="subtitle2"
+                                        fontWeight={700}
+                                        color="#ffc107"
+                                      >
+                                        {t("hints")}
+                                      </Typography>
+                                    </Stack>
+                                    <List dense>
+                                      {question.hints.map((hint, hintIndex) => (
+                                        <ListItem
+                                          key={hintIndex}
+                                          disableGutters
+                                          sx={{
+                                            pl: 2,
+                                            "&::before": {
+                                              content: '"•"',
+                                              position: "absolute",
+                                              left: 0,
+                                              color: "#ffc107",
+                                              fontWeight: "bold",
+                                            },
+                                          }}
+                                        >
+                                          <ListItemText
+                                            primary={hint}
+                                            sx={{
+                                              "& .MuiListItemText-primary": {
+                                                fontSize: "0.875rem",
+                                                lineHeight: 1.6,
+                                              },
+                                            }}
+                                          />
+                                        </ListItem>
+                                      ))}
+                                    </List>
+                                  </Paper>
+                                </Collapse>
+                              )}
+                            </CardContent>
+                          </Paper>
+                        </Zoom>
+                      </Grid>
+                    ))}
                   </Grid>
-                ))}
-              </Grid>
-            </div>
-          ) : (
-            <CustomeCard elevation={1} sx={{ p: 4, textAlign: "center" }}>
-              <Typography variant="h6" color="text.secondary">
-                {t("no-questions-found")}
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                {t("try-adjusting-filters")}
-              </Typography>
-            </CustomeCard>
-          )}
-        </>
-      )}
-    </Container>
+                </Box>
+              </Fade>
+            ) : (
+              <Zoom in timeout={800}>
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 6,
+                    textAlign: "center",
+                    borderRadius: 3,
+                    background: isDark
+                      ? alpha("#1e1e2e", 0.6)
+                      : alpha("#ffffff", 0.9),
+                    border: `1px solid ${alpha(isDark ? "#fff" : "#000", 0.1)}`,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 80,
+                      height: 80,
+                      margin: "0 auto 24px",
+                      borderRadius: "50%",
+                      background: isDark
+                        ? alpha("#667eea", 0.2)
+                        : alpha("#667eea", 0.1),
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <SchoolIcon sx={{ fontSize: 40, color: "#667eea" }} />
+                  </Box>
+                  <Typography variant="h5" fontWeight={600} gutterBottom>
+                    {t("no-questions-found")}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    color="text.secondary"
+                    sx={{ mt: 1 }}
+                  >
+                    {t("try-adjusting-filters")}
+                  </Typography>
+                </Paper>
+              </Zoom>
+            )}
+          </>
+        )}
+      </Container>
+    </Box>
   )
 }
 

@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
-import { MenuItem } from "../utils/types/general";
+import { useTranslation } from "react-i18next"
+import type { MenuItem } from "../utils/types/general"
 
 function UseAdminDashboard() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const menuItems: MenuItem[] = [
     {
@@ -32,9 +32,9 @@ function UseAdminDashboard() {
       icon: "EntertainmentIcon",
       path: "entertainment-questions",
     },
-  ];
+  ]
 
-  return { menuItems };
+  return { menuItems }
 }
 
-export default UseAdminDashboard;
+export default UseAdminDashboard

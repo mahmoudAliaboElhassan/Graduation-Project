@@ -1,127 +1,127 @@
-import { useCallback, useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useTranslation } from "react-i18next";
-import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect } from "react"
+import { Outlet, useLocation } from "react-router-dom"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { useTranslation } from "react-i18next"
+import { AnimatePresence, motion } from "framer-motion"
 
-import Header from "../../components/header";
-import Footer from "../../components/footer";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import UseDirection from "../../hooks/use-direction";
-import UseMediaQuery from "../../hooks/use-media-query";
-import Scroll from "../../components/scroll";
-import { MainContent, PageWrapper } from "../../styles/footer";
-import { logOut } from "../../state/slices/auth";
-import { useMediaQuery } from "@mui/material";
+import Header from "../../components/header"
+import Footer from "../../components/footer"
+import { useAppDispatch, useAppSelector } from "../../hooks/redux"
+import UseDirection from "../../hooks/use-direction"
+import UseMediaQuery from "../../hooks/use-media-query"
+import Scroll from "../../components/scroll"
+import { MainContent, PageWrapper } from "../../styles/footer"
+import { logOut } from "../../state/slices/auth"
+import { useMediaQuery } from "@mui/material"
 
 function RootLayout() {
-  const { mymode } = useAppSelector((state) => state.mode);
-  const { direction } = UseDirection();
+  const { mymode } = useAppSelector((state) => state.mode)
+  const { direction } = UseDirection()
 
-  const { expirationToken, token } = useAppSelector((state) => state.auth);
+  const { expirationToken, token } = useAppSelector((state) => state.auth)
 
-  const dispatch = useAppDispatch();
-  const { t } = useTranslation();
-  const { role } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch()
+  const { t } = useTranslation()
+  const { role } = useAppSelector((state) => state.auth)
   const handleTokenExpiration = useCallback(() => {
-    dispatch(logOut());
+    dispatch(logOut())
     toast.error(
       t("session-expired", "Your session has expired. Please log in again.")
-    );
-  }, [dispatch, t]);
+    )
+  }, [dispatch, t])
 
   const checkTokenExpiration = useCallback(() => {
     if (!token || !expirationToken) {
-      return;
+      return
     }
 
-    const now = new Date();
-    const expiration = new Date(expirationToken);
+    const now = new Date()
+    const expiration = new Date(expirationToken)
 
     // Check if token has expired
     if (now >= expiration) {
-      console.log(t("token-expired-log", "Token expired - triggering logout"));
-      handleTokenExpiration();
-      return;
+      console.log(t("token-expired-log", "Token expired - triggering logout"))
+      handleTokenExpiration()
+      return
     }
 
     // Calculate time until expiration
-    const timeUntilExpiration = expiration.getTime() - now.getTime();
+    const timeUntilExpiration = expiration.getTime() - now.getTime()
     console.log(
       t("time-until-expiration-log", "Time until expiration (minutes):"),
       timeUntilExpiration / (60 * 1000)
-    );
+    )
 
     // If token expires in less than 5 minutes, show warning
-    const fiveMinutes = 5 * 60 * 1000;
+    const fiveMinutes = 5 * 60 * 1000
     if (timeUntilExpiration <= fiveMinutes && timeUntilExpiration > 0) {
       console.log(
         t("showing-expiration-warning-log", "Showing expiration warning")
-      );
+      )
       toast.warning(
         t(
           "session-expiring-soon",
           "Your session will expire soon. Please save your work."
         )
-      );
+      )
     }
-  }, [token, expirationToken, handleTokenExpiration, t]);
-  const isVerySmallScreen = useMediaQuery("(max-width:400px)");
+  }, [token, expirationToken, handleTokenExpiration, t])
+  const isVerySmallScreen = useMediaQuery("(max-width:400px)")
 
   useEffect(() => {
     // Only check if user is logged in
-    if (!token) return;
+    if (!token) return
 
     // Initial check
-    checkTokenExpiration();
+    checkTokenExpiration()
 
     // Set up interval to check every minute
-    const interval = setInterval(checkTokenExpiration, 60000);
+    const interval = setInterval(checkTokenExpiration, 60000)
 
     // Cleanup interval on unmount
-    return () => clearInterval(interval);
-  }, [token, checkTokenExpiration]);
+    return () => clearInterval(interval)
+  }, [token, checkTokenExpiration])
 
   // Also check on window focus (when user returns to tab)
   useEffect(() => {
-    if (!token) return;
+    if (!token) return
 
     const handleWindowFocus = () => {
-      checkTokenExpiration();
-    };
+      checkTokenExpiration()
+    }
 
-    window.addEventListener("focus", handleWindowFocus);
+    window.addEventListener("focus", handleWindowFocus)
 
     return () => {
-      window.removeEventListener("focus", handleWindowFocus);
-    };
-  }, [token, checkTokenExpiration]);
+      window.removeEventListener("focus", handleWindowFocus)
+    }
+  }, [token, checkTokenExpiration])
 
-  const location = useLocation();
+  const location = useLocation()
   console.log(
     t("current-location-log", "Current location pathname:"),
     location.pathname
-  );
+  )
   useEffect(() => {
-    document.title = t("website-title");
-    const htmlElement = document.documentElement;
+    document.title = t("website-title")
+    const htmlElement = document.documentElement
     if (mymode && mymode === "light") {
-      htmlElement.classList.remove("dark-mode");
-      htmlElement.classList.add("light-mode");
+      htmlElement.classList.remove("dark-mode")
+      htmlElement.classList.add("light-mode")
     } else {
-      htmlElement.classList.remove("light-mode");
-      htmlElement.classList.add("dark-mode");
+      htmlElement.classList.remove("light-mode")
+      htmlElement.classList.add("dark-mode")
     }
-  }, [t]);
+  }, [t])
 
   const thema = createTheme({
     direction: direction.direction,
     palette: {
       mode: mymode,
     },
-  });
+  })
 
   return (
     <ThemeProvider theme={thema}>
@@ -183,7 +183,7 @@ function RootLayout() {
 
       <Footer />
     </ThemeProvider>
-  );
+  )
 }
 
-export default RootLayout;
+export default RootLayout

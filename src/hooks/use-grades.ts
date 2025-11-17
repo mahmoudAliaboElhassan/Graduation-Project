@@ -1,8 +1,8 @@
-import { useTranslation } from "react-i18next";
-import { GradesType } from "../utils/types/general";
+import { useTranslation } from "react-i18next"
+import type { GradesType } from "../utils/types/general"
 
 function UseGrades() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const grades: GradesType[] = [
     {
@@ -47,9 +47,9 @@ function UseGrades() {
       value: 12,
       group: "secondary",
     },
-  ];
+  ]
 
-  return { grades };
+  return { grades }
 }
 
-export default UseGrades;
+export default UseGrades

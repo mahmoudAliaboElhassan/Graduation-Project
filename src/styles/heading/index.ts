@@ -1,16 +1,16 @@
-import { styled } from "@mui/material/styles";
-import "@fontsource/montez";
-import { Typography, TypographyProps } from "@mui/material";
-import { useAppSelector } from "../../hooks/redux";
+import { styled } from "@mui/material/styles"
+import "@fontsource/montez"
+import { Typography, type TypographyProps } from "@mui/material"
+import { useAppSelector } from "../../hooks/redux"
 
 interface HeadingElementProps extends TypographyProps {
-  isMainHeading?: boolean;
+  isMainHeading?: boolean
 }
 
 export const HeadingElement = styled(Typography)<HeadingElementProps>(
   ({ theme, isMainHeading = true }) => {
     // Get mode from Redux store inside the component
-    const { mymode } = useAppSelector((state) => state.mode);
+    const { mymode } = useAppSelector((state) => state.mode)
 
     return {
       padding: theme.spacing(0.25),
@@ -72,6 +72,6 @@ export const HeadingElement = styled(Typography)<HeadingElementProps>(
         outlineOffset: "4px",
         borderRadius: theme.spacing(0.5),
       },
-    };
+    }
   }
-);
+)

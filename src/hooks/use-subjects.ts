@@ -1,9 +1,8 @@
-import React from "react";
-import { useTranslation } from "react-i18next"; // To use i18next translation
-import { SubjectType } from "../utils/types/general";
+import { useTranslation } from "react-i18next" // To use i18next translation
+import type { SubjectType } from "../utils/types/general"
 
 function UseSubjects() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const subjects: SubjectType[] = [
     { text: t("subject.arabic"), value: "Arabic" },
@@ -23,9 +22,9 @@ function UseSubjects() {
     { text: t("subject.history"), value: "History" },
     { text: t("subject.statistics"), value: "Statistics" },
     { text: t("subject.logic"), value: "Philosophy and Logic" },
-  ];
+  ]
 
-  return { subjects };
+  return { subjects }
 }
 
-export default UseSubjects;
+export default UseSubjects

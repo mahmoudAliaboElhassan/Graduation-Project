@@ -1,13 +1,12 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { Header } from "../utils/types/general";
-import { useAppDispatch, useAppSelector } from "./redux";
-import { logOut } from "../state/slices/auth";
+import { useTranslation } from "react-i18next"
+import type { Header } from "../utils/types/general"
+import { useAppDispatch, useAppSelector } from "./redux"
+import { logOut } from "../state/slices/auth"
 
 function UseHeaderElements() {
-  const { t } = useTranslation();
-  const { token, role } = useAppSelector((state) => state.auth);
-  const dispatch = useAppDispatch();
+  const { t } = useTranslation()
+  const { token, role } = useAppSelector((state) => state.auth)
+  const dispatch = useAppDispatch()
   const notUserAuth: Header[] = [
     {
       href: "/signup",
@@ -17,7 +16,7 @@ function UseHeaderElements() {
       href: "/login",
       label: t("login"),
     },
-  ];
+  ]
   const userAuth: Header[] = [
     {
       href: "/change-password",
@@ -27,7 +26,7 @@ function UseHeaderElements() {
       label: t("logout"),
       click: () => dispatch(logOut()),
     },
-  ];
+  ]
 
   const header: Header[] = [
     {
@@ -50,12 +49,12 @@ function UseHeaderElements() {
       label: t("answered-questions"),
       href: "/answered-questions",
     },
-  ];
+  ]
 
   const headerElements =
-    token && role === "Student" ? header : header.slice(0, -2);
+    token && role === "Student" ? header : header.slice(0, -2)
 
-  return { userAuth, notUserAuth, headerElements };
+  return { userAuth, notUserAuth, headerElements }
 }
 
-export default UseHeaderElements;
+export default UseHeaderElements
