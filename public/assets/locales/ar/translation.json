@@ -592,5 +592,6 @@
   "loading-entertainment": "جارٍ تحميل الأسئلة الترفيهية...",
   "create-or-play": "إنشاء أسئله أو لعب",
   "clear-filters": "حذف المرشحات",
-  "review-your-progress": "تابع تقدمك"
+  "review-your-progress": "تابع تقدمك",
+  "create_six_questions": "قم بإنشاء 6 أسئلة بالضبط مع إجاباتها وملخصاتها ومستويات الصعوبة."
 }

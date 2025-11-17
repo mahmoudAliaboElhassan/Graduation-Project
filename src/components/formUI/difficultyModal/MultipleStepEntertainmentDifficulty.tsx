@@ -438,8 +438,7 @@ function MultipleStepEntertainmentDifficulty({
                             : "rgba(255, 255, 255, 0.6)",
                       }}
                     >
-                      Create exactly 6 questions with their answers, summaries,
-                      and difficulty levels.
+                      {t("create_six_questions")}
                     </Typography>
 
                     <Box>
@@ -469,7 +468,7 @@ function MultipleStepEntertainmentDifficulty({
                               mb: 2,
                             }}
                           >
-                            Question {index + 1} of 6
+                            {`${t("question")} ${index + 1} ${t("of")} 6`}
                           </Typography>
 
                           <Box

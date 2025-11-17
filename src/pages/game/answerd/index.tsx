@@ -149,7 +149,7 @@ function AnsweredQuestions() {
             <Typography
               variant="subtitle1"
               sx={{
-                color: "text.secondary",
+                color: isDark ? "text.secondary" : "white",
                 textAlign: "center",
               }}
             >

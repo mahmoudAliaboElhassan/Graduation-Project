@@ -613,5 +613,6 @@
   "loading-entertainment": "Loading entertainment questions...",
   "create-or-play": "Create questions or Play ",
   "clear-filters": "Clear Filters",
-  "review-your-progress": "Review your Progress"
+  "review-your-progress": "Review your Progress",
+  "create_six_questions": "Create exactly 6 questions with their answers, summaries, and difficulty levels."
 }
