@@ -1,55 +1,53 @@
-import { useEffect, useState } from "react";
-import Grid from "@mui/material/Grid2";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react"
+import Grid from "@mui/material/Grid2"
+import { motion } from "framer-motion"
 import {
   Container,
-  TextField,
   Typography,
   Button,
   Box,
   Card,
   CardContent,
-} from "@mui/material";
-import { useTranslation } from "react-i18next";
-import { useParams, useNavigate } from "react-router-dom";
-import { ExitToApp } from "@mui/icons-material";
-import { alpha, useTheme } from "@mui/material/styles";
+} from "@mui/material"
+import { useTranslation } from "react-i18next"
+import { useParams, useNavigate } from "react-router-dom"
+import { ExitToApp } from "@mui/icons-material"
+import { alpha, useTheme } from "@mui/material/styles"
 
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
 import {
   getHintsQuestions,
   getHintsEntertainment,
   clearHintsData,
-} from "../../../state/slices/game";
-import { Hint, Timer } from "../../../styles/games/five-hints";
-import QuestionAnswer from "../../../components/formUI/formAnswer";
-import withGuard from "../../../utils/withGuard";
+} from "../../../state/slices/game"
+import { Hint, Timer } from "../../../styles/games/five-hints"
+import QuestionAnswer from "../../../components/formUI/formAnswer"
+import withGuard from "../../../utils/withGuard"
 
 function FiveHints() {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const {
     questionData,
     loadingGetQuestions,
     loadingAnswerQuestion,
     question,
-    summary,
     errorGetQuestions,
-  } = useAppSelector((state) => state.game);
-  const [second, setSecond] = useState<number>(0);
-  const HINTTIME = 10;
-  const MAX_TIME = 40; // Maximum time limit
-  const [noOfHints, setNoOfHints] = useState<number>(0);
-  const { t } = useTranslation();
-  const { grade } = useAppSelector((state) => state.auth);
+  } = useAppSelector((state) => state.game)
+  const [second, setSecond] = useState<number>(0)
+  const HINTTIME = 10
+  const MAX_TIME = 40 // Maximum time limit
+  const [noOfHints, setNoOfHints] = useState<number>(0)
+  const { t } = useTranslation()
+  const { grade } = useAppSelector((state) => state.auth)
   const [showNewQuestionButton, setShowNewQuestionButton] =
-    useState<boolean>(false);
-  const { categoryGame } = useParams();
+    useState<boolean>(false)
+  const { categoryGame } = useParams()
 
   const getNewQuestion = () => {
-    setShowNewQuestionButton(false);
-    setSecond(0);
-    setNoOfHints(0);
+    setShowNewQuestionButton(false)
+    setSecond(0)
+    setNoOfHints(0)
 
     categoryGame == "education"
       ? dispatch(
@@ -65,27 +63,27 @@ function FiveHints() {
             entertainmentSection:
               Number(localStorage.getItem("entertainmentGameId")) || 0,
           })
-        );
-  };
-  const theme = useTheme();
+        )
+  }
+  const theme = useTheme()
 
   const handleExitGame = () => {
     // Clear game data before navigating
-    dispatch(clearHintsData());
+    dispatch(clearHintsData())
     // Navigate to games page
-    navigate("/games");
-  };
+    navigate("/games")
+  }
 
   const onAnswerSubmitted = () => {
-    setShowNewQuestionButton(true);
-  };
+    setShowNewQuestionButton(true)
+  }
 
   const resetSeconds = () => {
     setTimeout(() => {
-      setNoOfHints(0);
-      setSecond(0);
-    }, 1500);
-  };
+      setNoOfHints(0)
+      setSecond(0)
+    }, 1500)
+  }
 
   useEffect(() => {
     // Initial load
@@ -103,14 +101,14 @@ function FiveHints() {
             entertainmentSection:
               Number(localStorage.getItem("entertainmentGameId")) || 0,
           })
-        );
-  }, [dispatch]);
+        )
+  }, [dispatch])
 
   const hasQuestionData =
     questionData &&
     questionData.hints &&
     Array.isArray(questionData.hints) &&
-    questionData.hints.length > 0;
+    questionData.hints.length > 0
 
   useEffect(() => {
     if (!loadingGetQuestions && !loadingAnswerQuestion && hasQuestionData) {
@@ -118,31 +116,31 @@ function FiveHints() {
         setSecond((prevSecond) => {
           // Stop timer at MAX_TIME (40 seconds)
           if (prevSecond + 1 >= MAX_TIME) {
-            console.log("prev", prevSecond);
-            console.log("cleared");
-            clearInterval(interval);
-            setNoOfHints(5); // Set hints to 4 when timer stops
-            return MAX_TIME;
+            console.log("prev", prevSecond)
+            console.log("cleared")
+            clearInterval(interval)
+            setNoOfHints(5) // Set hints to 4 when timer stops
+            return MAX_TIME
           }
 
           // Calculate hints based on current time, but cap at 4
-          const calculatedHints = Math.ceil((prevSecond + 1) / HINTTIME);
-          setNoOfHints(calculatedHints);
-          console.log("no.hints", calculatedHints);
+          const calculatedHints = Math.ceil((prevSecond + 1) / HINTTIME)
+          setNoOfHints(calculatedHints)
+          console.log("no.hints", calculatedHints)
 
-          return prevSecond + 1;
-        });
-      }, 1000);
+          return prevSecond + 1
+        })
+      }, 1000)
 
-      return () => clearInterval(interval);
+      return () => clearInterval(interval)
     }
-  }, [second, loadingGetQuestions, loadingAnswerQuestion, hasQuestionData]);
+  }, [second, loadingGetQuestions, loadingAnswerQuestion, hasQuestionData])
 
   useEffect(() => {
     return () => {
-      dispatch(clearHintsData());
-    };
-  }, [dispatch]);
+      dispatch(clearHintsData())
+    }
+  }, [dispatch])
 
   return (
     <motion.div
@@ -264,7 +262,7 @@ function FiveHints() {
           ) : (
             // Show hints when question data exists
             questionData.hints.map((hint, index) => {
-              const isFlipping = second / HINTTIME >= index;
+              const isFlipping = second / HINTTIME >= index
               return (
                 <Hint size={{ xs: index === 4 ? 12 : 6 }} key={index}>
                   <motion.div
@@ -299,7 +297,7 @@ function FiveHints() {
                     </span>
                   </motion.div>
                 </Hint>
-              );
+              )
             })
           )}
         </Grid>
@@ -331,7 +329,7 @@ function FiveHints() {
         />
       </Container>
     </motion.div>
-  );
+  )
 }
 
-export default withGuard(FiveHints);
+export default withGuard(FiveHints)

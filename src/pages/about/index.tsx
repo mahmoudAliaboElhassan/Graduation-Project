@@ -1,5 +1,5 @@
-import type React from "react";
-import { Link } from "react-router-dom";
+import type React from "react"
+import { Link } from "react-router-dom"
 import {
   Container,
   Typography,
@@ -12,7 +12,7 @@ import {
   Stack,
   Avatar,
   Box,
-} from "@mui/material";
+} from "@mui/material"
 import {
   MenuBook,
   People,
@@ -20,40 +20,38 @@ import {
   AddCircle,
   EmojiEvents,
   AutoAwesome,
-} from "@mui/icons-material";
-import { useTranslation } from "react-i18next";
-import { useAppSelector } from "../../hooks/redux";
-import UseMediaQuery from "../../hooks/use-media-query";
-import UseDirection from "../../hooks/use-direction";
+} from "@mui/icons-material"
+import { useTranslation } from "react-i18next"
+import { useAppSelector } from "../../hooks/redux"
+import UseDirection from "../../hooks/use-direction"
 
 interface Colors {
-  primary: string;
-  secondary: string;
-  accent: string;
-  cardBg: string;
-  cardHover: string;
-  textPrimary: string;
-  textSecondary: string;
-  chipBg: string;
-  paperBg: string;
+  primary: string
+  secondary: string
+  accent: string
+  cardBg: string
+  cardHover: string
+  textPrimary: string
+  textSecondary: string
+  chipBg: string
+  paperBg: string
 }
 
 interface MissionItem {
-  icon: string;
-  title: string;
-  description: string;
-  color: string;
+  icon: string
+  title: string
+  description: string
+  color: string
 }
 const scrollToMission = () => {
-  const missionSection = document.getElementById("mission-section");
-  missionSection?.scrollIntoView({ behavior: "smooth" });
-};
+  const missionSection = document.getElementById("mission-section")
+  missionSection?.scrollIntoView({ behavior: "smooth" })
+}
 const About: React.FC = () => {
-  const { t, i18n } = useTranslation();
-  const { mymode } = useAppSelector((state: any) => state.mode);
-  const isRTL: boolean = i18n.language === "ar";
-  const isSmallScreen = UseMediaQuery({ query: "(max-width: 898px)" });
-  const { token } = useAppSelector((state) => state.auth);
+  const { t, i18n } = useTranslation()
+  const { mymode } = useAppSelector((state: any) => state.mode)
+  const isRTL: boolean = i18n.language === "ar"
+  const { token } = useAppSelector((state) => state.auth)
   // Theme-aware colors
   const colors: Colors = {
     primary: mymode === "light" ? "#ec4899" : "#f472b6",
@@ -71,17 +69,17 @@ const About: React.FC = () => {
       mymode === "light"
         ? "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)"
         : "linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 100%)",
-  };
+  }
 
   const studentFeatures: string[] = t("studentFeatures", {
     returnObjects: true,
-  }) as string[];
+  }) as string[]
   const teacherFeatures: string[] = t("teacherFeatures", {
     returnObjects: true,
-  }) as string[];
+  }) as string[]
   const everyoneFeatures: string[] = t("everyoneFeatures", {
     returnObjects: true,
-  }) as string[];
+  }) as string[]
 
   const missionItems: MissionItem[] = [
     {
@@ -102,8 +100,8 @@ const About: React.FC = () => {
       description: t("communityDesc"),
       color: mymode === "light" ? "#fca5a5" : "#f87171",
     },
-  ];
-  const { direction } = UseDirection();
+  ]
+  const { direction } = UseDirection()
   return (
     <Container>
       <Grid
@@ -134,13 +132,13 @@ const About: React.FC = () => {
                 backgroundColor: colors.chipBg,
                 color: "white",
                 border: `1px solid ${colors.chipBg}`,
-      transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
+                transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
                 "&:hover": {
                   backgroundColor:
                     mymode === "light"
                       ? "rgba(255,255,255,0.3)"
                       : "rgba(255,255,255,0.2)",
-                      transform:"scale(1.1)"
+                  transform: "scale(1.1)",
                 },
               }}
             />
@@ -729,7 +727,7 @@ const About: React.FC = () => {
         </Grid>
       </Grid>
     </Container>
-  );
-};
+  )
+}
 
-export default About;
+export default About

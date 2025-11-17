@@ -1,13 +1,13 @@
-import { Container } from "@mui/material";
-import Grid from "@mui/material/Grid";
+import { Container } from "@mui/material"
+import Grid from "@mui/material/Grid"
 
-import SocialMedia from "../../components/socialMedia";
-import ContactForm from "../../components/contactForm";
-import UseMediaQuery from "../../hooks/use-media-query";
+import SocialMedia from "../../components/socialMedia"
+import ContactForm from "../../components/contactForm"
+import UseMediaQuery from "../../hooks/use-media-query"
 
 function Contacts() {
-  const isSmallScreen = UseMediaQuery({ query: "(max-width: 898px)" });
-  const isBigScreen = UseMediaQuery({ query: "(min-width: 500px)" });
+  const isSmallScreen = UseMediaQuery({ query: "(max-width: 898px)" })
+  const isBigScreen = UseMediaQuery({ query: "(min-width: 500px)" })
 
   return (
     <Container>
@@ -30,7 +30,7 @@ function Contacts() {
         </Grid>
       </Grid>
     </Container>
-  );
+  )
 }
 
-export default Contacts;
+export default Contacts

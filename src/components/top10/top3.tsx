@@ -6,7 +6,7 @@ import {
   Zoom,
   useTheme,
 } from "@mui/material"
-import { PlayerScore } from "../../utils/dataResponse"
+import type { PlayerScore } from "../../utils/dataResponse"
 import { PointsDisplay, RankBadge, TopPlayerCard } from "../../styles/top10"
 import { formatPoints, getRankIcon } from "../../utils/helperMethods"
 import { useTranslation } from "react-i18next"

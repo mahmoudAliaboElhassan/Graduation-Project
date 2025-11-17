@@ -1,15 +1,15 @@
-import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import MultiStepOffsideModal from "../../../../components/formUI/offsideModal";
-import withGuard from "../../../../utils/withGuard";
-import { useParams } from "react-router-dom";
-import MultipleStepOfsideEntertainment from "../../../../components/formUI/offsideModal/multipleStepEntertainmentOffside";
+import { Box, Button, Typography } from "@mui/material"
+import { useState } from "react"
+import { useTranslation } from "react-i18next"
+import MultiStepOffsideModal from "../../../../components/formUI/offsideModal"
+import withGuard from "../../../../utils/withGuard"
+import { useParams } from "react-router-dom"
+import MultipleStepOfsideEntertainment from "../../../../components/formUI/offsideModal/multipleStepEntertainmentOffside"
 
 function MakeOffsideQuestion() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { t } = useTranslation("translation");
-  const { category } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { t } = useTranslation("translation")
+  const { category } = useParams()
 
   return (
     <Box
@@ -51,7 +51,7 @@ function MakeOffsideQuestion() {
         />
       )}
     </Box>
-  );
+  )
 }
 
-export default withGuard(MakeOffsideQuestion);
+export default withGuard(MakeOffsideQuestion)

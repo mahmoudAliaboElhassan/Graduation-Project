@@ -1,9 +1,7 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { Formik, Form, ErrorMessage } from "formik";
-import Grid from "@mui/material/Grid2";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react"
+import { Formik, Form } from "formik"
+import Grid from "@mui/material/Grid2"
+import { motion } from "framer-motion"
 import {
   Container,
   Button,
@@ -11,74 +9,74 @@ import {
   CircularProgress,
   Typography,
   Paper,
-} from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+} from "@mui/material"
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
 import {
   getOffsideEntertainment,
   getOffSideQuestions,
   clearOffsieData, // Add this import
-} from "../../../state/slices/game";
-import { Hint, Timer } from "../../../styles/games/five-hints";
-import RadioInput from "../../../components/formUI/offsideInput";
-import UseFormValidation from "../../../hooks/use-form-validation";
-import UseInitialValues from "../../../hooks/use-initial-values";
-import withGuard from "../../../utils/withGuard";
-import { useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { addPoints } from "../../../state/act/actAuth";
-import { toast } from "react-toastify";
-import Swal from "sweetalert2";
-import ButtonWrapper from "../../../components/formUI/submit";
+} from "../../../state/slices/game"
+import { Hint } from "../../../styles/games/five-hints"
+import RadioInput from "../../../components/formUI/offsideInput"
+import UseFormValidation from "../../../hooks/use-form-validation"
+import UseInitialValues from "../../../hooks/use-initial-values"
+import withGuard from "../../../utils/withGuard"
+import { useParams } from "react-router-dom"
+import { useTranslation } from "react-i18next"
+import { addPoints } from "../../../state/act/actAuth"
+import { toast } from "react-toastify"
+import Swal from "sweetalert2"
+import ButtonWrapper from "../../../components/formUI/submit"
 
 function Offside() {
-  const dispatch = useAppDispatch();
-  const { t } = useTranslation();
-  const { grade } = useAppSelector((state) => state.auth);
-  const { mymode } = useAppSelector((state) => state.mode);
+  const dispatch = useAppDispatch()
+  const { t } = useTranslation()
+  const { grade } = useAppSelector((state) => state.auth)
+  const { mymode } = useAppSelector((state) => state.mode)
   const {
     offsideInformation,
     loadingGetQuestions,
     question,
     summary,
     errorGetQuestions,
-  } = useAppSelector((state) => state.game);
+  } = useAppSelector((state) => state.game)
 
   const [disabledFields, setDisabledFields] = useState<Record<string, boolean>>(
     {}
-  );
-  const [answerStatus, setAnswerStatus] = useState<Record<string, boolean>>({});
-  const [totalPoints, setTotalPoints] = useState(50);
-  const [answeredQuestions, setAnsweredQuestions] = useState(0);
-  const [refreshQuestions, setRefreshQuestions] = useState(false);
-  const [gameCompleted, setGameCompleted] = useState(false); // New state for tracking game completion
+  )
+  const [answerStatus, setAnswerStatus] = useState<Record<string, boolean>>({})
+  const [totalPoints, setTotalPoints] = useState(50)
+  const [answeredQuestions, setAnsweredQuestions] = useState(0)
+  const [refreshQuestions, setRefreshQuestions] = useState(false)
+  const [gameCompleted, setGameCompleted] = useState(false) // New state for tracking game completion
 
-  const { FORM_VALIDATION_OFFSIDE_GAME } = UseFormValidation();
-  const { INITIAL_FORM_STATE_OFFSIDE_GAME } = UseInitialValues();
-  const { categoryGame } = useParams();
+  const { FORM_VALIDATION_OFFSIDE_GAME } = UseFormValidation()
+  const { INITIAL_FORM_STATE_OFFSIDE_GAME } = UseInitialValues()
+  const { categoryGame } = useParams()
 
   const resetGameState = () => {
-    setTotalPoints(50);
-    setAnsweredQuestions(0);
-    setAnswerStatus({});
-    setDisabledFields({});
-    setGameCompleted(false); // Reset game completion state
-  };
+    setTotalPoints(50)
+    setAnsweredQuestions(0)
+    setAnswerStatus({})
+    setDisabledFields({})
+    setGameCompleted(false) // Reset game completion state
+  }
 
   const handleAnswerSubmit = (questionName: string, isCorrect: boolean) => {
-    setAnsweredQuestions((prev) => prev + 1);
-    setAnswerStatus((prev) => ({ ...prev, [questionName]: isCorrect }));
+    setAnsweredQuestions((prev) => prev + 1)
+    setAnswerStatus((prev) => ({ ...prev, [questionName]: isCorrect }))
 
     if (!isCorrect) {
-      setTotalPoints((prev) => Math.floor(prev / 2));
+      setTotalPoints((prev) => Math.floor(prev / 2))
     }
-  };
+  }
 
   // Function to handle getting new questions
   const handleGetNewQuestions = () => {
-    dispatch(clearOffsieData());
-    resetGameState();
-    setRefreshQuestions((prev) => !prev);
-  };
+    dispatch(clearOffsieData())
+    resetGameState()
+    setRefreshQuestions((prev) => !prev)
+  }
 
   useEffect(() => {
     categoryGame === "education"
@@ -95,51 +93,51 @@ function Offside() {
             entertainmentSection:
               Number(localStorage.getItem("entertainmentGameId")) || 0,
           })
-        );
-  }, [categoryGame, grade, refreshQuestions]);
+        )
+  }, [categoryGame, grade, refreshQuestions])
 
   useEffect(() => {
     if (offsideInformation.length > 0) {
-      resetGameState();
+      resetGameState()
     }
-  }, [offsideInformation]);
+  }, [offsideInformation])
 
   // Check if all questions are answered (but don't auto-complete)
   useEffect(() => {
     // This effect is just for tracking, no auto-completion
-  }, [answeredQuestions, offsideInformation.length]);
+  }, [answeredQuestions, offsideInformation.length])
 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-      event.returnValue = t("leave-game-warning") || "Are you sure?";
-    };
+      event.preventDefault()
+      event.returnValue = t("leave-game-warning") || "Are you sure?"
+    }
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
         event.key === "F5" ||
         (event.ctrlKey && event.key.toLowerCase() === "r")
       ) {
-        event.preventDefault();
-        alert(t("refresh-disabled") || "Page refresh is disabled!");
+        event.preventDefault()
+        alert(t("refresh-disabled") || "Page refresh is disabled!")
       }
-    };
-    const handleContextMenu = (event: MouseEvent) => event.preventDefault();
+    }
+    const handleContextMenu = (event: MouseEvent) => event.preventDefault()
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("contextmenu", handleContextMenu);
+    window.addEventListener("beforeunload", handleBeforeUnload)
+    document.addEventListener("keydown", handleKeyDown)
+    document.addEventListener("contextmenu", handleContextMenu)
 
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("contextmenu", handleContextMenu);
-    };
-  }, [t]);
+      window.removeEventListener("beforeunload", handleBeforeUnload)
+      document.removeEventListener("keydown", handleKeyDown)
+      document.removeEventListener("contextmenu", handleContextMenu)
+    }
+  }, [t])
   useEffect(() => {
     return () => {
-      dispatch(clearOffsieData());
-    };
-  }, [dispatch]);
+      dispatch(clearOffsieData())
+    }
+  }, [dispatch])
 
   return (
     <>
@@ -177,7 +175,7 @@ function Offside() {
                 text: summary,
                 icon: "info",
                 confirmButtonText: t("ok", "حسنًا"),
-              });
+              })
 
               if (categoryGame === "education") {
                 // For education category, dispatch addPoints
@@ -193,16 +191,16 @@ function Offside() {
                           totalPoints: result.totalpoints,
                         }
                       )
-                    );
+                    )
                     // Set game as completed and dispatch clearOffsieData
-                    setGameCompleted(true);
-                    dispatch(clearOffsieData());
+                    setGameCompleted(true)
+                    dispatch(clearOffsieData())
 
                     Object.keys(values).forEach((key) => {
-                      setFieldValue(key, "");
-                    });
-                    setDisabledFields({});
-                    setAnswerStatus({});
+                      setFieldValue(key, "")
+                    })
+                    setDisabledFields({})
+                    setAnswerStatus({})
                   })
                   .catch(() => {
                     Swal.fire({
@@ -212,8 +210,8 @@ function Offside() {
                         "failed-to-add-points",
                         "Failed to add points. Please try again."
                       ),
-                    });
-                  });
+                    })
+                  })
               } else {
                 // For entertainment category, just show success toast
                 toast.success(
@@ -224,17 +222,17 @@ function Offside() {
                       points: totalPoints,
                     }
                   )
-                );
+                )
 
                 // Set game as completed and dispatch clearOffsieData
-                setGameCompleted(true);
-                dispatch(clearOffsieData());
+                setGameCompleted(true)
+                dispatch(clearOffsieData())
 
                 Object.keys(values).forEach((key) => {
-                  setFieldValue(key, "");
-                });
-                setDisabledFields({});
-                setAnswerStatus({});
+                  setFieldValue(key, "")
+                })
+                setDisabledFields({})
+                setAnswerStatus({})
               }
             }}
           >
@@ -251,7 +249,7 @@ function Offside() {
                       : t("call-new-question")}
                   </Hint>
                   {offsideInformation.map((info, index) => {
-                    const fieldName = `question${index + 1}`;
+                    const fieldName = `question${index + 1}`
                     return (
                       <Hint size={{ xs: 6 }} key={index}>
                         <motion.div
@@ -311,7 +309,7 @@ function Offside() {
                           {/* <ErrorMessage name={fieldName} component="div" /> */}
                         </motion.div>
                       </Hint>
-                    );
+                    )
                   })}
                 </Grid>
 
@@ -416,7 +414,7 @@ function Offside() {
         </Box>
       )}
     </>
-  );
+  )
 }
 
-export default withGuard(Offside);
+export default withGuard(Offside)

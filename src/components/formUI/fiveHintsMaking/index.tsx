@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import {
   Modal,
   Box,
@@ -13,37 +13,36 @@ import {
   Paper,
   Backdrop,
   CircularProgress,
-} from "@mui/material";
-import { Formik, Form, type FormikTouched, type FormikErrors } from "formik";
-import CloseIcon from "@mui/icons-material/Close";
-import { useTranslation } from "react-i18next";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
+} from "@mui/material"
+import { Formik, Form, type FormikTouched, type FormikErrors } from "formik"
+import CloseIcon from "@mui/icons-material/Close"
+import { useTranslation } from "react-i18next"
+import * as Yup from "yup"
+import { toast } from "react-toastify"
 
 // Import your existing components and hooks
-import SelectComponent from "../../formUI/select";
-import TextFieldWrapper from "../../formUI/textField";
-import UseGrades from "../../../hooks/use-grades";
-import { getChapters, getTeacherGrades } from "../../../state/act/actAuth";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { makeEducationQuestions } from "../../../state/act/actGame";
+import SelectComponent from "../../formUI/select"
+import TextFieldWrapper from "../../formUI/textField"
+import { getChapters, getTeacherGrades } from "../../../state/act/actAuth"
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
+import { makeEducationQuestions } from "../../../state/act/actGame"
 
 interface FormValues {
-  question: string;
-  gradeSelect: string;
-  chapterMakeQuestion: string;
-  hint1: string;
-  hint2: string;
-  hint3: string;
-  hint4: string;
-  hint5: string;
-  correctAnswer: string;
-  summary: string;
+  question: string
+  gradeSelect: string
+  chapterMakeQuestion: string
+  hint1: string
+  hint2: string
+  hint3: string
+  hint4: string
+  hint5: string
+  correctAnswer: string
+  summary: string
 }
 
 interface MultiStepQuestionModalProps {
-  open: boolean;
-  onClose: () => void;
+  open: boolean
+  onClose: () => void
 }
 
 const INITIAL_FORM_STATE: FormValues = {
@@ -57,7 +56,7 @@ const INITIAL_FORM_STATE: FormValues = {
   hint5: "",
   correctAnswer: "",
   summary: "",
-};
+}
 
 const VALIDATION_SCHEMA = Yup.object({
   question: Yup.string().required("Question is required"),
@@ -70,26 +69,26 @@ const VALIDATION_SCHEMA = Yup.object({
   hint5: Yup.string().required("hint Five is required"),
   correctAnswer: Yup.string().required("Correct answer is required"),
   summary: Yup.string().required("Summary is required"),
-});
+})
 
 function MultiStepQuestionModal({
   open,
   onClose,
 }: MultiStepQuestionModalProps) {
-  const { t } = useTranslation("translation");
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [activeStep, setActiveStep] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoadingChapters, setIsLoadingChapters] = useState(false);
+  const { t } = useTranslation("translation")
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const [activeStep, setActiveStep] = useState(0)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isLoadingChapters, setIsLoadingChapters] = useState(false)
 
   // Redux state and dispatch
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(getTeacherGrades());
-  }, [dispatch]);
+    dispatch(getTeacherGrades())
+  }, [dispatch])
 
   const {
     chapters,
@@ -97,12 +96,12 @@ function MultiStepQuestionModal({
     Uid,
     teacherGrades,
     loadingGetTeacherGrades,
-  } = useAppSelector((state) => state.auth);
-  const { mymode } = useAppSelector((state) => state.mode);
+  } = useAppSelector((state) => state.auth)
+  const { mymode } = useAppSelector((state) => state.mode)
   const gradesSelect = teacherGrades.map((grade) => ({
     text: grade.gradeName,
     value: grade.gradeId.toString(),
-  }));
+  }))
   // Updated steps with question as first step
   const steps = [
     t("questionCreation.steps.enterQuestion"),
@@ -111,7 +110,7 @@ function MultiStepQuestionModal({
     t("questionCreation.steps.enterHints"),
     t("questionCreation.steps.correctAnswer"),
     t("questionCreation.steps.summary"),
-  ];
+  ]
 
   // Theme-based styling
   const modalStyle = {
@@ -128,14 +127,14 @@ function MultiStepQuestionModal({
       mymode === "light"
         ? "0 8px 32px rgba(195, 20, 50, 0.2)"
         : "0 8px 32px rgba(26, 26, 46, 0.4)",
-  };
+  }
 
   // Fetch chapters when component loads or grade changes
   useEffect(() => {
     if (open) {
-      console.log("Modal opened, ready to create question...");
+      console.log("Modal opened, ready to create question...")
     }
-  }, [open]);
+  }, [open])
 
   const handleNext = async (
     values: FormValues,
@@ -147,15 +146,15 @@ function MultiStepQuestionModal({
   ) => {
     // Validation for each step
     if (activeStep === 0 && !values.question.trim()) {
-      setTouched({ question: true });
-      setErrors({ question: t("questionCreation.errors.questionRequired") });
-      return;
+      setTouched({ question: true })
+      setErrors({ question: t("questionCreation.errors.questionRequired") })
+      return
     }
 
     if (activeStep === 1 && !values.gradeSelect) {
-      setTouched({ gradeSelect: true });
-      setErrors({ gradeSelect: t("questionCreation.errors.gradeRequired") });
-      return;
+      setTouched({ gradeSelect: true })
+      setErrors({ gradeSelect: t("questionCreation.errors.gradeRequired") })
+      return
     } else if (activeStep === 1 && values.gradeSelect) {
       // Dispatch getChapters with grade and subject from Redux
       console.log(
@@ -163,29 +162,29 @@ function MultiStepQuestionModal({
         values.gradeSelect,
         "and subject:",
         subjectTeaching
-      );
-      setIsLoadingChapters(true);
+      )
+      setIsLoadingChapters(true)
       try {
         await dispatch(
           getChapters({
             grade: +values.gradeSelect,
             subject: subjectTeaching || "Arabic",
           })
-        ).unwrap();
+        ).unwrap()
       } catch (error) {
-        console.error("Error fetching chapters:", error);
-        toast.error(t("questionCreation.errors.chapterFetchError"));
+        console.error("Error fetching chapters:", error)
+        toast.error(t("questionCreation.errors.chapterFetchError"))
       } finally {
-        setIsLoadingChapters(false);
+        setIsLoadingChapters(false)
       }
     }
 
     if (activeStep === 2 && !values.chapterMakeQuestion) {
-      setTouched({ chapterMakeQuestion: true });
+      setTouched({ chapterMakeQuestion: true })
       setErrors({
         chapterMakeQuestion: t("questionCreation.errors.chapterRequired"),
-      });
-      return;
+      })
+      return
     }
 
     if (activeStep === 3) {
@@ -196,9 +195,9 @@ function MultiStepQuestionModal({
         values.hint3,
         values.hint4,
         values.hint5,
-      ];
+      ]
 
-      const filledHints = hints.filter((hint) => hint.trim() !== "");
+      const filledHints = hints.filter((hint) => hint.trim() !== "")
 
       if (filledHints.length < 5) {
         // Set touched for all hint fields
@@ -208,48 +207,48 @@ function MultiStepQuestionModal({
           hint3: true,
           hint4: true,
           hint5: true,
-        });
+        })
 
         // Set errors for empty hint fields
-        const hintErrors: Partial<FormikErrors<FormValues>> = {};
+        const hintErrors: Partial<FormikErrors<FormValues>> = {}
         hints.forEach((hint, index) => {
           if (!hint.trim()) {
             hintErrors[`hint${index + 1}` as keyof FormValues] = t(
               "questionCreation.errors.hintsRequired"
-            );
+            )
           }
-        });
+        })
 
-        setErrors(hintErrors);
-        return;
+        setErrors(hintErrors)
+        return
       }
     }
 
     if (activeStep === 4 && !values.correctAnswer.trim()) {
-      setTouched({ correctAnswer: true });
+      setTouched({ correctAnswer: true })
       setErrors({
         correctAnswer: t("questionCreation.errors.correctAnswerRequired"),
-      });
-      return;
+      })
+      return
     }
 
     if (activeStep === 5 && !values.summary.trim()) {
-      setTouched({ summary: true });
+      setTouched({ summary: true })
       setErrors({
         summary: t("questionCreation.errors.summaryRequired"),
-      });
-      return;
+      })
+      return
     }
 
-    setActiveStep((prevStep) => prevStep + 1);
-  };
+    setActiveStep((prevStep) => prevStep + 1)
+  }
 
   const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
-  };
+    setActiveStep((prevStep) => prevStep - 1)
+  }
 
   const handleSubmit = async (values: FormValues, { resetForm }: any) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
 
     try {
       // Prepare hints array, filtering out empty hints
@@ -259,7 +258,7 @@ function MultiStepQuestionModal({
         values.hint3,
         values.hint4,
         values.hint5,
-      ].filter((hint) => hint.trim() !== "");
+      ].filter((hint) => hint.trim() !== "")
 
       // Prepare data according to UserDataHintGameMakeQuestion interface
       const questionData = {
@@ -270,9 +269,9 @@ function MultiStepQuestionModal({
         answer: values.correctAnswer,
         summary: values.summary, // Now using text summary instead of file
         hints: hints,
-      };
+      }
 
-      console.log("Submitting question data:", questionData);
+      console.log("Submitting question data:", questionData)
 
       // Dispatch the makeEducationQuestions action with the question field
       const result = await dispatch(
@@ -286,10 +285,10 @@ function MultiStepQuestionModal({
           summary: values.summary,
           game: "five hints",
         })
-      );
+      )
 
       if (makeEducationQuestions.fulfilled.match(result)) {
-        console.log("Question created successfully:", result.payload);
+        console.log("Question created successfully:", result.payload)
 
         // Show success toast
         toast.success(t("questionCreation.toast.success"), {
@@ -299,16 +298,16 @@ function MultiStepQuestionModal({
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-        });
+        })
 
         // Reset form and close modal after a short delay
         setTimeout(() => {
-          resetForm();
-          setActiveStep(0);
-          onClose();
-        }, 1000);
+          resetForm()
+          setActiveStep(0)
+          onClose()
+        }, 1000)
       } else {
-        console.error("Failed to create question:", result.payload);
+        console.error("Failed to create question:", result.payload)
 
         // Show error toast
         toast.error(t("questionCreation.toast.error"), {
@@ -318,10 +317,10 @@ function MultiStepQuestionModal({
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-        });
+        })
       }
     } catch (error) {
-      console.error("Error creating question:", error);
+      console.error("Error creating question:", error)
 
       // Show error toast
       toast.error(t("questionCreation.toast.error"), {
@@ -331,11 +330,11 @@ function MultiStepQuestionModal({
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-      });
+      })
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <Modal
@@ -515,7 +514,7 @@ function MultiStepQuestionModal({
           onSubmit={handleSubmit}
           enableReinitialize
         >
-          {({ values, setTouched, setErrors, setFieldValue }) => (
+          {({ values, setTouched, setErrors }) => (
             <Form>
               <Box sx={{ minHeight: "300px", mb: 3 }}>
                 {/* Step 0: Enter Question */}
@@ -831,7 +830,7 @@ function MultiStepQuestionModal({
         </Formik>
       </Paper>
     </Modal>
-  );
+  )
 }
 
-export default MultiStepQuestionModal;
+export default MultiStepQuestionModal

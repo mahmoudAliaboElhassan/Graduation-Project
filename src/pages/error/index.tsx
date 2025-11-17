@@ -1,17 +1,16 @@
-import React from "react";
-import { Link, useRouteError } from "react-router-dom";
+import { Link, useRouteError } from "react-router-dom"
 
-import ErrorImage from "../../assets/16.png";
-import { useTranslation } from "react-i18next";
+import ErrorImage from "../../assets/16.png"
+import { useTranslation } from "react-i18next"
 
 interface RouteError {
-  statusText?: string;
-  message?: string;
+  statusText?: string
+  message?: string
 }
 
 function ErrorPage() {
-  const error = useRouteError() as RouteError;
-  const { t } = useTranslation();
+  const error = useRouteError() as RouteError
+  const { t } = useTranslation()
 
   return (
     <div style={{ textAlign: "center" }}>
@@ -31,7 +30,7 @@ function ErrorPage() {
       />
       <Link to="/">{t("go-back")}</Link>
     </div>
-  );
+  )
 }
 
-export default ErrorPage;
+export default ErrorPage

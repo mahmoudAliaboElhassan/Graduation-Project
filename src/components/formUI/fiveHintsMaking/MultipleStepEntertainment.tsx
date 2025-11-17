@@ -20,8 +20,6 @@ import { useTranslation } from "react-i18next"
 import * as Yup from "yup"
 import { toast } from "react-toastify"
 import TextFieldWrapper from "../textField"
-import SelectComponent from "../select"
-import UseCategoryEntertainment from "../../../hooks/use-category-entertainment"
 import { makeEntertainmentQuestions } from "../../../state/act/actGame"
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
 
@@ -79,7 +77,6 @@ function MultipleStepEntertainment({
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const [activeStep, setActiveStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const { categoriesEntertainment } = UseCategoryEntertainment()
 
   const { mymode } = useAppSelector((state) => state.mode)
   const dispatch = useAppDispatch()

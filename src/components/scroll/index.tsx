@@ -1,25 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
-import { motion } from "framer-motion";
-import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import { motion } from "framer-motion"
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp"
 
-import { ScrollButton } from "../../styles/scroll";
-import UseDirection from "../../hooks/use-direction";
-import { useAppSelector } from "../../hooks/redux";
+import { ScrollButton } from "../../styles/scroll"
+import { useAppSelector } from "../../hooks/redux"
 
 function Scroll() {
-  const { direction } = UseDirection();
-  const [show, setShow] = useState(false);
-  const { mymode } = useAppSelector((state) => state.mode);
+  const [show, setShow] = useState(false)
+  const { mymode } = useAppSelector((state) => state.mode)
 
   useEffect(() => {
     const handleScroll = () => {
-      setShow(window.scrollY >= 100);
-    };
+      setShow(window.scrollY >= 100)
+    }
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
     <div>
@@ -47,7 +45,7 @@ function Scroll() {
         </motion.div>
       )}
     </div>
-  );
+  )
 }
 
-export default Scroll;
+export default Scroll

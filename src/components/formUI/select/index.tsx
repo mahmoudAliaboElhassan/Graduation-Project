@@ -9,29 +9,28 @@ import {
   Box,
   type SxProps,
   type Theme,
-} from "@mui/material";
-import { useField, useFormikContext } from "formik";
-import UseThemMode from "../../../hooks/use-theme-mode";
-import { useAppSelector } from "../../../hooks/redux";
+} from "@mui/material"
+import { useField, useFormikContext } from "formik"
+import { useAppSelector } from "../../../hooks/redux"
 
 type Options = {
-  text?: string;
-  value?: number | string;
-  group?: string;
-  name?: string;
-  number?: number;
-  subjectName?: string;
-  subjectImage?: string;
-};
+  text?: string
+  value?: number | string
+  group?: string
+  name?: string
+  number?: number
+  subjectName?: string
+  subjectImage?: string
+}
 
 interface Props {
-  name: string;
-  label: string;
-  options: Options[];
-  disabled?: boolean;
-  sx?: SxProps<Theme>;
-  size?: "small" | "medium";
-  variant?: "outlined" | "filled" | "standard";
+  name: string
+  label: string
+  options: Options[]
+  disabled?: boolean
+  sx?: SxProps<Theme>
+  size?: "small" | "medium"
+  variant?: "outlined" | "filled" | "standard"
 }
 
 function SelectComponent({
@@ -43,18 +42,16 @@ function SelectComponent({
   size = "medium",
   variant = "outlined",
 }: Props) {
-  const [field, meta] = useField(name);
-  const { setFieldValue } = useFormikContext();
+  const [field, meta] = useField(name)
+  const { setFieldValue } = useFormikContext()
   const { mymode } = useAppSelector(
     (state: { mode: { mymode: string } }) => state.mode
-  );
+  )
 
   const handleChange = (evt: SelectChangeEvent) => {
-    const { value } = evt.target;
-    setFieldValue(name, value);
-  };
-
-  const { themeMode } = UseThemMode();
+    const { value } = evt.target
+    setFieldValue(name, value)
+  }
 
   // Theme-based styling
   const getThemeStyles = (): SxProps<Theme> => ({
@@ -112,7 +109,7 @@ function SelectComponent({
       color: mymode === "light" ? "#c31432" : "#ff6b9d",
     },
     ...sx,
-  });
+  })
 
   const configSelect: any = {
     ...field,
@@ -123,14 +120,14 @@ function SelectComponent({
     value: field.value || "",
     disabled,
     sx: getThemeStyles(),
-  };
-
-  if (meta && meta.touched && meta.error) {
-    configSelect.error = true;
-    configSelect.helperText = meta.error;
   }
 
-  console.log("options", options);
+  if (meta && meta.touched && meta.error) {
+    configSelect.error = true
+    configSelect.helperText = meta.error
+  }
+
+  console.log("options", options)
 
   return (
     <FormControl
@@ -309,7 +306,7 @@ function SelectComponent({
         </Typography>
       )}
     </FormControl>
-  );
+  )
 }
 
-export default SelectComponent;
+export default SelectComponent

@@ -23,9 +23,7 @@ import * as Yup from "yup"
 import { toast } from "react-toastify"
 
 // Import your existing components and hooks
-import SelectComponent from "../select"
 import TextFieldWrapper from "../../formUI/textField"
-import UseCategoryEntertainment from "../../../hooks/use-category-entertainment"
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
 import { makeEntertainmentDifficulty } from "../../../state/act/actGame"
 
@@ -92,7 +90,6 @@ function MultipleStepEntertainmentDifficulty({
 
   // Redux state and dispatch
   const { mymode } = useAppSelector((state) => state.mode)
-  const { categoriesEntertainment } = UseCategoryEntertainment()
   const dispatch = useAppDispatch()
 
   // Two steps only

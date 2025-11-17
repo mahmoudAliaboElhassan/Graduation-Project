@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import {
   Modal,
   Box,
@@ -15,40 +15,36 @@ import {
   CircularProgress,
   TextField,
   MenuItem,
-} from "@mui/material";
-import { Formik, Form, type FormikTouched, type FormikErrors } from "formik";
-import CloseIcon from "@mui/icons-material/Close";
-import { useTranslation } from "react-i18next";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
+} from "@mui/material"
+import { Formik, Form, type FormikTouched, type FormikErrors } from "formik"
+import CloseIcon from "@mui/icons-material/Close"
+import { useTranslation } from "react-i18next"
+import * as Yup from "yup"
+import { toast } from "react-toastify"
 
 // Import your existing components and hooks
-import SelectComponent from "../../formUI/select";
-import TextFieldWrapper from "../../formUI/textField";
-import UseGrades from "../../../hooks/use-grades";
-import { getChapters, getTeacherGrades } from "../../../state/act/actAuth";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import {
-  makeEducationDifficulty,
-  makeEducationQuestions,
-} from "../../../state/act/actGame";
+import SelectComponent from "../../formUI/select"
+import TextFieldWrapper from "../../formUI/textField"
+import { getChapters, getTeacherGrades } from "../../../state/act/actAuth"
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
+import { makeEducationDifficulty } from "../../../state/act/actGame"
 
 interface Question {
-  question: string;
-  answer: string;
-  summary: string;
-  difficultyLevel: number;
+  question: string
+  answer: string
+  summary: string
+  difficultyLevel: number
 }
 
 interface FormValues {
-  gradesSelect: string;
-  chapterMakeQuestion: string;
-  questions: Question[];
+  gradesSelect: string
+  chapterMakeQuestion: string
+  questions: Question[]
 }
 
 interface MultipleStepDifficultyMoadalProps {
-  open: boolean;
-  onClose: () => void;
+  open: boolean
+  onClose: () => void
 }
 
 // Static 6 questions initial state
@@ -68,7 +64,7 @@ const INITIAL_FORM_STATE: FormValues = {
       summary: "",
       difficultyLevel: 0,
     })),
-};
+}
 
 const VALIDATION_SCHEMA = Yup.object({
   gradesSelect: Yup.string().required("Grade is required"),
@@ -86,18 +82,18 @@ const VALIDATION_SCHEMA = Yup.object({
       })
     )
     .length(6, "Exactly 6 questions are required"),
-});
+})
 
 function MultipleStepDifficultyMoadal({
   open,
   onClose,
 }: MultipleStepDifficultyMoadalProps) {
-  const { t } = useTranslation("translation");
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [activeStep, setActiveStep] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoadingChapters, setIsLoadingChapters] = useState(false);
+  const { t } = useTranslation("translation")
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const [activeStep, setActiveStep] = useState(0)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isLoadingChapters, setIsLoadingChapters] = useState(false)
 
   // Redux state and dispatch
   const {
@@ -106,16 +102,16 @@ function MultipleStepDifficultyMoadal({
     Uid,
     teacherGrades,
     loadingGetTeacherGrades,
-  } = useAppSelector((state) => state.auth);
-  const { mymode } = useAppSelector((state) => state.mode);
-  const dispatch = useAppDispatch();
+  } = useAppSelector((state) => state.auth)
+  const { mymode } = useAppSelector((state) => state.mode)
+  const dispatch = useAppDispatch()
 
   // Updated steps - now only 3 steps
   const steps = [
     t("questionCreation.steps.selectGrade"),
     t("questionCreation.steps.selectChapter"),
     t("questionCreation.steps.enterQuestions"),
-  ];
+  ]
 
   const difficultyLevels = [
     { value: 0, label: t("difficulty.levels.veryEasy") },
@@ -123,16 +119,16 @@ function MultipleStepDifficultyMoadal({
     { value: 2, label: t("difficulty.levels.medium") },
     { value: 3, label: t("difficulty.levels.hard") },
     { value: 4, label: t("difficulty.levels.veryHard") },
-  ];
+  ]
 
   useEffect(() => {
-    dispatch(getTeacherGrades());
-  }, [dispatch]);
+    dispatch(getTeacherGrades())
+  }, [dispatch])
 
   const gradesSelect = teacherGrades.map((grade) => ({
     text: grade.gradeName,
     value: grade.gradeId.toString(),
-  }));
+  }))
 
   // Theme-based styling
   const modalStyle = {
@@ -149,14 +145,14 @@ function MultipleStepDifficultyMoadal({
       mymode === "light"
         ? "0 8px 32px rgba(195, 20, 50, 0.2)"
         : "0 8px 32px rgba(26, 26, 46, 0.4)",
-  };
+  }
 
   // Fetch chapters when component loads or grade changes
   useEffect(() => {
     if (open) {
-      console.log("Modal opened, ready to create questions...");
+      console.log("Modal opened, ready to create questions...")
     }
-  }, [open]);
+  }, [open])
 
   const handleNext = async (
     values: FormValues,
@@ -168,9 +164,9 @@ function MultipleStepDifficultyMoadal({
   ) => {
     // Validation for each step
     if (activeStep === 0 && !values.gradesSelect) {
-      setTouched({ gradesSelect: true });
-      setErrors({ gradesSelect: t("questionCreation.errors.gradeRequired") });
-      return;
+      setTouched({ gradesSelect: true })
+      setErrors({ gradesSelect: t("questionCreation.errors.gradeRequired") })
+      return
     } else if (activeStep === 0 && values.gradesSelect) {
       // Dispatch getChapters with grade and subject from Redux
       console.log(
@@ -178,56 +174,56 @@ function MultipleStepDifficultyMoadal({
         values.gradesSelect,
         "and subject:",
         subjectTeaching
-      );
-      setIsLoadingChapters(true);
+      )
+      setIsLoadingChapters(true)
       try {
         await dispatch(
           getChapters({
             grade: +values.gradesSelect,
             subject: subjectTeaching || "Arabic",
           })
-        ).unwrap();
+        ).unwrap()
       } catch (error) {
-        console.error("Error fetching chapters:", error);
-        toast.error(t("questionCreation.errors.chapterFetchError"));
+        console.error("Error fetching chapters:", error)
+        toast.error(t("questionCreation.errors.chapterFetchError"))
       } finally {
-        setIsLoadingChapters(false);
+        setIsLoadingChapters(false)
       }
     }
 
     if (activeStep === 1 && !values.chapterMakeQuestion) {
-      setTouched({ chapterMakeQuestion: true });
+      setTouched({ chapterMakeQuestion: true })
       setErrors({
         chapterMakeQuestion: t("questionCreation.errors.chapterRequired"),
-      });
-      return;
+      })
+      return
     }
 
     if (activeStep === 2) {
       // Validate all 6 questions on the last step
       const hasEmptyQuestions = values.questions.some(
         (q) => !q.question.trim() || !q.answer.trim() || !q.summary.trim()
-      );
+      )
       if (hasEmptyQuestions) {
-        toast.error("Please fill in all fields for all 6 questions");
-        return;
+        toast.error("Please fill in all fields for all 6 questions")
+        return
       }
     }
 
-    setActiveStep((prevStep) => prevStep + 1);
-  };
+    setActiveStep((prevStep) => prevStep + 1)
+  }
 
   const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
-  };
+    setActiveStep((prevStep) => prevStep - 1)
+  }
 
   const handleSubmit = async (values: FormValues, { resetForm }: any) => {
-    console.log("Form submitted with values:", values);
+    console.log("Form submitted with values:", values)
 
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     try {
       // Log the exact structure being submitted
-      console.log("Questions array:", values.questions);
+      console.log("Questions array:", values.questions)
 
       // Prepare data for submission
       const questionData = {
@@ -236,8 +232,8 @@ function MultipleStepDifficultyMoadal({
         chapter: values.chapterMakeQuestion,
         questions: values.questions,
         game: "DifficultyLevel",
-      };
-      const result = await dispatch(makeEducationDifficulty(questionData));
+      }
+      const result = await dispatch(makeEducationDifficulty(questionData))
 
       if (makeEducationDifficulty.fulfilled.match(result)) {
         // Show success toast
@@ -248,16 +244,16 @@ function MultipleStepDifficultyMoadal({
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-        });
+        })
 
         // Reset form and close modal after a short delay
         setTimeout(() => {
-          resetForm();
-          setActiveStep(0);
-          onClose();
-        }, 1000);
+          resetForm()
+          setActiveStep(0)
+          onClose()
+        }, 1000)
       } else {
-        console.error("Failed to create question:", result.payload);
+        console.error("Failed to create question:", result.payload)
 
         // Show error toast
         toast.error(t("questionCreation.toast.error"), {
@@ -267,10 +263,10 @@ function MultipleStepDifficultyMoadal({
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-        });
+        })
       }
     } catch (error) {
-      console.error("Error creating question:", error);
+      console.error("Error creating question:", error)
 
       // Show error toast
       toast.error(t("questionCreation.toast.error"), {
@@ -280,11 +276,11 @@ function MultipleStepDifficultyMoadal({
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-      });
+      })
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <Modal
@@ -776,7 +772,7 @@ function MultipleStepDifficultyMoadal({
         </Formik>
       </Paper>
     </Modal>
-  );
+  )
 }
 
-export default MultipleStepDifficultyMoadal;
+export default MultipleStepDifficultyMoadal

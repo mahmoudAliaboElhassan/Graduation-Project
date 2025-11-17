@@ -1,7 +1,6 @@
 import React from "react"
 import {
   Box,
-  Card,
   CardActionArea,
   CardContent,
   Container,
@@ -30,7 +29,7 @@ const CategoryEntertainmentCard: React.FC<{
   iconName: string
   color: string
   route: string
-}> = ({ id, title, description, iconName, color, route }) => {
+}> = ({ id, title, description, iconName, color }) => {
   const { direction } = UseDirection()
   const theme = useTheme()
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
@@ -71,12 +70,7 @@ const CategoryEntertainmentCard: React.FC<{
             mb: 2,
           }}
         >
-          {React.cloneElement(icon as React.ReactElement, {
-            sx: {
-              fontSize: isSmallScreen ? 40 : 50,
-              color: color,
-            },
-          })}
+          {React.cloneElement(icon as React.ReactElement, {})}
         </Box>
 
         <CardContent
@@ -116,7 +110,6 @@ const CategoryEntertainmentCard: React.FC<{
 
 const CategoryEntertainment: React.FC = () => {
   const { direction } = UseDirection()
-  const theme = useTheme()
   const { t } = useTranslation()
   const { categoriesEntertainment } = UseCategoryEntertainment()
 

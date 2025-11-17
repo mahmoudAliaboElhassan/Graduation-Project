@@ -11,7 +11,7 @@ export const shimmer = keyframes`
   100% { background-position: calc(200px + 100%) 0; }
 `
 
-export const MainContainer = styled(Box)(({ theme }) => ({
+export const MainContainer = styled(Box)(() => ({
   minHeight: "100vh",
   position: "relative",
   "&::before": {

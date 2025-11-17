@@ -1,8 +1,6 @@
 import { Form, Formik } from "formik"
-import { Link, useNavigate } from "react-router-dom"
 import {
   Typography,
-  Container,
   Box,
   CircularProgress,
   Stepper,
@@ -13,13 +11,11 @@ import {
 import Grid from "@mui/material/Grid2"
 import { toast } from "react-toastify"
 import { motion } from "framer-motion"
-import UseThemMode from "../../../hooks/use-theme-mode"
 import UseFormValidation from "../../../hooks/use-form-validation"
 import { ContainerFormWrapper, FormWrapper } from "../../../styles/forms"
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
 import { useTranslation } from "react-i18next"
 import UseInitialValues from "../../../hooks/use-initial-values"
-import { AxiosError } from "axios"
 import { HeadingElement } from "../../../styles/heading"
 import TextFieldWrapper from "../../../components/formUI/textField"
 import ButtonWrapper from "../../../components/formUI/submit"
@@ -39,12 +35,10 @@ export interface ChapterData {
 }
 
 function AddChapter() {
-  const navigate = useNavigate()
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { INITIAL_FORM_STATE_ADD_CHAPTER } = UseInitialValues()
   const { FORM_VALIDATION_SCHEMA_ADD_CHAPTER } = UseFormValidation()
-  const { themeMode } = UseThemMode()
   const { loadingGetAllGrades, allGrades, subjects } = useAppSelector(
     (state) => state.auth
   )
@@ -142,7 +136,7 @@ function AddChapter() {
 
       console.log("Submitting chapter data:", chapterData)
 
-      const result = await dispatch(addChapter(chapterData)).unwrap()
+      await dispatch(addChapter(chapterData)).unwrap()
 
       toast.success(t("chapter-added") || "Chapter added successfully!", {
         position: "top-right",
@@ -193,7 +187,7 @@ function AddChapter() {
           onSubmit={handleSubmit}
           enableReinitialize
         >
-          {({ values, setTouched, setErrors, setFieldValue }) => (
+          {({ values, setTouched, setErrors }) => (
             <motion.div
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}

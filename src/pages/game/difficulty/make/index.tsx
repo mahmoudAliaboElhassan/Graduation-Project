@@ -1,16 +1,15 @@
-import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import withGuard from "../../../../utils/withGuard";
-import { useParams } from "react-router-dom";
-import MultipleStepEntertainment from "../../../../components/formUI/fiveHintsMaking/MultipleStepEntertainment";
-import MultipleStepDifficultyMoadal from "../../../../components/formUI/difficultyModal";
-import MultipleStepEntertainmentDifficulty from "../../../../components/formUI/difficultyModal/MultipleStepEntertainmentDifficulty";
+import { Box, Button, Typography } from "@mui/material"
+import { useState } from "react"
+import { useTranslation } from "react-i18next"
+import withGuard from "../../../../utils/withGuard"
+import { useParams } from "react-router-dom"
+import MultipleStepDifficultyMoadal from "../../../../components/formUI/difficultyModal"
+import MultipleStepEntertainmentDifficulty from "../../../../components/formUI/difficultyModal/MultipleStepEntertainmentDifficulty"
 
 function MakeDifficulty() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { t } = useTranslation("translation");
-  const { category } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { t } = useTranslation("translation")
+  const { category } = useParams()
 
   return (
     <Box
@@ -50,6 +49,6 @@ function MakeDifficulty() {
         />
       )}
     </Box>
-  );
+  )
 }
-export default withGuard(MakeDifficulty);
+export default withGuard(MakeDifficulty)

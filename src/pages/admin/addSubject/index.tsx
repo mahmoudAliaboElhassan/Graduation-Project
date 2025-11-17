@@ -1,66 +1,53 @@
-import { Form, Formik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
+import { Form, Formik } from "formik"
 import {
   Typography,
-  Container,
   Box,
   Stack,
   IconButton,
   Avatar,
   Button,
-} from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import { toast } from "react-toastify";
-import { motion } from "framer-motion";
-import { useRef } from "react";
-import * as Yup from "yup";
+} from "@mui/material"
+import Grid from "@mui/material/Grid2"
+import { toast } from "react-toastify"
+import { motion } from "framer-motion"
+import { useRef } from "react"
 import {
   CloudUpload as CloudUploadIcon,
   PhotoCamera as PhotoCameraIcon,
   Delete as DeleteIcon,
   Image as ImageIcon,
-} from "@mui/icons-material";
-import UseThemMode from "../../../hooks/use-theme-mode";
-import { ContainerFormWrapper, FormWrapper } from "../../../styles/forms";
-import { useAppDispatch } from "../../../hooks/redux";
-import { useTranslation } from "react-i18next";
-import { AxiosError } from "axios";
-import { HeadingElement } from "../../../styles/heading";
-import TextFieldWrapper from "../../../components/formUI/textField";
-import ButtonWrapper from "../../../components/formUI/submit";
-import withGuard from "../../../utils/withGuard";
-import Swal from "sweetalert2";
-import { addSubject } from "../../../state/act/actAdmin";
-import UseInitialValues from "../../../hooks/use-initial-values";
-import UseFormValidation from "../../../hooks/use-form-validation";
-import UseDirection from "../../../hooks/use-direction";
-
-interface FormValues {
-  name: string;
-  image: File | null;
-}
+} from "@mui/icons-material"
+import { ContainerFormWrapper, FormWrapper } from "../../../styles/forms"
+import { useAppDispatch } from "../../../hooks/redux"
+import { useTranslation } from "react-i18next"
+import { HeadingElement } from "../../../styles/heading"
+import TextFieldWrapper from "../../../components/formUI/textField"
+import ButtonWrapper from "../../../components/formUI/submit"
+import Swal from "sweetalert2"
+import { addSubject } from "../../../state/act/actAdmin"
+import UseInitialValues from "../../../hooks/use-initial-values"
+import UseFormValidation from "../../../hooks/use-form-validation"
+import UseDirection from "../../../hooks/use-direction"
 
 export default function AddSubject() {
-  const navigate = useNavigate();
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const { themeMode } = UseThemMode();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const { InitialValuesAddSubject } = UseInitialValues();
-  const { FORM_VALIDATION_SCHEMA_ADD_Subject } = UseFormValidation();
+  const { InitialValuesAddSubject } = UseInitialValues()
+  const { FORM_VALIDATION_SCHEMA_ADD_Subject } = UseFormValidation()
   const handleFileUpload = () => {
-    fileInputRef.current?.click();
-  };
+    fileInputRef.current?.click()
+  }
 
   const formatFileSize = (bytes: number): string => {
-    if (bytes === 0) return "0 Bytes";
-    const k = 1024;
-    const sizes = ["Bytes", "KB", "MB", "GB"];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
-  };
-  const { direction } = UseDirection();
+    if (bytes === 0) return "0 Bytes"
+    const k = 1024
+    const sizes = ["Bytes", "KB", "MB", "GB"]
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i]
+  }
+  const { direction } = UseDirection()
 
   return (
     <>
@@ -70,14 +57,14 @@ export default function AddSubject() {
             initialValues={InitialValuesAddSubject}
             validationSchema={FORM_VALIDATION_SCHEMA_ADD_Subject}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
-              console.log(values);
+              console.log(values)
               try {
                 await dispatch(
                   addSubject({
                     name: values.name,
                     image: values.image!,
                   })
-                ).unwrap();
+                ).unwrap()
 
                 toast.success(
                   t("subject-added") || "Subject added successfully!",
@@ -90,11 +77,11 @@ export default function AddSubject() {
                     draggable: true,
                     progress: undefined,
                   }
-                );
+                )
 
-                resetForm();
+                resetForm()
                 if (fileInputRef.current) {
-                  fileInputRef.current.value = "";
+                  fileInputRef.current.value = ""
                 }
               } catch (error: any) {
                 if (error?.response?.status === 401) {
@@ -105,10 +92,10 @@ export default function AddSubject() {
                       "An error occurred while adding the subject",
                     icon: "error",
                     confirmButtonText: t("ok") || "OK",
-                  });
+                  })
                 }
               } finally {
-                setSubmitting(false);
+                setSubmitting(false)
               }
             }}
           >
@@ -149,8 +136,8 @@ export default function AddSubject() {
                           type="file"
                           ref={fileInputRef}
                           onChange={(e) => {
-                            const file = e.target.files?.[0] || null;
-                            setFieldValue("image", file);
+                            const file = e.target.files?.[0] || null
+                            setFieldValue("image", file)
                           }}
                           accept="image/*"
                           style={{ display: "none" }}
@@ -243,9 +230,9 @@ export default function AddSubject() {
                                 size="small"
                                 color="error"
                                 onClick={() => {
-                                  setFieldValue("image", null);
+                                  setFieldValue("image", null)
                                   if (fileInputRef.current) {
-                                    fileInputRef.current.value = "";
+                                    fileInputRef.current.value = ""
                                   }
                                 }}
                                 disabled={isSubmitting}
@@ -272,5 +259,5 @@ export default function AddSubject() {
         </ContainerFormWrapper>
       </div>
     </>
-  );
+  )
 }

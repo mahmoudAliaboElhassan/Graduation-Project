@@ -88,7 +88,7 @@ const adminSlice = createSlice({
         state.error = null
         state.loadingAddGrade = true
       })
-      .addCase(addGrade.fulfilled, (state, action) => {
+      .addCase(addGrade.fulfilled, (state) => {
         state.loadingAddGrade = false
       })
       .addCase(addGrade.rejected, (state, action) => {
@@ -99,7 +99,7 @@ const adminSlice = createSlice({
         state.error = null
         state.loadingAddSubject = true
       })
-      .addCase(addSubject.fulfilled, (state, action) => {
+      .addCase(addSubject.fulfilled, (state) => {
         state.loadingAddSubject = false
       })
       .addCase(addSubject.rejected, (state, action) => {
@@ -110,7 +110,7 @@ const adminSlice = createSlice({
         state.error = null
         state.loadingAddChapter = true
       })
-      .addCase(addChapter.fulfilled, (state, action) => {
+      .addCase(addChapter.fulfilled, (state) => {
         state.loadingAddChapter = false
       })
       .addCase(addChapter.rejected, (state, action) => {
@@ -121,7 +121,7 @@ const adminSlice = createSlice({
         state.error = null
         state.loadinAddGradeSubjects = true
       })
-      .addCase(addGradeSujects.fulfilled, (state, action) => {
+      .addCase(addGradeSujects.fulfilled, (state) => {
         state.loadinAddGradeSubjects = false
       })
       .addCase(addGradeSujects.rejected, (state, action) => {

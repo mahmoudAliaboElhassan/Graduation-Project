@@ -14,7 +14,6 @@ import {
   ListItem,
   ListItemText,
   Container,
-  Divider,
   Button,
   Paper,
   Fade,
@@ -23,6 +22,7 @@ import {
   Stack,
   IconButton,
   Collapse,
+  type SelectChangeEvent,
 } from "@mui/material"
 import {
   Clear as ClearIcon,
@@ -34,7 +34,6 @@ import {
   SportsEsports as GameIcon,
   ExpandMore as ExpandMoreIcon,
 } from "@mui/icons-material"
-import { SelectChangeEvent } from "@mui/material/Select"
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
 import {
   getChapters,
@@ -43,7 +42,6 @@ import {
 } from "../../../state/act/actAuth"
 import { useTranslation } from "react-i18next"
 import { HeadingElement } from "../../../styles/heading"
-import { CustomeCard } from "../../../styles/games/five-hints"
 
 function AnsweredQuestions() {
   const dispatch = useAppDispatch()

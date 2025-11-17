@@ -1,64 +1,49 @@
-import { Form, Formik, useFormikContext } from "formik";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  Typography,
-  Container,
-  Box,
-  CircularProgress,
-  Backdrop,
-} from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import { toast } from "react-toastify";
-import Swal from "sweetalert2";
-import { AxiosError } from "axios";
-import { motion } from "framer-motion";
+import { Formik, useFormikContext } from "formik"
+import { Link, useNavigate } from "react-router-dom"
+import { Typography, Box, CircularProgress } from "@mui/material"
+import Grid from "@mui/material/Grid2"
+import { toast } from "react-toastify"
+import Swal from "sweetalert2"
+import { motion } from "framer-motion"
 
-import styles from "./form.module.css";
-import TextFieldWrapper from "../../components/formUI/textField";
-import ButtonWrapper from "../../components/formUI/submit";
-import Footer from "../../components/footer";
-import PhoneForm from "../../components/formUI/phoneNumber";
-import UseInitialValues from "../../hooks/use-initial-values";
-import UseFormValidation from "../../hooks/use-form-validation";
-import { useTranslation } from "react-i18next";
-import { HeadingElement } from "../../styles/heading";
-import { FormWrapper, ContainerFormWrapper } from "../../styles/forms";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { getAllGrades, getAllSubjects, signUp } from "../../state/act/actAuth";
-import UseRoles from "../../hooks/use-roles";
-import SelectComponent from "../../components/formUI/select";
-import signupPage from "../../assets/signUpImage.jpeg.jpg";
-import { isToastActive } from "react-toastify/dist/core/store";
-import UseGrades from "../../hooks/use-grades";
-import UseSubjects from "../../hooks/use-subjects";
-import PasswordField from "../../components/formUI/password";
-import withGuard from "../../utils/withGuard";
-import { useEffect } from "react";
+import TextFieldWrapper from "../../components/formUI/textField"
+import ButtonWrapper from "../../components/formUI/submit"
+import UseInitialValues from "../../hooks/use-initial-values"
+import UseFormValidation from "../../hooks/use-form-validation"
+import { useTranslation } from "react-i18next"
+import { HeadingElement } from "../../styles/heading"
+import { FormWrapper, ContainerFormWrapper } from "../../styles/forms"
+import { useAppDispatch, useAppSelector } from "../../hooks/redux"
+import { getAllGrades, getAllSubjects, signUp } from "../../state/act/actAuth"
+import UseRoles from "../../hooks/use-roles"
+import SelectComponent from "../../components/formUI/select"
+import PasswordField from "../../components/formUI/password"
+import withGuard from "../../utils/withGuard"
+import { useEffect } from "react"
 
 const FormFields = () => {
-  const { values } = useFormikContext() as any;
-  const { Roles } = UseRoles();
-  const { grades } = UseGrades();
-  const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const { values } = useFormikContext() as any
+  const { Roles } = UseRoles()
+  const dispatch = useAppDispatch()
+  const { t } = useTranslation()
 
   const { allSubjects, loadingGetAllSubjects, loadingGetAllGrades, allGrades } =
-    useAppSelector((state) => state.auth);
-  const { mymode } = useAppSelector((state) => state.mode);
+    useAppSelector((state) => state.auth)
+  const { mymode } = useAppSelector((state) => state.mode)
   useEffect(() => {
-    dispatch(getAllSubjects());
-    dispatch(getAllGrades());
-  }, []);
+    dispatch(getAllSubjects())
+    dispatch(getAllGrades())
+  }, [])
 
   const subjectSelect = allSubjects.map((subject) => ({
     text: subject,
     value: subject,
-  }));
+  }))
 
   const gradesSelect = allGrades.map((grade) => ({
     text: grade.gradeName,
     value: grade.gradeId.toString(),
-  }));
+  }))
 
   return (
     <>
@@ -148,23 +133,23 @@ const FormFields = () => {
         </Grid>
       </Grid>
     </>
-  );
-};
+  )
+}
 
 function SignUp() {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { t } = useTranslation();
-  const { INITIAL_FORM_STATE_SIGNUP } = UseInitialValues();
-  const { FORM_VALIDATION_SCHEMA_SIGNUP } = UseFormValidation();
-  const { mymode } = useAppSelector((state) => state.mode);
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { t } = useTranslation()
+  const { INITIAL_FORM_STATE_SIGNUP } = UseInitialValues()
+  const { FORM_VALIDATION_SCHEMA_SIGNUP } = UseFormValidation()
+  const { mymode } = useAppSelector((state) => state.mode)
   const { error, loadingGetAllSubjects, loadingGetAllGrades } = useAppSelector(
     (state) => state.auth
-  );
+  )
 
   // Check if any loading state is active (but separate select loading from general loading)
-  const isGeneralLoading = false; // You can add other loading states here like form submission loading
-  const isSelectLoading = loadingGetAllSubjects || loadingGetAllGrades;
+  const isGeneralLoading = false // You can add other loading states here like form submission loading
+  const isSelectLoading = loadingGetAllSubjects || loadingGetAllGrades
 
   return (
     <>
@@ -229,8 +214,7 @@ function SignUp() {
             }}
             validationSchema={FORM_VALIDATION_SCHEMA_SIGNUP}
             onSubmit={async (values) => {
-              console.log(values);
-              const { confirmPassword, ...other } = values;
+              console.log(values)
               dispatch(
                 signUp({
                   name: values.name,
@@ -245,17 +229,17 @@ function SignUp() {
                 .then(() => {
                   toast.success(t("user-created"), {
                     theme: mymode,
-                  });
-                  navigate("/login");
+                  })
+                  navigate("/login")
                 })
-                .catch((err: AxiosError) => {
+                .catch(() => {
                   Swal.fire({
                     title: "Error in creating Account",
                     text: error,
                     icon: "error",
                     confirmButtonText: "ok",
-                  });
-                });
+                  })
+                })
             }}
           >
             <motion.div
@@ -288,7 +272,7 @@ function SignUp() {
         </ContainerFormWrapper>
       </div>
     </>
-  );
+  )
 }
 
-export default withGuard(SignUp);
+export default withGuard(SignUp)

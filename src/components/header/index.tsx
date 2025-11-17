@@ -53,7 +53,7 @@ function Header() {
   const authElements = token ? userAuth : notUserAuth
   const { mymode } = useAppSelector((state) => state.mode)
   const location = useLocation()
-  const [isAnimate, setIsAnimate] = UseDebounce(500)
+  const [isAnimate] = UseDebounce(500)
   const { pumpCartQuantity } = styles
   const { name, totalPoints, role } = useAppSelector((state) => state.auth)
 

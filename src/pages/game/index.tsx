@@ -1,8 +1,7 @@
-import React from "react"
 import { useTranslation } from "react-i18next"
-import { Typography, Container } from "@mui/material"
+import { Container } from "@mui/material"
 import Grid from "@mui/material/Grid2"
-import { useParams } from "react-router-dom" // 👈 import this
+import { useParams } from "react-router-dom"
 import CardGame from "../../components/cardGame"
 import { HeadingElement } from "../../styles/heading"
 import UseGamesData from "../../hooks/use-game-data"

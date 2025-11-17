@@ -1,55 +1,54 @@
-import { Formik, Form } from "formik";
-import { useTranslation } from "react-i18next";
-import { useCallback } from "react";
+import { Formik, Form } from "formik"
+import { useTranslation } from "react-i18next"
+import { useCallback } from "react"
 
-import UseInitialValues from "../../../hooks/use-initial-values";
-import UseFormValidation from "../../../hooks/use-form-validation";
-import TextFieldWrapper from "../textField";
-import { answerQuestion } from "../../../state/act/actGame";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import ButtonWrapper from "../submit";
-import { toast } from "react-toastify";
-import Swal from "sweetalert2";
-import { AxiosError } from "axios";
-import { addPoints } from "../../../state/act/actAuth";
-import { clearHintsData } from "../../../state/slices/game";
-import { useParams } from "react-router-dom";
+import UseInitialValues from "../../../hooks/use-initial-values"
+import UseFormValidation from "../../../hooks/use-form-validation"
+import TextFieldWrapper from "../textField"
+import { answerQuestion } from "../../../state/act/actGame"
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
+import ButtonWrapper from "../submit"
+import { toast } from "react-toastify"
+import Swal from "sweetalert2"
+import { addPoints } from "../../../state/act/actAuth"
+import { clearHintsData } from "../../../state/slices/game"
+import { useParams } from "react-router-dom"
 
 interface Props {
-  hints: number;
-  onAnswerSubmitted: () => void;
-  resetSeconds: () => void;
+  hints: number
+  onAnswerSubmitted: () => void
+  resetSeconds: () => void
 }
 
 interface FormValues {
-  answer: string;
+  answer: string
 }
 
-const POINTS_BASE = 50;
-const POINTS_HINT_PENALTY = 10;
-const POINTS_DELAY_MS = 1500;
+const POINTS_BASE = 50
+const POINTS_HINT_PENALTY = 10
+const POINTS_DELAY_MS = 1500
 
 function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
-  const { INITIAL_FORM_STATE_ANSWER_QUESTION } = UseInitialValues();
-  const { FORM_VALIDATION_SCHEMA_ANSWER_QUESTION } = UseFormValidation();
+  const { INITIAL_FORM_STATE_ANSWER_QUESTION } = UseInitialValues()
+  const { FORM_VALIDATION_SCHEMA_ANSWER_QUESTION } = UseFormValidation()
   const { questionData, correct, summary } = useAppSelector(
     (state) => state.game
-  );
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
+  )
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
 
   const calculatePoints = useCallback(() => {
-    return POINTS_BASE - (hints - 1) * POINTS_HINT_PENALTY;
-  }, [hints]);
-  const { categoryGame } = useParams();
+    return POINTS_BASE - (hints - 1) * POINTS_HINT_PENALTY
+  }, [hints])
+  const { categoryGame } = useParams()
 
   const handlePointsAddition = useCallback(async () => {
-    const pointsToAdd = calculatePoints();
+    const pointsToAdd = calculatePoints()
     if (categoryGame === "education") {
       try {
         const result = await dispatch(
           addPoints({ points: pointsToAdd })
-        ).unwrap();
+        ).unwrap()
         toast.success(
           t(
             "points-added-success",
@@ -59,7 +58,7 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
               totalPoints: result.totalpoints,
             }
           )
-        );
+        )
       } catch (error) {
         Swal.fire({
           icon: "error",
@@ -68,7 +67,7 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
             "failed-to-add-points",
             "Failed to add points. Please try again."
           ),
-        });
+        })
       }
     } else {
       toast.success(
@@ -79,15 +78,15 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
             points: pointsToAdd,
           }
         )
-      );
+      )
     }
-  }, [dispatch, calculatePoints, t]);
+  }, [dispatch, calculatePoints, t])
 
   const handleCorrectAnswer = useCallback(() => {
     setTimeout(() => {
-      handlePointsAddition();
-    }, POINTS_DELAY_MS);
-  }, [handlePointsAddition]);
+      handlePointsAddition()
+    }, POINTS_DELAY_MS)
+  }, [handlePointsAddition])
 
   const handleIncorrectAnswer = useCallback(() => {
     Swal.fire({
@@ -98,22 +97,22 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
       }),
       icon: "error",
       confirmButtonText: t("ok", "حسنًا"),
-    });
-  }, [t, questionData.correctAnswer]);
+    })
+  }, [t, questionData.correctAnswer])
 
   const handleAnswerSubmissionError = useCallback(() => {
     Swal.fire({
       title: t("error-submitting-answer"),
       icon: "error",
       confirmButtonText: t("ok"),
-    });
-  }, [t]);
+    })
+  }, [t])
 
   const handleSubmit = useCallback(
     async (values: FormValues, { resetForm }: { resetForm: () => void }) => {
-      console.log("Answer submitted:", values);
-      console.log("Hints used:", hints);
-      console.log("correct", questionData.correctAnswer);
+      console.log("Answer submitted:", values)
+      console.log("Hints used:", hints)
+      console.log("correct", questionData.correctAnswer)
 
       dispatch(
         answerQuestion({
@@ -124,13 +123,13 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
       )
         .unwrap()
         .then((res) => {
-          console.log("Response:", res);
-          resetSeconds();
-          resetForm();
-          dispatch(clearHintsData());
+          console.log("Response:", res)
+          resetSeconds()
+          resetForm()
+          dispatch(clearHintsData())
 
           if (res) {
-            handleCorrectAnswer();
+            handleCorrectAnswer()
             if (summary) {
               if (categoryGame === "education") {
                 Swal.fire({
@@ -138,7 +137,7 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
                   title: t("educational-summary-title", "Educational Summary"),
                   text: summary,
                   confirmButtonText: t("ok", "OK"),
-                });
+                })
               } else {
                 toast.info(
                   t(
@@ -148,20 +147,20 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
                       summary,
                     }
                   )
-                );
+                )
               }
             }
           } else {
-            handleIncorrectAnswer();
+            handleIncorrectAnswer()
           }
 
           // Trigger the callback to show new question button
-          onAnswerSubmitted();
+          onAnswerSubmitted()
         })
         .catch((error: unknown) => {
-          console.error("Error submitting answer:", error);
-          handleAnswerSubmissionError();
-        });
+          console.error("Error submitting answer:", error)
+          handleAnswerSubmissionError()
+        })
     },
     [
       dispatch,
@@ -174,7 +173,7 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
       onAnswerSubmitted,
       resetSeconds,
     ]
-  );
+  )
 
   return (
     <div style={{ paddingBottom: "1rem" }}>
@@ -191,7 +190,7 @@ function QuestionAnswer({ hints, onAnswerSubmitted, resetSeconds }: Props) {
         )}
       </Formik>
     </div>
-  );
+  )
 }
 
-export default QuestionAnswer;
+export default QuestionAnswer

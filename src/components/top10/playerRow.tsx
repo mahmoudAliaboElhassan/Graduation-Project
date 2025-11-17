@@ -1,8 +1,8 @@
 import { Box, Typography, Chip, Fade, Stack } from "@mui/material"
 import { useTranslation } from "react-i18next"
 import { PlayerRow, RankBadge } from "../../styles/top10"
-import { PlayerScore } from "../../utils/dataResponse"
 import { formatPoints, getRankIcon } from "../../utils/helperMethods"
+import type { PlayerScore } from "../../utils/dataResponse"
 
 interface PlayerRowProps {
   player: PlayerScore

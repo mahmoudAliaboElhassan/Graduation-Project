@@ -1,7 +1,6 @@
 import React from "react"
 
 import {
-  Card,
   CardContent,
   Typography,
   Grid,
@@ -80,12 +79,7 @@ export const CategoryCard = ({
             mb: 2,
           }}
         >
-          {React.cloneElement(iconComponent as React.ReactElement, {
-            sx: {
-              fontSize: isSmallScreen ? 40 : 50,
-              color: color,
-            },
-          })}
+          {React.cloneElement(iconComponent as React.ReactElement, {})}
         </Box>
         <CardContent
           sx={{

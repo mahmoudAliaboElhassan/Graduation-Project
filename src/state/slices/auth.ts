@@ -34,10 +34,10 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(signUp.pending, (state, action) => {
+      .addCase(signUp.pending, (state) => {
         state.loadingAuth = true
       })
-      .addCase(signUp.fulfilled, (state, action) => {
+      .addCase(signUp.fulfilled, (state) => {
         state.loadingAuth = false
       })
       .addCase(signUp.rejected, (state, action) => {
@@ -45,7 +45,7 @@ export const authSlice = createSlice({
         state.error = action.payload as string
         console.log(action)
       })
-      .addCase(addPoints.pending, (state, action) => {
+      .addCase(addPoints.pending, (state) => {
         state.loadingAddPoints = true
       })
       .addCase(addPoints.fulfilled, (state, action) => {
@@ -58,7 +58,7 @@ export const authSlice = createSlice({
         state.error = action.payload as string
         // console.log(action);
       })
-      .addCase(logIn.pending, (state, action) => {
+      .addCase(logIn.pending, (state) => {
         state.loadingAuth = true
         // if (action.payload) {
         //   state.email = action.payload.email;
@@ -92,10 +92,10 @@ export const authSlice = createSlice({
         localStorage.setItem("totalPoints", String(action.payload.points))
         state.totalPoints = String(action.payload.points)
       })
-      .addCase(logIn.rejected, (state, action) => {
+      .addCase(logIn.rejected, (state) => {
         state.loadingAuth = false
       })
-      .addCase(getSubjects.pending, (state, action) => {
+      .addCase(getSubjects.pending, (state) => {
         state.loadingGetSubjects = true
         // if (action.payload) {
         //   state.email = action.payload.email;
@@ -105,10 +105,10 @@ export const authSlice = createSlice({
         state.loadingGetSubjects = false
         state.subjects = action.payload.subjects
       })
-      .addCase(getSubjects.rejected, (state, action) => {
+      .addCase(getSubjects.rejected, (state) => {
         state.loadingGetSubjects = false
       })
-      .addCase(getChapters.pending, (state, action) => {
+      .addCase(getChapters.pending, (state) => {
         state.loadingGetSubjects = true
         // if (action.payload) {
         //   state.email = action.payload.email;
@@ -118,93 +118,93 @@ export const authSlice = createSlice({
         state.loadingGetSubjects = false
         state.chapters = action.payload.chapters
       })
-      .addCase(getChapters.rejected, (state, action) => {
+      .addCase(getChapters.rejected, (state) => {
         state.loadingGetSubjects = false
       })
-      .addCase(forgetPassword.pending, (state, action) => {
+      .addCase(forgetPassword.pending, (state) => {
         state.loadingForgetPassword = true
-        // if (action.payload) {
-        //   state.email = action.payload.email;
+        // if (.payload) {
+        //   state.email = .payload.email;
         // }
       })
-      .addCase(forgetPassword.fulfilled, (state, action) => {
+      .addCase(forgetPassword.fulfilled, (state) => {
         state.loadingForgetPassword = false
       })
-      .addCase(forgetPassword.rejected, (state, action) => {
+      .addCase(forgetPassword.rejected, (state) => {
         state.loadingForgetPassword = false
       })
-      .addCase(resetPassword.pending, (state, action) => {
+      .addCase(resetPassword.pending, (state) => {
         state.loadingResetPassword = true
-        // if (action.payload) {
-        //   state.email = action.payload.email;
+        // if (.payload) {
+        //   state.email = .payload.email;
         // }
       })
-      .addCase(resetPassword.fulfilled, (state, action) => {
+      .addCase(resetPassword.fulfilled, (state) => {
         state.loadingResetPassword = false
       })
-      .addCase(resetPassword.rejected, (state, action) => {
+      .addCase(resetPassword.rejected, (state) => {
         state.loadingResetPassword = false
       })
-      .addCase(changePassword.pending, (state, action) => {
+      .addCase(changePassword.pending, (state) => {
         state.loadingChangePassword = true
-        // if (action.payload) {
-        //   state.email = action.payload.email;
+        // if (.payload) {
+        //   state.email = .payload.email;
         // }
       })
-      .addCase(changePassword.fulfilled, (state, action) => {
+      .addCase(changePassword.fulfilled, (state) => {
         state.loadingChangePassword = false
       })
-      .addCase(changePassword.rejected, (state, action) => {
+      .addCase(changePassword.rejected, (state) => {
         state.loadingChangePassword = false
       })
-      .addCase(getTopTen.pending, (state, action) => {
+      .addCase(getTopTen.pending, (state) => {
         state.loadingGetTopTen = true
       })
       .addCase(getTopTen.fulfilled, (state, action) => {
         state.loadingGetTopTen = false
         state.topTen = action.payload
       })
-      .addCase(getTopTen.rejected, (state, action) => {
+      .addCase(getTopTen.rejected, (state) => {
         state.loadingGetTopTen = false
       })
-      .addCase(getAllSubjects.pending, (state, action) => {
+      .addCase(getAllSubjects.pending, (state) => {
         state.loadingGetAllSubjects = true
       })
       .addCase(getAllSubjects.fulfilled, (state, action) => {
         state.loadingGetAllSubjects = false
         state.allSubjects = action.payload
       })
-      .addCase(getAllSubjects.rejected, (state, action) => {
+      .addCase(getAllSubjects.rejected, (state) => {
         state.loadingGetAllSubjects = false
       })
-      .addCase(getAllGrades.pending, (state, action) => {
+      .addCase(getAllGrades.pending, (state) => {
         state.loadingGetAllGrades = true
       })
       .addCase(getAllGrades.fulfilled, (state, action) => {
         state.loadingGetAllGrades = false
         state.allGrades = action.payload
       })
-      .addCase(getAllGrades.rejected, (state, action) => {
+      .addCase(getAllGrades.rejected, (state) => {
         state.loadingGetAllGrades = false
       })
-      .addCase(getTeacherGrades.pending, (state, action) => {
+      .addCase(getTeacherGrades.pending, (state) => {
         state.loadingGetTeacherGrades = true
       })
       .addCase(getTeacherGrades.fulfilled, (state, action) => {
         state.loadingGetTeacherGrades = false
         state.teacherGrades = action.payload
       })
-      .addCase(getTeacherGrades.rejected, (state, action) => {
+      .addCase(getTeacherGrades.rejected, (state) => {
         state.loadingGetTeacherGrades = false
       })
-      .addCase(getِAnsweredQuestions.pending, (state, action) => {
+      .addCase(getِAnsweredQuestions.pending, (state) => {
         state.loadingAnsweredQuestions = true
       })
       .addCase(getِAnsweredQuestions.fulfilled, (state, action) => {
         state.loadingAnsweredQuestions = false
         state.answeredQuestions = action.payload
       })
-      .addCase(getِAnsweredQuestions.rejected, (state, action) => {
+      .addCase(getِAnsweredQuestions.rejected, (state) => {
         state.loadingAnsweredQuestions = false
       })
   },

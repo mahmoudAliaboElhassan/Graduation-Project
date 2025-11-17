@@ -1,25 +1,23 @@
-"use client";
-
-import { type ComponentProps, useState } from "react";
-import { TextField, IconButton, InputAdornment } from "@mui/material";
-import { useField } from "formik";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import UseDirection from "../../hooks/use-direction";
+import { type ComponentProps, useState } from "react"
+import { TextField, IconButton, InputAdornment } from "@mui/material"
+import { useField } from "formik"
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
+import VisibilityIcon from "@mui/icons-material/Visibility"
+import UseDirection from "../../hooks/use-direction"
 
 interface PasswordFieldProps {
-  name: string;
-  label: string;
+  name: string
+  label: string
 }
 
 const PasswordField = ({ name, label }: PasswordFieldProps) => {
-  const [field, meta] = useField(name);
-  const [showPassword, setShowPassword] = useState(false);
-  const { direction } = UseDirection();
+  const [field, meta] = useField(name)
+  const [showPassword, setShowPassword] = useState(false)
+  const { direction } = UseDirection()
 
   const handleTogglePassword = () => {
-    setShowPassword((prev) => !prev);
-  };
+    setShowPassword((prev) => !prev)
+  }
 
   const configTextField: ComponentProps<typeof TextField> = {
     fullWidth: true,
@@ -62,18 +60,18 @@ const PasswordField = ({ name, label }: PasswordFieldProps) => {
       style: { color: "gray" },
     },
     ...field,
-  };
+  }
 
   if (meta && meta.touched && meta.error) {
-    configTextField.error = true;
-    configTextField.helperText = meta.error;
+    configTextField.error = true
+    configTextField.helperText = meta.error
   }
 
   return (
     <div>
       <TextField {...configTextField} />
     </div>
-  );
-};
+  )
+}
 
-export default PasswordField;
+export default PasswordField

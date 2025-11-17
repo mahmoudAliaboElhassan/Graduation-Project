@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useState, useEffect } from "react"
+import { useTranslation } from "react"
 import {
   Box,
   Drawer,
@@ -15,12 +15,11 @@ import {
   ListItemText,
   CssBaseline,
   useTheme,
-  useMediaQuery,
   Avatar,
   Paper,
   alpha,
   Container,
-} from "@mui/material";
+} from "@mui/material"
 import {
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
@@ -32,26 +31,26 @@ import {
   SportsEsports as EntertainmentIcon,
   Dashboard as DashboardIcon,
   Person as PersonIcon,
-} from "@mui/icons-material";
-import { styled } from "@mui/material/styles";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import UseAdminDashboard from "../../hooks/use-admin-dashboard";
-import UseDirection from "../../hooks/use-direction";
-import "./admin.css";
-import withGuard from "../../utils/withGuard";
-const drawerWidth = 280;
+} from "@mui/icons-material"
+import { styled } from "@mui/material/styles"
+import { Outlet, useNavigate, useLocation } from "react-router-dom"
+import UseAdminDashboard from "../../hooks/use-admin-dashboard"
+import UseDirection from "../../hooks/use-direction"
+import "./admin.css"
+import withGuard from "../../utils/withGuard"
+const drawerWidth = 280
 
 // Root layout container
-const LayoutRoot = styled(Box)(({ theme }) => ({
+const LayoutRoot = styled(Box)(() => ({
   display: "flex",
   minHeight: "100vh",
   width: "100%",
   maxWidth: "100vw",
   overflow: "hidden",
-}));
+}))
 
 // Main content area - always behaves like mobile (full width)
-const MainContent = styled("main")(({ theme }) => ({
+const MainContent = styled("main")(() => ({
   flexGrow: 1,
   minHeight: "100vh",
   maxWidth: "100vw",
@@ -63,7 +62,7 @@ const MainContent = styled("main")(({ theme }) => ({
   marginLeft: 0,
   marginRight: 0,
   width: "100%",
-}));
+}))
 
 // AppBar - always behaves like mobile (full width)
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
@@ -74,7 +73,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   marginLeft: 0,
   marginRight: 0,
   width: "100%",
-}));
+}))
 
 // Content area below AppBar
 const ContentArea = styled(Box)(({ theme }) => ({
@@ -95,13 +94,13 @@ const ContentArea = styled(Box)(({ theme }) => ({
     padding: theme.spacing(2),
     paddingTop: theme.spacing(1),
   },
-}));
+}))
 
 // Drawer with RTL/LTR support
 const StyledDrawer = styled(Drawer, {
   shouldForwardProp: (prop) => prop !== "direction",
 })<{ direction: "ltr" | "rtl" }>(({ theme, direction }) => {
-  const isRTL = direction === "rtl";
+  const isRTL = direction === "rtl"
 
   return {
     width: drawerWidth,
@@ -116,8 +115,8 @@ const StyledDrawer = styled(Drawer, {
         : `4px 0 20px ${alpha(theme.palette.primary.main, 0.2)}`,
       overflowX: "hidden",
     },
-  };
-});
+  }
+})
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -127,12 +126,12 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "space-between",
   backdropFilter: "blur(10px)",
   borderBottom: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-}));
+}))
 
 const StyledListItemButton = styled(ListItemButton, {
   shouldForwardProp: (prop) => prop !== "direction",
 })<{ direction: "ltr" | "rtl" }>(({ theme, direction }) => {
-  const isRTL = direction === "rtl";
+  const isRTL = direction === "rtl"
 
   return {
     margin: theme.spacing(0.5, 1),
@@ -146,8 +145,8 @@ const StyledListItemButton = styled(ListItemButton, {
       borderLeft: !isRTL ? `4px solid ${theme.palette.primary.main}` : "none",
       borderRight: isRTL ? `4px solid ${theme.palette.primary.main}` : "none",
     },
-  };
-});
+  }
+})
 
 const WelcomeCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
@@ -168,7 +167,7 @@ const WelcomeCard = styled(Paper)(({ theme }) => ({
     height: "4px",
     background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
   },
-}));
+}))
 
 // Separate containers for welcome page and outlet content
 const WelcomeContainer = styled(Box)({
@@ -177,7 +176,7 @@ const WelcomeContainer = styled(Box)({
   alignItems: "center",
   width: "100%",
   minHeight: "100%",
-});
+})
 
 // Outlet wrapper that centers its content
 const OutletWrapper = styled(Box)({
@@ -191,14 +190,7 @@ const OutletWrapper = styled(Box)({
   "& > *": {
     maxWidth: "100%",
   },
-});
-
-interface MenuItem {
-  text: string;
-  icon: string;
-  path: string;
-  badge?: string;
-}
+})
 
 // Icon mapping
 const iconMap: Record<string, React.ReactElement> = {
@@ -208,43 +200,36 @@ const iconMap: Record<string, React.ReactElement> = {
   ChapterIcon: <ChapterIcon />,
   QuizIcon: <QuizIcon />,
   EntertainmentIcon: <EntertainmentIcon />,
-};
+}
 
 const AdminDashboard: React.FC = () => {
-  const { t, i18n } = useTranslation();
-  const theme = useTheme();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const { menuItems } = UseAdminDashboard();
-  const { direction } = UseDirection();
+  const { t } = useTranslation()
+  const theme = useTheme()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { menuItems } = UseAdminDashboard()
+  const { direction } = UseDirection()
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false)
 
-  const isRTL = direction.direction === "rtl";
-  const currentLanguage = i18n.language;
+  const isRTL = direction.direction === "rtl"
 
   // Get the appropriate anchor position based on direction
-  const drawerAnchor = isRTL ? "right" : "left";
+  const drawerAnchor = isRTL ? "right" : "left"
 
   // Close drawer on route change
   useEffect(() => {
-    setDrawerOpen(false);
-  }, [location.pathname]);
+    setDrawerOpen(false)
+  }, [location.pathname])
 
   const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen);
-  };
+    setDrawerOpen(!drawerOpen)
+  }
 
   const handleMenuItemClick = (path: string) => {
-    navigate(path);
-    setDrawerOpen(false); // Always close drawer on navigation
-  };
-
-  const toggleLanguage = () => {
-    const newLanguage = currentLanguage === "en" ? "ar" : "en";
-    i18n.changeLanguage(newLanguage);
-  };
+    navigate(path)
+    setDrawerOpen(false) // Always close drawer on navigation
+  }
 
   const drawerContent = (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
@@ -288,8 +273,7 @@ const AdminDashboard: React.FC = () => {
       <Box sx={{ flexGrow: 1, py: 2 }}>
         <List>
           {menuItems.map((item) => {
-            const fullPath =
-              item.path === "" ? "/admin" : `/admin/${item.path}`;
+            const fullPath = item.path === "" ? "/admin" : `/admin/${item.path}`
             return (
               <ListItem key={item.text} disablePadding>
                 <StyledListItemButton
@@ -317,7 +301,7 @@ const AdminDashboard: React.FC = () => {
                   />
                 </StyledListItemButton>
               </ListItem>
-            );
+            )
           })}
         </List>
       </Box>
@@ -351,7 +335,7 @@ const AdminDashboard: React.FC = () => {
         </Paper>
       </Box>
     </Box>
-  );
+  )
 
   return (
     <LayoutRoot>
@@ -462,7 +446,7 @@ const AdminDashboard: React.FC = () => {
         </ContentArea>
       </MainContent>
     </LayoutRoot>
-  );
-};
+  )
+}
 
-export default withGuard(AdminDashboard);
+export default withGuard(AdminDashboard)

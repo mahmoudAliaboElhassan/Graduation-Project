@@ -49,7 +49,7 @@ export const gameSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getHintsQuestions.pending, (state, action) => {
+      .addCase(getHintsQuestions.pending, (state) => {
         state.loadingGetQuestions = true
         state.errorGetQuestions = ""
       })
@@ -78,7 +78,7 @@ export const gameSlice = createSlice({
             ? action.payload
             : action.error?.message) || "An unknown error occurred"
       })
-      .addCase(getHintsEntertainment.pending, (state, action) => {
+      .addCase(getHintsEntertainment.pending, (state) => {
         state.loadingGetQuestions = true
         state.errorGetQuestions = ""
       })
@@ -108,7 +108,7 @@ export const gameSlice = createSlice({
             : action.error?.message) || "An unknown error occurred"
       })
 
-      .addCase(getOffSideQuestions.pending, (state, action) => {
+      .addCase(getOffSideQuestions.pending, (state) => {
         state.loadingGetQuestions = true
         state.errorGetQuestions = ""
       })
@@ -127,7 +127,7 @@ export const gameSlice = createSlice({
             ? action.payload
             : action.error?.message) || "An unknown error occurred"
       })
-      .addCase(getOffsideEntertainment.pending, (state, action) => {
+      .addCase(getOffsideEntertainment.pending, (state) => {
         state.loadingGetQuestions = true
         state.errorGetQuestions = ""
       })
@@ -147,43 +147,43 @@ export const gameSlice = createSlice({
             : action.error?.message) || "An unknown error occurred"
       })
 
-      .addCase(answerQuestion.pending, (state, action) => {
+      .addCase(answerQuestion.pending, (state) => {
         state.loadingAnswerQuestion = true
       })
       .addCase(answerQuestion.fulfilled, (state, action) => {
         state.loadingAnswerQuestion = false
         state.correct = action.payload
       })
-      .addCase(answerQuestion.rejected, (state, action) => {
+      .addCase(answerQuestion.rejected, (state) => {
         state.loadingAnswerQuestion = false
       })
-      .addCase(getEducationDifficulty.pending, (state, action) => {
+      .addCase(getEducationDifficulty.pending, (state) => {
         state.loadingGetQuestions = true
       })
       .addCase(getEducationDifficulty.fulfilled, (state, action) => {
         state.loadingGetQuestions = false
         state.difficultyData = action.payload
       })
-      .addCase(getEducationDifficulty.rejected, (state, action) => {
+      .addCase(getEducationDifficulty.rejected, (state) => {
         state.loadingGetQuestions = false
       })
-      .addCase(getEntertainmentDifficulty.pending, (state, action) => {
+      .addCase(getEntertainmentDifficulty.pending, (state) => {
         state.loadingGetQuestions = true
       })
       .addCase(getEntertainmentDifficulty.fulfilled, (state, action) => {
         state.loadingGetQuestions = false
         state.difficultyData = action.payload
       })
-      .addCase(getEntertainmentDifficulty.rejected, (state, action) => {
+      .addCase(getEntertainmentDifficulty.rejected, (state) => {
         state.loadingGetQuestions = false
       })
-      .addCase(answerDifficulty.pending, (state, action) => {
+      .addCase(answerDifficulty.pending, (state) => {
         state.loadingAnswerQuestion = true
       })
-      .addCase(answerDifficulty.fulfilled, (state, action) => {
+      .addCase(answerDifficulty.fulfilled, (state) => {
         state.loadingAnswerQuestion = false
       })
-      .addCase(answerDifficulty.rejected, (state, action) => {
+      .addCase(answerDifficulty.rejected, (state) => {
         state.loadingAnswerQuestion = false
       })
   },

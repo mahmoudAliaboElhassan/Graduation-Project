@@ -1,15 +1,14 @@
-import React from "react";
-import { useField, useFormikContext } from "formik";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-import styles from "../error-style.module.css";
-import { useTranslation } from "react-i18next";
+import { useField, useFormikContext } from "formik"
+import PhoneInput from "react-phone-input-2"
+import "react-phone-input-2/lib/style.css"
+import styles from "../error-style.module.css"
+import { useTranslation } from "react-i18next"
 
 const PhoneForm = ({ name }: { name: string }) => {
-  const { errorMessage } = styles;
-  const [field, meta] = useField(name);
-  const { setFieldValue, setFieldTouched } = useFormikContext();
-  const { t } = useTranslation();
+  const { errorMessage } = styles
+  const [field, meta] = useField(name)
+  const { setFieldValue, setFieldTouched } = useFormikContext()
+  const { t } = useTranslation()
 
   return (
     <div style={{ marginBottom: "8px" }}>
@@ -44,7 +43,7 @@ const PhoneForm = ({ name }: { name: string }) => {
         <div className={errorMessage}>{meta.error}</div>
       ) : null}
     </div>
-  );
-};
+  )
+}
 
-export default PhoneForm;
+export default PhoneForm

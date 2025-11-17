@@ -24,9 +24,7 @@ import { toast } from "react-toastify"
 
 // Import your existing components
 import TextFieldWrapper from "../textField"
-import SelectComponent from "../select"
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
-import UseCategoryEntertainment from "../../../hooks/use-category-entertainment"
 import { makeEntertainmentQuestions } from "../../../state/act/actGame"
 
 interface FormValues {
@@ -86,7 +84,6 @@ function MultipleStepOfsideEntertainment({
   const [activeStep, setActiveStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const { categoriesEntertainment } = UseCategoryEntertainment()
   const { mymode } = useAppSelector((state) => state.mode)
 
   const steps = [

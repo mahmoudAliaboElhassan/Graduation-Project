@@ -1,20 +1,20 @@
-import React, { ComponentProps } from "react";
-import { TextField } from "@mui/material";
-import { useField } from "formik";
-import { useAppSelector } from "../../hooks/redux";
-import { useLocation } from "react-router-dom";
+import { TextField } from "@mui/material"
+import { useField } from "formik"
+import { useAppSelector } from "../../hooks/redux"
+import { useLocation } from "react-router-dom"
+import type { ComponentProps } from "react"
 
 interface Props {
-  name: string;
-  label: string;
-  type?: string;
+  name: string
+  label: string
+  type?: string
 }
 
 const TextFieldWrapper = ({ name, type, label }: Props) => {
-  const [field, mata] = useField(name);
-  const location = useLocation();
+  const [field, mata] = useField(name)
+  const location = useLocation()
 
-  const { mymode } = useAppSelector((state) => state.mode);
+  const { mymode } = useAppSelector((state) => state.mode)
 
   // Check if current path is an auth route
   const isAuthRoute = [
@@ -27,15 +27,15 @@ const TextFieldWrapper = ({ name, type, label }: Props) => {
     (authPath) =>
       location.pathname === authPath ||
       location.pathname.startsWith("/password-reset/")
-  );
+  )
 
   // Determine text color based on auth route or mymode
   const getTextColor = (): string => {
     if (isAuthRoute || location.pathname.startsWith("/admin")) {
-      return "white";
+      return "white"
     }
-    return mymode === "dark" ? "white" : "black";
-  };
+    return mymode === "dark" ? "white" : "black"
+  }
 
   const configTextField: ComponentProps<typeof TextField> = {
     fullWidth: true,
@@ -50,18 +50,18 @@ const TextFieldWrapper = ({ name, type, label }: Props) => {
       style: { color: "gray" }, // Style for the label
     },
     ...field,
-  };
+  }
 
   if (mata && mata.touched && mata.error) {
-    configTextField.error = true;
-    configTextField.helperText = mata.error;
+    configTextField.error = true
+    configTextField.helperText = mata.error
   }
 
   return (
     <div>
       <TextField {...configTextField} />
     </div>
-  );
-};
+  )
+}
 
-export default TextFieldWrapper;
+export default TextFieldWrapper

@@ -1,15 +1,15 @@
-import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import MultiStepQuestionModal from "../../../../components/formUI/fiveHintsMaking";
-import withGuard from "../../../../utils/withGuard";
-import { useParams } from "react-router-dom";
-import MultipleStepEntertainment from "../../../../components/formUI/fiveHintsMaking/MultipleStepEntertainment";
+import { Box, Button, Typography } from "@mui/material"
+import { useState } from "react"
+import { useTranslation } from "react-i18next"
+import MultiStepQuestionModal from "../../../../components/formUI/fiveHintsMaking"
+import withGuard from "../../../../utils/withGuard"
+import { useParams } from "react-router-dom"
+import MultipleStepEntertainment from "../../../../components/formUI/fiveHintsMaking/MultipleStepEntertainment"
 
 function MakeHintsQuestion() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { t } = useTranslation("translation");
-  const { category } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { t } = useTranslation("translation")
+  const { category } = useParams()
 
   return (
     <Box
@@ -49,6 +49,6 @@ function MakeHintsQuestion() {
         />
       )}
     </Box>
-  );
+  )
 }
-export default withGuard(MakeHintsQuestion);
+export default withGuard(MakeHintsQuestion)

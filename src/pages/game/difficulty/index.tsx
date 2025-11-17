@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 import {
   Box,
   Typography,
@@ -20,42 +20,35 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-} from "@mui/material";
-import { Formik, Form, Field, FormikProps } from "formik";
-import * as Yup from "yup";
-import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
-import RefreshIcon from "@mui/icons-material/Refresh";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
+} from "@mui/material"
+import { Formik, Form, Field, type FormikProps } from "formik"
+import * as Yup from "yup"
+import { useTranslation } from "react-i18next"
+import { toast } from "react-toastify"
+import RefreshIcon from "@mui/icons-material/Refresh"
+import CheckCircleIcon from "@mui/icons-material/CheckCircle"
+import CancelIcon from "@mui/icons-material/Cancel"
 
 // Import your existing components and hooks
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
 import {
   getEducationDifficulty,
   getEntertainmentDifficulty,
   answerDifficulty, // Assume this action exists
-} from "../../../state/act/actGame";
-import { clearDifficultyData } from "../../../state/slices/game";
-import { addPoints } from "../../../state/act/actAuth";
-import Swal from "sweetalert2";
-import withGuard from "../../../utils/withGuard";
-
-// Types
-interface DifficultyQuestion {
-  question: string;
-  correctAnswer: string;
-  score: number;
-}
+} from "../../../state/act/actGame"
+import { clearDifficultyData } from "../../../state/slices/game"
+import { addPoints } from "../../../state/act/actAuth"
+import Swal from "sweetalert2"
+import withGuard from "../../../utils/withGuard"
 
 interface FormValues {
-  [key: string]: string; // Dynamic form fields for each question
+  [key: string]: string // Dynamic form fields for each question
 }
 
 interface AnswerSubmission {
-  answer: string;
-  correctanswer: string;
-  question: string;
+  answer: string
+  correctanswer: string
+  question: string
 }
 
 interface DifficultyProps {
@@ -63,31 +56,31 @@ interface DifficultyProps {
 }
 
 const Difficulty: React.FC<DifficultyProps> = () => {
-  const { t } = useTranslation("translation");
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { t } = useTranslation("translation")
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
   // Router and Redux
-  const { categoryGame } = useParams<{ categoryGame: string }>();
-  const dispatch = useAppDispatch();
-  const { grade } = useAppSelector((state) => state.auth);
+  const { categoryGame } = useParams<{ categoryGame: string }>()
+  const dispatch = useAppDispatch()
+  const { grade } = useAppSelector((state) => state.auth)
   const { difficultyData, loadingGetQuestions } = useAppSelector(
     (state) => state.game
-  );
+  )
 
-  const { mymode } = useAppSelector((state) => state.mode);
+  const { mymode } = useAppSelector((state) => state.mode)
 
   // Local state
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [completedQuestions, setCompletedQuestions] = useState<number>(0);
-  const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [isGettingNewQuestions, setIsGettingNewQuestions] = useState(false);
-  const [showScoreDialog, setShowScoreDialog] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [completedQuestions, setCompletedQuestions] = useState<number>(0)
+  const [hasSubmitted, setHasSubmitted] = useState(false)
+  const [isGettingNewQuestions, setIsGettingNewQuestions] = useState(false)
+  const [showScoreDialog, setShowScoreDialog] = useState(false)
   const [scoreResults, setScoreResults] = useState<{
-    answers: boolean[];
-    totalScore: number;
-    maxScore: number;
-  } | null>(null);
+    answers: boolean[]
+    totalScore: number
+    maxScore: number
+  } | null>(null)
 
   // Fetch difficulty data
   const fetchQuestions = async () => {
@@ -100,65 +93,65 @@ const Difficulty: React.FC<DifficultyProps> = () => {
             chapter: localStorage.getItem("chapter") || "",
             userID: localStorage.getItem("id") || "",
           })
-        ).unwrap();
+        ).unwrap()
       } else {
         await dispatch(
           getEntertainmentDifficulty({
             entertainmentSection:
               Number(localStorage.getItem("entertainmentGameId")) || 0,
           })
-        ).unwrap();
+        ).unwrap()
       }
     } catch (error) {
-      console.error("Error fetching questions:", error);
+      console.error("Error fetching questions:", error)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchQuestions();
-  }, [dispatch, categoryGame, grade]);
+    fetchQuestions()
+  }, [dispatch, categoryGame, grade])
 
   useEffect(() => {
     return () => {
-      dispatch(clearDifficultyData());
-    };
-  }, [dispatch]);
+      dispatch(clearDifficultyData())
+    }
+  }, [dispatch])
 
   // Create validation schema based on difficulty data
   const validationSchema = React.useMemo(() => {
     if (!difficultyData || difficultyData.length === 0) {
-      return Yup.object({});
+      return Yup.object({})
     }
 
-    const schema: { [key: string]: any } = {};
+    const schema: { [key: string]: any } = {}
     difficultyData.forEach((_, index) => {
       schema[`question_${index}`] = Yup.string().required(
         t("difficulty.validation.answerRequired", { number: index + 1 })
-      );
-    });
+      )
+    })
 
-    return Yup.object(schema);
-  }, [difficultyData, t]);
+    return Yup.object(schema)
+  }, [difficultyData, t])
 
   // Create initial values based on difficulty data
   const initialValues = React.useMemo(() => {
     if (!difficultyData || difficultyData.length === 0) {
-      return {};
+      return {}
     }
 
-    const values: FormValues = {};
+    const values: FormValues = {}
     difficultyData.forEach((_, index) => {
-      values[`question_${index}`] = "";
-    });
+      values[`question_${index}`] = ""
+    })
 
-    return values;
-  }, [difficultyData]);
+    return values
+  }, [difficultyData])
 
   // Handle form submission
   const handleSubmit = async (values: FormValues, { resetForm }: any) => {
-    if (!difficultyData) return;
+    if (!difficultyData) return
 
-    setIsSubmitting(true);
+    setIsSubmitting(true)
 
     try {
       // Transform form values to required format
@@ -168,34 +161,31 @@ const Difficulty: React.FC<DifficultyProps> = () => {
           correctanswer: question.correctAnswer,
           question: question.question,
         })
-      );
+      )
 
-      console.log("Submitting answers:", answersArray);
+      console.log("Submitting answers:", answersArray)
 
       // Dispatch submit action (replace with your actual action)
-      const result = await dispatch(answerDifficulty(answersArray));
+      const result = await dispatch(answerDifficulty(answersArray))
 
       // Handle success
       if (answerDifficulty.fulfilled.match(result)) {
         // Assuming the result contains an array of booleans
-        const answerResults: boolean[] = result.payload; // This should be the array of booleans
+        const answerResults: boolean[] = result.payload // This should be the array of booleans
         // Calculate score
         const totalScore = answerResults.reduce((score, isCorrect, index) => {
-          return score + (isCorrect ? difficultyData[index].score : 0);
-        }, 0);
+          return score + (isCorrect ? difficultyData[index].score : 0)
+        }, 0)
 
-        const maxScore = difficultyData.reduce(
-          (total, q) => total + q.score,
-          0
-        );
+        const maxScore = difficultyData.reduce((total, q) => total + q.score, 0)
 
         // Set score results and show dialog
         setScoreResults({
           answers: answerResults,
           totalScore,
           maxScore,
-        });
-        setShowScoreDialog(true);
+        })
+        setShowScoreDialog(true)
 
         // Check categoryGame and handle points accordingly
         if (categoryGame === "education") {
@@ -212,7 +202,7 @@ const Difficulty: React.FC<DifficultyProps> = () => {
                     totalPoints: result.totalpoints,
                   }
                 )
-              );
+              )
             })
             .catch(() => {
               Swal.fire({
@@ -222,8 +212,8 @@ const Difficulty: React.FC<DifficultyProps> = () => {
                   "failed-to-add-points",
                   "Failed to add points. Please try again."
                 ),
-              });
-            });
+              })
+            })
         } else {
           // For entertainment category, only show toast
           toast.success(
@@ -234,19 +224,19 @@ const Difficulty: React.FC<DifficultyProps> = () => {
                 points: totalScore,
               }
             )
-          );
+          )
         }
 
         // Reset form after success
         setTimeout(() => {
-          resetForm();
-          setCompletedQuestions(0);
-        }, 1000);
+          resetForm()
+          setCompletedQuestions(0)
+        }, 1000)
       } else {
-        throw new Error("Submission failed");
+        throw new Error("Submission failed")
       }
     } catch (error) {
-      console.error("Error submitting answers:", error);
+      console.error("Error submitting answers:", error)
       toast.error(t("difficulty.toast.error"), {
         position: "top-center",
         autoClose: 4000,
@@ -254,45 +244,45 @@ const Difficulty: React.FC<DifficultyProps> = () => {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-      });
+      })
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   // Handle getting new questions
   const handleGetNewQuestions = async () => {
-    setIsGettingNewQuestions(true);
+    setIsGettingNewQuestions(true)
     try {
       // Clear old data first
-      dispatch(clearDifficultyData());
+      dispatch(clearDifficultyData())
 
       // Fetch new questions
-      await fetchQuestions();
+      await fetchQuestions()
 
       // Reset all states
-      setHasSubmitted(false);
-      setCompletedQuestions(0);
-      setScoreResults(null);
-      setShowScoreDialog(false);
+      setHasSubmitted(false)
+      setCompletedQuestions(0)
+      setScoreResults(null)
+      setShowScoreDialog(false)
 
       toast.success(t("difficulty.toast.newQuestions"), {
         position: "top-center",
         autoClose: 2000,
-      });
+      })
     } catch (error) {
-      console.error("Error getting new questions:", error);
+      console.error("Error getting new questions:", error)
       toast.error(
         t("difficulty.toast.errorNewQuestions", "Failed to get new questions"),
         {
           position: "top-center",
           autoClose: 3000,
         }
-      );
+      )
     } finally {
-      setIsGettingNewQuestions(false);
+      setIsGettingNewQuestions(false)
     }
-  };
+  }
 
   // Track completed questions
   const handleFieldChange = (
@@ -301,23 +291,23 @@ const Difficulty: React.FC<DifficultyProps> = () => {
     fieldName: string,
     value: string
   ) => {
-    setFieldValue(fieldName, value);
+    setFieldValue(fieldName, value)
 
     // Count completed questions
-    const updatedValues = { ...values, [fieldName]: value };
+    const updatedValues = { ...values, [fieldName]: value }
     const completed = Object.values(updatedValues).filter(
       (val) => val.trim() !== ""
-    ).length;
-    setCompletedQuestions(completed);
-  };
+    ).length
+    setCompletedQuestions(completed)
+  }
 
   // Close score dialog - FIXED VERSION
   const handleCloseScoreDialog = () => {
-    setShowScoreDialog(false);
+    setShowScoreDialog(false)
     // Set hasSubmitted to true so the "Get New Questions" button appears
-    setHasSubmitted(true);
+    setHasSubmitted(true)
     // Don't clear difficulty data here - it will be cleared when getting new questions
-  };
+  }
 
   // Theme-based styling
   const cardStyle = {
@@ -334,7 +324,7 @@ const Difficulty: React.FC<DifficultyProps> = () => {
       mymode === "light"
         ? "0 4px 20px rgba(195, 20, 50, 0.1)"
         : "0 4px 20px rgba(26, 26, 46, 0.3)",
-  };
+  }
 
   // Loading state
   if (loadingGetQuestions) {
@@ -365,7 +355,7 @@ const Difficulty: React.FC<DifficultyProps> = () => {
           {t("difficulty.loading")}
         </Typography>
       </Box>
-    );
+    )
   }
 
   // No data state
@@ -411,7 +401,7 @@ const Difficulty: React.FC<DifficultyProps> = () => {
               : t("difficulty.getNewQuestions", "Get New Questions")}
           </Button>
         </Box>
-      );
+      )
     }
 
     return (
@@ -420,11 +410,11 @@ const Difficulty: React.FC<DifficultyProps> = () => {
           <Typography variant="body1">{t("difficulty.noQuestions")}</Typography>
         </Alert>
       </Box>
-    );
+    )
   }
 
-  const totalScore = difficultyData.reduce((total, q) => total + q.score, 0);
-  const progressPercentage = (completedQuestions / difficultyData.length) * 100;
+  const totalScore = difficultyData.reduce((total, q) => total + q.score, 0)
+  const progressPercentage = (completedQuestions / difficultyData.length) * 100
 
   return (
     <Box sx={{ maxWidth: 900, mx: "auto", p: { xs: 2, sm: 3 } }}>
@@ -1088,7 +1078,7 @@ const Difficulty: React.FC<DifficultyProps> = () => {
         </Formik>
       )}
     </Box>
-  );
-};
+  )
+}
 
-export default withGuard(Difficulty);
+export default withGuard(Difficulty)

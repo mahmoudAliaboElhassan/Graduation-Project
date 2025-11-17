@@ -4,7 +4,7 @@ import {
   Grade as StarIcon,
 } from "@mui/icons-material"
 
-export const getRankIcon = (rank: number): JSX.Element => {
+export const getRankIcon = (rank: number): React.ReactNode => {
   const iconProps = { sx: { fontSize: 32 } }
   switch (rank) {
     case 1:

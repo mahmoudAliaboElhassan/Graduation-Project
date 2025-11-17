@@ -33,7 +33,6 @@ import {
   MenuItem,
   Toolbar,
   Tooltip,
-  useTheme,
 } from "@mui/material"
 import {
   CheckCircle as ApproveIcon,
@@ -68,7 +67,6 @@ interface Question {
 const EducationalQuestions = () => {
   const { t } = useTranslation("translation")
   const dispatch = useAppDispatch()
-  const theme = useTheme()
 
   // Redux state
   const { questions, loadinGetQuestions, error } = useAppSelector(

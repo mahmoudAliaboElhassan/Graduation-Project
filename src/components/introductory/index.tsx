@@ -1,21 +1,19 @@
-import React from "react";
-
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { Typography } from "@mui/material";
-import { useTranslation } from "react-i18next";
-import { useAppSelector } from "../../hooks/redux";
+import { motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
+import { Typography } from "@mui/material"
+import { useTranslation } from "react-i18next"
+import { useAppSelector } from "../../hooks/redux"
 
 function IntroductorySection() {
-  const { t } = useTranslation();
-  const { name, token } = useAppSelector((state) => state.auth);
+  const { t } = useTranslation()
+  const { name, token } = useAppSelector((state) => state.auth)
   const words = token
     ? t("welcome-sentence", { name }).split(" ")
-    : t("welcome-sentence-not-user").split(" ");
+    : t("welcome-sentence-not-user").split(" ")
   // Use useInView hook
   const { ref: textRef, inView: textInView } = useInView({
     triggerOnce: false,
-  });
+  })
 
   const container = {
     hidden: { opacity: 0 },
@@ -23,7 +21,7 @@ function IntroductorySection() {
       opacity: 1,
       transition: { staggerChildren: 0.22, delayChildren: 0.06 * i },
     }),
-  };
+  }
 
   const child = {
     visible: {
@@ -44,7 +42,7 @@ function IntroductorySection() {
         stiffness: 100,
       },
     },
-  };
+  }
   return (
     <motion.div
       style={{
@@ -71,10 +69,10 @@ function IntroductorySection() {
         </motion.span>
       ))}
     </motion.div>
-  );
+  )
 }
 
-export default IntroductorySection;
+export default IntroductorySection
 // import React, { useEffect } from "react";
 
 // import { useTheme } from "@emotion/react";

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 import {
   Box,
   Card,
@@ -11,31 +10,26 @@ import {
   Paper,
   Chip,
   Stack,
-} from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import QuizIcon from "@mui/icons-material/Quiz";
-import SchoolIcon from "@mui/icons-material/School";
-import AddIcon from "@mui/icons-material/Add";
-import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+} from "@mui/material"
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import PlayArrowIcon from "@mui/icons-material/PlayArrow"
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings"
+import QuizIcon from "@mui/icons-material/Quiz"
+import SchoolIcon from "@mui/icons-material/School"
+import { useTranslation } from "react-i18next"
+import { motion } from "framer-motion"
 
-import IntroductorySection from "../../components/introductory";
-import UseMediaQuery from "../../hooks/use-media-query";
-import UseDirection from "../../hooks/use-direction";
-import { LinkPlay } from "../../styles/games/five-hints";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import IntroductorySection from "../../components/introductory"
+import UseDirection from "../../hooks/use-direction"
+import { useAppSelector } from "../../hooks/redux"
 
 function HomePage() {
-  const isBigScreen = UseMediaQuery({ query: "(min-width: 700px)" });
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const { token, role, name, totalPoints } = useAppSelector(
     (state) => state.auth
-  );
-  const { direction } = UseDirection();
-  const dispatch = useAppDispatch();
+  )
+  const { direction } = UseDirection()
 
   // Animation variants
   const containerVariants = {
@@ -47,7 +41,7 @@ function HomePage() {
         staggerChildren: 0.2,
       },
     },
-  };
+  }
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -59,7 +53,7 @@ function HomePage() {
         ease: "easeOut",
       },
     },
-  };
+  }
 
   const buttonVariants = {
     hover: {
@@ -73,7 +67,7 @@ function HomePage() {
     tap: {
       scale: 0.95,
     },
-  };
+  }
 
   // Get role-specific content
   const getRoleContent = () => {
@@ -85,7 +79,7 @@ function HomePage() {
           path: "admin",
           color: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           description: t("roleDescription.admin"),
-        };
+        }
       case "Teacher":
         return {
           title: t("questionCreation.title"),
@@ -93,7 +87,7 @@ function HomePage() {
           path: "games",
           color: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
           description: t("roleDescription.teacher"),
-        };
+        }
       case "Student":
         return {
           title: t("play-now"),
@@ -101,7 +95,7 @@ function HomePage() {
           path: "games",
           color: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
           description: t("roleDescription.student"),
-        };
+        }
       default:
         return {
           title: t("explore-games"),
@@ -109,11 +103,11 @@ function HomePage() {
           path: "games",
           color: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
           description: t("roleDescription.default"),
-        };
+        }
     }
-  };
+  }
 
-  const roleContent = getRoleContent();
+  const roleContent = getRoleContent()
 
   return (
     <motion.div
@@ -441,7 +435,7 @@ function HomePage() {
         )}
       </Container>
     </motion.div>
-  );
+  )
 }
 
-export default HomePage;
+export default HomePage

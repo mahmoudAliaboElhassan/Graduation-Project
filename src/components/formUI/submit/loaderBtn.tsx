@@ -1,6 +1,4 @@
-import React from "react";
-
-import "./loaderBtn.css";
+import "./loaderBtn.css"
 
 function LoaderBtn() {
   return (
@@ -18,7 +16,7 @@ function LoaderBtn() {
       <div className="bar11"></div>
       <div className="bar12"></div>
     </div>
-  );
+  )
 }
 
-export default LoaderBtn;
+export default LoaderBtn

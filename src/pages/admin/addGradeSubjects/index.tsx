@@ -1,98 +1,87 @@
-import { Form, Formik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
+import { Form, Formik } from "formik"
 import {
   Typography,
-  Container,
   Box,
   CircularProgress,
   Stepper,
   Step,
   StepLabel,
   Button,
-} from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import { toast } from "react-toastify";
-import { motion } from "framer-motion";
-import UseThemMode from "../../../hooks/use-theme-mode";
-import UseFormValidation from "../../../hooks/use-form-validation";
-import { ContainerFormWrapper, FormWrapper } from "../../../styles/forms";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { useTranslation } from "react-i18next";
-import UseInitialValues from "../../../hooks/use-initial-values";
-import { AxiosError } from "axios";
-import { HeadingElement } from "../../../styles/heading";
-import TextFieldWrapper from "../../../components/formUI/textField";
-import ButtonWrapper from "../../../components/formUI/submit";
-import withGuard from "../../../utils/withGuard";
-import Swal from "sweetalert2";
-import { addChapter, addGradeSujects } from "../../../state/act/actAdmin";
-import { useEffect, useState } from "react";
-import {
-  getAllGrades,
-  getAllSubjects,
-  getSubjects,
-} from "../../../state/act/actAuth";
-import SelectComponent from "../../../components/formUI/select";
-import { GradeSubjects } from "../../../utils/types/DTO";
-import MultiSelectComponent from "../../../components/formUI/select/multiple";
+} from "@mui/material"
+import Grid from "@mui/material/Grid2"
+import { toast } from "react-toastify"
+import { motion } from "framer-motion"
+import UseFormValidation from "../../../hooks/use-form-validation"
+import { ContainerFormWrapper, FormWrapper } from "../../../styles/forms"
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
+import { useTranslation } from "react-i18next"
+import UseInitialValues from "../../../hooks/use-initial-values"
+import { HeadingElement } from "../../../styles/heading"
+import ButtonWrapper from "../../../components/formUI/submit"
+import withGuard from "../../../utils/withGuard"
+import Swal from "sweetalert2"
+import { addGradeSujects } from "../../../state/act/actAdmin"
+import { useEffect, useState } from "react"
+import { getAllGrades, getAllSubjects } from "../../../state/act/actAuth"
+import SelectComponent from "../../../components/formUI/select"
+import MultiSelectComponent from "../../../components/formUI/select/multiple"
+import type { GradeSubjects } from "../../../utils/types/DTO"
 
 // Interface for the chapter data
 
 function AddGradeSubjects() {
-  const navigate = useNavigate();
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const { INITIAL_FORM_STATE_ADD_SUBJECTS } = UseInitialValues();
-  const { FORM_VALIDATION_SCHEMA_ADD_SUBJECTS } = UseFormValidation();
-  const { themeMode } = UseThemMode();
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const { INITIAL_FORM_STATE_ADD_SUBJECTS } = UseInitialValues()
+  const { FORM_VALIDATION_SCHEMA_ADD_SUBJECTS } = UseFormValidation()
   const { loadingGetAllGrades, allGrades, allSubjects } = useAppSelector(
     (state) => state.auth
-  );
-  const [activeStep, setActiveStep] = useState(0);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoadingSubjects, setIsLoadingSubjects] = useState(false);
+  )
+  const [activeStep, setActiveStep] = useState(0)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isLoadingSubjects, setIsLoadingSubjects] = useState(false)
 
   const steps = [
     t("select-grade") || "Select Grade",
     t("select-subjects") || "Select Subjects", // Updated to plural
-  ];
+  ]
 
   useEffect(() => {
-    dispatch(getAllGrades());
-  }, [dispatch]);
+    dispatch(getAllGrades())
+  }, [dispatch])
 
   const gradesSelect = allGrades.map((grade) => ({
     text: grade.gradeName,
     value: grade.gradeId.toString(),
-  }));
+  }))
   const subjectSelect = allSubjects.map((subject) => ({
     text: subject,
     value: subject,
-  }));
+  }))
 
   const handleNext = async (values: any, setTouched: any, setErrors: any) => {
     // Validation for each step
     if (activeStep === 0 && !values.gradesSelect) {
-      setTouched({ gradesSelect: true });
+      setTouched({ gradesSelect: true })
       setErrors({
         gradesSelect: t("grade-required") || "Grade is required",
-      });
-      return;
+      })
+      return
     }
 
     if (activeStep === 0 && values.gradesSelect) {
       // Load subjects for the selected grade
-      setIsLoadingSubjects(true);
+      setIsLoadingSubjects(true)
       try {
-        await dispatch(getAllSubjects()).unwrap();
+        await dispatch(getAllSubjects()).unwrap()
       } catch (error: any) {
-        console.error("Error loading subjects:", error);
+        console.error("Error loading subjects:", error)
         toast.error(error?.response?.data, {
           position: "top-right",
           autoClose: 3000,
-        });
+        })
       } finally {
-        setIsLoadingSubjects(false);
+        setIsLoadingSubjects(false)
       }
     }
 
@@ -101,50 +90,50 @@ function AddGradeSubjects() {
       activeStep === 1 &&
       (!values.subjects || values.subjects.length === 0)
     ) {
-      setTouched({ subjects: true });
+      setTouched({ subjects: true })
       setErrors({
         subjects: t("subjects-required") || "At least one subject is required",
-      });
-      return;
+      })
+      return
     }
 
     if (activeStep === 2) {
       if (!values.chapterNumber) {
-        setTouched({ chapterNumber: true });
+        setTouched({ chapterNumber: true })
         setErrors({
           chapterNumber:
             t("chapter-number-required") || "Chapter number is required",
-        });
-        return;
+        })
+        return
       }
       if (!values.chapterName) {
-        setTouched({ chapterName: true });
+        setTouched({ chapterName: true })
         setErrors({
           chapterName: t("chapter-name-required") || "Chapter name is required",
-        });
-        return;
+        })
+        return
       }
     }
 
-    setActiveStep((prevStep) => prevStep + 1);
-  };
+    setActiveStep((prevStep) => prevStep + 1)
+  }
 
   const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
-  };
+    setActiveStep((prevStep) => prevStep - 1)
+  }
 
   const handleSubmit = async (values: any, { resetForm }: any) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
 
     try {
       const subjectGrades: GradeSubjects = {
         subjectNames: values.subjects, // This will now be an array of strings
         grade: Number(values.gradesSelect),
-      };
+      }
 
-      console.log("Submitting subjects data:", subjectGrades);
+      console.log("Submitting subjects data:", subjectGrades)
 
-      const result = await dispatch(addGradeSujects(subjectGrades)).unwrap();
+      await dispatch(addGradeSujects(subjectGrades)).unwrap()
 
       toast.success(t("subjects-added") || "Subjects added successfully!", {
         position: "top-right",
@@ -154,15 +143,15 @@ function AddGradeSubjects() {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-      });
+      })
 
       // Reset form and navigate back after a short delay
       setTimeout(() => {
-        resetForm();
-        setActiveStep(0);
-      }, 1000);
+        resetForm()
+        setActiveStep(0)
+      }, 1000)
     } catch (error: any) {
-      console.error("Error adding subjects:", error);
+      console.error("Error adding subjects:", error)
 
       if (error?.status === 401) {
         Swal.fire({
@@ -172,17 +161,17 @@ function AddGradeSubjects() {
             "You don't have permission to add subjects",
           icon: "error",
           confirmButtonText: t("ok") || "OK",
-        });
+        })
       } else {
         toast.error(error, {
           position: "top-right",
           autoClose: 4000,
-        });
+        })
       }
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <ContainerFormWrapper maxWidth="sm">
@@ -194,7 +183,7 @@ function AddGradeSubjects() {
         onSubmit={handleSubmit}
         enableReinitialize
       >
-        {({ values, setTouched, setErrors, setFieldValue }) => (
+        {({ values, setTouched, setErrors }) => (
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
@@ -356,7 +345,7 @@ function AddGradeSubjects() {
         )}
       </Formik>
     </ContainerFormWrapper>
-  );
+  )
 }
 
-export default withGuard(AddGradeSubjects);
+export default withGuard(AddGradeSubjects)

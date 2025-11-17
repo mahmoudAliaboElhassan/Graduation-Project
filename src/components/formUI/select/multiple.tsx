@@ -10,30 +10,29 @@ import {
   type Theme,
   Chip,
   OutlinedInput,
-} from "@mui/material";
-import { useField, useFormikContext } from "formik";
-import { useState, useEffect, useCallback } from "react";
-import UseThemMode from "../../../hooks/use-theme-mode";
-import { useAppSelector } from "../../../hooks/redux";
+} from "@mui/material"
+import { useField, useFormikContext } from "formik"
+import { useState, useEffect, useCallback } from "react"
+import { useAppSelector } from "../../../hooks/redux"
 
 type Options = {
-  text?: string;
-  value?: number | string;
-  group?: string;
-  name?: string;
-  number?: number;
-  subjectName?: string;
-  subjectImage?: string;
-};
+  text?: string
+  value?: number | string
+  group?: string
+  name?: string
+  number?: number
+  subjectName?: string
+  subjectImage?: string
+}
 
 interface Props {
-  name: string;
-  label: string;
-  options: Options[];
-  disabled?: boolean;
-  sx?: SxProps<Theme>;
-  size?: "small" | "medium";
-  variant?: "outlined" | "filled" | "standard";
+  name: string
+  label: string
+  options: Options[]
+  disabled?: boolean
+  sx?: SxProps<Theme>
+  size?: "small" | "medium"
+  variant?: "outlined" | "filled" | "standard"
 }
 
 function MultiSelectComponent({
@@ -45,60 +44,60 @@ function MultiSelectComponent({
   size = "medium",
   variant = "outlined",
 }: Props) {
-  const [field, meta] = useField(name);
-  const { setFieldValue } = useFormikContext();
+  const [field, meta] = useField(name)
+  const { setFieldValue } = useFormikContext()
   const { mymode } = useAppSelector(
     (state: { mode: { mymode: string } }) => state.mode
-  );
+  )
 
-  const [isCtrlPressed, setIsCtrlPressed] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isCtrlPressed, setIsCtrlPressed] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   // Handle Ctrl key tracking
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.ctrlKey || event.metaKey) {
-      setIsCtrlPressed(true);
+      setIsCtrlPressed(true)
     }
-  }, []);
+  }, [])
 
   const handleKeyUp = useCallback(
     (event: KeyboardEvent) => {
       if (!event.ctrlKey && !event.metaKey) {
-        setIsCtrlPressed(false);
+        setIsCtrlPressed(false)
         // Close menu when Ctrl is released
         if (menuOpen) {
-          setMenuOpen(false);
+          setMenuOpen(false)
         }
       }
     },
     [menuOpen]
-  );
+  )
 
   useEffect(() => {
     // Add global key listeners
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
+    document.addEventListener("keydown", handleKeyDown)
+    document.addEventListener("keyup", handleKeyUp)
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("keyup", handleKeyUp);
-    };
-  }, [handleKeyDown, handleKeyUp]);
+      document.removeEventListener("keydown", handleKeyDown)
+      document.removeEventListener("keyup", handleKeyUp)
+    }
+  }, [handleKeyDown, handleKeyUp])
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     // This won't be used for our custom click handling
-    const value = event.target.value;
-    setFieldValue(name, typeof value === "string" ? value.split(",") : value);
-  };
+    const value = event.target.value
+    setFieldValue(name, typeof value === "string" ? value.split(",") : value)
+  }
 
   const handleMenuItemClick = (
     selectedValue: string | number,
     event: React.MouseEvent
   ) => {
-    event.preventDefault();
-    event.stopPropagation();
+    event.preventDefault()
+    event.stopPropagation()
 
-    const currentValues = field.value || [];
+    const currentValues = field.value || []
 
     if (isCtrlPressed) {
       // Multi-select mode with Ctrl
@@ -106,39 +105,37 @@ function MultiSelectComponent({
         // Remove if already selected
         const newValues = currentValues.filter(
           (value: string) => value !== selectedValue
-        );
-        setFieldValue(name, newValues);
+        )
+        setFieldValue(name, newValues)
       } else {
         // Add if not selected
-        setFieldValue(name, [...currentValues, selectedValue]);
+        setFieldValue(name, [...currentValues, selectedValue])
       }
       // Keep menu open when Ctrl is pressed
     } else {
       // Single select mode without Ctrl
-      setFieldValue(name, [selectedValue]);
-      setMenuOpen(false);
+      setFieldValue(name, [selectedValue])
+      setMenuOpen(false)
     }
-  };
+  }
 
   const handleDelete = (chipToDelete: string) => {
-    const currentValues = field.value || [];
+    const currentValues = field.value || []
     const newValues = currentValues.filter(
       (value: string) => value !== chipToDelete
-    );
-    setFieldValue(name, newValues);
-  };
+    )
+    setFieldValue(name, newValues)
+  }
 
   const handleSelectOpen = () => {
-    setMenuOpen(true);
-  };
+    setMenuOpen(true)
+  }
 
   const handleSelectClose = () => {
     if (!isCtrlPressed) {
-      setMenuOpen(false);
+      setMenuOpen(false)
     }
-  };
-
-  const { themeMode } = UseThemMode();
+  }
 
   // Theme-based styling
   const getThemeStyles = (): SxProps<Theme> => ({
@@ -196,9 +193,9 @@ function MultiSelectComponent({
       color: mymode === "light" ? "#c31432" : "#ff6b9d",
     },
     ...sx,
-  });
+  })
 
-  const selectedValues = field.value || [];
+  const selectedValues = field.value || []
 
   return (
     <FormControl
@@ -262,7 +259,7 @@ function MultiSelectComponent({
                 size="small"
                 onDelete={() => handleDelete(value)}
                 onMouseDown={(event) => {
-                  event.stopPropagation();
+                  event.stopPropagation()
                 }}
                 sx={{
                   backgroundColor:
@@ -379,7 +376,7 @@ function MultiSelectComponent({
         </Typography>
       )}
     </FormControl>
-  );
+  )
 }
 
-export default MultiSelectComponent;
+export default MultiSelectComponent

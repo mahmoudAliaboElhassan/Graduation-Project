@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import {
   Modal,
   Box,
@@ -16,48 +14,48 @@ import {
   CircularProgress,
   Alert,
   Backdrop,
-} from "@mui/material";
-import { Formik, Form, type FormikTouched, type FormikErrors } from "formik";
-import { useNavigate, useParams } from "react-router-dom";
-import CloseIcon from "@mui/icons-material/Close";
-import { useTranslation } from "react-i18next";
+} from "@mui/material"
+import { Formik, Form, type FormikTouched, type FormikErrors } from "formik"
+import { useNavigate, useParams } from "react-router-dom"
+import CloseIcon from "@mui/icons-material/Close"
+import { useTranslation } from "react-i18next"
 
-import UseInitialValues from "../../../hooks/use-initial-values";
-import UseFormValidation from "../../../hooks/use-form-validation";
-import SelectComponent from "../../../components/formUI/select";
-import ButtonWrapper from "../../../components/formUI/submit";
-import { useAppDispatch, useAppSelector } from "../../../hooks/redux";
-import { getSubjects, getChapters } from "../../../state/slices/auth";
-import UseDirection from "../../../hooks/use-direction";
-import withGuard from "../../../utils/withGuard";
+import UseInitialValues from "../../../hooks/use-initial-values"
+import UseFormValidation from "../../../hooks/use-form-validation"
+import SelectComponent from "../../../components/formUI/select"
+import ButtonWrapper from "../../../components/formUI/submit"
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux"
+import { getSubjects, getChapters } from "../../../state/slices/auth"
+import UseDirection from "../../../hooks/use-direction"
+import withGuard from "../../../utils/withGuard"
 
 interface FormValues {
-  subjectQetQuestions: string;
-  chapter: string;
+  subjectQetQuestions: string
+  chapter: string
 }
 
 const MultiStepModal = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [isLoadingSubjects, setIsLoadingSubjects] = useState(false);
-  const [isLoadingChapters, setIsLoadingChapters] = useState(false);
-  const [stepErrors, setStepErrors] = useState<{ [key: number]: string }>({});
+  const [activeStep, setActiveStep] = useState(0)
+  const [isLoadingSubjects, setIsLoadingSubjects] = useState(false)
+  const [isLoadingChapters, setIsLoadingChapters] = useState(false)
+  const [stepErrors, setStepErrors] = useState<{ [key: number]: string }>({})
 
-  const { INITIAL_FORM_STATE_GET_QUESTIONS } = UseInitialValues();
-  const { FORM_VALIDATION_SCHEMA_GET_QUESTIONS } = UseFormValidation();
-  const { t } = useTranslation();
-  const { direction } = UseDirection();
-  const navigate = useNavigate();
-  const params = useParams();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { INITIAL_FORM_STATE_GET_QUESTIONS } = UseInitialValues()
+  const { FORM_VALIDATION_SCHEMA_GET_QUESTIONS } = UseFormValidation()
+  const { t } = useTranslation()
+  const { direction } = UseDirection()
+  const navigate = useNavigate()
+  const params = useParams()
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
   // Redux state and dispatch
-  const { grade, subjects, chapters } = useAppSelector((state) => state.auth);
-  const { mymode } = useAppSelector((state) => state.mode);
-  const dispatch = useAppDispatch();
+  const { grade, subjects, chapters } = useAppSelector((state) => state.auth)
+  const { mymode } = useAppSelector((state) => state.mode)
+  const dispatch = useAppDispatch()
 
   // Steps for the stepper
-  const steps = [t("select-subject"), t("select-chapter")];
+  const steps = [t("select-subject"), t("select-chapter")]
 
   // Theme-based styling
   const modalStyle = {
@@ -74,30 +72,30 @@ const MultiStepModal = () => {
       mymode === "light"
         ? "0 8px 32px rgba(195, 20, 50, 0.2)"
         : "0 8px 32px rgba(26, 26, 46, 0.4)",
-  };
+  }
 
   // Fetch subjects when component mounts
   useEffect(() => {
     const fetchSubjects = async () => {
       if (grade && !subjects?.length) {
-        setIsLoadingSubjects(true);
+        setIsLoadingSubjects(true)
         try {
-          await dispatch(getSubjects({ grade: +grade })).unwrap();
+          await dispatch(getSubjects({ grade: +grade })).unwrap()
         } catch (error) {
-          console.error("Error fetching subjects:", error);
-          setStepErrors({ 0: t("error-fetching-subjects") });
+          console.error("Error fetching subjects:", error)
+          setStepErrors({ 0: t("error-fetching-subjects") })
         } finally {
-          setIsLoadingSubjects(false);
+          setIsLoadingSubjects(false)
         }
       }
-    };
-    fetchSubjects();
-  }, [dispatch, grade, subjects?.length, t]);
+    }
+    fetchSubjects()
+  }, [dispatch, grade, subjects?.length, t])
 
   // Handle closing the modal
   const handleClose = () => {
-    navigate(-1); // Go back to previous page
-  };
+    navigate(-1) // Go back to previous page
+  }
 
   // Handle next step in the form
   const handleNext = async (
@@ -108,63 +106,63 @@ const MultiStepModal = () => {
     ) => void,
     setErrors: (errors: Partial<FormikErrors<FormValues>>) => void
   ) => {
-    console.log("values", values);
+    console.log("values", values)
 
     // Clear previous step errors
-    setStepErrors({});
+    setStepErrors({})
 
     if (activeStep === 0 && !values.subjectQetQuestions) {
-      setTouched({ subjectQetQuestions: true });
-      setErrors({ subjectQetQuestions: t("subject-required") });
-      setStepErrors({ 0: t("subject-required") });
-      return;
+      setTouched({ subjectQetQuestions: true })
+      setErrors({ subjectQetQuestions: t("subject-required") })
+      setStepErrors({ 0: t("subject-required") })
+      return
     } else if (activeStep === 0 && values.subjectQetQuestions) {
-      setIsLoadingChapters(true);
+      setIsLoadingChapters(true)
       try {
         await dispatch(
           getChapters({
             grade: grade ? +grade : 1,
             subject: values.subjectQetQuestions,
           })
-        ).unwrap();
+        ).unwrap()
       } catch (error) {
-        console.error("Error fetching chapters:", error);
-        setStepErrors({ 0: t("error-fetching-chapters") });
-        setIsLoadingChapters(false);
-        return;
+        console.error("Error fetching chapters:", error)
+        setStepErrors({ 0: t("error-fetching-chapters") })
+        setIsLoadingChapters(false)
+        return
       } finally {
-        setIsLoadingChapters(false);
+        setIsLoadingChapters(false)
       }
     }
 
     if (activeStep === 1 && !values.chapter) {
-      setTouched({ chapter: true });
-      setErrors({ chapter: t("chapter-required") });
-      setStepErrors({ 1: t("chapter-required") });
-      return;
+      setTouched({ chapter: true })
+      setErrors({ chapter: t("chapter-required") })
+      setStepErrors({ 1: t("chapter-required") })
+      return
     }
 
-    setActiveStep((prevStep) => prevStep + 1);
-  };
+    setActiveStep((prevStep) => prevStep + 1)
+  }
 
   // Handle going back a step
   const handleBack = () => {
-    setActiveStep((prevStep) => prevStep - 1);
-    setStepErrors({});
-  };
+    setActiveStep((prevStep) => prevStep - 1)
+    setStepErrors({})
+  }
 
   // Handle form submission
   const handleSubmit = (values: FormValues) => {
-    console.log("Final values", values);
-    localStorage.setItem("subject", values.subjectQetQuestions);
-    localStorage.setItem("chapter", values.chapter);
+    console.log("Final values", values)
+    localStorage.setItem("subject", values.subjectQetQuestions)
+    localStorage.setItem("chapter", values.chapter)
 
     params.gameType === "five-hints"
       ? navigate("play-five-hints")
       : params.gameType === "difficulty"
       ? navigate("play-difficulty")
-      : navigate("play-offside");
-  };
+      : navigate("play-offside")
+  }
 
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
@@ -583,7 +581,7 @@ const MultiStepModal = () => {
         </Paper>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default withGuard(MultiStepModal);
+export default withGuard(MultiStepModal)

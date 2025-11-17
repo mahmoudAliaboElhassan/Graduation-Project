@@ -1,35 +1,29 @@
-import { Form, Formik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
-import { Typography, Container } from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import { toast } from "react-toastify";
-import { motion } from "framer-motion";
+import { Formik } from "formik"
+import { Link, useNavigate } from "react-router-dom"
+import Grid from "@mui/material/Grid2"
+import { toast } from "react-toastify"
+import { motion } from "framer-motion"
 
-import styles from "./form.module.css";
-import TextFieldWrapper from "../../components/formUI/textField";
-import ButtonWrapper from "../../components/formUI/submit";
-import Footer from "../../components/footer";
-import PhoneForm from "../../components/formUI/phoneNumber";
-import UseInitialValues from "../../hooks/use-initial-values";
-import UseFormValidation from "../../hooks/use-form-validation";
-import { useTranslation } from "react-i18next";
-import { HeadingElement } from "../../styles/heading";
-import { FormWrapper, ContainerFormWrapper } from "../../styles/forms";
-import { useAppDispatch } from "../../hooks/redux";
-import { logIn } from "../../state/act/actAuth";
-import UseThemMode from "../../hooks/use-theme-mode";
-import Swal from "sweetalert2";
-import { AxiosError } from "axios";
-import PasswordField from "../../components/formUI/password";
-import withGuard from "../../utils/withGuard";
+import TextFieldWrapper from "../../components/formUI/textField"
+import ButtonWrapper from "../../components/formUI/submit"
+import UseInitialValues from "../../hooks/use-initial-values"
+import UseFormValidation from "../../hooks/use-form-validation"
+import { useTranslation } from "react-i18next"
+import { HeadingElement } from "../../styles/heading"
+import { FormWrapper, ContainerFormWrapper } from "../../styles/forms"
+import { useAppDispatch } from "../../hooks/redux"
+import { logIn } from "../../state/act/actAuth"
+import Swal from "sweetalert2"
+import { AxiosError } from "axios"
+import PasswordField from "../../components/formUI/password"
+import withGuard from "../../utils/withGuard"
 
 function Login() {
-  const navigate = useNavigate();
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const { INITIAL_FORM_STATE_LOGIN } = UseInitialValues();
-  const { FORM_VALIDATION_SCHEMA_LOGIN } = UseFormValidation();
-  const { themeMode } = UseThemMode();
+  const navigate = useNavigate()
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const { INITIAL_FORM_STATE_LOGIN } = UseInitialValues()
+  const { FORM_VALIDATION_SCHEMA_LOGIN } = UseFormValidation()
   return (
     <>
       <div style={{ position: "relative", minHeight: "100vh" }}>
@@ -40,7 +34,7 @@ function Login() {
             }}
             validationSchema={FORM_VALIDATION_SCHEMA_LOGIN}
             onSubmit={async (values) => {
-              console.log(values);
+              console.log(values)
               dispatch(
                 logIn({ email: values.email, password: values.password })
               )
@@ -55,9 +49,9 @@ function Login() {
                       pauseOnHover: true,
                       draggable: true,
                       progress: undefined,
-                    });
+                    })
                   }
-                  navigate("/");
+                  navigate("/")
                 })
                 .catch((error: AxiosError) => {
                   if (error?.response?.status === 401) {
@@ -66,9 +60,9 @@ function Login() {
                       text: t("error-login-text"),
                       icon: "error",
                       confirmButtonText: t("ok"),
-                    });
+                    })
                   }
-                }); // setLoading(true);
+                }) // setLoading(true);
               // const { confirmPassword, ...other } = values;
               // try {
               //   const user = await axiosInstance.post("/api/users/signup", other);
@@ -134,7 +128,7 @@ function Login() {
         </ContainerFormWrapper>
       </div>
     </>
-  );
+  )
 }
 
-export default withGuard(Login);
+export default withGuard(Login)

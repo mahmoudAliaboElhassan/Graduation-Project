@@ -1,19 +1,19 @@
-import type React from "react";
-import type { ComponentProps } from "react";
-import { useFormikContext } from "formik";
-import LoaderBtn from "./loaderBtn";
-import { Button, Container, type SxProps, type Theme } from "@mui/material";
+import type React from "react"
+import type { ComponentProps } from "react"
+import { useFormikContext } from "formik"
+import LoaderBtn from "./loaderBtn"
+import { Button, Container, type SxProps, type Theme } from "@mui/material"
 
-import type { MouseEvent } from "../../../utils/types/events";
-import { useAppSelector } from "../../../hooks/redux";
-import UseLoadingStatus from "../../../hooks/use-loading-status";
+import type { MouseEvent } from "../../../utils/types/events"
+import { useAppSelector } from "../../../hooks/redux"
+import UseLoadingStatus from "../../../hooks/use-loading-status"
 
 interface Props {
-  children: React.ReactNode;
-  fullWidth?: boolean;
-  sx?: SxProps<Theme>;
-  disabled?: boolean;
-  variant?: "text" | "outlined" | "contained";
+  children: React.ReactNode
+  fullWidth?: boolean
+  sx?: SxProps<Theme>
+  disabled?: boolean
+  variant?: "text" | "outlined" | "contained"
   color?:
     | "inherit"
     | "primary"
@@ -21,8 +21,8 @@ interface Props {
     | "success"
     | "error"
     | "info"
-    | "warning";
-  size?: "small" | "medium" | "large";
+    | "warning"
+  size?: "small" | "medium" | "large"
 }
 
 const ButtonWrapper = ({
@@ -35,19 +35,19 @@ const ButtonWrapper = ({
   size = "medium",
   ...otherProps
 }: Props) => {
-  const { submitForm } = useFormikContext();
+  const { submitForm } = useFormikContext()
 
   // Handle submit with custom onClick if provided
   const handleSubmit = (e: MouseEvent): void => {
-    e.preventDefault();
+    e.preventDefault()
 
-    submitForm();
-  };
+    submitForm()
+  }
 
-  const loadingStatus = UseLoadingStatus();
+  const loadingStatus = UseLoadingStatus()
   const { mymode } = useAppSelector(
     (state: { mode: { mymode: string } }) => state.mode
-  );
+  )
 
   // Theme-based styling
   const getThemeStyles = (): SxProps<Theme> => {
@@ -61,7 +61,7 @@ const ButtonWrapper = ({
       px: 3,
       transition: "all 0.3s ease",
       ...sx,
-    };
+    }
 
     if (variant === "contained") {
       return {
@@ -92,7 +92,7 @@ const ButtonWrapper = ({
           transform: "none",
           boxShadow: "none",
         },
-      };
+      }
     } else if (variant === "outlined") {
       return {
         ...baseStyles,
@@ -126,7 +126,7 @@ const ButtonWrapper = ({
           transform: "none",
           boxShadow: "none",
         },
-      };
+      }
     } else {
       return {
         ...baseStyles,
@@ -145,9 +145,9 @@ const ButtonWrapper = ({
               ? "rgba(0, 0, 0, 0.26)"
               : "rgba(255, 255, 255, 0.26)",
         },
-      };
+      }
     }
-  };
+  }
 
   const configButton: ComponentProps<typeof Button> = {
     type: "submit",
@@ -158,7 +158,7 @@ const ButtonWrapper = ({
     size,
     sx: getThemeStyles(),
     ...otherProps,
-  };
+  }
 
   return (
     <Container maxWidth="xs" sx={{ p: 0 }}>
@@ -166,7 +166,7 @@ const ButtonWrapper = ({
         {loadingStatus ? <LoaderBtn /> : children}
       </Button>
     </Container>
-  );
-};
+  )
+}
 
-export default ButtonWrapper;
+export default ButtonWrapper

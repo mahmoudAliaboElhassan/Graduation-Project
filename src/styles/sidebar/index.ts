@@ -1,29 +1,28 @@
-// / layout/Caelmnnooopsttuy.tsx;
-import { styled } from "@mui/material/styles";
-import { Box, AppBar, Drawer, ListItemButton, Paper } from "@mui/material";
-import { alpha } from "@mui/material/styles";
-import { DirectionType } from "../../utils/types/general";
+import { styled } from "@mui/material/styles"
+import { Box, AppBar, Drawer, ListItemButton, Paper } from "@mui/material"
+import { alpha } from "@mui/material/styles"
+import type { DirectionType } from "../../utils/types/general"
 
-const drawerWidth = 280;
+const drawerWidth = 280
 
 type StyledProps = {
-  open?: boolean;
-  direction: DirectionType;
-  isMobile?: boolean;
-};
+  open?: boolean
+  direction: DirectionType
+  isMobile?: boolean
+}
 
-export const LayoutRoot = styled(Box)(({ theme }) => ({
+export const LayoutRoot = styled(Box)(() => ({
   display: "flex",
   minHeight: "100vh",
   width: "100%",
   overflow: "hidden",
-}));
+}))
 
 export const MainContent = styled("main", {
   shouldForwardProp: (prop) =>
     prop !== "open" && prop !== "direction" && prop !== "isMobile",
 })<StyledProps>(({ theme, open = false, direction, isMobile = false }) => {
-  const isRTL = direction.direction === "rtl";
+  const isRTL = direction.direction === "rtl"
   const baseStyles: any = {
     flexGrow: 1,
     minHeight: "100vh",
@@ -38,7 +37,7 @@ export const MainContent = styled("main", {
       marginRight: 0,
       width: "100%",
     },
-  };
+  }
 
   if (isMobile) {
     return {
@@ -46,7 +45,7 @@ export const MainContent = styled("main", {
       marginLeft: 0,
       marginRight: 0,
       width: "100%",
-    };
+    }
   }
 
   return {
@@ -58,8 +57,8 @@ export const MainContent = styled("main", {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-  };
-});
+  }
+})
 
 export const StyledAppBar = styled(AppBar, {
   shouldForwardProp: (prop) =>
@@ -79,9 +78,9 @@ export const StyledAppBar = styled(AppBar, {
       marginRight: 0,
       width: "100%",
     },
-  };
+  }
 
-  if (isMobile) return baseStyles;
+  if (isMobile) return baseStyles
 
   return {
     ...baseStyles,
@@ -92,13 +91,13 @@ export const StyledAppBar = styled(AppBar, {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-  };
-});
+  }
+})
 
 export const StyledDrawer = styled(Drawer, {
   shouldForwardProp: (prop) => prop !== "direction",
 })<{ direction: DirectionType }>(({ theme, direction }) => {
-  const isRTL = direction.direction === "rtl";
+  const isRTL = direction.direction === "rtl"
   return {
     width: drawerWidth,
     flexShrink: 0,
@@ -112,13 +111,13 @@ export const StyledDrawer = styled(Drawer, {
         : `4px 0 20px ${alpha(theme.palette.primary.main, 0.2)}`,
       overflowX: "hidden",
     },
-  };
-});
+  }
+})
 
 export const StyledListItemButton = styled(ListItemButton, {
   shouldForwardProp: (prop) => prop !== "direction",
 })<{ direction: DirectionType }>(({ theme, direction }) => {
-  const isRTL = direction.direction === "rtl";
+  const isRTL = direction.direction === "rtl"
   return {
     margin: theme.spacing(0.5, 1),
     borderRadius: theme.spacing(2),
@@ -131,8 +130,8 @@ export const StyledListItemButton = styled(ListItemButton, {
       borderLeft: !isRTL ? `4px solid ${theme.palette.primary.main}` : "none",
       borderRight: isRTL ? `4px solid ${theme.palette.primary.main}` : "none",
     },
-  };
-});
+  }
+})
 
 export const WelcomeCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
@@ -153,7 +152,7 @@ export const WelcomeCard = styled(Paper)(({ theme }) => ({
     height: "4px",
     background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
   },
-}));
+}))
 
 export const CenteredContainer = styled(Box)({
   display: "flex",
@@ -161,4 +160,4 @@ export const CenteredContainer = styled(Box)({
   alignItems: "flex-start",
   width: "100%",
   minHeight: "100%",
-});
+})
