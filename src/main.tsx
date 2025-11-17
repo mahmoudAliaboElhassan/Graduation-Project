@@ -11,11 +11,11 @@ import { Provider } from "react-redux"
 import "mdb-ui-kit/css/mdb.min.css"
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <Provider store={store}>
-      {/* <PersistGate loading={null} persistor={persistor}> */}
-      <AppRouter />
-      {/* </PersistGate> */}
-    </Provider>
-  </StrictMode>
+  // <StrictMode>
+  <Provider store={store}>
+    {/* <PersistGate loading={null} persistor={persistor}> */}
+    <AppRouter />
+    {/* </PersistGate> */}
+  </Provider>
+  // </StrictMode>
 )

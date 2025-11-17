@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { useTranslation } from "react"
 import {
   Box,
   Drawer,
@@ -38,6 +37,7 @@ import UseAdminDashboard from "../../hooks/use-admin-dashboard"
 import UseDirection from "../../hooks/use-direction"
 import "./admin.css"
 import withGuard from "../../utils/withGuard"
+import { useTranslation } from "react-i18next"
 const drawerWidth = 280
 
 // Root layout container
