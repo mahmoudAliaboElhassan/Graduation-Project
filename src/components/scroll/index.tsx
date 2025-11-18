@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-
 import { motion } from "framer-motion"
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp"
 
@@ -10,7 +9,6 @@ import UseDirection from "../../hooks/use-direction"
 function Scroll() {
   const [show, setShow] = useState(false)
   const { mymode } = useAppSelector((state) => state.mode)
-
   const { direction } = UseDirection()
 
   useEffect(() => {
@@ -21,6 +19,19 @@ function Scroll() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  const scrollToTop = () => {
+    if (window.lenis) {
+      // Use Lenis smooth scroll
+      window.lenis.scrollTo(0, {
+        duration: 1.5,
+        easing: (t) => 1 - Math.pow(1 - t, 3),
+      })
+    } else {
+      // Fallback to native smooth scroll
+      window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+  }
 
   return (
     <>
@@ -35,11 +46,11 @@ function Scroll() {
             bottom: "37%",
             cursor: "pointer",
             width: "fit-content",
+            zIndex: 1000,
           }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          onClick={scrollToTop}
         >
           <ScrollButton mode={mymode}>
-            {" "}
             <KeyboardDoubleArrowUpIcon
               fontSize="large"
               sx={{ color: "white" }}

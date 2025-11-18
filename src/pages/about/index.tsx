@@ -45,7 +45,16 @@ interface MissionItem {
 }
 const scrollToMission = () => {
   const missionSection = document.getElementById("mission-section")
-  missionSection?.scrollIntoView({ behavior: "smooth" })
+
+  if (window.lenis && missionSection) {
+    window.lenis.scrollTo(missionSection, {
+      duration: 1.5,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
+    })
+  } else if (missionSection) {
+    // fallback لو lenis مش موجود
+    missionSection.scrollIntoView({ behavior: "smooth" })
+  }
 }
 const About: React.FC = () => {
   const { t, i18n } = useTranslation()
