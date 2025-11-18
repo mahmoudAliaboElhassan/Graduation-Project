@@ -1164,8 +1164,8 @@ const EntertainmentQuestions = () => {
         <DialogContent>
           <Typography>
             {actionType === "approve"
-              ? t("admin.approveMessage", { id: selectedQuestion?.questionID })
-              : t("admin.rejectMessage", { id: selectedQuestion?.questionID })}
+              ? t("admin.approveMessage", { id: selectedQuestion?.question })
+              : t("admin.rejectMessage", { id: selectedQuestion?.question })}
           </Typography>
         </DialogContent>
         <DialogActions

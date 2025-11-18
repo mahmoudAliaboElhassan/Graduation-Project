@@ -14,6 +14,7 @@ import ButtonWrapper from "../../../components/formUI/submit"
 import withGuard from "../../../utils/withGuard"
 import Swal from "sweetalert2"
 import { addGrade } from "../../../state/act/actAdmin"
+import { Box } from "@mui/material"
 
 function AddGrade() {
   const { t } = useTranslation()
@@ -21,62 +22,66 @@ function AddGrade() {
   const { INITIAL_FORM_STATE_ADD_GRADE } = UseInitialValues()
   const { FORM_VALIDATION_SCHEMA_ADD_GRADE } = UseFormValidation()
   return (
-    <>
-      <div style={{ minHeight: "100vh" }}>
-        <ContainerFormWrapper maxWidth="sm">
-          <Formik
-            initialValues={{
-              ...INITIAL_FORM_STATE_ADD_GRADE,
-            }}
-            validationSchema={FORM_VALIDATION_SCHEMA_ADD_GRADE}
-            onSubmit={async (values) => {
-              console.log(values)
-              dispatch(addGrade({ grade: values.grade }))
-                .unwrap()
-                .then(() => {
-                  {
-                    toast.success(t("grade-added"), {
-                      position: "top-right",
-                      autoClose: 1000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                    })
-                  }
-                })
-                .catch((error: AxiosError) => {
-                  if (error?.response?.status === 401) {
-                    Swal.fire({
-                      title: t("error-add-grade"),
-                      text: t("error-add-grade-text"),
-                      icon: "error",
-                      confirmButtonText: t("ok"),
-                    })
-                  }
-                })
-            }}
+    <Box
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignContent: "center",
+      }}
+    >
+      <ContainerFormWrapper maxWidth="md">
+        <Formik
+          initialValues={{
+            ...INITIAL_FORM_STATE_ADD_GRADE,
+          }}
+          validationSchema={FORM_VALIDATION_SCHEMA_ADD_GRADE}
+          onSubmit={async (values) => {
+            console.log(values)
+            dispatch(addGrade({ grade: values.grade }))
+              .unwrap()
+              .then(() => {
+                {
+                  toast.success(t("grade-added"), {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                  })
+                }
+              })
+              .catch((error: AxiosError) => {
+                if (error?.response?.status === 401) {
+                  Swal.fire({
+                    title: t("error-add-grade"),
+                    text: t("error-add-grade-text"),
+                    icon: "error",
+                    confirmButtonText: t("ok"),
+                  })
+                }
+              })
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 100 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.5 }}
-            >
-              <FormWrapper>
-                <HeadingElement>{t("add-grade-now")}</HeadingElement>
-                <Grid container>
-                  <Grid size={{ xs: 12 }}>
-                    <TextFieldWrapper name="grade" label={t("grade")} />
-                  </Grid>
+            <FormWrapper>
+              <HeadingElement>{t("add-grade-now")}</HeadingElement>
+              <Grid container>
+                <Grid size={{ xs: 12 }}>
+                  <TextFieldWrapper name="grade" label={t("grade")} />
                 </Grid>
-                <ButtonWrapper>{t("add-grade")}</ButtonWrapper>{" "}
-              </FormWrapper>
-            </motion.div>
-          </Formik>
-        </ContainerFormWrapper>
-      </div>
-    </>
+              </Grid>
+              <ButtonWrapper>{t("add-grade")}</ButtonWrapper>{" "}
+            </FormWrapper>
+          </motion.div>
+        </Formik>
+      </ContainerFormWrapper>
+    </Box>
   )
 }
 

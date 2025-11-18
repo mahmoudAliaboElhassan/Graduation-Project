@@ -5,10 +5,13 @@ import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp
 
 import { ScrollButton } from "../../styles/scroll"
 import { useAppSelector } from "../../hooks/redux"
+import UseDirection from "../../hooks/use-direction"
 
 function Scroll() {
   const [show, setShow] = useState(false)
   const { mymode } = useAppSelector((state) => state.mode)
+
+  const { direction } = UseDirection()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,16 +23,16 @@ function Scroll() {
   }, [])
 
   return (
-    <div>
+    <>
       {show && (
         <motion.div
           initial={{ y: 10 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.5 }}
           style={{
-            position: "sticky",
-            right: "35px",
-            bottom: "25%",
+            position: "fixed",
+            [direction.right]: "35px",
+            bottom: "37%",
             cursor: "pointer",
             width: "fit-content",
           }}
@@ -44,7 +47,7 @@ function Scroll() {
           </ScrollButton>
         </motion.div>
       )}
-    </div>
+    </>
   )
 }
 

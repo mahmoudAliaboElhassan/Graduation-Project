@@ -14,6 +14,8 @@ import { useAppDispatch } from "../../hooks/redux"
 import { resetPassword } from "../../state/act/actAuth"
 import Swal from "sweetalert2"
 import PasswordField from "../../components/formUI/password"
+import { LayoutRoot } from "../admin"
+import { Box } from "@mui/material"
 
 function ResetPassword() {
   const navigate = useNavigate()
@@ -22,10 +24,15 @@ function ResetPassword() {
   const { INITIAL_FORM_STATE_RESET_PASSWORD } = UseInitialValues()
   const { FORM_VALIDATION_SCHEMA_RESET_PASSWORD } = UseFormValidation()
   const { token } = useParams()
-  console.log("token", token)
   return (
-    <>
-      <div style={{ position: "relative", minHeight: "100vh" }}>
+    <LayoutRoot>
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      >
         <ContainerFormWrapper maxWidth="sm">
           <Formik
             initialValues={{
@@ -83,8 +90,8 @@ function ResetPassword() {
             </motion.div>
           </Formik>
         </ContainerFormWrapper>
-      </div>
-    </>
+      </Box>
+    </LayoutRoot>
   )
 }
 

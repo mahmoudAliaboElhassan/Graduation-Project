@@ -17,6 +17,8 @@ import Swal from "sweetalert2"
 import { AxiosError } from "axios"
 import PasswordField from "../../components/formUI/password"
 import withGuard from "../../utils/withGuard"
+import { LayoutRoot } from "../admin"
+import { Box } from "@mui/material"
 
 function Login() {
   const navigate = useNavigate()
@@ -25,8 +27,15 @@ function Login() {
   const { INITIAL_FORM_STATE_LOGIN } = UseInitialValues()
   const { FORM_VALIDATION_SCHEMA_LOGIN } = UseFormValidation()
   return (
-    <>
-      <div style={{ position: "relative", minHeight: "100vh" }}>
+    <LayoutRoot>
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      >
+        {" "}
         <ContainerFormWrapper maxWidth="sm">
           <Formik
             initialValues={{
@@ -126,8 +135,8 @@ function Login() {
             </motion.div>
           </Formik>
         </ContainerFormWrapper>
-      </div>
-    </>
+      </Box>
+    </LayoutRoot>
   )
 }
 

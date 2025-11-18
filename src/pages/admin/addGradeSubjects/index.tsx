@@ -174,177 +174,198 @@ function AddGradeSubjects() {
   }
 
   return (
-    <ContainerFormWrapper maxWidth="sm">
-      <Formik
-        initialValues={{
-          ...INITIAL_FORM_STATE_ADD_SUBJECTS,
-        }}
-        validationSchema={FORM_VALIDATION_SCHEMA_ADD_SUBJECTS}
-        onSubmit={handleSubmit}
-        enableReinitialize
-      >
-        {({ values, setTouched, setErrors }) => (
-          <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.5 }}
-          >
-            <FormWrapper>
-              <HeadingElement>
-                {t("add-subjects-now") || "Add Subjects"}
-              </HeadingElement>
+    <Box
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignContent: "center",
+      }}
+    >
+      <ContainerFormWrapper maxWidth="md">
+        <Formik
+          initialValues={{
+            ...INITIAL_FORM_STATE_ADD_SUBJECTS,
+          }}
+          validationSchema={FORM_VALIDATION_SCHEMA_ADD_SUBJECTS}
+          onSubmit={handleSubmit}
+          enableReinitialize
+        >
+          {({ values, setTouched, setErrors }) => (
+            <motion.div
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.5 }}
+            >
+              <FormWrapper>
+                <HeadingElement>
+                  {t("add-subjects-now") || "Add Subjects"}
+                </HeadingElement>
 
-              {/* Stepper */}
-              <Stepper activeStep={activeStep} alternativeLabel sx={{ mb: 3 }}>
-                {steps.map((label, index) => (
-                  <Step key={index}>
-                    <StepLabel>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-
-              <Form>
-                <Grid container>
-                  {/* Step 0: Select Grade */}
-                  {activeStep === 0 && (
-                    <Grid size={{ xs: 12 }}>
-                      <Typography variant="body2" sx={{ mb: 2, opacity: 0.7 }}>
-                        {t("select-grade-description") ||
-                          "Choose the grade level for the subjects"}
-                      </Typography>
-
-                      {/* Grade Select with Localized Loader */}
-                      <Box sx={{ position: "relative" }}>
-                        <SelectComponent
-                          name="gradesSelect"
-                          options={gradesSelect}
-                          label={t("select-grade") || "Select Grade"}
-                          disabled={loadingGetAllGrades}
-                        />
-
-                        {/* Localized Loader for Grades */}
-                        {loadingGetAllGrades && (
-                          <Box
-                            sx={{
-                              position: "absolute",
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              bottom: 0,
-                              backgroundColor: "rgba(255, 255, 255, 0.8)",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: 1,
-                              zIndex: 10,
-                            }}
-                          >
-                            <Box textAlign="center">
-                              <CircularProgress size={24} sx={{ mb: 1 }} />
-                              <Typography
-                                variant="caption"
-                                sx={{ fontSize: "0.75rem" }}
-                              >
-                                {t("loading-grades") || "Loading Grades..."}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        )}
-                      </Box>
-                    </Grid>
-                  )}
-
-                  {/* Step 1: Select Subjects (Multi-select) */}
-                  {activeStep === 1 && (
-                    <Grid size={{ xs: 12 }}>
-                      <Typography variant="body2" sx={{ mb: 2, opacity: 0.7 }}>
-                        {t("select-subjects-description") ||
-                          "Choose multiple subjects for this grade. You can remove selected subjects by clicking the X button on each chip."}
-                      </Typography>
-
-                      {/* Subjects Multi-Select with Localized Loader */}
-                      <Box sx={{ position: "relative" }}>
-                        <MultiSelectComponent
-                          name="subjects"
-                          options={subjectSelect}
-                          label={t("select-subjects") || "Select Subjects"}
-                          disabled={isLoadingSubjects}
-                        />
-
-                        {/* Localized Loader for Subjects */}
-                        {isLoadingSubjects && (
-                          <Box
-                            sx={{
-                              position: "absolute",
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              bottom: 0,
-                              backgroundColor: "rgba(255, 255, 255, 0.8)",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: 1,
-                              zIndex: 10,
-                            }}
-                          >
-                            <Box textAlign="center">
-                              <CircularProgress size={24} sx={{ mb: 1 }} />
-                              <Typography
-                                variant="caption"
-                                sx={{ fontSize: "0.75rem" }}
-                              >
-                                {t("loading-subjects") || "Loading Subjects..."}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        )}
-                      </Box>
-                    </Grid>
-                  )}
-                </Grid>
-
-                {/* Navigation buttons */}
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    mt: 2,
-                    gap: 2,
-                  }}
+                {/* Stepper */}
+                <Stepper
+                  activeStep={activeStep}
+                  alternativeLabel
+                  sx={{ mb: 3 }}
                 >
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    variant="outlined"
-                    sx={{ flex: 1 }}
-                  >
-                    {t("back") || "Back"}
-                  </Button>
+                  {steps.map((label, index) => (
+                    <Step key={index}>
+                      <StepLabel>{label}</StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
 
-                  {activeStep === steps.length - 1 ? (
-                    <ButtonWrapper disabled={isSubmitting} sx={{ flex: 1 }}>
-                      {isSubmitting
-                        ? t("adding-subjects") || "Adding subjects..."
-                        : t("addSubjects") || "Add Subjects"}
-                    </ButtonWrapper>
-                  ) : (
+                <Form>
+                  <Grid container>
+                    {/* Step 0: Select Grade */}
+                    {activeStep === 0 && (
+                      <Grid size={{ xs: 12 }}>
+                        <Typography
+                          variant="body2"
+                          sx={{ mb: 2, opacity: 0.7 }}
+                        >
+                          {t("select-grade-description") ||
+                            "Choose the grade level for the subjects"}
+                        </Typography>
+
+                        {/* Grade Select with Localized Loader */}
+                        <Box sx={{ position: "relative" }}>
+                          <SelectComponent
+                            name="gradesSelect"
+                            options={gradesSelect}
+                            label={t("select-grade") || "Select Grade"}
+                            disabled={loadingGetAllGrades}
+                          />
+
+                          {/* Localized Loader for Grades */}
+                          {loadingGetAllGrades && (
+                            <Box
+                              sx={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                borderRadius: 1,
+                                zIndex: 10,
+                              }}
+                            >
+                              <Box textAlign="center">
+                                <CircularProgress size={24} sx={{ mb: 1 }} />
+                                <Typography
+                                  variant="caption"
+                                  sx={{ fontSize: "0.75rem" }}
+                                >
+                                  {t("loading-grades") || "Loading Grades..."}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          )}
+                        </Box>
+                      </Grid>
+                    )}
+
+                    {/* Step 1: Select Subjects (Multi-select) */}
+                    {activeStep === 1 && (
+                      <Grid size={{ xs: 12 }}>
+                        <Typography
+                          variant="body2"
+                          sx={{ mb: 2, opacity: 0.7 }}
+                        >
+                          {t("select-subjects-description") ||
+                            "Choose multiple subjects for this grade. You can remove selected subjects by clicking the X button on each chip."}
+                        </Typography>
+
+                        {/* Subjects Multi-Select with Localized Loader */}
+                        <Box sx={{ position: "relative" }}>
+                          <MultiSelectComponent
+                            name="subjects"
+                            options={subjectSelect}
+                            label={t("select-subjects") || "Select Subjects"}
+                            disabled={isLoadingSubjects}
+                          />
+
+                          {/* Localized Loader for Subjects */}
+                          {isLoadingSubjects && (
+                            <Box
+                              sx={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                backgroundColor: "rgba(255, 255, 255, 0.8)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                borderRadius: 1,
+                                zIndex: 10,
+                              }}
+                            >
+                              <Box textAlign="center">
+                                <CircularProgress size={24} sx={{ mb: 1 }} />
+                                <Typography
+                                  variant="caption"
+                                  sx={{ fontSize: "0.75rem" }}
+                                >
+                                  {t("loading-subjects") ||
+                                    "Loading Subjects..."}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          )}
+                        </Box>
+                      </Grid>
+                    )}
+                  </Grid>
+
+                  {/* Navigation buttons */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      mt: 2,
+                      gap: 2,
+                    }}
+                  >
                     <Button
-                      variant="contained"
-                      onClick={() => handleNext(values, setTouched, setErrors)}
-                      disabled={isLoadingSubjects || loadingGetAllGrades}
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                      variant="outlined"
                       sx={{ flex: 1 }}
                     >
-                      {t("next") || "Next"}
+                      {t("back") || "Back"}
                     </Button>
-                  )}
-                </Box>
-              </Form>
-            </FormWrapper>
-          </motion.div>
-        )}
-      </Formik>
-    </ContainerFormWrapper>
+
+                    {activeStep === steps.length - 1 ? (
+                      <ButtonWrapper disabled={isSubmitting} sx={{ flex: 1 }}>
+                        {isSubmitting
+                          ? t("adding-subjects") || "Adding subjects..."
+                          : t("addSubjects") || "Add Subjects"}
+                      </ButtonWrapper>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        onClick={() =>
+                          handleNext(values, setTouched, setErrors)
+                        }
+                        disabled={isLoadingSubjects || loadingGetAllGrades}
+                        sx={{ flex: 1 }}
+                      >
+                        {t("next") || "Next"}
+                      </Button>
+                    )}
+                  </Box>
+                </Form>
+              </FormWrapper>
+            </motion.div>
+          )}
+        </Formik>
+      </ContainerFormWrapper>
+    </Box>
   )
 }
 

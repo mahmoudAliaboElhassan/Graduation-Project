@@ -38,10 +38,14 @@ import UseDirection from "../../hooks/use-direction"
 import "./admin.css"
 import withGuard from "../../utils/withGuard"
 import { useTranslation } from "react-i18next"
+import { useAppSelector } from "../../hooks/redux"
+import Languages from "../../components/lngs"
+import Mode from "../../components/mode"
+
 const drawerWidth = 280
 
 // Root layout container
-const LayoutRoot = styled(Box)(() => ({
+export const LayoutRoot = styled(Box)(() => ({
   display: "flex",
   minHeight: "100vh",
   width: "100%",
@@ -69,6 +73,11 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
   boxShadow: `0 2px 20px ${alpha(theme.palette.primary.main, 0.1)}`,
   backdropFilter: "blur(10px)",
+  background:
+    theme.palette.mode === "light"
+      ? "linear-gradient(to top, #c31432, #240b36)"
+      : "linear-gradient(0deg, #1a1a2e, #4b000f)",
+
   borderBottom: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
   marginLeft: 0,
   marginRight: 0,
@@ -80,9 +89,10 @@ const ContentArea = styled(Box)(({ theme }) => ({
   flexGrow: 1,
   padding: theme.spacing(3),
   paddingTop: theme.spacing(2),
-  marginTop: theme.mixins.toolbar.minHeight,
+  // marginTop: theme.mixins.toolbar.minHeight,
   display: "flex",
   flexDirection: "column",
+  justifyContent: "center",
   // position: "absolute",
   // left: "50%",
   // top: "50%",
@@ -108,6 +118,10 @@ const StyledDrawer = styled(Drawer, {
     "& .MuiDrawer-paper": {
       width: drawerWidth,
       boxSizing: "border-box",
+      background:
+        theme.palette.mode === "light"
+          ? "linear-gradient(to top, #c31432, #240b36)"
+          : "linear-gradient(0deg, #1a1a2e, #4b000f)",
       borderLeft: isRTL ? `1px solid ${theme.palette.divider}` : "none",
       borderRight: !isRTL ? `1px solid ${theme.palette.divider}` : "none",
       boxShadow: isRTL
@@ -231,8 +245,20 @@ const AdminDashboard: React.FC = () => {
     setDrawerOpen(false) // Always close drawer on navigation
   }
 
+  const { mymode } = useAppSelector((state) => state.mode)
+
   const drawerContent = (
-    <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Box
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        background:
+          mymode === "light"
+            ? "linear-gradient(to top, #c31432, #240b36)"
+            : "linear-gradient(0deg, #1a1a2e, #4b000f)",
+      }}
+    >
       <DrawerHeader>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <Avatar
@@ -285,6 +311,7 @@ const AdminDashboard: React.FC = () => {
                     sx={{
                       minWidth: 0,
                       mr: 3,
+                      color: "white",
                       justifyContent: "center",
                     }}
                   >
@@ -293,6 +320,7 @@ const AdminDashboard: React.FC = () => {
                   <ListItemText
                     primary={item.text}
                     sx={{
+                      color: "white",
                       "& .MuiListItemText-primary": {
                         fontWeight: 600,
                         fontSize: "0.95rem",
@@ -312,6 +340,11 @@ const AdminDashboard: React.FC = () => {
           sx={{
             p: 2,
             borderRadius: 2,
+            color: "white",
+            background:
+              mymode === "light"
+                ? "linear-gradient(to top, #c31432, #240b36)"
+                : "linear-gradient(0deg, #1a1a2e, #4b000f)",
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -373,6 +406,9 @@ const AdminDashboard: React.FC = () => {
           >
             {t("common.admin_dashboard")}
           </Typography>
+
+          <Mode />
+          <Languages />
         </Toolbar>
       </StyledAppBar>
 

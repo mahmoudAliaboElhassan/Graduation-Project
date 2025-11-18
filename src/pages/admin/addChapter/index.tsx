@@ -177,8 +177,14 @@ function AddChapter() {
   }
 
   return (
-    <div style={{ minHeight: "100vh" }}>
-      <ContainerFormWrapper maxWidth="sm">
+    <Box
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignContent: "center",
+      }}
+    >
+      <ContainerFormWrapper maxWidth="md">
         <Formik
           initialValues={{
             ...INITIAL_FORM_STATE_ADD_CHAPTER,
@@ -353,7 +359,7 @@ function AddChapter() {
           )}
         </Formik>
       </ContainerFormWrapper>
-    </div>
+    </Box>
   )
 }
 

@@ -20,6 +20,7 @@ import SelectComponent from "../../components/formUI/select"
 import PasswordField from "../../components/formUI/password"
 import withGuard from "../../utils/withGuard"
 import { useEffect } from "react"
+import { LayoutRoot } from "../admin"
 
 const FormFields = () => {
   const { values } = useFormikContext() as any
@@ -152,11 +153,12 @@ function SignUp() {
   const isSelectLoading = loadingGetAllSubjects || loadingGetAllGrades
 
   return (
-    <>
-      <div
+    <LayoutRoot style={{ minHeight: "120vh" }}>
+      <Box
         style={{
-          position: "relative",
-          minHeight: "120vh",
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
         }}
       >
         <ContainerFormWrapper
@@ -270,8 +272,8 @@ function SignUp() {
             </motion.div>
           </Formik>
         </ContainerFormWrapper>
-      </div>
-    </>
+      </Box>
+    </LayoutRoot>
   )
 }
 

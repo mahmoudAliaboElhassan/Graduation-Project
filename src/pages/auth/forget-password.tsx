@@ -16,6 +16,7 @@ import { useAppDispatch } from "../../hooks/redux"
 import { forgetPassword } from "../../state/act/actAuth"
 import Swal from "sweetalert2"
 import withGuard from "../../utils/withGuard"
+import { LayoutRoot } from "../admin"
 
 function ForgetPassword() {
   const navigate = useNavigate()
@@ -24,62 +25,60 @@ function ForgetPassword() {
   const { INITIAL_FORM_STATE_FORGET_PASSWORD } = UseInitialValues()
   const { FORM_VALIDATION_SCHEMA_FORGET_PASSWORD } = UseFormValidation()
   return (
-    <>
-      <div style={{ position: "relative", minHeight: "100vh" }}>
-        <ContainerFormWrapper maxWidth="sm">
-          <Formik
-            initialValues={{
-              ...INITIAL_FORM_STATE_FORGET_PASSWORD,
-            }}
-            validationSchema={FORM_VALIDATION_SCHEMA_FORGET_PASSWORD}
-            onSubmit={async (values) => {
-              console.log(values)
-              dispatch(forgetPassword({ email: values.email }))
-                .unwrap()
-                .then(() => {
-                  localStorage.setItem("email-resetted", values.email)
-                  {
-                    toast.success(t("email-sent"), {
-                      position: "top-right",
-                      autoClose: 1000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                    })
-                  }
-                  navigate("/")
-                })
-                .catch(() => {
-                  Swal.fire({
-                    title: t("error-email-sent"),
-                    text: t("error-email-sent-text"),
-                    icon: "error",
-                    confirmButtonText: t("ok"),
+    <LayoutRoot>
+      <ContainerFormWrapper maxWidth="sm">
+        <Formik
+          initialValues={{
+            ...INITIAL_FORM_STATE_FORGET_PASSWORD,
+          }}
+          validationSchema={FORM_VALIDATION_SCHEMA_FORGET_PASSWORD}
+          onSubmit={async (values) => {
+            console.log(values)
+            dispatch(forgetPassword({ email: values.email }))
+              .unwrap()
+              .then(() => {
+                localStorage.setItem("email-resetted", values.email)
+                {
+                  toast.success(t("email-sent"), {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
                   })
+                }
+                navigate("/")
+              })
+              .catch(() => {
+                Swal.fire({
+                  title: t("error-email-sent"),
+                  text: t("error-email-sent-text"),
+                  icon: "error",
+                  confirmButtonText: t("ok"),
                 })
-            }}
+              })
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 100 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.5 }}
-            >
-              <FormWrapper>
-                <HeadingElement>{t("forget-password")}</HeadingElement>
-                <Grid container>
-                  <Grid size={{ xs: 12 }}>
-                    <TextFieldWrapper name="email" label={t("email")} />
-                  </Grid>
+            <FormWrapper>
+              <HeadingElement>{t("forget-password")}</HeadingElement>
+              <Grid container>
+                <Grid size={{ xs: 12 }}>
+                  <TextFieldWrapper name="email" label={t("email")} />
                 </Grid>
-                <ButtonWrapper>{t("get-reset")}</ButtonWrapper>{" "}
-              </FormWrapper>
-            </motion.div>
-          </Formik>
-        </ContainerFormWrapper>
-      </div>
-    </>
+              </Grid>
+              <ButtonWrapper>{t("get-reset")}</ButtonWrapper>{" "}
+            </FormWrapper>
+          </motion.div>
+        </Formik>
+      </ContainerFormWrapper>
+    </LayoutRoot>
   )
 }
 

@@ -14,6 +14,8 @@ import { useAppDispatch } from "../../hooks/redux"
 import { changePassword } from "../../state/act/actAuth"
 import PasswordField from "../../components/formUI/password"
 import withGuard from "../../utils/withGuard"
+import { Box } from "@mui/material"
+import { LayoutRoot } from "../admin"
 
 function ChangePassword() {
   const { INITIAL_FORM_STATE_CHANGE_PASSWORD } = UseInitialValues()
@@ -22,8 +24,14 @@ function ChangePassword() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   return (
-    <>
-      <div style={{ position: "relative", minHeight: "100vh" }}>
+    <LayoutRoot>
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      >
         <ContainerFormWrapper maxWidth="sm">
           <Formik
             initialValues={{
@@ -74,8 +82,8 @@ function ChangePassword() {
             </div>
           </Formik>
         </ContainerFormWrapper>
-      </div>
-    </>
+      </Box>
+    </LayoutRoot>
   )
 }
 
