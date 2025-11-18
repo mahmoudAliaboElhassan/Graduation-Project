@@ -11,6 +11,8 @@ function Scroll() {
   const { mymode } = useAppSelector((state) => state.mode)
   const { direction } = UseDirection()
 
+  console.log("window.lenis", window.lenis)
+
   useEffect(() => {
     const handleScroll = () => {
       setShow(window.scrollY >= 100)
