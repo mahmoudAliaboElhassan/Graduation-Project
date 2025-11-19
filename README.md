@@ -145,6 +145,7 @@ In each round, you'll receive 6 questions from easiest to hardest — answer the
 - **i18next** - Internationalization framework for multi-language support
 - **Theme Switching** - Dynamic light/dark mode toggle
 - **Custom Hooks** - Reusable stateful logic components
+- **lenis** – Smooth Scrolling with Features
 
 ## 🏗️ Project Structure
 
