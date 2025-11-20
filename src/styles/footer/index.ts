@@ -1,16 +1,20 @@
 import { styled } from "@mui/material/styles"
+import { Card } from "@mui/material"
 
-export const FooterContainer = styled("div")<{ mode: string }>(({ mode }) => ({
+export const FooterContainer = styled(Card)<{ mode: string }>(({ mode }) => ({
   padding: "80px 0",
   lineHeight: "1.5",
   textAlign: "center",
   fontFamily: "Monomakh !important",
   fontSize: "20px",
   background:
-    mode === "dark"
-      ? "linear-gradient(0deg, #101021, #32000a)"
-      : "linear-gradient(0deg, #b81c1a, #002a52)",
+    mode === "light"
+      ? "linear-gradient(to top, #c31432, #240b36)"
+      : "linear-gradient(0deg, #1a1a2e, #4b000f)",
   color: "white",
+  transition: "all 0.3s ease-in-out",
+
+  backdropFilter: "blur(50px)",
   marginTop: "auto", // This pushes the footer to the bottom
 }))
 
